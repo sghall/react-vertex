@@ -1,4 +1,4 @@
-# `@react-vertex/geometry-hooks`
+## `@react-vertex/geometry-hooks`
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/react-vertex/blob/master/packages/geometry-hooks/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/geometry-hooks.svg)](https://www.npmjs.com/package/@react-vertex/geometry-hooks)
@@ -13,7 +13,7 @@ React hooks for working with geometries in React Vertex.  This package contains 
 npm install @react-vertex/geometry-hooks
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {

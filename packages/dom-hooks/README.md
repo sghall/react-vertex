@@ -1,4 +1,4 @@
-# `@react-vertex/dom-hooks`
+## `@react-vertex/dom-hooks`
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/react-vertex/blob/master/packages/dom-hooks/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/dom-hooks.svg)](https://www.npmjs.com/package/@react-vertex/dom-hooks)
@@ -13,26 +13,26 @@ React hooks for DOM operations.
 npm install @react-vertex/dom-hooks
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
   useMeasure,
 } from '@react-vertex/dom-hooks'
 ```
-## `useMeasure(ref)` => `bounds`
+#### `useMeasure(ref)` => `bounds`
 
 React hook to get measurements of a DOM element.
 
-##### Arguments:
+###### Arguments:
 
 `ref`: A React ref for the element you want to measure.
 
-##### Returns:
+###### Returns:
 
 `bounds`: An object: `{ left: 0, top: 0, width: 100, height: 100 }`
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import React, { useRef } from 'react'

@@ -1,4 +1,4 @@
-# `@react-vertex/color-hooks`
+## `@react-vertex/color-hooks`
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/react-vertex/blob/master/packages/color-hooks/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/color-hooks.svg)](https://www.npmjs.com/package/@react-vertex/color-hooks)
@@ -13,7 +13,7 @@ Hooks and utility functions for converting colors to WebGL friendly formats.
 npm install @react-vertex/color-hooks
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -24,22 +24,22 @@ import {
 } from '@react-vertex/color-hooks'
 ```
 
-## `useHex(hex, noAlpha?)` => `Array`
-## `convertHex(hex, noAlpha?)` => `Array`
+#### `useHex(hex, noAlpha?)` => `Array`
+#### `convertHex(hex, noAlpha?)` => `Array`
 
 Convert hex colors to WebGL friendly format. Exported as a hook (`useHex`) and a utility function (`convertHex`).
 
-##### Arguments:
+###### Arguments:
 
 `hex`: String hex color.
 
 `noAlpha (optional)`: Boolean indicating if you want the alpha value in the array.
 
-##### Returns:
+###### Returns:
 
 `array`: An array of numbers between 0 and 1.  A four element array by default and three elements if the `noAlpha` parameter is used.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import {
@@ -62,22 +62,22 @@ convertHex('#4183c4', true) // Drop the alpha by passing true as a second param
 gl.clearColor(...convertHex('#323334'))
 ```
 
-## `useRgb(rgb, noAlpha?)` => `Array`
-## `convertRgb(rgb, noAlpha?)` => `Array`
+#### `useRgb(rgb, noAlpha?)` => `Array`
+#### `convertRgb(rgb, noAlpha?)` => `Array`
 
 Convert rgb colors to WebGL friendly format. Exported as a hook (`useRgb`) and a utility function (`convertRgb`).
 
-##### Arguments:
+###### Arguments:
 
 `rgb`: String rgb color e.g. `'rgb(40, 42, 54)'` or `'rgba(40, 42, 54, 75%)'`.
 
 `noAlpha (optional)`: Boolean indicating if you want the alpha value in the array.
 
-##### Returns:
+###### Returns:
 
 `array`: An array of numbers between 0 and 1.  A four element array by default and three elements if the `noAlpha` parameter is used.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import {

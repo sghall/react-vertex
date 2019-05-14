@@ -1,4 +1,4 @@
-## Shader Hooks
+## `@react-vertex/core - Shader Hooks`
 
 React hooks for working with WebGL programs and shaders. More info on [WebGL Programs](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram) and [WebGL shaders](https://developer.mozilla.org/en-US/docs/Web/API/WebGLShader).
 
@@ -7,7 +7,7 @@ React hooks for working with WebGL programs and shaders. More info on [WebGL Pro
 npm install @react-vertex/core
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -16,13 +16,13 @@ import {
 } from '@react-vertex/core'
 ```
 
-## `useProgram(gl, vertSource, fragSource)` => `WebGLProgram`
+#### `useProgram(gl, vertSource, fragSource)` => `WebGLProgram`
 
 React hook for creating a WebGL program.  It uses `useShader` internally so you likely only need to use this hook to setup a basic program. More info on [WebGL Programs](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram).  The hook will warn on compile errors and provide debug information.  The program will also be deleted automatically when the containing component unmounts to conserve resources.
 
 **note:** If you put the string `<<FLOAT_PRECISION>>` in your shaders the max precision for the device will replace that string as `highp`, `mediump` or `lowp`.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -30,11 +30,11 @@ React hook for creating a WebGL program.  It uses `useShader` internally so you 
 
 `fragSource`: A string containing the fragment shader source or a compiled `WebGLShader` (see `useShader` below).
 
-##### Returns:
+###### Returns:
 
 `program`: A [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram).
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useWebGLContext, useProgram } from '@react-vertex/core'
@@ -65,13 +65,13 @@ const frag = `
 ...
 ```
 
-## `useShader(gl, source, isVertShader?)` => `WebGLShader`
+#### `useShader(gl, source, isVertShader?)` => `WebGLShader`
 
 React hook for creating a WebGL shader. This is used internally by `useProgram` so you might not need it. This is useful if you want to compile your shaders higher up in your app. The hook will warn on compile errors and provide debug information.
 
 **note:** If you put the string `<<FLOAT_PRECISION>>` in your shaders the max precision for the device will replace that string as `highp`, `mediump` or `lowp`.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -79,11 +79,11 @@ React hook for creating a WebGL shader. This is used internally by `useProgram` 
 
 `isVertShader (optional)`: Boolean value that defualts to false.
 
-##### Returns:
+###### Returns:
 
 `shader`: A [WebGLShader](https://developer.mozilla.org/en-US/docs/Web/API/WebGLShader).
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useWebGLContext, useShader, useProgram } from '@react-vertex/core'

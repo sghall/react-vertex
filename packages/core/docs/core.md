@@ -1,4 +1,4 @@
-## Core Hooks
+## `@react-vertex/core - Core Hooks`
 
 Core hooks for creating a WebGL scene with React Vertex.
 
@@ -7,7 +7,7 @@ Core hooks for creating a WebGL scene with React Vertex.
 npm install @react-vertex/core
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -18,18 +18,18 @@ import {
 } from '@react-vertex/core'
 ```
 
-## `useRender()` => `function`
+#### `useRender()` => `function`
 
 React hook that returns a function to render the scene. You can use this hook from anywhere inside a React Vertex component tree.
 
-##### Arguments:
+###### Arguments:
  - None.
 
-##### Returns:
+###### Returns:
 
 `function`: The render function.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import React, { useEffect } from 'react'
@@ -47,29 +47,29 @@ function Scene() {
   ....
 ```
 
-## `useCanvas()` => `DOM Element`
+#### `useCanvas()` => `DOM Element`
 
 React hook that returns the canvas DOM element. You can use this hook from anywhere inside a React Vertex component tree. **Note: You shouldn't use this to get the canvas size. The dedicated useCanvasSize hook should be used for that.**
 
-##### Arguments:
+###### Arguments:
  - None.
 
-##### Returns:
+###### Returns:
 
 `canvas`: The canvas DOM element.
 
-## `useCanvasSize()` => `object`
+#### `useCanvasSize()` => `object`
 
 React hook the current width and height of the canvas.  This will update when those dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
 
-##### Arguments:
+###### Arguments:
  - None.
 
-##### Returns:
+###### Returns:
 
 `object`: An object with the current width and height e.g. `{ width: 100, height: 100 }`.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useCanvasSize } from '@react-vertex/core'

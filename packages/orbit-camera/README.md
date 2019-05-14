@@ -1,4 +1,4 @@
-# `@react-vertex/orbit-camera`
+## `@react-vertex/orbit-camera`
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/react-vertex/blob/master/packages/orbit-camera/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/orbit-camera.svg)](https://www.npmjs.com/package/@react-vertex/orbit-camera)
@@ -13,7 +13,7 @@ React hooks for basic orbit style perspective camera and controls.
 npm install @react-vertex/orbit-camera
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -22,11 +22,11 @@ import {
 } from '@react-vertex/orbit-camera'
 ```
 
-## `useOrbitCamera(fov, aspect, near?, far?, configure?)` => `camera`
+#### `useOrbitCamera(fov, aspect, near?, far?, configure?)` => `camera`
 
 React hook for creating an orbit camera.
 
-##### Arguments:
+###### Arguments:
 
 `fov`: Number defining the field of view in **degrees** (not radians).
 
@@ -38,11 +38,11 @@ React hook for creating an orbit camera.
 
 `configure (optional)`: Function to configure the instance before being returned. Changes to this parameter will not cause the hook to update, so you can provide an in-line function. 
 
-##### Returns:
+###### Returns:
 
 `camera`: The camera instance.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useCanvasSize } from '@react-vertex/core'
@@ -58,21 +58,21 @@ import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 ...
 ```
 
-## `useOrbitControls(camera, configure?)` => `controls`
+#### `useOrbitControls(camera, configure?)` => `controls`
 
 React hook to setup camera controls.
 
-##### Arguments:
+###### Arguments:
 
 `camera`: An instance of the orbit camera.
 
 `configure (optional)`: Function to configure the instance before being returned. Changes to this parameter will not cause the hook to update, so you can provide an in-line function. 
 
-##### Returns:
+###### Returns:
 
 `controls`: The controls instance.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useCanvasSize } from '@react-vertex/core'

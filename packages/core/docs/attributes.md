@@ -1,4 +1,4 @@
-## Attribute Hooks
+## `@react-vertex/core - Attribute Hooks`
 
 React hooks for working with WebGL attributes. More info on [WebGL atrributes on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttribPointer).
 
@@ -7,7 +7,7 @@ React hooks for working with WebGL attributes. More info on [WebGL atrributes on
 npm install @react-vertex/core
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -15,11 +15,11 @@ import {
 } from '@react-vertex/core'
 ```
 
-## `useAttribute(gl, size, buffer, getOptions?)` => `function`
+#### `useAttribute(gl, size, buffer, getOptions?)` => `function`
 
 React hook for WebGL attributes.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -36,11 +36,11 @@ React hook for WebGL attributes.
   - `stride` defualts to 0
   - `offset` defaults to 0
 
-##### Returns:
+###### Returns:
 
 `function`: Returns a function that can be called with an attribute location.  This is used by the renderer to load the attribute at the correct time.
 
-##### Example Usage
+###### Example Usage:
 
 ```js
 import {

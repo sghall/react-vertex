@@ -1,4 +1,4 @@
-## Uniform Hooks
+## `@react-vertex/core - Uniform Hooks`
 
 React hooks for working with WebGL uniforms. More info on [WebGL uniforms on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/uniform).
 
@@ -7,7 +7,7 @@ React hooks for working with WebGL uniforms. More info on [WebGL uniforms on MDN
 npm install @react-vertex/core
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -39,11 +39,11 @@ import {
 } from '@react-vertex/core'
 ```
 
-## `useUniformSampler2d(gl, program, name, texture, unit)` => `uniformLocation`
+#### `useUniformSampler2d(gl, program, name, texture, unit)` => `uniformLocation`
 
 React hook for setting up a sampler uniform to make a texture available in your shader.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -55,11 +55,11 @@ React hook for setting up a sampler uniform to make a texture available in your 
 
 `unit`: An integer. Specifies the unit (slot) where the texture is accessed.
 
-##### Returns:
+###### Returns:
 
 `uniformLocation`: The location of the uniform. See more on [WebGLUniformLocation](https://developer.mozilla.org/en-US/docs/Web/API/WebGLUniformLocation).
 
-##### Example Usage:
+###### Example Usage:
 ```js
 import { useWebGLContext, useProgram, useTexture2d, useUniformSampler2d } from '@react-vertex/core'
 import tilesDiffUrl from 'static/textures/tiles_diff.png'
@@ -74,11 +74,11 @@ import tilesDiffUrl from 'static/textures/tiles_diff.png'
 
 ```
 
-## `useUniform[1234][fi]v(gl, program, name, value, ...)` => `uniformLocation`
+#### `useUniform[1234][fi]v(gl, program, name, value, ...)` => `uniformLocation`
 
 React hooks for WebGL vector, float and integer uniforms. These hooks will update the uniform when the value changes.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -88,11 +88,11 @@ React hooks for WebGL vector, float and integer uniforms. These hooks will updat
 
 `value(s)`: value(s) for the uniform.  You can use regular JavaScript arrays for those that accept arrays.
 
-##### Returns:
+###### Returns:
 
 `uniformLocation`: The location of the uniform. See more on [WebGLUniformLocation](https://developer.mozilla.org/en-US/docs/Web/API/WebGLUniformLocation).
 
-##### Example Usage:
+###### Example Usage:
 ```js
 import { useWebGLContext, useProgram, ... } from '@react-vertex/core'
 
@@ -129,11 +129,11 @@ import { useWebGLContext, useProgram, ... } from '@react-vertex/core'
 
 ```
 
-## `useUniformMatrix[234]fv(program, name, value)` => `uniformLocation`
+#### `useUniformMatrix[234]fv(program, name, value)` => `uniformLocation`
 
 React hooks for WebGL matrix uniforms. These hooks will update the uniform when the value changes.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -143,11 +143,11 @@ React hooks for WebGL matrix uniforms. These hooks will update the uniform when 
 
 `value`: The matrix value for the uniform.
 
-##### Returns:
+###### Returns:
 
 `uniformLocation`: The location of the uniform. See more on [WebGLUniformLocation](https://developer.mozilla.org/en-US/docs/Web/API/WebGLUniformLocation).
 
-##### Example Usage:
+###### Example Usage:
 ```js
 import { useIdentityMatrix } from '@react-vertex/math-hooks'
 import { useWebGLContext, useProgram, useUniformMatrix4fv } from '@react-vertex/core'

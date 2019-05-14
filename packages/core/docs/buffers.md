@@ -1,4 +1,4 @@
-## Buffer Hooks
+## `@react-vertex/core - Buffer Hooks`
 
 React hooks for working with WebGL buffers. Efficiently manage static, stream, and dynamic buffers for use in WebGL programs.
 
@@ -7,7 +7,7 @@ React hooks for working with WebGL buffers. Efficiently manage static, stream, a
 npm install @react-vertex/core
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -17,11 +17,11 @@ import {
 } from '@react-vertex/core'
 ```
 
-## `useStaticBuffer(gl, data, isIndex?, format?)` => `WebGLBuffer`
+#### `useStaticBuffer(gl, data, isIndex?, format?)` => `WebGLBuffer`
 
 React hook to create a static WebGL buffer. You can also, optionally, convert a JS array to a typed array by specifying a format. Use this type of buffer for cases where the contents of the buffer are likely to be used often and not change often. See [docs on WebGL buffers](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/bufferData) for more.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -31,11 +31,11 @@ React hook to create a static WebGL buffer. You can also, optionally, convert a 
 
 `format (optional)`: A string format e.g. 'F32'.  See formats list below.
 
-##### Returns:
+###### Returns:
 
 `buffer`: A [WebGLBuffer](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer) instance.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import {
@@ -51,11 +51,11 @@ import {
 
 ```
 
-## `useStreamBuffer(gl, data, isIndex?, format?)` => `WebGLBuffer`
+#### `useStreamBuffer(gl, data, isIndex?, format?)` => `WebGLBuffer`
 
 React hook to create a WebGL stream buffer. You can also, optionally, convert a JS array to a typed array by specifying a format. Use this type of buffer for cases where the contents of the buffer are likely to not be used often. See [docs on WebGL buffers](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/bufferData) for more.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -65,11 +65,11 @@ React hook to create a WebGL stream buffer. You can also, optionally, convert a 
 
 `format (optional)`: A string format e.g. 'F32'.  See formats list below.
 
-##### Returns:
+###### Returns:
 
 `buffer`: A [WebGLBuffer](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer) instance.
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import {
@@ -85,11 +85,11 @@ import {
 
 ```
 
-## `useDynamicBuffer(gl, data, isIndex?, format?)` => `WebGLBuffer`
+#### `useDynamicBuffer(gl, data, isIndex?, format?)` => `WebGLBuffer`
 
 React hook to create a dynamic WebGL buffer. You can also, optionally, convert a JS array to a typed array by specifying a format.  Use this type of buffer for cases where the contents of the buffer are likely to be used often and change often. See [docs on WebGL buffers](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/bufferData) for more.
 
-##### Arguments:
+###### Arguments:
 
 `gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
@@ -99,11 +99,11 @@ React hook to create a dynamic WebGL buffer. You can also, optionally, convert a
 
 `format (optional)`: A string format e.g. 'F32'.  See formats list below.
 
-##### Returns:
+###### Returns:
 
 `buffer`: A [WebGLBuffer](https://developer.mozilla.org/en-US/docs/Web/API/WebGLBuffer) instance. 
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import {

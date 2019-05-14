@@ -1,4 +1,4 @@
-## Vector Hooks
+## `@react-vertex/math-hooks - Vector Hooks`
 
 React hooks for working with vectors in WebGL. The `math-hooks` package depends on [gl-matrix](http://glmatrix.net/docs/module-mat4.html).  The return values are always instances from that library.
 
@@ -7,7 +7,7 @@ React hooks for working with vectors in WebGL. The `math-hooks` package depends 
 npm install @react-vertex/math-hooks
 ```
 
-#### Importing:
+##### Importing:
 
 ```js
 import {
@@ -16,11 +16,11 @@ import {
   useVector4,
 } from '@react-vertex/math-hooks'
 ```
-## `useVector2(x, y, configure?)` => `vector`
+#### `useVector2(x, y, configure?)` => `vector`
 
 React hook to create a vector with x and y values set.  If either value changes the hook will return a **new vector**.  It does not mutate the existing. You can do further initial configuration using the `configure` param.
 
-##### Arguments:
+###### Arguments:
 
 `x`: a number for the x value.
 
@@ -28,11 +28,11 @@ React hook to create a vector with x and y values set.  If either value changes 
 
 `configure (optional)`: Function to configure the instance before being returned. Changes to this parameter will not cause the hook to update, so you can provide an in-line function. 
 
-##### Returns:
+###### Returns:
 
 `vector`: returns an instance of a [gl-matrix vec2](http://glmatrix.net/docs/module-vec2.html)
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useVector2 } from '@react-vertex/math-hooks'
@@ -42,11 +42,11 @@ import { useVector2 } from '@react-vertex/math-hooks'
 ...
 ```
 
-## `useVector3(x, y, z, configure?)` => `vector`
+#### `useVector3(x, y, z, configure?)` => `vector`
 
 React hook to create a vector with x, y, and z values set.  If any value (x, y or z) changes the hook will return a **new vector**.  It does not mutate the existing. You can do further initial configuration using the `configure` param.
 
-##### Arguments:
+###### Arguments:
 
 `x`: a number for the x value.
 
@@ -56,11 +56,11 @@ React hook to create a vector with x, y, and z values set.  If any value (x, y o
 
 `configure (optional)`: Function to configure the instance before being returned. Changes to this parameter will not cause the hook to update, so you can provide an in-line function. 
 
-##### Returns:
+###### Returns:
 
 `vector`: returns an instance of a [gl-matrix vec3](http://glmatrix.net/docs/module-vec3.html)
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useVector3 } from '@react-vertex/math-hooks'
@@ -70,11 +70,11 @@ import { useVector3 } from '@react-vertex/math-hooks'
 ...
 ```
 
-## `useVector4(x, y, z, w, configure?)` => `vector`
+#### `useVector4(x, y, z, w, configure?)` => `vector`
 
 React hook to create a vector with x, y, z and w values set.  If any value (x, y, z or w) changes the hook will return a **new vector**.  It does not mutate the existing. You can do further initial configuration using the `configure` param.
 
-##### Arguments:
+###### Arguments:
 
 `x`: a number for the x value.
 
@@ -86,11 +86,11 @@ React hook to create a vector with x, y, z and w values set.  If any value (x, y
 
 `configure (optional)`: Function to configure the instance before being returned. Changes to this parameter will not cause the hook to update, so you can provide an in-line function. 
 
-##### Returns:
+###### Returns:
 
 `vector`: returns an instance of a [gl-matrix vec4](http://glmatrix.net/docs/module-vec4.html)
 
-##### Example Usage:
+###### Example Usage:
 
 ```js
 import { useVector4 } from '@react-vertex/math-hooks'
