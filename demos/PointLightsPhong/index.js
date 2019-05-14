@@ -32,7 +32,6 @@ function PointLight() {
               userSelect: 'none',
               WebkitTapHighlightColor: 'transparent',
             }}
-            extensions={['OES_standard_derivatives']}
           >
             <Scene />
           </Canvas>
