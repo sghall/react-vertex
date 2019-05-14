@@ -1,17 +1,7 @@
 export const demosList = [
   {
-    href: '/demo-point-lights-lambert',
-    name: 'Point Lights w/ Lambert',
-    tag: '',
-  },
-  {
-    href: '/demo-point-lights-phong',
-    name: 'Point Lights w/ Phong',
-    tag: '',
-  },
-  {
-    href: '/demo-texture-cubes',
-    name: 'Texture Cubes',
+    href: '/demo-axes-helper',
+    name: 'Axes Helper',
     tag: '',
   },
   {
@@ -20,18 +10,28 @@ export const demosList = [
     tag: '',
   },
   {
-    href: '/demo-axes-helper',
-    name: 'Axes Helper',
-    tag: '',
-  },
-  {
     href: '/demo-shark-week',
     name: 'Shark Week',
     tag: '',
   },
   {
+    href: '/demo-texture-cubes',
+    name: 'Texture Cubes',
+    tag: '',
+  },
+  {
     href: '/demo-texture-torus',
     name: 'Texture Torus',
+    tag: '',
+  },
+  {
+    href: '/demo-point-lights-lambert',
+    name: 'Point Lights w/ Lambert',
+    tag: '',
+  },
+  {
+    href: '/demo-point-lights-phong',
+    name: 'Point Lights w/ Phong',
     tag: '',
   },
 ]
