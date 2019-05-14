@@ -1,0 +1,41 @@
+{
+  "name": "@react-vertex/dom-hooks",
+  "version": "1.7.0",
+  "description": "React hooks for DOM operations",
+  "keywords": [
+    "react",
+    "hooks",
+    "webgl"
+  ],
+  "license": "MIT",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "jsnext:main": "esm/index.js",
+  "author": "Steven Hall <hall.steven.g@gmail.com>",
+  "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/dom-hooks#readme",
+  "peerDependencies": {
+    "react": "^16.8.6"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "resize-observer-polyfill": "^1.5.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/react-vertex.git"
+  },
+  "scripts": {
+    "clean": "rimraf dist node_modules",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run files",
+    "files": "copy LICENSE dist && copy package.json dist && copy README.md dist",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
+  },
+  "bugs": {
+    "url": "https://github.com/sghall/react-vertex/issues"
+  },
+  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+}

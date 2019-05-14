@@ -1,0 +1,8 @@
+.DS_Store
+node_modules
+
+dist
+umd
+
+.next
+out
