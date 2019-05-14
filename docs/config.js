@@ -58,6 +58,11 @@ export const docsList = [
     tag: 'Standalone Package',
   },
   {
+    href: '/docs-light-hooks',
+    name: 'Light Hooks',
+    tag: 'Part of core',
+  },
+  {
     href: '/docs-shader-hooks',
     name: 'Shader Hooks',
     tag: 'Part of core',

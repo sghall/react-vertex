@@ -12,6 +12,7 @@ npm install @react-vertex/core
 ```js
 import {
   useAttribute,
+  useInstancedAttribute,
 } from '@react-vertex/core'
 ```
 
@@ -58,10 +59,49 @@ const attrOptions = gl => ({
 
 ...
   const gl = useWebGLContext()
-  const program = useProgram(gl, vert, frag)
-
   const positionBuffer = useStaticBuffer(gl, positions, false, 'F32')
-  useAttribute(gl, 3, positionBuffer, attrOptions)
+  const position = useAttribute(gl, 3, positionBuffer, attrOptions)
 ...
+```
 
+#### `useInstancedAttribute(gl, size, buffer, getOptions?)` => `function`
+
+React hook for instanced attributes.
+
+###### Arguments:
+
+`gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
+
+`size`: An integer indicating the number of components per vertex attribute. Must be 1, 2, 3, or 4.
+
+`buffer`: A WebGL buffer. You can use hooks from `buffer-hooks` to create it.
+
+`getOptions`: A function that will be called with the context (gl) that returns an object with the options you wish to override.
+
+###### Valid keys in object returned by getOptions:
+  - `target` defualts to gl.ARRAY_BUFFER
+  - `type` defaults to gl.FLOAT
+  - `normalized` defaults to false
+  - `stride` defualts to 0
+  - `offset` defaults to 0
+
+###### Returns:
+
+`function`: Returns a function that can be called with an attribute location.  This is used by the renderer to load the attribute at the correct time.
+
+###### Example Usage:
+
+```js
+import {
+  useWebGLContext,
+  useProgram,
+  useStaticBuffer,
+  useInstancedAttribute,
+} from '@react-vertex/core'
+
+...
+  const gl = useWebGLContext()
+  const offsetsBuffer = useStaticBuffer(gl, offsets, false, 'F32')
+  const offset = useInstancedAttribute(gl, 4, offsetsBuffer)
+...
 ```

@@ -60,7 +60,7 @@ React hook that returns the canvas DOM element. You can use this hook from anywh
 
 #### `useCanvasSize()` => `object`
 
-React hook the current width and height of the canvas.  This will update when those dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
+React hook for the current width and height of the canvas.  This will update when the dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
 
 ###### Arguments:
  - None.
@@ -79,5 +79,27 @@ function Scene() {
   const { width, height } = useCanvasSize()
   const camera = useOrbitCamera(55, width / height, 1, 5000)
 
+  ...
+```
+
+#### `useWebGLContext()` => `WebGLContext`
+
+React hook for the current WebGL context. You can use this hook from anywhere inside a React Vertex component tree.
+
+###### Arguments:
+ - None.
+
+###### Returns:
+
+`WebGLContext`: The WebGL context.
+
+###### Example Usage:
+
+```js
+import { useWebGLContext, useStaticBuffer } from '@react-vertex/core'
+
+function Scene() {
+  const gl = useWebGLContext()
+  const positionBuffer = useStaticBuffer(gl, positions, false, 'F32')
   ...
 ```
