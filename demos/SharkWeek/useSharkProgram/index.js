@@ -1,4 +1,3 @@
-
 import { useWebGLContext, useProgram, useUniform1f } from '@react-vertex/core'
 import vert from './vert.glsl'
 import frag from './frag.glsl'
@@ -11,4 +10,3 @@ export default function useSharkProgram(elapsed) {
 
   return program
 }
-

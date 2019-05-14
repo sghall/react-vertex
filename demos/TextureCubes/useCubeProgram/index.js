@@ -16,4 +16,3 @@ export default function CubeMaterial(textureUnit, textureUrl) {
 
   return program
 }
-
