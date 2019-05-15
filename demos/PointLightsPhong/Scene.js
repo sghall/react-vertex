@@ -47,7 +47,7 @@ function PointLightScene() {
   }, [renderScene])
 
   return (
-    <camera camera={camera}>
+    <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={30} />
       <Sphere lightPosition={rLightPosition} />
       <Light color={r} position={rLightPosition} />

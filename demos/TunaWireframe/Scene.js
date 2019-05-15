@@ -26,7 +26,7 @@ function Scene() {
   const basicProgram = useBasicProgram(color)
 
   return (
-    <camera camera={camera}>
+    <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={10} />
       <material program={basicProgram}>
         <TunaGeometry />

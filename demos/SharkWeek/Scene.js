@@ -27,7 +27,7 @@ function Scene() {
   }, [renderScene])
 
   return (
-    <camera camera={camera}>
+    <camera view={camera.view} projection={camera.projection}>
       <group rotation={[0, -elapsed * 0.0002 + Math.PI / 2, 0]}>
         <group position={[200, 0, 0]}>
           <material program={sharkMaterial}>

@@ -31,7 +31,7 @@ function Scene() {
   }, [renderScene])
 
   return (
-    <camera camera={{ view, projection }}>
+    <camera view={view} projection={projection}>
       <group rotation={groupRotation}>
         <material program={cubeProgram1}>
           <CubeGeometry offsetZ={+5} />

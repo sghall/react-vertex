@@ -32,7 +32,7 @@ function Scene({ showAxes }) {
   }, [renderScene])
 
   return (
-    <camera camera={camera}>
+    <camera view={camera.view} projection={camera.projection}>
       {showAxes && <AxesHelper size={10} />}
       <Torus />
       <Spheres elapsed={elapsed} showAxes={showAxes} />

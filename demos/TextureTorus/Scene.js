@@ -35,7 +35,7 @@ function PointLightScene() {
   }, [renderScene])
 
   return (
-    <camera camera={camera}>
+    <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={10} />
       <Torus lightPosition={lightPosition} />
       <Light lightPosition={lightPosition} />
