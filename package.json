@@ -42,6 +42,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "rgb-hex": "^2.1.0",
     "scheduler": "0.13.2",
+    "stats.js": "^0.17.0",
     "warning": "^4.0.3"
   },
   "devDependencies": {
