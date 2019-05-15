@@ -100,7 +100,7 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isCameraNode] === true) {
-      activeCamera = node.camera
+      activeCamera = node
     }
 
     // *************************************************

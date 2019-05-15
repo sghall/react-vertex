@@ -13,6 +13,7 @@ export class CameraNode extends GraphNode {
 
   applyProps(nextprops, prevProps = {}) {
     this.applyMatrixProps(nextprops, prevProps)
-    this.camera = nextprops.camera
+    this.view = nextprops.view
+    this.projection = nextprops.projection
   }
 }
