@@ -80,6 +80,152 @@ Hooks and utility functions to convert colors to WebGL friendly formats.
 
 #### [Documentation for Color Hooks](https://react-vertex.com/docs-color-hooks/)
 
+## How does it work?
+
+Inside of a `<Canvas />` component you are no longer building an HTML document. Instead, a React Vertex scene is built of four primary elements: `<camera>`, `<group>`, `<material>` and `<geometry>`. You use the elements to build up the WebGL state used by the renderer.
+
+At its most simple, a scene would look like:
+```html
+  <camera>
+    <material>
+      <geometry />
+    </material>
+  </camera>
+```
+
+Or something like:
+```html
+  <camera>
+    <group>
+      <material>
+        <group>
+          <geometry />
+          <geometry />
+          <geometry />
+        </group>
+      </material>
+      <material>
+        <group>
+          <material>
+            <geometry />
+          </material>
+          <geometry />
+          <geometry />
+        </group>
+      </material>
+    </group>
+  </camera>
+```
+
+Of course, you can create your own custom components to build up that document however you like:
+```html
+  <camera>
+    <group>
+      <Asteroids />
+      <Robots />
+      {showSharks ? (
+        <group>
+          <Shark weapon={laserBeam} />
+          <Shark weapon={laserBeam} />
+        </group>
+      ) : null}
+    </group>
+    <SeaBass illTempered={false} />
+  </camera>
+```
+
+### <camera>
+
+The camera takes just two props that define the `view` (matrix) and the `projection` (matrix): 
+```html
+  <camera view={view} projection={projection}>
+    <material>
+      <geometry />
+      <geometry />
+      <geometry />
+    </material>
+  </camera>
+```
+
+The `view` and `projection` should be instances of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html).  If you already know how to work with `gl-matrix` then you can use whatever method you like to keep those props up to date.  You can mutate the matrices and the changes will be reflected in the render.
+
+For convenience you can use `@react-vertex/math-hooks` to create a static camera view:
+```js
+import {
+  useInvertedMatrix,
+  usePerspectiveMatrix,
+} from '@react-vertex/math-hooks'
+
+function Scene() {
+  const view = useInvertedMatrix(0, 0, 50)
+  const projection = usePerspectiveMatrix(35, 1.0, 0.1, 1000)
+
+  ...
+
+  return (
+    <camera view={view} projection={projection}>
+      ...
+    </camera>
+  )
+```
+
+Or use `@react-vertex/orbit-camera` to create a dynamic camera:
+```js
+import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
+import { useCanvasSize } from '@react-vertex/core'
+
+function Scene() {
+  const { width, height } = useCanvasSize()
+
+  const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
+    c.setPosition([0, 0, 30])
+  })
+  useOrbitControls(camera)
+
+  ...
+
+  return (
+    <camera view={camera.view} projection={camera.projection}>
+      ...
+    </camera>
+  )
+```
+
+### <material>
+
+Right now, the material nodes just take a single `program` prop.  The `program` is a WebGL program with its uniforms set.  The nearest `<camera>` ancestor will define the view and projection. The `viewMatrix` and `projectionMatrix` uniforms of the program shaders will be set by the renderer.  You can use `@react-vertex/material-hooks` for some common programs or look at the source to compose your own custom program hooks. The Phong and Lambert programs in `@react-vertex/material-hooks` make use of lights in the scene.
+
+```js
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useHex } from '@react-vertex/color-hooks'
+import { useSphereElements } from '@react-vertex/geometry-hooks'
+import { useBasicProgram } from '@react-vertex/material-hooks'
+
+function Light({ lightPosition }) {
+  const sphere = useSphereElements(0.75, 10, 10)
+  const diffuse = useHex('#ffa500', true)
+  const program = useBasicProgram(diffuse)
+
+  return (
+    <material program={program}>
+      <geometry position={lightPosition} {...sphere} />
+    </material>
+  )
+}
+
+Light.propTypes = {
+  lightPosition: PropTypes.array.isRequired,
+}
+
+export default Light
+```
+
+
+
+
+
+
 ## Running the repo locally
 
 ```
