@@ -4,22 +4,23 @@ Hooks-based WebGL Library for React
 
 **This library is experimental.**
 
-I'm working on this in my spare time.  It's unlikely to be stable until late 2019.  Use it at your own risk. There's still some hard-coded WebGL parameters and it lacks some key features like events.  If you've got some WebGL chops or experience with 3D engines and want to collaborate drop a line in the issues.
+I'm working on this in my spare time.  It's unlikely to be stable until late 2019.  Use it at your own risk. There's still a lot of hard-coded WebGL parameters and it lacks some key features like events. The materials are a WIP. If you've got some WebGL/GLSL chops or experience with 3D engines and want to collaborate drop a line in the issues.
 
 ### What's in the box?
 - Scene renderer using React Reconciler
 - Scene graph which handles matrix multiplication
-- Basic lighting system (only point lights so far)
+- Basic lighting system (only simple point lights so far)
 - Orbit camera and controls
 - Hooks for geometries and materials
 - Data Gui like dev controls and scene helpers
 
 ### Roadmap
 - More lighting options
-- Improve materials and shader system
+- Better materials and shader system
 - Events / raycasting
+- Scene Shadows 
 - Composite effects
-- Better camera support
+- Improve camera options
 - Tests
 
 ### [Documentation and Examples](https://react-vertex.com)
@@ -195,9 +196,7 @@ import { useCanvasSize } from '@react-vertex/core'
 function Scene() {
   const { width, height } = useCanvasSize()
 
-  const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
-    c.setPosition([0, 0, 30])
-  })
+  const camera = useOrbitCamera(55, width / height, 1, 5000)
   useOrbitControls(camera)
 
   ...
