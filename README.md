@@ -2,11 +2,29 @@
 
 Hooks-based WebGL Library for React
 
-**This library is experimental and has not been officially released. Expected to be stable by Summer of 2019.**
+**This library is experimental.**
+
+I'm working on this in my spare time.  It's unlikely to be stable until late 2019.  Use it at your own risk. There's still some hard-coded WebGL parameters and it lacks some key features like events.  If you've got some WebGL chops or experience with 3D engines and want to collaborate drop a line in the issues.
+
+### What's in the box?
+- Scene renderer using React Reconciler
+- Scene graph which handles matrix multiplication
+- Basic lighting system (only point lights so far)
+- Orbit camera and controls
+- Hooks for geometries and materials
+- Data Gui like dev controls and scene helpers
+
+### Roadmap
+- More lighting options
+- Improve materials and shader system
+- Events / raycasting
+- Composite effects
+- Better camera support
+- Tests
 
 ### [Documentation and Examples](https://react-vertex.com)
 
-## Packages
+#### Packages:
 
 ### @react-vertex/core
 
@@ -50,7 +68,7 @@ React hooks for working with materials in React Vertex.
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/@react-vertex/math-hooks)](https://bundlephobia.com/result?p=@react-vertex/math-hooks)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/math-hooks.svg)](https://www.npmjs.com/package/@react-vertex/math-hooks)
 
-React hooks for working with vectors and matrices in WebGL.
+React hooks for working with vectors and matrices in React Vertex. 
 
 ```npm install @react-vertex/math-hooks```
 
@@ -221,8 +239,87 @@ Light.propTypes = {
 export default Light
 ```
 
+### <geometry>
 
+The `<geometry>` element defines the attributes and several other parameters for drawing. You can also set the `position`, `rotation` and `scale` (they are applied in that order). The nearest `<material>` ancestor will define what program is applied to the geometries.  Probably, the easiest way to get started is to use the hooks from `@react-vertex/geometry-hooks`. 
 
+```js
+import React from 'react'
+import { useVector3 } from '@react-vertex/math-hooks'
+import { useBoxElements } from '@react-vertex/geometry-hooks'
+
+const PI = Math.PI
+
+function Boxes() {
+  const boxElements = useBoxElements(10, 10, 10)
+
+  const r1 = useVector3(PI / 4, PI, 0)
+  const r2 = useVector3(0, PI, PI / 4)
+
+  const p1 = useVector3(10, 0, 0)
+  const p2 = useVector3(20, 0, 0)
+  const p3 = useVector3(30, 0, 0)
+  const p4 = useVector3(40, 0, 0)
+
+  return (
+    <group rotation={r1}>
+      <geometry rotation={r2} position={p1} {...boxElements} />
+      <geometry rotation={r2} position={p2} {...boxElements} />
+      <geometry rotation={r2} position={p3} {...boxElements} />
+      <geometry rotation={r2} position={p4} {...boxElements} />
+    </group>
+  )
+}
+```
+
+To get more control over the geometry buffers and attributes you can use some of the more low-level hooks from the `@react-vertex/core`:
+```js
+import React, { Fragment, useMemo } from 'react'
+import { useVector3 } from '@react-vertex/math-hooks'
+import { useBoxGeometry } from '@react-vertex/geometry-hooks'
+import { useWebGLContext, useStaticBuffer, useAttribute } from '@react-vertex/core'
+
+function Boxes() {
+  const geometry = useBoxGeometry(10, 10, 10)
+
+  // this is what "useBoxElements" does internally...
+  const gl = useWebGLContext()
+
+  const positionBuffer = useStaticBuffer(gl, geometry.vertices, false, 'F32')
+  const position = useAttribute(gl, 3, positionBuffer)
+
+  const normalBuffer = useStaticBuffer(gl, geometry.normals, false, 'F32')
+  const normal = useAttribute(gl, 3, normalBuffer)
+
+  const uvBuffer = useStaticBuffer(gl, geometry.uvs, false, 'F32')
+  const uv = useAttribute(gl, 2, uvBuffer)
+
+  const indexBuffer = useStaticBuffer(gl, geometry.indices, true, 'U16')
+
+  const boxElements = useMemo(
+    () => ({
+      index: indexBuffer,
+      attributes: { position, normal, uv },
+      drawElements: { mode: 'TRIANGLES', count: geometry.indices.length },
+    }),
+    [indexBuffer, geometry.indices.length, position, normal, uv],
+  )
+
+  const p1 = useVector3(10, 0, 0)
+  const p2 = useVector3(20, 0, 0)
+  const p3 = useVector3(30, 0, 0)
+  const p4 = useVector3(40, 0, 0)
+
+  return (
+    <Fragment>
+      <geometry position={p1} {...boxElements} />
+      <geometry position={p2} {...boxElements} />
+      <geometry position={p3} {...boxElements} />
+      <geometry position={p4} {...boxElements} />
+    </Fragment>
+  )
+}
+```
 
 
 
