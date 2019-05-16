@@ -15,9 +15,11 @@ I'm working on this in my spare time.  It's unlikely to be stable until late 201
 - Data Gui like dev controls and scene helpers
 
 ### Roadmap
+- Use quaternions for rotations
+- Optimize matrix calculations
 - More lighting options
 - Better materials and shader system
-- Events / raycasting
+- Events/raycasting
 - Scene Shadows 
 - Composite effects
 - Improve camera options
