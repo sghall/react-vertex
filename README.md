@@ -2,14 +2,14 @@
 
 Hooks-based WebGL Library for React
 
-**This library is experimental.**
+**This library is experimental. Use at your own risk.**
 
-I'm working on this in my spare time.  It's unlikely to be stable until late 2019.  Use it at your own risk. There's still a lot of hard-coded WebGL parameters and it lacks some key features like events. The materials are a WIP. If you've got some WebGL/GLSL chops or experience with 3D engines and want to collaborate drop a line in the issues.
+I'm working on this in my spare time as a way to try out hooks and learn more about WebGL. It's unlikely to be stable until late 2019. There's still some hard-coded WebGL parameters and it lacks some key features like events. The materials are a WIP.  If you have some WebGL/GLSL chops or experience with 3D engines and want to collaborate, drop a line in the issues.
 
 ### What's in the box?
 - Scene renderer using React Reconciler
 - Scene graph which handles matrix multiplication
-- Basic lighting system (only simple point lights so far)
+- Basic lighting system (only point lights so far)
 - Orbit camera and controls
 - Hooks for geometries and materials
 - Data Gui like dev controls and scene helpers
@@ -20,7 +20,7 @@ I'm working on this in my spare time.  It's unlikely to be stable until late 201
 - More lighting options
 - Better materials and shader system
 - Events/raycasting
-- Scene Shadows 
+- Scene shadows 
 - Composite effects
 - Improve camera options
 - Tests
@@ -212,7 +212,7 @@ function Scene() {
 
 ### <material>
 
-Right now, the material nodes just take a single `program` prop.  The `program` is a WebGL program with its uniforms set.  The nearest `<camera>` ancestor will define the view and projection. The `viewMatrix` and `projectionMatrix` uniforms of the program shaders will be set by the renderer.  You can use `@react-vertex/material-hooks` for some common programs or look at the source to compose your own custom program hooks. The Phong and Lambert programs in `@react-vertex/material-hooks` make use of lights in the scene.
+Right now, the material nodes just take a single `program` prop.  The `program` is a WebGL program returned from a hook.  The nearest `<camera>` ancestor will define the view and projection. The renderer will set `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms in the program shaders.  You can use `@react-vertex/material-hooks` for some common programs or look at the source to compose your own custom program hooks. The Phong and Lambert programs in `@react-vertex/material-hooks` make use of lights in the scene.
 
 ```js
 import React from 'react'
@@ -322,7 +322,55 @@ function Boxes() {
 }
 ```
 
+## Rendering
 
+**By default nothing will be rendered.**  You can set the  `renderOnUpdate` prop on the `Canvas` component to true to have it work something like a regular react component tree.  If the scene has lots of elements or is animating constantly it's going to make more sense to render it in more controlled way with the `useRender` hook.
+
+### Rendering in a loop 
+
+You can get a function to render the scene by calling `useRender` anywhere in a React Vertex component tree.  If your scene is animating constantly, it's probably best to have one loop right at the root of the tree that renders on each frame.  You can use `d3-timer` to create a loop like so: 
+
+```js
+import React, { useEffect } from 'react'
+import { timer } from 'd3-timer'
+import { useRender } from '@react-vertex/core'
+
+function Scene() {
+  const renderScene = useRender()
+
+  useEffect(() => {
+    const timerLoop = timer(renderScene)
+    return () => timerLoop.stop()
+  }, [renderScene])
+
+  ...
+```
+
+### Rendering when camera updates
+
+If you want to render when the camera moves. You can do something like the below example. If you look at the "Tuna Wireframe" example, it updates when the camera changes and ALSO sets the `renderOnUpdate` prop on the canvas to true to make sure it renders when the controls in the scene update.  If you are creating more of an "app" with less frequent updates that's a pretty efficient way to approach it.
+
+```js
+import React, { useEffect } from 'react'
+import { useRender, useCanvasSize } from '@react-vertex/core'
+import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
+
+function Scene() {
+  const { width, height } = useCanvasSize()
+
+  const renderScene = useRender()
+
+  const camera = useOrbitCamera(55, width / height, 1, 5000)
+  useOrbitControls(camera)
+
+  useEffect(() => {
+    renderScene()
+    camera.addListener(renderScene)
+    return () => camera.removeListener(renderScene)
+  }, [camera, renderScene])
+
+  ...
+```
 
 ## Running the repo locally
 
