@@ -65,10 +65,16 @@ class OrbitCamera {
   }
 
   setRotX(rotX) {
-    this.changeRotX(rotX - this.rotX)
+    this.rotX = rotX
+
+    if (this.rotX > 360 || this.rotX < -360) {
+      this.rotX = this.rotX % 360
+    }
+
+    this.update()
   }
 
-  changeRotX(rotX) {
+  incRotX(rotX) {
     this.rotX += rotX
 
     if (this.rotX > 360 || this.rotX < -360) {
@@ -79,10 +85,16 @@ class OrbitCamera {
   }
 
   setRotY(rotY) {
-    this.changeRotY(rotY - this.rotY)
+    this.rotY = rotY
+
+    if (this.rotY > 360 || this.rotY < -360) {
+      this.rotY = this.rotY % 360
+    }
+
+    this.update()
   }
 
-  changeRotY(rotY) {
+  incRotY(rotY) {
     this.rotY += rotY
 
     if (this.rotY > 360 || this.rotY < -360) {
@@ -116,8 +128,8 @@ class OrbitCamera {
   update() {
     mat4.identity(this.matrix)
 
-    mat4.rotateX(this.matrix, this.matrix, (this.rotY * Math.PI) / 180)
-    mat4.rotateY(this.matrix, this.matrix, (this.rotX * Math.PI) / 180)
+    mat4.rotateX(this.matrix, this.matrix, (this.rotX * Math.PI) / 180)
+    mat4.rotateY(this.matrix, this.matrix, (this.rotY * Math.PI) / 180)
     mat4.translate(this.matrix, this.matrix, this.position)
 
     mat4.invert(this.view, this.matrix)
