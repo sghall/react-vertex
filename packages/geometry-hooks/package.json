@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/geometry-hooks",
   "version": "2.0.0",
-  "description": "React hooks for WebGL attributes",
+  "description": "React hooks for geometries in React Vertex",
   "keywords": [
     "react",
     "hooks",

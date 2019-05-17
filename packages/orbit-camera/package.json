@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/orbit-camera",
   "version": "2.7.0",
-  "description": "WebGL Orbit Camera and Controls",
+  "description": "Orbit Camera and Controls for React Vertex",
   "keywords": [
     "react",
     "hooks",

@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/scene-helpers",
   "version": "1.6.0",
-  "description": "React WebGL Scene Helpers",
+  "description": "Scene helpers for React Vertex",
   "keywords": [
     "react",
     "hooks",

@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/core",
   "version": "2.0.0",
-  "description": "React Vertex Core",
+  "description": "React Vertex core",
   "keywords": [
     "react",
     "hooks",
