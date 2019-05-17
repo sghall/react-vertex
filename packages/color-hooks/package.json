@@ -1,6 +1,6 @@
 {
   "name": "@react-vertex/color-hooks",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Convert colors to WebGL friendly format",
   "keywords": [
     "colors",
