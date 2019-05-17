@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
-import { useRender } from '@react-vertex/core'
+import { useRender, useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useBasicProgram } from '@react-vertex/material-hooks'
 import { AxesHelper, useColorSlider } from '@react-vertex/scene-helpers'
-import { useCanvasSize } from '@react-vertex/core'
 import TunaGeometry from './TunaGeometry'
 
 function Scene() {
