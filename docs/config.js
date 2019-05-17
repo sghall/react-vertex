@@ -44,8 +44,8 @@ export const docsList = [
   },
   {
     href: '/docs-core-hooks',
-    name: 'Core Hooks',
-    tag: 'Part of core',
+    name: 'React Vertex Core',
+    tag: 'Canvas, elements, hooks',
   },
   {
     href: '/docs-geometry-hooks',
@@ -60,32 +60,32 @@ export const docsList = [
   {
     href: '/docs-light-hooks',
     name: 'Light Hooks',
-    tag: 'Part of core',
+    tag: 'Included in core',
   },
   {
     href: '/docs-shader-hooks',
     name: 'Shader Hooks',
-    tag: 'Part of core',
+    tag: 'Included in core',
   },
   {
     href: '/docs-buffer-hooks',
     name: 'Buffer Hooks',
-    tag: 'Part of core',
+    tag: 'Included in core',
   },
   {
     href: '/docs-attribute-hooks',
     name: 'Attribute Hooks',
-    tag: 'Part of core',
+    tag: 'Included in core',
   },
   {
     href: '/docs-uniform-hooks',
     name: 'Uniform Hooks',
-    tag: 'Part of core',
+    tag: 'Included in core',
   },
   {
     href: '/docs-texture-hooks',
     name: 'Texture Hooks',
-    tag: 'Part of core',
+    tag: 'Included in core',
   },
   {
     href: '/docs-matrix-hooks',

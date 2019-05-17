@@ -1,4 +1,4 @@
-# `@react-vertex/core`
+## `@react-vertex/core`
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/react-vertex/blob/master/packages/core/LICENSE)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/core.svg)](https://www.npmjs.com/package/@react-vertex/core)
@@ -6,9 +6,165 @@
 
 ### [Documentation and Examples](https://react-vertex.com)
 
-React Vertex core.  Documentation coming soon.
+React Vertex core.
 
 ##### Install via npm:
 ```js
 npm install @react-vertex/core
+```
+
+##### Importing:
+
+```js
+import {
+  Canvas,
+  useRender,
+  useCanvas,
+  useCanvasSize,
+  useWebGLContext,
+} from '@react-vertex/core'
+```
+
+#### `<Canvas />`
+
+React component for creating a React Vertex component tree.  Renders a canvas element into the DOM.  The children of this component have to be valid React Vertex elements.
+
+###### Props:
+
+`width`: Number for the canvas width.
+
+`height`: Number for the canvas height.
+
+`antialias (optional)`: Boolean for using antialiasing (defaults to false).
+
+`renderOnUpdate (optional)`: Boolean (defaults to false).
+
+`renderOnResize (optional)`: Boolean (defaults to true).
+
+`clearColor (optional)`: Array for clear color for scene (defaults to \[0, 0, 0, 1\]).
+
+`canvasStyle (optional)`: Object containing styles for canvas element.
+
+`canvasClass (optional)`: String class to be applied to canvas.
+
+`extensions (optional)`: Array of string WebGL extensions to be loaded.
+
+`contextAttrs (optional)`: Object containing context attributes.
+
+###### Example Usage:
+
+```js
+import React, { useRef, useState } from 'react'
+import { Canvas } from '@react-vertex/core'
+import { useMeasure } from '@react-vertex/dom-hooks'
+import { convertHex } from '@react-vertex/color-hooks'
+import Scene from './Scene'
+
+const clearColor = convertHex('#323334')
+
+function Example() {
+  const container = useRef()
+  const { width } = useMeasure(container)
+
+  return (
+    <div ref={container}>
+      <Canvas
+        antialias
+        width={width}
+        height={width}
+        clearColor={clearColor}
+      >
+        <Scene />
+      </Canvas>
+    </div>
+  )
+}
+
+export default Example
+```
+
+#### `useRender()` => `function`
+
+React hook that returns a function to render the scene. You can use this hook from anywhere inside a React Vertex component tree.
+
+###### Arguments:
+ - None.
+
+###### Returns:
+
+`function`: The render function.
+
+###### Example Usage:
+
+```js
+import React, { useEffect } from 'react'
+import { timer } from 'd3-timer'
+import { useRender } from '@react-vertex/core'
+
+function Scene() {
+  const renderScene = useRender()
+  
+  useEffect(() => {
+    const timerLoop = timer(renderScene)
+    return () => timerLoop.stop()
+  }, [renderScene])
+
+  ....
+```
+
+#### `useCanvas()` => `DOM Element`
+
+React hook that returns the canvas DOM element. You can use this hook from anywhere inside a React Vertex component tree. **Note: You shouldn't use this to get the canvas size. The dedicated useCanvasSize hook should be used for that.**
+
+###### Arguments:
+ - None.
+
+###### Returns:
+
+`canvas`: The canvas DOM element.
+
+#### `useCanvasSize()` => `object`
+
+React hook for the current width and height of the canvas.  This will update when the dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
+
+###### Arguments:
+ - None.
+
+###### Returns:
+
+`object`: An object with the current width and height e.g. `{ width: 100, height: 100 }`.
+
+###### Example Usage:
+
+```js
+import { useCanvasSize } from '@react-vertex/core'
+import { useOrbitCamera } from '@react-vertex/orbit-camera'
+
+function Scene() {
+  const { width, height } = useCanvasSize()
+  const camera = useOrbitCamera(55, width / height, 1, 5000)
+
+  ...
+```
+
+#### `useWebGLContext()` => `WebGLContext`
+
+React hook for the current WebGL context. You can use this hook from anywhere inside a React Vertex component tree.
+
+###### Arguments:
+ - None.
+
+###### Returns:
+
+`WebGLContext`: The WebGL context.
+
+###### Example Usage:
+
+```js
+import { useWebGLContext, useStaticBuffer } from '@react-vertex/core'
+
+function Scene() {
+  const gl = useWebGLContext()
+  const positionBuffer = useStaticBuffer(gl, positions, false, 'F32')
+  ...
 ```
