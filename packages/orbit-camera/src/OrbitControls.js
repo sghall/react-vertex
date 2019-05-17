@@ -22,7 +22,7 @@ class OrbitControls {
   lastX = 0
   lastY = 0
 
-  theta = 10
+  rotationSpeed = 1000
 
   onMouseUp = e => {
     e.stopPropagation()
@@ -79,8 +79,8 @@ class OrbitControls {
 
     if (!this.dragging) return
 
-    const dx = this.x - this.lastX
-    const dy = this.y - this.lastY
+    const dx = this.lastX - this.x
+    const dy = this.lastY - this.y
 
     this.rotate(dx, dy)
   }
@@ -115,8 +115,8 @@ class OrbitControls {
       this.x = t1.pageX
       this.y = t1.pageY
 
-      const dx = this.x - this.lastX
-      const dy = this.y - this.lastY
+      const dx = this.lastX - this.x
+      const dy = this.lastY - this.y
 
       this.rotate(dx, dy)
     }
@@ -142,14 +142,11 @@ class OrbitControls {
   rotate(dx, dy) {
     const { width, height } = this.element
 
-    const deltaRotX = 50 / width
-    const deltaRotY = 50 / height
+    const incX = dx / width * this.rotationSpeed
+    const incY = dy / height * this.rotationSpeed
 
-    const rotX = -dx * deltaRotX * this.theta
-    const rotY = -dy * deltaRotY * this.theta
-
-    this.camera.changeRotX(rotX)
-    this.camera.changeRotY(rotY)
+    dx && this.camera.incRotY(incX)
+    dy && this.camera.incRotX(incY)
   }
 }
 
