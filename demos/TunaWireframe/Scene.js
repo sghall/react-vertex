@@ -12,7 +12,8 @@ function Scene() {
   const renderScene = useRender()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
-    c.setPosition([0, 0, 30])
+    c.setPosition([0, 0, 25])
+    c.setRotY(80)
   })
   useOrbitControls(camera)
 

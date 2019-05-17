@@ -25,7 +25,7 @@ function TunaGeometry() {
   }, [position])
 
   const scaleX = useValueSlider('Tuna Scale X:', 1, 1, 5, 0.1)
-  const scaleY = useValueSlider('Tuna Scale Y:', 1, 1, 5, 0.1)
+  const scaleY = useValueSlider('Tuna Scale Y:', 3, 1, 5, 0.1)
   const scaleZ = useValueSlider('Tuna Scale Z:', 1, 1, 5, 0.1)
 
   return (
