@@ -6,6 +6,8 @@ Hooks-based WebGL Library for React
 
 I'm working on this in my spare time as a way to try out hooks and learn more about WebGL. It's unlikely to be stable until late 2019. There's still some hard-coded WebGL parameters and it lacks some key features like events. The materials are a WIP.  If you have some WebGL/GLSL chops or experience with 3D engines and want to collaborate, drop a line in the issues.
 
+### [Documentation and Examples](https://react-vertex.com)
+
 ```
 npm install @react-vertex/core
 ```
@@ -29,7 +31,6 @@ npm install @react-vertex/core
 - Improve camera options
 - Tests
 
-### [Documentation and Examples](https://react-vertex.com)
 
 #### Packages:
 
