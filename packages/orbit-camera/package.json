@@ -14,7 +14,7 @@
   "author": "Steven Hall <hall.steven.g@gmail.com>",
   "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/orbit-camera#readme",
   "peerDependencies": {
-    "@react-vertex/core": "^0.4.0",
+    "@react-vertex/core": "^2.0.0",
     "react": "^16.8.6"
   },
   "dependencies": {
