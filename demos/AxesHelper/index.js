@@ -15,7 +15,7 @@ function AxesHelper() {
   const [showAxes, setShowAxes] = useState(false)
 
   return (
-    <Grid container justify="center" spacing={8}>
+    <Grid style={{ padding: 12 }} container justify="center" spacing={8}>
       <Grid item xs={12} md={8}>
         <a href="https://github.com/sghall/react-vertex/tree/master/demos/AxesHelper">
           <Button size="small">Demo Source</Button>

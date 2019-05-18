@@ -13,7 +13,7 @@ function TunaWireframe() {
   const { width } = useMeasure(container)
 
   return (
-    <Grid container justify="center">
+    <Grid style={{ padding: 12 }} container justify="center" spacing={8}>
       <Grid item xs={12} md={8}>
         <a href="https://github.com/sghall/react-vertex/tree/master/demos/TunaWireframe">
           <Button size="small">Demo Source</Button>
