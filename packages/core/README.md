@@ -83,6 +83,83 @@ function Example() {
 export default Example
 ```
 
+#### Elements
+
+Inside of a `<Canvas />` component you are no longer building an HTML document. Instead, a React Vertex scene is built of four primary elements: `<camera>`, `<group>`, `<material>` and `<geometry>`. You use the elements to build up the WebGL state used by the renderer.
+
+At its most simple, a scene would look like:
+```html
+  <camera>
+    <material>
+      <geometry />
+    </material>
+  </camera>
+```
+
+#### <camera>
+
+The `<camera>` elements defines the view and projection for downstream elements.
+
+###### Props:
+
+`view`:  A matrix instance of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html). 
+
+`projection`:  A matrix instance of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html).
+
+###### Example Usage:
+```js
+import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
+import { useCanvasSize } from '@react-vertex/core'
+
+function Scene() {
+  const { width, height } = useCanvasSize()
+
+  const camera = useOrbitCamera(55, width / height, 1, 5000)
+  useOrbitControls(camera)
+
+  ...
+
+  return (
+    <camera view={camera.view} projection={camera.projection}>
+      ...
+    </camera>
+  )
+```
+#### <material>
+
+The `<material>` element defines the WebGL program used to render downstream geometries.
+
+###### Props:
+
+`program`: A [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram). The program should have its uniforms set.  The renderer will handle setting `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms and setting attributes provided by geometry nodes.
+
+###### Example Usage:
+```js
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useHex } from '@react-vertex/color-hooks'
+import { useSphereElements } from '@react-vertex/geometry-hooks'
+import { useBasicProgram } from '@react-vertex/material-hooks'
+
+function Light({ lightPosition }) {
+  const sphere = useSphereElements(0.75, 10, 10)
+  const diffuse = useHex('#ffa500', true)
+  const program = useBasicProgram(diffuse)
+
+  return (
+    <material program={program}>
+      <geometry position={lightPosition} {...sphere} />
+    </material>
+  )
+}
+
+Light.propTypes = {
+  lightPosition: PropTypes.array.isRequired,
+}
+
+export default Light
+```
+
 #### `useRender()` => `function`
 
 React hook that returns a function to render the scene. You can use this hook from anywhere inside a React Vertex component tree.
@@ -135,7 +212,6 @@ React hook for the current width and height of the canvas.  This will update whe
 `object`: An object with the current width and height e.g. `{ width: 100, height: 100 }`.
 
 ###### Example Usage:
-
 ```js
 import { useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera } from '@react-vertex/orbit-camera'
