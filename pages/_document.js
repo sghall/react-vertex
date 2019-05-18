@@ -30,7 +30,7 @@ class ReactVertexDoc extends Document {
           />
           <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css"
+            href="/static/css/markdown.css"
           />
           <style jsx="true" global="true">{`
             body {

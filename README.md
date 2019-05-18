@@ -8,7 +8,7 @@ I'm working on this in my spare time as a way to try out hooks and learn more ab
 
 ### [Documentation and Examples](https://react-vertex.com)
 
-```
+```bash
 npm install @react-vertex/core
 ```
 
