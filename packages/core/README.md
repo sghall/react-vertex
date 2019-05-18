@@ -131,7 +131,7 @@ The `<material>` element defines the WebGL program used to render downstream geo
 
 ###### Props:
 
-`program`: A [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram). The program should have its uniforms set.  The renderer will handle setting `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms and setting attributes provided by geometry nodes.
+`program`: A [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram). The renderer will handle setting `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms and setting attributes provided by geometry nodes.
 
 ###### Example Usage:
 ```js
