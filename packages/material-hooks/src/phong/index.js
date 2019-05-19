@@ -41,7 +41,7 @@ export function usePhong(kd, ks, ns, ka, na) {
 
 const uVScale = [1.0, 1.0]
 
-export function useTexturedPhong(textureUrl, ks, ns, ka, na) {
+export function useTexturedPhong(textureUrl, na, ns, ka, ks) {
   const gl = useWebGLContext()
   const [vertShader, fragShader] = usePointLightCount(texVert, texFrag)
   const program = useProgram(gl, vertShader, fragShader)
