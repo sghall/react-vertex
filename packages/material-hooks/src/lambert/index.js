@@ -9,7 +9,7 @@ import {
 import vert from './vert'
 import frag from './frag'
 
-export function useLambertProgram(kd, ka, na) {
+export function useSolidLambert(kd, ka, na) {
   const gl = useWebGLContext()
   const [vertShader, fragShader] = usePointLightCount(vert, frag)
   const program = useProgram(gl, vertShader, fragShader)
