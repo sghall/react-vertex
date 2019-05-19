@@ -34,7 +34,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-color": "^2.17.3",
-    "react-compound-slider": "^2.0.0-beta.0",
+    "react-compound-slider": "^2.0.0",
     "react-dom": "^16.8.4",
     "react-jss": "^8.6.1",
     "react-markdown": "^4.0.6",
