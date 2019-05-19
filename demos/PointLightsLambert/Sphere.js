@@ -12,7 +12,7 @@ function Sphere() {
   const ka = useColorSlider('Ambient Color:', '#808080', true)
   const na = useValueSlider('Ambient Level:', 0.2, 0, 1, 0.01)
 
-  const program = useSolidLambert(kd, ka, na)
+  const program = useSolidLambert(kd, na, ka)
 
   return (
     <material program={program}>
