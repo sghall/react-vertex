@@ -25,15 +25,15 @@ export default glsl`
   }
 
   void main() {
+    vec2 uv = vUv * uVScale;
+    vec3 kd = textureLinear(mapKd, uv).rgb;
+    
     vec3 color = vec3(0.0);
     vec3 light = vec3(0.0);
     vec3 eye = normalize(vEye);
     vec3 reflection = vec3(0.0);
     vec3 normal = normalize(vNormal);
-    vec3 ambient = uKa * uNa;
-
-    vec2 uv = vUv * uVScale;
-    vec3 kd = textureLinear(mapKd, uv).rgb;
+    vec3 ambient = kd * uKa * uNa;
 
     for (int i = 0; i < NUM_POINT_LIGHTS; i++) {
       light = normalize(vRay[i]);
