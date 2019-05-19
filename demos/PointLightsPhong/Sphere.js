@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { usePhong } from '@react-vertex/material-hooks'
+import { useSolidPhong } from '@react-vertex/material-hooks'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
 import { useColorSlider, useValueSlider } from '@react-vertex/scene-helpers'
 
@@ -15,7 +15,7 @@ function Sphere() {
   const ka = useColorSlider('Ambient Color:', '#808080', true)
   const na = useValueSlider('Ambient Level:', 0.2, 0, 1, 0.01)
 
-  const program = usePhong(kd, ks, ns, ka, na)
+  const program = useSolidPhong(kd, ks, ns, ka, na)
 
   return (
     <material program={program}>

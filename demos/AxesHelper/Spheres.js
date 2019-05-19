@@ -12,7 +12,7 @@ import {
   useAxesHelperElements,
 } from '@react-vertex/scene-helpers'
 import { useHex } from '@react-vertex/color-hooks'
-import { usePhong } from '@react-vertex/material-hooks'
+import { useSolidPhong } from '@react-vertex/material-hooks'
 
 const sphereCount = 30
 const P2 = Math.PI * 2
@@ -21,7 +21,7 @@ function Spheres({ elapsed, showAxes }) {
   const gl = useWebGLContext()
   const { indices, vertices, normals } = useSphereGeometry(0.75, 10, 10)
   const sphereDiffuse = useHex('#a7a7a7', true)
-  const sphereProgram = usePhong(sphereDiffuse)
+  const sphereProgram = useSolidPhong(sphereDiffuse)
 
   const positionBuffer = useStaticBuffer(gl, vertices, false, 'F32')
   const position = useAttribute(gl, 3, positionBuffer)

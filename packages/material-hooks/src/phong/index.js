@@ -22,7 +22,7 @@ const defaultNs = 200
 const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
-export function usePhong(kd, ks, ns, ka, na) {
+export function useSolidPhong(kd, ks, ns, ka, na) {
   const gl = useWebGLContext()
   const [vertShader, fragShader] = usePointLightCount(vert, frag)
   const program = useProgram(gl, vertShader, fragShader)
