@@ -9,8 +9,8 @@ import {
   usePointLightCount,
   usePointLightUniforms,
 } from '@react-vertex/core'
-import vert from './vert'
-import frag from './frag'
+import vert from './solid.vert'
+import frag from './solid.frag'
 import texVert from './textured.vert'
 import texFrag from './textured.frag'
 import attVert from './attenuated.vert'
@@ -22,7 +22,7 @@ const defaultNs = 200
 const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
-export function useSolidPhong(kd, ks, ns, ka, na) {
+export function useSolidPhong(kd, na, ns, ka, ks) {
   const gl = useWebGLContext()
   const [vertShader, fragShader] = usePointLightCount(vert, frag)
   const program = useProgram(gl, vertShader, fragShader)

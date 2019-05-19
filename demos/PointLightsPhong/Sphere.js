@@ -15,7 +15,7 @@ function Sphere() {
   const ka = useColorSlider('Ambient Color:', '#808080', true)
   const na = useValueSlider('Ambient Level:', 0.2, 0, 1, 0.01)
 
-  const program = useSolidPhong(kd, ks, ns, ka, na)
+  const program = useSolidPhong(kd, na, ns, ka, ks)
 
   return (
     <material program={program}>
