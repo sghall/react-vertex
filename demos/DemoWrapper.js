@@ -20,11 +20,11 @@ const DemoWrapper = ({ children, src }) => (
 
 DemoWrapper.propTypes = {
   src: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
-DemoWrapper.defaultProps ={
-  src: ''
+DemoWrapper.defaultProps = {
+  src: '',
 }
 
 export default DemoWrapper

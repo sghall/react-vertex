@@ -14,12 +14,7 @@ function TextureCubes() {
   return (
     <DemoWrapper src="demos/TextureCubes">
       <div ref={container}>
-        <Canvas
-          antialias
-          width={width}
-          height={width}
-          clearColor={clearColor}
-        >
+        <Canvas antialias width={width} height={width} clearColor={clearColor}>
           <Scene />
         </Canvas>
       </div>

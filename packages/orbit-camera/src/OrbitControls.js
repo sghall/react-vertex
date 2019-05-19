@@ -142,8 +142,8 @@ class OrbitControls {
   rotate(dx, dy) {
     const { width, height } = this.element
 
-    const incX = dx / width * this.rotationSpeed
-    const incY = dy / height * this.rotationSpeed
+    const incX = (dx / width) * this.rotationSpeed
+    const incY = (dy / height) * this.rotationSpeed
 
     dx && this.camera.incRotY(incX)
     dy && this.camera.incRotX(incY)

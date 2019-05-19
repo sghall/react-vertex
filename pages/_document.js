@@ -28,10 +28,7 @@ class ReactVertexDoc extends Document {
             type="image/x-icon"
             href="/static/favicon/favicon.ico"
           />
-          <link
-            rel="stylesheet"
-            href="/static/css/markdown.css"
-          />
+          <link rel="stylesheet" href="/static/css/markdown.css" />
           <style jsx="true" global="true">{`
             body {
               overscroll-behavior: none;

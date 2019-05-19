@@ -26,12 +26,7 @@ function AxesHelper() {
         {showAxes ? 'Hide' : 'Show'} Axes
       </Button>
       <div ref={container}>
-        <Canvas
-          antialias
-          width={width}
-          height={width}
-          clearColor={clearColor}
-        >
+        <Canvas antialias width={width} height={width} clearColor={clearColor}>
           <Scene showAxes={showAxes} />
         </Canvas>
       </div>

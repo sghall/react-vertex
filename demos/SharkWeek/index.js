@@ -14,12 +14,7 @@ function SharkWeek() {
   return (
     <DemoWrapper src="demos/SharkWeek">
       <div ref={container}>
-        <Canvas
-          antialias
-          width={width}
-          height={width}
-          clearColor={clearColor}
-        >
+        <Canvas antialias width={width} height={width} clearColor={clearColor}>
           <Scene />
         </Canvas>
       </div>
