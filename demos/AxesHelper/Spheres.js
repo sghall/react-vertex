@@ -21,7 +21,7 @@ function Spheres({ elapsed, showAxes }) {
   const gl = useWebGLContext()
   const { indices, vertices, normals } = useSphereGeometry(0.75, 10, 10)
   const sphereDiffuse = useHex('#a7a7a7', true)
-  const sphereProgram = useSolidPhong(sphereDiffuse)
+  const sphereProgram = useSolidPhong(sphereDiffuse, 0.15)
 
   const positionBuffer = useStaticBuffer(gl, vertices, false, 'F32')
   const position = useAttribute(gl, 3, positionBuffer)
