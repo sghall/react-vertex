@@ -25,9 +25,9 @@ import {
 } from '@react-vertex/core'
 ```
 
-#### `<Canvas />`
+### `Canvas`
 
-React component for creating a React Vertex component tree.  Renders a canvas element into the DOM.  The children of this component have to be valid React Vertex elements.
+React component for creating a React Vertex component tree.  Renders a canvas element into the DOM.  The children of this component must be valid React Vertex components.
 
 ###### Props:
 
@@ -83,7 +83,7 @@ function Example() {
 export default Example
 ```
 
-#### Elements
+### Elements
 
 Inside of a `<Canvas />` component you are no longer building an HTML document. Instead, a React Vertex scene is built of four primary elements: `<camera>`, `<group>`, `<material>` and `<geometry>`. You use the elements to build up the WebGL state used by the renderer.
 
@@ -96,7 +96,7 @@ At its most simple, a scene would look like:
   </camera>
 ```
 
-#### <camera>
+### <camera>
 
 The `<camera>` elements defines the view and projection for downstream elements.
 
@@ -125,7 +125,7 @@ function Scene() {
     </camera>
   )
 ```
-#### <material>
+### <material>
 
 The `<material>` element defines the WebGL program used to render downstream geometries.
 
@@ -155,8 +155,7 @@ function Example() {
 export default Example
 ```
 
-#### <geometry>
-#### <instancedgeometry>
+### <geometry>
 
 The `<geometry>` element defines the attributes and drawing parameters for a WebGL geometry in React Vertex.
 
@@ -264,6 +263,24 @@ function Boxes() {
   )
 }
 ```
+
+### <instancedgeometry>
+
+The `<instancedgeometry>` element defines the attributes and drawing parameters for a WebGL geometry in React Vertex.
+
+###### Props:
+
+`index`: WebGL Buffer with the indices for the geometry. You can create a buffer using `useStaticBuffer`.
+
+`attributes`: Object of attribute functions returned from `useAttribute` and `useInstancedAttribute`.  The keys of the object should be the names of the attributes used in the shader program.
+
+`position (optional)`: Array or Vector3 for the geometry position. You cannot mutate the position.  If you want to update the position you need to provide a new array or Vector3.
+
+`rotation (optional)`: Array or Vector3 for the geometry rotation. You cannot mutate the rotation.  If you want to update the rotation you need to provide a new array or Vector3.
+
+`scale (optional)`: Array or Vector3 for the geometry scale. You cannot mutate the scale.  If you want to update the scale you need to provide a new array or Vector3.
+
+`drawElements`: Object of options for drawing the geometry. The command follows the signature of the [drawElements function](https://developer.mozilla.org/en-US/docs/Web/API/ANGLE_instanced_arrays/drawElementsInstancedANGLE).  The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default), `type` (defaults to 'UNSIGNED_SHORT'), `offset` (defaults to 0) and `primcount` (no defaults) e.g. `{ mode: 'LINES', count: 1024, primcount: 64 }`.  See the mode list above for all mode options.
 
 #### `useRender()` => `function`
 
