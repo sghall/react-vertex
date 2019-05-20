@@ -136,28 +136,133 @@ The `<material>` element defines the WebGL program used to render downstream geo
 ###### Example Usage:
 ```js
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useHex } from '@react-vertex/color-hooks'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
 import { useBasicProgram } from '@react-vertex/material-hooks'
 
-function Light({ lightPosition }) {
+function Example() {
   const sphere = useSphereElements(0.75, 10, 10)
   const diffuse = useHex('#ffa500', true)
   const program = useBasicProgram(diffuse)
 
   return (
     <material program={program}>
-      <geometry position={lightPosition} {...sphere} />
+      <geometry {...sphere} />
     </material>
   )
 }
 
-Light.propTypes = {
-  lightPosition: PropTypes.array.isRequired,
-}
+export default Example
+```
 
-export default Light
+#### <geometry>
+#### <instancedgeometry>
+
+The `<geometry>` element defines the attributes and drawing parameters for a WebGL geometry in React Vertex.
+
+###### Props:
+
+`index (optional)`: WebGL buffer with the indices for the geometry. You can create a buffer using `useStaticBuffer`. You only need to set this if you are using `drawElements` i.e. you are drawing an indexed geometry.
+
+`attributes`: Object of attribute functions returned from `useAttribute`.  The keys of the object should be the names of the attributes used in the shader program.
+
+`position (optional)`: Array or Vector3 for the geometry position. You cannot mutate the position.  If you want to update the position you need to provide a new array or Vector3.
+
+`rotation (optional)`: Array or Vector3 for the geometry rotation. You cannot mutate the rotation.  If you want to update the rotation you need to provide a new array or Vector3.
+
+`scale (optional)`: Array or Vector3 for the geometry scale. You cannot mutate the scale.  If you want to update the scale you need to provide a new array or Vector3.
+
+`drawElements (optional)`: Object of options for drawing an indexed geometry. The command follows the signature of the [drawElements function in WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawElements).  The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default), `type` (defaults to 'UNSIGNED_SHORT') and `offset` (defaults to 0) e.g. `{ mode: 'LINES', count: 36 }`.  See the mode list below for all mode options.
+
+`drawArrays (optional)`: Object of options for drawing an unindexed geometry. The command follows the signature of the [drawArrays function in WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawArrays).  The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default) and `first` (defaults to 0) e.g. `{ mode: 'LINES', count: 36 }`.  See the mode list below for all mode options.
+
+| Mode             | Equivalent        |
+| -----------------|-------------------|
+| 'TRIANGLES'      | gl.TRIANGLES      |
+| 'LINES'          | gl.LINES          |
+| 'POINTS'         | gl.POINTS         |
+| 'LINE_STRIP'     | gl.LINE_STRIP     |
+| 'LINE_LOOP'      | gl.LINE_LOOP      |
+| 'TRIANGLE_STRIP' | gl.TRIANGLE_STRIP |
+| 'TRIANGLE_FAN'   | gl.TRIANGLE_FAN   |
+
+###### Example Usage:
+```js
+import React from 'react'
+import { useVector3 } from '@react-vertex/math-hooks'
+import { useBoxElements } from '@react-vertex/geometry-hooks'
+
+const PI = Math.PI
+
+function Boxes() {
+  const boxElements = useBoxElements(10, 10, 10)
+
+  const r1 = useVector3(PI / 4, PI, 0)
+  const r2 = useVector3(0, PI, PI / 4)
+
+  const p1 = useVector3(10, 0, 0)
+  const p2 = useVector3(20, 0, 0)
+  const p3 = useVector3(30, 0, 0)
+  const p4 = useVector3(40, 0, 0)
+
+  return (
+    <group rotation={r1}>
+      <geometry rotation={r2} position={p1} {...boxElements} />
+      <geometry rotation={r2} position={p2} {...boxElements} />
+      <geometry rotation={r2} position={p3} {...boxElements} />
+      <geometry rotation={r2} position={p4} {...boxElements} />
+    </group>
+  )
+}
+```
+
+To get more control over the geometry buffers and attributes you can use some of the more low-level hooks from the `@react-vertex/core`:
+```js
+import React, { Fragment, useMemo } from 'react'
+import { useVector3 } from '@react-vertex/math-hooks'
+import { useBoxGeometry } from '@react-vertex/geometry-hooks'
+import { useWebGLContext, useStaticBuffer, useAttribute } from '@react-vertex/core'
+
+function Boxes() {
+  const geometry = useBoxGeometry(10, 10, 10)
+
+  // this is what "useBoxElements" does internally...
+  const gl = useWebGLContext()
+
+  const positionBuffer = useStaticBuffer(gl, geometry.vertices, false, 'F32')
+  const position = useAttribute(gl, 3, positionBuffer)
+
+  const normalBuffer = useStaticBuffer(gl, geometry.normals, false, 'F32')
+  const normal = useAttribute(gl, 3, normalBuffer)
+
+  const uvBuffer = useStaticBuffer(gl, geometry.uvs, false, 'F32')
+  const uv = useAttribute(gl, 2, uvBuffer)
+
+  const indexBuffer = useStaticBuffer(gl, geometry.indices, true, 'U16')
+
+  const boxElements = useMemo(
+    () => ({
+      index: indexBuffer,
+      attributes: { position, normal, uv },
+      drawElements: { mode: 'TRIANGLES', count: geometry.indices.length },
+    }),
+    [indexBuffer, geometry.indices.length, position, normal, uv],
+  )
+
+  const p1 = useVector3(10, 0, 0)
+  const p2 = useVector3(20, 0, 0)
+  const p3 = useVector3(30, 0, 0)
+  const p4 = useVector3(40, 0, 0)
+
+  return (
+    <Fragment>
+      <geometry position={p1} {...boxElements} />
+      <geometry position={p2} {...boxElements} />
+      <geometry position={p3} {...boxElements} />
+      <geometry position={p4} {...boxElements} />
+    </Fragment>
+  )
+}
 ```
 
 #### `useRender()` => `function`
