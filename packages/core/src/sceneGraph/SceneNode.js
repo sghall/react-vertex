@@ -155,7 +155,7 @@ export class SceneNode extends Node {
         gl.drawElements(
           getMode(gl, node.drawElements.mode),
           node.drawElements.count,
-          node.drawElements.type || gl.UNSIGNED_SHORT,
+          node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
           node.drawElements.offset || 0,
         )
       }
@@ -194,7 +194,7 @@ export class SceneNode extends Node {
       ext.drawElementsInstancedANGLE(
         getMode(gl, node.drawElements.mode),
         node.drawElements.count,
-        node.drawElements.type || gl.UNSIGNED_SHORT,
+        node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
         node.drawElements.offset || 0,
         node.drawElements.primcount,
       )
