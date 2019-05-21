@@ -63,6 +63,11 @@ export const docsList = [
     tag: 'Included in core',
   },
   {
+    href: '/docs-scene-helpers',
+    name: 'Scene Helpers',
+    tag: 'Standalone Package',
+  },
+  {
     href: '/docs-shader-hooks',
     name: 'Shader Hooks',
     tag: 'Included in core',
