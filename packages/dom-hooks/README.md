@@ -30,12 +30,13 @@ React hook to get measurements of a DOM element.
 
 ###### Returns:
 
-`bounds`: An object: `{ left: 0, top: 0, width: 100, height: 100 }`
+`bounds`: An object e.g `{ left: 0, top: 0, width: 100, height: 100 }`
 
 ###### Example Usage:
 
 ```js
 import React, { useRef } from 'react'
+import { Canvas } from '@react-vertex/core'
 import { useMeasure } from '@react-vertex/dom-hooks'
 
 function Example() {
@@ -44,13 +45,47 @@ function Example() {
     
   return (
     <div ref={container}>
-      <Scene
+      <Canvas
         width={width}
         height={height}
       >
         ...
-      </Scene>
+      </Canvas>
     </div>
+  )
+}
+
+```
+
+#### `useViewportSize()` => `size`
+
+React hook to use `window.innerWidth` and `window.innerHeight` of the browser window viewport. This hook will update if the window is resized.
+
+###### Arguments:
+
+- None.
+
+###### Returns:
+
+`size`: An object e.g. `{ width: 200, height: 100 }`
+
+###### Example Usage:
+
+```js
+import React from 'react'
+import { Canvas } from '@react-vertex/core'
+import { useViewportSize } from '@react-vertex/dom-hooks'
+
+function Example() {
+  const { width, height } = useViewportSize()
+    
+  return (
+    <Canvas
+      width={width}
+      height={height}
+    >
+      ...
+    </Canvas>
   )
 }
 
