@@ -9,7 +9,7 @@ import {
 import vert from './vert'
 import frag from './frag'
 
-export function useAxesHelperMaterial() {
+export function useAxesHelperProgram() {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
@@ -66,11 +66,11 @@ export function useAxesHelperElements(size) {
 }
 
 export function AxesHelper({ size }) {
-  const axesMaterial = useAxesHelperMaterial()
+  const axesProgram = useAxesHelperProgram()
   const axesElements = useAxesHelperElements(size)
 
   return (
-    <material program={axesMaterial}>
+    <material program={axesProgram}>
       <geometry {...axesElements} />
     </material>
   )

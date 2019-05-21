@@ -8,7 +8,7 @@ import {
 import { useVector3 } from '@react-vertex/math-hooks'
 import { useSphereGeometry } from '@react-vertex/geometry-hooks'
 import {
-  useAxesHelperMaterial,
+  useAxesHelperProgram,
   useAxesHelperElements,
 } from '@react-vertex/scene-helpers'
 import { useHex } from '@react-vertex/color-hooks'
@@ -40,7 +40,7 @@ function Spheres({ elapsed, showAxes }) {
   const groupPosition = useVector3(10, 0, 0)
   const geometryPosition = useVector3(3, 0, 0)
 
-  const axesMaterial = useAxesHelperMaterial()
+  const axesMaterial = useAxesHelperProgram()
   const axesElements = useAxesHelperElements(10)
 
   for (let i = 0; i < sphereCount; i++) {
