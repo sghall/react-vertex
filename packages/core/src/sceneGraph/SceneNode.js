@@ -81,7 +81,7 @@ export class SceneNode extends Node {
 
   requestRender = throttle(this.render, 17)
 
-  renderNode(node, activeCamera, activeProgram, needsMatrixUpdate) {
+  renderNode(node, activeCamera, activeMaterial, needsMatrixUpdate) {
     const gl = this.context
 
     // *************************************************
@@ -108,20 +108,20 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isMaterialNode] === true) {
-      activeProgram = node.program
+      activeMaterial = node
 
-      gl.useProgram(activeProgram)
+      gl.useProgram(activeMaterial.program)
+
+      activeMaterial.uniforms = {
+        v: gl.getUniformLocation(activeMaterial.program, 'viewMatrix'),
+        m: gl.getUniformLocation(activeMaterial.program, 'modelMatrix'),
+        p: gl.getUniformLocation(activeMaterial.program, 'projectionMatrix'),
+      }
 
       const { view, projection } = activeCamera
 
-      const viewMatrix = gl.getUniformLocation(activeProgram, 'viewMatrix')
-      gl.uniformMatrix4fv(viewMatrix, false, view)
-
-      const projectionMatrix = gl.getUniformLocation(
-        activeProgram,
-        'projectionMatrix',
-      )
-      gl.uniformMatrix4fv(projectionMatrix, false, projection)
+      gl.uniformMatrix4fv(activeMaterial.uniforms.v, false, view)
+      gl.uniformMatrix4fv(activeMaterial.uniforms.p, false, projection)
     }
 
     // *************************************************
@@ -129,19 +129,18 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isGeometryNode] === true) {
-      gl.useProgram(activeProgram)
+      gl.useProgram(activeMaterial.program)
 
       if (node.attributes !== this.activeAttributes) {
         for (const attr in node.attributes) {
-          const location = gl.getAttribLocation(activeProgram, attr)
+          const location = gl.getAttribLocation(activeMaterial.program, attr)
           node.attributes[attr](location)
         }
 
         this.activeAttributes = node.attributes
       }
 
-      const model = gl.getUniformLocation(activeProgram, 'modelMatrix')
-      gl.uniformMatrix4fv(model, false, node.worldMatrix)
+      gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
 
       if (node.drawArrays) {
         gl.drawArrays(
@@ -171,7 +170,7 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isInstancedNode] === true) {
-      gl.useProgram(activeProgram)
+      gl.useProgram(activeMaterial.program)
 
       if (this.extensions[instancedExt] === undefined) {
         this.extensions[instancedExt] = gl.getExtension(instancedExt)
@@ -181,15 +180,14 @@ export class SceneNode extends Node {
 
       if (node.attributes !== this.activeAttributes) {
         for (const attr in node.attributes) {
-          const location = gl.getAttribLocation(activeProgram, attr)
+          const location = gl.getAttribLocation(activeMaterial.program, attr)
           node.attributes[attr](location, ext)
         }
 
         this.activeAttributes = node.attributes
       }
 
-      const model = gl.getUniformLocation(activeProgram, 'modelMatrix')
-      gl.uniformMatrix4fv(model, false, node.worldMatrix)
+      gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
@@ -209,7 +207,7 @@ export class SceneNode extends Node {
       this.renderNode(
         node.children[i],
         activeCamera,
-        activeProgram,
+        activeMaterial,
         needsMatrixUpdate,
       )
     }
