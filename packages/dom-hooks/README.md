@@ -18,6 +18,7 @@ npm install @react-vertex/dom-hooks
 ```js
 import {
   useMeasure,
+  useViewportSize,
 } from '@react-vertex/dom-hooks'
 ```
 #### `useMeasure(ref)` => `bounds`
@@ -54,7 +55,6 @@ function Example() {
     </div>
   )
 }
-
 ```
 
 #### `useViewportSize()` => `size`
@@ -88,5 +88,4 @@ function Example() {
     </Canvas>
   )
 }
-
 ```
