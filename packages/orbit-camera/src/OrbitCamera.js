@@ -27,6 +27,11 @@ class OrbitCamera {
 
   listeners = []
 
+  setProjection(fov, aspect, near = 1, far = 1000) {
+    const radians = (fov * Math.PI) / 180.0
+    mat4.perspective(this.projection, radians, aspect, near, far)
+  }
+
   dolly(delta) {
     const next = vec3.create()
     const step = delta - this.steps

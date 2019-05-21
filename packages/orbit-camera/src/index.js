@@ -8,12 +8,16 @@ export { default as OrbitControls } from './OrbitControls'
 
 export function useOrbitCamera(fov, aspect, near = 1, far = 1000, configure) {
   const memoized = useMemo(() => {
-    const camera = new OrbitCamera(fov, aspect, near, far, configure)
+    const camera = new OrbitCamera(fov, aspect, near, far)
 
     configure && configure(camera)
-
+    
     return camera
-  }, [fov, aspect, near, far])
+  }, [])
+  
+  useMemo(() => {
+    memoized.setProjection(fov, aspect, near, far)
+  }, [memoized, fov, aspect, near, far])
 
   return memoized
 }
