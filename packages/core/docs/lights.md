@@ -17,15 +17,15 @@ import {
 } from '@react-vertex/core'
 ```
 
-#### `usePointLight(color, position)` => `undefined`
+#### `usePointLight(color?, position?)` => `undefined`
 
 React hook to add a point light to a React Vertex scene.
 
 ###### Arguments:
 
-`color`: An array of length 3 for the light color.
+`color (optional)`: An array of length 3 for the light color (defaults to \[1, 1, 1\]).
 
-`position`: An array of length 3 for the light position.
+`position (optional)`: An array of length 3 for the light position (defaults to \[0, 0, 0\]).
 
 ###### Returns:
 

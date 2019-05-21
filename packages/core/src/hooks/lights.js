@@ -2,7 +2,10 @@ import { useContext, useMemo, useEffect } from 'react'
 import ReactVertexContext from '../Context'
 import { ctxErr, useUniform3fv } from '..'
 
-export function usePointLight(color, position) {
+const white = [1, 1, 1]
+const origin = [0, 0, 0]
+
+export function usePointLight(color = white, position = origin) {
   const context = useContext(ReactVertexContext)
 
   if (!context) {
