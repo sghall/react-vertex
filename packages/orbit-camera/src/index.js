@@ -11,10 +11,10 @@ export function useOrbitCamera(fov, aspect, near = 1, far = 1000, configure) {
     const camera = new OrbitCamera(fov, aspect, near, far)
 
     configure && configure(camera)
-    
+
     return camera
   }, [])
-  
+
   useMemo(() => {
     memoized.setProjection(fov, aspect, near, far)
   }, [memoized, fov, aspect, near, far])
