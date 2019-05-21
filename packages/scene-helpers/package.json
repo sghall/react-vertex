@@ -1,6 +1,6 @@
 {
   "name": "@react-vertex/scene-helpers",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Scene helpers for React Vertex",
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@react-vertex/color-hooks": "^1.6.0",
+    "@react-vertex/color-hooks": "^1.7.0",
     "prop-types": "^15.7.2",
     "react-color": "^2.17.3",
     "react-compound-slider": "^1.2.2"

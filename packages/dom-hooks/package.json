@@ -1,6 +1,6 @@
 {
   "name": "@react-vertex/dom-hooks",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "React hooks for DOM operations",
   "keywords": [
     "react",
