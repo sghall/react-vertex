@@ -6,12 +6,14 @@ import {
   useAttribute,
   useWebGLContext,
 } from '@react-vertex/core'
-import vert from './vert.glsl'
-import frag from './frag.glsl'
+import vert from './vert'
+import frag from './frag'
 
 export function useAxesHelperMaterial() {
   const gl = useWebGLContext()
-  return useProgram(gl, vert, frag)
+  const program = useProgram(gl, vert, frag)
+
+  return program
 }
 
 // prettier-ignore
@@ -22,17 +24,18 @@ const colors = [
 ]
 
 export function useAxesHelperGeometry(size) {
-  // prettier-ignore
-  const positions = useMemo(
-    () => ([
+  const geometry = useMemo(() => {
+    // prettier-ignore
+    const positions = [
       0, 0, 0, size, 0, 0,
       0, 0, 0, 0, size, 0,
       0, 0, 0, 0, 0, size,
-    ]),
-    [size],
-  )
+    ]
 
-  return { colors, positions }
+    return { colors, positions }
+  }, [size])
+
+  return geometry
 }
 
 const indices = [0, 1, 2, 3, 4, 5]
