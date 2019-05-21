@@ -14,7 +14,7 @@
   "author": "Steven Hall <hall.steven.g@gmail.com>",
   "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/scene-helpers#readme",
   "peerDependencies": {
-    "@react-vertex/core": "^0.4.0",
+    "@react-vertex/core": "^2.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
@@ -23,7 +23,7 @@
     "@react-vertex/color-hooks": "^1.7.0",
     "prop-types": "^15.7.2",
     "react-color": "^2.17.3",
-    "react-compound-slider": "^1.2.2"
+    "react-compound-slider": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"
