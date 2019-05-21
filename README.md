@@ -398,7 +398,6 @@ First, note that the root of the repo is a nextjs app.  There's a `pages` folder
 
 ```js
 // inside pages/demo-my-demo.js
-
 import MyDemo from 'demos/MyDemo'
 
 export default MyDemo
