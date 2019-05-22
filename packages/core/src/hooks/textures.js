@@ -34,7 +34,7 @@ export function useTexture2d(gl, url, getOptions) {
     const options = getOptions ? getOptions(gl) : {}
 
     const placeholder = options.placeholder || defaultPlaceholder
-      
+
     gl.bindTexture(gl.TEXTURE_2D, texture)
 
     // prettier-ignore
@@ -53,7 +53,7 @@ export function useTexture2d(gl, url, getOptions) {
 
   useEffect(() => {
     const { crossOrigin } = getOptions ? getOptions(gl) : {}
-    
+
     const img = new Image()
     img.crossOrigin = crossOrigin || ''
     img.src = url
