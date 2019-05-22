@@ -54,8 +54,8 @@ function CubeGeometry({ offsetZ }) {
 
   useEffect(() => {
     const timerLoop = timer(elapsed => {
-      setRotation1([elapsed * 0.001, elapsed * 0.001, elapsed * 0.002])
-      setRotation2([elapsed * 0.002, elapsed * 0.002, elapsed * 0.004])
+      setRotation1([0, elapsed * 0.001, elapsed * 0.002])
+      setRotation2([elapsed * 0.001, 0, elapsed * 0.002])
     })
 
     return () => timerLoop.stop()
