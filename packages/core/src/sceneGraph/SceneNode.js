@@ -43,19 +43,19 @@ export class SceneNode extends Node {
 
     const gl = canvas.getContext('webgl', attrs)
 
-    this.maxTextures = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)
-
     this.context = gl
     this.element = canvas
-    this.extensions = extensions.map(ext => {
-      return gl.getExtension(ext)
-    })
+
+    this.maxTextures = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)
+
+    this.extensions = extensions.reduce((acc, ext) => {
+      acc[ext] = gl.getExtension(ext)
+      return acc
+    }, {})
   }
 
   [isSceneNode] = true
-  extensions = {}
   renderOnUpdate = false
-  clearColor = [0, 0, 0, 1]
 
   pointLights = new PointLights()
 
