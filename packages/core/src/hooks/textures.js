@@ -34,14 +34,14 @@ export function useTexture2d(gl, url, getOptions) {
     const options = getOptions ? getOptions(gl) : {}
 
     const placeholder = options.placeholder || defaultPlaceholder
-
+      
     gl.bindTexture(gl.TEXTURE_2D, texture)
 
     // prettier-ignore
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, placeholder)
 
     return texture
-  }, [gl, getOptions])
+  }, [gl])
 
   useEffect(() => {
     const options = getOptions ? getOptions(gl) : {}
@@ -49,10 +49,13 @@ export function useTexture2d(gl, url, getOptions) {
     if (data) {
       applyTextureOptions(gl, memoized, data, options)
     }
-  }, [gl, memoized, data, getOptions])
+  }, [gl, memoized, data])
 
   useEffect(() => {
+    const { crossOrigin } = getOptions ? getOptions(gl) : {}
+    
     const img = new Image()
+    img.crossOrigin = crossOrigin || ''
     img.src = url
     img.addEventListener('load', () => setData(img))
   }, [url])
