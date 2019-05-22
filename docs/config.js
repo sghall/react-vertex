@@ -20,8 +20,8 @@ export const demosList = [
     tag: '',
   },
   {
-    href: '/demo-texture-torus',
-    name: 'Texture Torus',
+    href: '/demo-attenuated-light',
+    name: 'Attenuated Light',
     tag: '',
   },
   {

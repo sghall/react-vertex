@@ -12,7 +12,7 @@ function PointLight() {
   const { width } = useMeasure(container)
 
   return (
-    <DemoWrapper src="demos/TextureTorus">
+    <DemoWrapper src="demos/AttenuatedLight">
       <div ref={container}>
         <Canvas
           antialias
