@@ -1,14 +1,23 @@
 import { useMemo, useEffect } from 'react'
+import { useSceneNode } from '..'
 
-export function useUniformSampler2d(gl, program, name, texture, unit) {
+export function useUniformSampler2d(gl, program, name, texture) {
+  const scene = useSceneNode()
+
+  const unit = useMemo(() => {
+    return scene.getTextureUnit(texture)
+  }, [scene, texture])
+
   const memoized = useMemo(() => {
     const location = gl.getUniformLocation(program, name)
     gl.uniform1i(location, unit)
+
     return location
   }, [gl, program, name, unit])
 
-  gl.activeTexture(gl[`TEXTURE${unit}`])
-  gl.bindTexture(gl.TEXTURE_2D, texture)
+  useEffect(() => {
+    return () => scene.releaseTextureUnit(unit)
+  }, [scene, unit])
 
   return memoized
 }

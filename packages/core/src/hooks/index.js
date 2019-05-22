@@ -30,6 +30,11 @@ export function useWebGLContext() {
   return context.scene.context
 }
 
+export function useSceneNode() {
+  const context = useContext(ReactVertexContext)
+  return context.scene
+}
+
 export function useCanvas() {
   const context = useContext(ReactVertexContext)
 

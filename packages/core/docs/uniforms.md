@@ -39,7 +39,7 @@ import {
 } from '@react-vertex/core'
 ```
 
-#### `useUniformSampler2d(gl, program, name, texture, unit)` => `uniformLocation`
+#### `useUniformSampler2d(gl, program, name, texture)` => `uniformLocation`
 
 React hook for setting up a sampler uniform to make a texture available in your shader.
 
@@ -52,8 +52,6 @@ React hook for setting up a sampler uniform to make a texture available in your 
 `name`: String name of the uniform as used in the shaders for the supplied program.
 
 `texture`: a [WebGLTexture](https://developer.mozilla.org/en-US/docs/Web/API/WebGLTexture) to bind to.
-
-`unit`: An integer. Specifies the unit (slot) where the texture is accessed.
 
 ###### Returns:
 
@@ -69,7 +67,7 @@ import tilesDiffUrl from 'static/textures/tiles_diff.png'
   const program = useProgram(gl, vert, frag)
 
   const [texDiff] = useTexture2d(gl, tilesDiffUrl)
-  useUniformSampler2d(gl, program, 'texDiff', texDiff, 0) // tell program to read the from unit 0
+  useUniformSampler2d(gl, program, 'texDiff', texDiff)
 ...
 
 ```

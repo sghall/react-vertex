@@ -1,4 +1,5 @@
 import throttle from 'lodash.throttle'
+import warn from 'warning'
 import Node from './GraphNode'
 import {
   isCameraNode,
@@ -40,22 +41,44 @@ export class SceneNode extends Node {
   constructor(canvas, extensions, attrs) {
     super()
 
-    const context = canvas.getContext('webgl', attrs)
+    const gl = canvas.getContext('webgl', attrs)
 
-    this.context = context
+    this.maxTextures = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS)
+
+    this.context = gl
     this.element = canvas
     this.extensions = extensions.map(ext => {
-      return context.getExtension(ext)
+      return gl.getExtension(ext)
     })
   }
 
   [isSceneNode] = true
+  extensions = {}
   renderOnUpdate = false
   clearColor = [0, 0, 0, 1]
-  activeAttributes = null
-  extensions = {}
 
   pointLights = new PointLights()
+
+  textureUnits = {}
+
+  getTextureUnit(texture) {
+    for (let unit = 0; unit < this.maxTextures; unit++) {
+      if (!this.textureUnits[unit]) {
+        this.textureUnits[unit] = texture
+        return unit
+      }
+    }
+
+    warn(false, `Max textures(${this.maxTextures}) exceeded.`)
+
+    return this.maxTextures - 1
+  }
+
+  releaseTextureUnit(unit) {
+    delete this.textureUnits[unit]
+  }
+
+  activeAttributes = null
 
   render = () => {
     const gl = this.context
@@ -65,6 +88,11 @@ export class SceneNode extends Node {
 
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    Object.keys(this.textureUnits).forEach(unit => {
+      gl.activeTexture(gl[`TEXTURE${unit}`])
+      gl.bindTexture(gl.TEXTURE_2D, this.textureUnits[unit])
+    })
 
     const needsMatrixUpdate = this.needsMatrixUpdate === true
 
