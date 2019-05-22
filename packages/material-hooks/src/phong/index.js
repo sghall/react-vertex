@@ -49,7 +49,7 @@ export function useTexturedPhong(textureUrl, na, ns, ka, ks) {
   usePointLightUniforms(gl, program)
 
   const [mapKd] = useTexture2d(gl, textureUrl)
-  useUniformSampler2d(gl, program, 'mapKd', mapKd, 0)
+  useUniformSampler2d(gl, program, 'mapKd', mapKd)
 
   useUniform1f(gl, program, 'uNs', ns || defaultNs)
   useUniform1f(gl, program, 'uNa', na || defaultNa)
@@ -69,7 +69,7 @@ export function useAttenuatedPhong(lightPosition, texDiffUrl) {
   useUniform3fv(gl, program, 'uLightPosition', lightPosition)
 
   const [texDiff] = useTexture2d(gl, texDiffUrl)
-  useUniformSampler2d(gl, program, 'texDiff', texDiff, 0)
+  useUniformSampler2d(gl, program, 'texDiff', texDiff)
 
   return program
 }
