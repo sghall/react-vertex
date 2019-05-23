@@ -67,7 +67,7 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "glslify": "^7.0.0",
     "glslify-loader": "^2.0.0",
-    "lerna": "^3.13.4",
+    "lerna": "^3.14.1",
     "next": "^8.0.3",
     "next-images": "^1.1.1",
     "prettier": "^1.16.4",
