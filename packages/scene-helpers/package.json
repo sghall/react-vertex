@@ -23,7 +23,8 @@
     "@react-vertex/color-hooks": "^1.7.0",
     "prop-types": "^15.7.2",
     "react-color": "^2.17.3",
-    "react-compound-slider": "^2.0.0"
+    "react-compound-slider": "^2.0.0",
+    "react-select": "^2.4.3"
   },
   "publishConfig": {
     "access": "public"
