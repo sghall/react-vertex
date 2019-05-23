@@ -3,7 +3,6 @@ import {
   useUniform1f,
   useUniform2fv,
   useUniform3fv,
-  useTexture2d,
   useWebGLContext,
   useUniformSampler2d,
   usePointLightCount,
@@ -41,14 +40,13 @@ export function useSolidPhong(kd, na, ns, ka, ks) {
 
 const uVScale = [1.0, 1.0]
 
-export function useTexturedPhong(textureUrl, na, ns, ka, ks) {
+export function useTexturedPhong(mapKd, na, ns, ka, ks) {
   const gl = useWebGLContext()
   const [vertShader, fragShader] = usePointLightCount(texVert, texFrag)
   const program = useProgram(gl, vertShader, fragShader)
 
   usePointLightUniforms(gl, program)
 
-  const [mapKd] = useTexture2d(gl, textureUrl)
   useUniformSampler2d(gl, program, 'mapKd', mapKd)
 
   useUniform1f(gl, program, 'uNs', ns || defaultNs)
@@ -62,14 +60,13 @@ export function useTexturedPhong(textureUrl, na, ns, ka, ks) {
   return program
 }
 
-export function useAttenuatedPhong(lightPosition, texDiffUrl) {
+export function useAttenuatedPhong(lightPosition, mapKd) {
   const gl = useWebGLContext()
   const program = useProgram(gl, attVert, attFrag)
 
   useUniform3fv(gl, program, 'uLightPosition', lightPosition)
 
-  const [texDiff] = useTexture2d(gl, texDiffUrl)
-  useUniformSampler2d(gl, program, 'texDiff', texDiff)
+  useUniformSampler2d(gl, program, 'texDiff', mapKd)
 
   return program
 }
