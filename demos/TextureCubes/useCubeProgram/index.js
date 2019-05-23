@@ -11,7 +11,7 @@ export default function CubeMaterial(textureUnit, textureUrl) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
-  const [texture] = useTexture2d(gl, textureUrl)
+  const [texture] = useTexture2d(textureUrl)
   useUniformSampler2d(gl, program, 'texture', texture, textureUnit)
 
   return program
