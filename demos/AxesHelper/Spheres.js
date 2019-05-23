@@ -19,12 +19,12 @@ const P2 = Math.PI * 2
 
 function Spheres({ elapsed, showAxes }) {
   const { indices, vertices, normals } = useSphereGeometry(0.75, 10, 10)
-  
+
   const sphereDiffuse = useHex('#a7a7a7', true)
   const sphereProgram = useSolidPhong(sphereDiffuse, 0.15)
-  
+
   const gl = useWebGLContext()
-  
+
   const positionBuffer = useStaticBuffer(gl, vertices, false, 'F32')
   const position = useAttribute(gl, 3, positionBuffer)
 

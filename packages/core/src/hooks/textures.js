@@ -29,7 +29,7 @@ const defaultPlaceholder = new Uint8Array([0, 0, 0, 1])
 
 export function useTexture2d(url, getOptions) {
   const gl = useWebGLContext()
-  
+
   const [data, setData] = useState(null)
 
   const memoized = useMemo(() => {
