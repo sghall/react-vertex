@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { render } from 'react-dom'
 import { SketchPicker } from 'react-color'
+import Select from 'react-select'
 import { useHex, convertHex } from '@react-vertex/color-hooks'
 import Slider from './Slider'
 
@@ -10,8 +11,8 @@ const theme = {
   border: '1px solid #eee',
 }
 
-const controlsId = 'react-vertex-controls'
-const sliderClass = 'react-vertex-slider-control'
+const controlsId = 'react-vertex-controls-root'
+const controlsClass = 'react-vertex-control'
 
 function useControlsRoot() {
   const memoized = useMemo(() => {
@@ -84,9 +85,9 @@ export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
     }
 
     const [container] = controlsRoot.getElementsByClassName('container')
-    const sliderContainer = document.createElement('div')
-    sliderContainer.classList.add(sliderClass)
-    container.appendChild(sliderContainer)
+    const controlContainer = document.createElement('div')
+    controlContainer.classList.add(controlsClass)
+    container.appendChild(controlContainer)
 
     function ValueSliderApp() {
       return (
@@ -100,12 +101,12 @@ export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
       )
     }
 
-    render(<ValueSliderApp />, sliderContainer)
+    render(<ValueSliderApp />, controlContainer)
 
     return () => {
-      container.removeChild(sliderContainer)
+      container.removeChild(controlContainer)
 
-      const sliders = container.getElementsByClassName(sliderClass)
+      const sliders = container.getElementsByClassName(controlsClass)
 
       if (sliders.length === 0) {
         const root = document.getElementById(controlsId)
@@ -129,15 +130,15 @@ export function useColorSlider(label, hex, noAlpha = false) {
     }
 
     const [container] = controlsRoot.getElementsByClassName('container')
-    const sliderContainer = document.createElement('div')
-    sliderContainer.classList.add(sliderClass)
-    container.appendChild(sliderContainer)
+    const controlContainer = document.createElement('div')
+    controlContainer.classList.add(controlsClass)
+    container.appendChild(controlContainer)
 
     function updateColor(color) {
       setColor(convertHex(color.hex, noAlpha))
     }
 
-    function ColorSliderApp() {
+    function ColorSelectorApp() {
       return (
         <div style={{ padding: 5 }}>
           <div
@@ -154,14 +155,14 @@ export function useColorSlider(label, hex, noAlpha = false) {
       )
     }
 
-    render(<ColorSliderApp />, sliderContainer)
+    render(<ColorSelectorApp />, controlContainer)
 
     return () => {
-      container.removeChild(sliderContainer)
+      container.removeChild(controlContainer)
 
-      const sliders = container.getElementsByClassName(sliderClass)
+      const controls = container.getElementsByClassName(controlsClass)
 
-      if (sliders.length === 0) {
+      if (controls.length === 0) {
         const root = document.getElementById(controlsId)
         document.body.removeChild(root)
       }
@@ -169,4 +170,51 @@ export function useColorSlider(label, hex, noAlpha = false) {
   }, [controlsRoot, label, hex, noAlpha])
 
   return color
+}
+
+export function useSelectControl(label, options) {
+  const [option, setOption] = useState(options[0])
+  const controlsRoot = useControlsRoot()
+
+  useEffect(() => {
+    if (!controlsRoot) {
+      return null
+    }
+
+    const [container] = controlsRoot.getElementsByClassName('container')
+    const selectContainer = document.createElement('div')
+    selectContainer.classList.add(controlsClass)
+    container.appendChild(selectContainer)
+
+    function updateOption(value) {
+      setOption(value)
+    }
+
+    function SelectControlApp() {
+      return (
+        <div style={{ padding: 5 }}>
+          <Select
+            defaultValue={option}
+            onChange={updateOption}
+            options={options}
+          />
+        </div>
+      )
+    }
+
+    render(<SelectControlApp />, selectContainer)
+
+    return () => {
+      container.removeChild(selectContainer)
+
+      const controls = container.getElementsByClassName(controlsClass)
+
+      if (controls.length === 0) {
+        const root = document.getElementById(controlsId)
+        document.body.removeChild(root)
+      }
+    }
+  }, [controlsRoot, label])
+
+  return option
 }
