@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useWebGLContext } from '..'
 
 function applyTextureOptions(gl, texture, data, opts) {
   gl.bindTexture(gl.TEXTURE_2D, texture)
@@ -26,7 +27,9 @@ function applyTextureOptions(gl, texture, data, opts) {
 
 const defaultPlaceholder = new Uint8Array([0, 0, 0, 1])
 
-export function useTexture2d(gl, url, getOptions) {
+export function useTexture2d(url, getOptions) {
+  const gl = useWebGLContext()
+  
   const [data, setData] = useState(null)
 
   const memoized = useMemo(() => {
