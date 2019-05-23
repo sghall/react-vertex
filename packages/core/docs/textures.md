@@ -15,13 +15,11 @@ import {
 } from '@react-vertex/core'
 ```
 
-#### `useTexture2d(gl, url, getOptions?)` => \[`WebGLTexture`, `isLoaded`\]
+#### `useTexture2d(url, getOptions?)` => \[`WebGLTexture`, `isLoaded`\]
 
 React hook for 2d WebGL textures. It returns a texture immediately with a placeholder pixel and updates it when the image loads.
 
 ###### Arguments:
-
-`gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
 
 `url`: The URL of the texture image to load.
 
@@ -53,10 +51,10 @@ import { useWebGLContext, useProgram, useTexture2d, useUniformSampler2d } from '
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
-  const [texDiff] = useTexture2d(gl, tilesDiffUrl, () => {
+  const [texture] = useTexture2d(imageUrl, () => {
     placeholder: new Uint8Array([0, 0, 1, 1])
   })
-  useUniformSampler2d(gl, program, 'texDiff', texDiff, 0) // setup a sampler uniform to read unit 0
+  useUniformSampler2d(gl, program, 'texDiff', texture)
 ...
 
 ```
