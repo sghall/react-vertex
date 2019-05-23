@@ -39,6 +39,7 @@
     "react-jss": "^8.6.1",
     "react-markdown": "^4.0.6",
     "react-reconciler": "0.20.4",
+    "react-select": "^2.4.3",
     "resize-observer-polyfill": "^1.5.1",
     "rgb-hex": "^2.1.0",
     "scheduler": "0.13.2",
