@@ -19,7 +19,7 @@ var getPrecsion = function(value) {
 
 const styles = {
   container: {
-    padding: '5px 20px',
+    padding: '4px 20px',
     border: theme.border,
     color: theme.color,
     backgroundColor: theme.background,
@@ -28,8 +28,8 @@ const styles = {
   },
   textBox: {
     width: '100%',
-    padding: '10px 0px',
-    height: 40,
+    padding: '2px 0px',
+    height: 20,
   },
   sliderBox: {
     width: '100%',

@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { render } from 'react-dom'
-import { SketchPicker } from 'react-color'
+import { CompactPicker } from 'react-color'
 import Select from 'react-select'
 import { useHex, convertHex } from '@react-vertex/color-hooks'
 import Slider from './Slider'
@@ -53,9 +53,6 @@ function useControlsRoot() {
     controlsContainer.style.borderRadius = '4px'
     controlsContainer.style.width = '100%'
     controlsContainer.style.position = 'absolute'
-    controlsContainer.style.maxHeight = '500px'
-    controlsContainer.style.overflowX = 'hidden'
-    controlsContainer.style.overflowY = 'scroll'
     controlsRoot.appendChild(controlsContainer)
 
     button.addEventListener('click', () => {
@@ -150,7 +147,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
           >
             {label}
           </div>
-          <SketchPicker color={hex} onChangeComplete={updateColor} />
+          <CompactPicker color={hex} onChangeComplete={updateColor} />
         </div>
       )
     }
@@ -172,7 +169,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
   return color
 }
 
-export function useSelectControl(label, options) {
+export function useSelectControl(label, height, options) {
   const [option, setOption] = useState(options[0])
   const controlsRoot = useControlsRoot()
 
@@ -183,6 +180,7 @@ export function useSelectControl(label, options) {
 
     const [container] = controlsRoot.getElementsByClassName('container')
     const selectContainer = document.createElement('div')
+    selectContainer.style.height = `${height}px`
     selectContainer.classList.add(controlsClass)
     container.appendChild(selectContainer)
 
@@ -191,9 +189,22 @@ export function useSelectControl(label, options) {
     }
 
     function SelectControlApp() {
+      const customStyles = {
+        menu: (provided) => {
+          console.log('menu', provided)
+          return {...provided, zIndex: 50010 }
+        },
+        singleValue: (provided) => {
+          console.log('singleValue', provided)
+          return {...provided}
+        },
+      }
+
+
       return (
         <div style={{ padding: 5 }}>
           <Select
+            styles={customStyles}
             defaultValue={option}
             onChange={updateOption}
             options={options}
