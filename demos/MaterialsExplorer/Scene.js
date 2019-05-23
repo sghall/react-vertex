@@ -5,7 +5,7 @@ import { useCanvasSize, useRender, usePointLight } from '@react-vertex/core'
 import { useHex } from '@react-vertex/color-hooks'
 import Sphere from './Sphere'
 import Light from './Light'
-import { AxesHelper } from '@react-vertex/scene-helpers'
+import { AxesHelper, useSelectControl } from '@react-vertex/scene-helpers'
 
 function PointLightScene() {
   const { width, height } = useCanvasSize()
@@ -16,16 +16,21 @@ function PointLightScene() {
   useOrbitControls(camera)
 
   const [rLightPosition, setRLightPostion] = useState([0, 0, 0])
-  const [gLightPosition, setGLightPostion] = useState([0, 0, 0])
-  const [bLightPosition, setBLightPostion] = useState([0, 0, 0])
+
+  const value1 = useSelectControl('Material: ', 50, [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ])
+  const value2 = useSelectControl('Material: ', 50, [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ])
 
   const r = useHex('#ff0000', true)
-  const g = useHex('#00ff00', true)
-  const b = useHex('#0000ff', true)
 
   usePointLight(r, rLightPosition)
-  usePointLight(g, gLightPosition)
-  usePointLight(b, bLightPosition)
 
   const renderScene = useRender()
 
@@ -39,8 +44,6 @@ function PointLightScene() {
       const k2 = 0.25 + Math.cos(time) * 21
 
       setRLightPostion([k1, k1, k2])
-      setGLightPostion([k1, k2, k1])
-      setBLightPostion([k2, k1, k1])
     })
 
     return () => timerLoop.stop()
@@ -51,8 +54,6 @@ function PointLightScene() {
       <AxesHelper size={30} />
       <Sphere lightPosition={rLightPosition} />
       <Light color={r} position={rLightPosition} />
-      <Light color={g} position={gLightPosition} />
-      <Light color={b} position={bLightPosition} />
     </camera>
   )
 }
