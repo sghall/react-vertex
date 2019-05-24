@@ -4,13 +4,15 @@ Hooks-based WebGL Library for React
 
 **This library is experimental.**
 
-I'm working on this in my spare time as a way to try out hooks and learn more about WebGL. It's unlikely to be stable until late 2019. There's still some hard-coded WebGL parameters and it lacks some key features like events. The materials are a WIP.  If you have some WebGL/GLSL chops or experience with 3D engines and want to collaborate, drop a line in the issues.
+This started as a little experiment and quickly got out of hand. I've been working on this to try out hooks and learn more about WebGL. It's looking pretty good but it's unlikely to be truly stable until late 2019.  I've got a project I would like to use it for so I'm motivated to take care of the items on the roadmap over the next few months. Right now, there's still some major API challenges, hard-coded WebGL parameters in a few spots and it lacks some key features like events. The materials are pretty crude and should be considered a WIP.  
+
+If you have some WebGL/GLSL chops or experience with 3D engines and want to collaborate, drop a line in the issues.
 
 ### [Documentation and Examples](https://react-vertex.com)
 
 ```npm install @react-vertex/core```
 
-### What's in the box?
+### What's been built
 - Scene renderer using React Reconciler
 - Scene graph which handles matrix multiplication
 - Basic lighting system (only point lights so far)
@@ -80,7 +82,7 @@ React hooks for working with materials in React Vertex.
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/@react-vertex/math-hooks)](https://bundlephobia.com/result?p=@react-vertex/math-hooks)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/math-hooks.svg)](https://www.npmjs.com/package/@react-vertex/math-hooks)
 
-React hooks for working with vectors and matrices in React Vertex. 
+React hooks for working with vectors and matrices in React Vertex. Almost all of this is gl-matrix so this adds very little to your bundle.  The core also relies on gl-matrix.
 
 ```npm install @react-vertex/math-hooks```
 
@@ -92,23 +94,11 @@ React hooks for working with vectors and matrices in React Vertex.
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/@react-vertex/orbit-camera)](https://bundlephobia.com/result?p=@react-vertex/orbit-camera)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/orbit-camera.svg)](https://www.npmjs.com/package/@react-vertex/orbit-camera)
 
-React hooks for a basic orbit camera and controls.
+React hooks for a basic orbit camera and controls. Almost all of this is gl-matrix so this adds very little to your bundle.  The core also relies on gl-matrix.
 
 ```npm install @react-vertex/orbit-camera```
 
 ##### [Documentation for Orbit Camera](https://react-vertex.com/docs-orbit-camera/)
-
-### @react-vertex/color-hooks
-
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/sghall/react-vertex/blob/master/packages/color-hooks/LICENSE)
-[![bundlephobia](https://badgen.net/bundlephobia/minzip/@react-vertex/color-hooks)](https://bundlephobia.com/result?p=@react-vertex/color-hooks)
-[![npm version](https://img.shields.io/npm/v/@react-vertex/color-hooks.svg)](https://www.npmjs.com/package/@react-vertex/color-hooks)
-
-Hooks and utility functions to convert colors to WebGL friendly formats.
-
-```npm install @react-vertex/color-hooks```
-
-#### [Documentation for Color Hooks](https://react-vertex.com/docs-color-hooks/)
 
 ## How does it work?
 
