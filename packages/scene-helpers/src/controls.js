@@ -14,6 +14,11 @@ const theme = {
 const controlsId = 'react-vertex-controls-root'
 const controlsClass = 'react-vertex-control'
 
+const textStyles = {
+  fontSize: '0.7rem',
+  fontFamily: 'Roboto, Arial, Helvetica, Sans-Serif',
+}
+
 function useControlsRoot() {
   const memoized = useMemo(() => {
     const existing = document.getElementById(controlsId)
@@ -141,8 +146,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
           <div
             style={{
               paddingLeft: 15,
-              fontSize: '0.6rem',
-              fontFamily: 'Roboto, Arial, Sans-Serif',
+              ...textStyles
             }}
           >
             {label}
@@ -169,7 +173,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
   return color
 }
 
-export function useSelectControl(label, height, options) {
+export function useSelectControl(label, options) {
   const [option, setOption] = useState(options[0])
   const controlsRoot = useControlsRoot()
 
@@ -180,7 +184,6 @@ export function useSelectControl(label, height, options) {
 
     const [container] = controlsRoot.getElementsByClassName('container')
     const selectContainer = document.createElement('div')
-    selectContainer.style.height = `${height}px`
     selectContainer.classList.add(controlsClass)
     container.appendChild(selectContainer)
 
@@ -190,16 +193,13 @@ export function useSelectControl(label, height, options) {
 
     function SelectControlApp() {
       const customStyles = {
-        menu: (provided) => {
-          console.log('menu', provided)
+        menu: provided => {
           return {...provided, zIndex: 50010 }
         },
-        singleValue: (provided) => {
-          console.log('singleValue', provided)
-          return {...provided}
+        container: provided => {
+          return {...provided, ...textStyles }
         },
       }
-
 
       return (
         <div style={{ padding: 5 }}>
@@ -208,6 +208,14 @@ export function useSelectControl(label, height, options) {
             defaultValue={option}
             onChange={updateOption}
             options={options}
+            theme={theme => ({
+              ...theme,
+              colors: {
+                ...theme.colors,
+                primary25: '#eee',
+                primary: 'rgb(155,155,155)',
+              },
+            })}
           />
         </div>
       )
