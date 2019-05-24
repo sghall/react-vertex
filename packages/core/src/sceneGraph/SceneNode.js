@@ -181,6 +181,7 @@ export class SceneNode extends Node {
       }
 
       this.activeMaterial = nextMaterial
+      this.activeAttributes = null
 
       gl.useProgram(this.activeMaterial.program)
 
@@ -200,7 +201,12 @@ export class SceneNode extends Node {
       if (node.attributes !== this.activeAttributes) {
         for (const attr in this.activeMaterial.attributes) {
           const location = this.activeMaterial.attributes[attr]
-          node.attributes[attr](location)
+
+          if (!node.attributes[attr]) {
+            console.log(attr, node, this.activeMaterial)
+          } else {
+            node.attributes[attr](location)
+          }
         }
 
         this.activeAttributes = node.attributes
