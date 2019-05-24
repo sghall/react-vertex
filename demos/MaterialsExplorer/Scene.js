@@ -52,9 +52,7 @@ function PointLightScene() {
 
   return (
     <camera view={camera.view} projection={camera.projection}>
-      <Material textureUrl={tiles}>
-        {toggle ? <Sphere /> : null}
-      </Material>
+      <Material textureUrl={tiles}>{toggle ? <Sphere /> : null}</Material>
     </camera>
   )
   // return (

@@ -1,5 +1,9 @@
 import React, { memo, useMemo, useEffect } from 'react'
-import { useWebGLContext, useStaticBuffer, useAttribute  } from '@react-vertex/core'
+import {
+  useWebGLContext,
+  useStaticBuffer,
+  useAttribute,
+} from '@react-vertex/core'
 import { useSphereGeometry } from '@react-vertex/geometry-hooks'
 import { useValueSlider } from '@react-vertex/scene-helpers'
 

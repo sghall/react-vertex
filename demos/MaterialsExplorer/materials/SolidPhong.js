@@ -7,15 +7,11 @@ function SolidPhong({ children }) {
   const kd = useHex('#16A5A5', true)
   const program = useSolidPhong(kd, 0.25)
 
-  return (
-    <material program={program}>
-      {children}
-    </material>
-  )
+  return <material program={program}>{children}</material>
 }
 
 SolidPhong.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default SolidPhong

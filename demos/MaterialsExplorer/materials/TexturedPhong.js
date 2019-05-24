@@ -7,11 +7,7 @@ function TexturedPhong({ children, textureUrl }) {
   const [texture] = useTexture2d(textureUrl)
   const program = useTexturedPhong(texture, 0.25)
 
-  return (
-    <material program={program}>
-      {children}
-    </material>
-  )
+  return <material program={program}>{children}</material>
 }
 
 TexturedPhong.propTypes = {
