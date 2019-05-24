@@ -9,10 +9,10 @@ function Sphere() {
 
   const kd = useColorSlider('Diffuse Color:', '#9B9B9B', true)
 
-  const ks = useColorSlider('Specular Color:', '#F0F0F0', true)
-  const ns = useValueSlider('Shininess:', 600, 0, 1000, 5)
+  const ks = useColorSlider('Specular Color:', '#999999', true)
+  const ns = useValueSlider('Shininess:', 500, 0, 1000, 5)
 
-  const ka = useColorSlider('Ambient Color:', '#808080', true)
+  const ka = useColorSlider('Ambient Color:', '#FFFFFF', true)
   const na = useValueSlider('Ambient Level:', 0.2, 0, 1, 0.01)
 
   const program = usePhongSolid(kd, na, ns, ka, ks)
