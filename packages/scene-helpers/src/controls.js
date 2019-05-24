@@ -212,6 +212,7 @@ export function useSelectControl(label, options) {
             {label}
           </div>
           <Select
+            isSearchable={false}
             styles={customStyles}
             defaultValue={option}
             onChange={updateOption}
