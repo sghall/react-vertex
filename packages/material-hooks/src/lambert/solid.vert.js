@@ -33,7 +33,7 @@ export default glsl`
     vec3 color = vec3(0.0);
     vec3 light = vec3(0.0);
     vec4 lightPosition = vec4(0.0);
-    vec3 ambient = uKa * uNa;
+    vec3 ambient = uKd * uKa * uNa;
 
     for (int i = 0; i < NUM_POINT_LIGHTS; i++) {
       lightPosition = viewMatrix * vec4(pointLp[i], 1.0);

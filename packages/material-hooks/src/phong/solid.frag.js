@@ -22,7 +22,7 @@ export default glsl`
     vec3 eye = normalize(vEye);
     vec3 reflection = vec3(0.0);
     vec3 normal = normalize(vNormal);
-    vec3 ambient = uKa * uNa;
+    vec3 ambient = uKd * uKa * uNa;
 
     for (int i = 0; i < NUM_POINT_LIGHTS; i++) {
       light = normalize(vRay[i]);
