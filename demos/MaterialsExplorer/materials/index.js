@@ -1,4 +1,6 @@
 export { default as PhongSolid } from './PhongSolid'
 export { default as PhongTextured } from './PhongTextured'
+export { default as LambertSolid } from './LambertSolid'
+export { default as LambertTextured } from './LambertTextured'
 export { default as BasicSolid } from './BasicSolid'
 export { default as BasicTextured } from './BasicTextured'

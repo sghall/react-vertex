@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { useSolidLambert } from '@react-vertex/material-hooks'
+import { useLambertSolid } from '@react-vertex/material-hooks'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
 import { useColorSlider, useValueSlider } from '@react-vertex/scene-helpers'
 
@@ -12,7 +12,7 @@ function Sphere() {
   const ka = useColorSlider('Ambient Color:', '#808080', true)
   const na = useValueSlider('Ambient Level:', 0.2, 0, 1, 0.01)
 
-  const program = useSolidLambert(kd, na, ka)
+  const program = useLambertSolid(kd, na, ka)
 
   return (
     <material program={program}>

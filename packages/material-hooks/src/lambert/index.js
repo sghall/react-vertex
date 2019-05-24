@@ -13,19 +13,21 @@ import solidFrag from './solid.frag'
 import texturedVert from './textured.vert'
 import texturedFrag from './textured.frag'
 
+const defaultKd = [1.0, 1.0, 1.0]
 const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
-export function useSolidLambert(kd, na, ka) {
+export function useLambertSolid(kd, na, ka) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(solidVert, solidFrag)
   const program = useProgram(gl, vert, frag)
 
   usePointLightUniforms(gl, program)
 
-  useUniform3fv(gl, program, 'uKd', kd)
-  useUniform3fv(gl, program, 'uKa', ka)
-  useUniform1f(gl, program, 'uNa', na)
+  useUniform1f(gl, program, 'uNa', na || defaultNa)
+  useUniform3fv(gl, program, 'uKa', ka || defaultKa)
+
+  useUniform3fv(gl, program, 'uKd', kd || defaultKd)
 
   return program
 }
