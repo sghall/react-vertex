@@ -7,16 +7,16 @@ import {
   usePointLightCount,
   usePointLightUniforms,
 } from '@react-vertex/core'
-import vert from './vert'
-import frag from './frag'
-import texVert from './textured.vert'
-import texFrag from './textured.frag'
+import solidVert from './solid.vert'
+import solidFrag from './solid.frag'
+import texturedVert from './textured.vert'
+import texturedFrag from './textured.frag'
 
 const defaultKd = [1, 1, 1]
 
 export function useBasicSolid(kd = defaultKd) {
   const gl = useWebGLContext()
-  const program = useProgram(gl, vert, frag)
+  const program = useProgram(gl, solidVert, solidFrag)
 
   useUniform3fv(gl, program, 'uKd', kd)
 
@@ -27,7 +27,7 @@ const uVScale = [1.0, 1.0]
 
 export function useBasicTextured(mapKd) {
   const gl = useWebGLContext()
-  const [vertShader, fragShader] = usePointLightCount(texVert, texFrag)
+  const [vertShader, fragShader] = usePointLightCount(texturedVert, texturedFrag)
   const program = useProgram(gl, vertShader, fragShader)
 
   usePointLightUniforms(gl, program)
