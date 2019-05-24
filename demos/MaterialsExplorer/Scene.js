@@ -30,6 +30,7 @@ function Scene() {
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 60])
+    c.setRotationY(45)
   })
   useOrbitControls(camera)
 
@@ -57,8 +58,8 @@ function Scene() {
 
   const Geometry = useSelectControl('Geometry: ', [
     { value: Sphere, label: 'Sphere' },
-    { value: Box, label: 'Box' },
     { value: Torus, label: 'Torus' },
+    { value: Box, label: 'Box' },
     { value: Cylinder, label: 'Cylinder' },
     { value: Circle, label: 'Circle' },
     { value: Plane, label: 'Plane' },
