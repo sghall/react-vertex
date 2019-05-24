@@ -16,9 +16,10 @@ I'm working on this in my spare time as a way to try out hooks and learn more ab
 - Basic lighting system (only point lights so far)
 - Orbit camera and controls
 - Hooks for geometries and materials
-- Data Gui like dev controls and scene helpers
+- Dat Gui like dev controls and scene helpers
 
 ### Roadmap
+- Particle Systems / GPGPU
 - Use quaternions for rotations
 - Optimize matrix calculations
 - More lighting options
@@ -154,7 +155,7 @@ Of course, you can create your own custom components to build up that document h
         </group>
       ) : null}
     </group>
-    <SeaBass illTempered={false} />
+    <SeaBass illTempered={true} />
   </camera>
 ```
 
@@ -224,28 +225,28 @@ import { useHex } from '@react-vertex/color-hooks'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
 import { useBasicSolid } from '@react-vertex/material-hooks'
 
-function Light({ lightPosition }) {
+function Example({ position }) {
   const sphere = useSphereElements(0.75, 10, 10)
   const diffuse = useHex('#ffa500', true)
   const program = useBasicSolid(diffuse)
 
   return (
     <material program={program}>
-      <geometry position={lightPosition} {...sphere} />
+      <geometry position={position} {...sphere} />
     </material>
   )
 }
 
-Light.propTypes = {
-  lightPosition: PropTypes.array.isRequired,
+Example.propTypes = {
+  position: PropTypes.array.isRequired,
 }
 
-export default Light
+export default Example
 ```
 
 ### <geometry>
 
-The `<geometry>` element defines the attributes and several other parameters for drawing. You can also set the `position`, `rotation` and `scale` (they are applied in that order). The nearest `<material>` ancestor will define what program is applied to the geometries.  Probably, the easiest way to get started is to use the hooks from `@react-vertex/geometry-hooks`. 
+The `<geometry>` element defines the attributes and several other parameters for drawing. You can also set the `position`, `rotation` and `scale`. The nearest `<material>` ancestor will define what program is applied to the geometries.  Probably, the easiest way to get started is to use the hooks from `@react-vertex/geometry-hooks`. 
 
 ```js
 import React from 'react'
@@ -258,7 +259,6 @@ function Boxes() {
   const boxElements = useBoxElements(10, 10, 10)
 
   const r1 = useVector3(PI / 4, PI, 0)
-  const r2 = useVector3(0, PI, PI / 4)
 
   const p1 = useVector3(10, 0, 0)
   const p2 = useVector3(20, 0, 0)
@@ -267,10 +267,10 @@ function Boxes() {
 
   return (
     <group rotation={r1}>
-      <geometry rotation={r2} position={p1} {...boxElements} />
-      <geometry rotation={r2} position={p2} {...boxElements} />
-      <geometry rotation={r2} position={p3} {...boxElements} />
-      <geometry rotation={r2} position={p4} {...boxElements} />
+      <geometry position={p1} {...boxElements} />
+      <geometry position={p2} {...boxElements} />
+      <geometry position={p3} {...boxElements} />
+      <geometry position={p4} {...boxElements} />
     </group>
   )
 }
@@ -309,18 +309,20 @@ function Boxes() {
     [indexBuffer, geometry.indices.length, position, normal, uv],
   )
 
+  const r1 = useVector3(PI / 4, PI, 0)
+
   const p1 = useVector3(10, 0, 0)
   const p2 = useVector3(20, 0, 0)
   const p3 = useVector3(30, 0, 0)
   const p4 = useVector3(40, 0, 0)
 
   return (
-    <Fragment>
+    <group rotation={r1}>
       <geometry position={p1} {...boxElements} />
       <geometry position={p2} {...boxElements} />
       <geometry position={p3} {...boxElements} />
       <geometry position={p4} {...boxElements} />
-    </Fragment>
+    </group>
   )
 }
 ```
@@ -351,7 +353,7 @@ function Scene() {
 
 ### Rendering when camera updates
 
-If you want to render when the camera moves. You can do something like the below example. If you look at the "Tuna Wireframe" example, it updates when the camera changes and ALSO sets the `renderOnUpdate` prop on the canvas to true to make sure it renders when the controls in the scene update.  If you are creating more of an "app" with less frequent updates that's a pretty efficient way to approach it.
+If you want to render when the camera moves. You can do something like the below example. If you look at the "Tuna Wireframe" example, it updates when the camera changes and ALSO sets the `renderOnUpdate` prop on the canvas to true to make sure it renders when the controls in the scene update.  If you are creating more of an app that has less frequent state updates and mainly responding to use input that's a pretty efficient way to approach it.
 
 ```js
 import React, { useEffect } from 'react'
@@ -394,14 +396,7 @@ First, note that the root of the repo is a nextjs app.  There's a `pages` folder
 
 1. Probably easiest to copy an existing demo in the `demos` folder and give it a new name (something short and sweet that is at least vaguely descriptive).  **Pro-tip:** Get the existing demo running at the new location and THEN add your demo code.
 
-2. Add a page (copy an existing) to the `pages` folder using the convention `demo-my-demo.js` (this a static site with no dynamic pages that the reason for the "demo-" prefix). All of the code should be in the `demos` folder so someone can see the whole thing without hunting around and copy it to their environment etc. So just make a minimal page pointing to your demo...
-
-```js
-// inside pages/demo-my-demo.js
-import MyDemo from 'demos/MyDemo'
-
-export default MyDemo
-```
+2. Add a page (copy an existing) to the `pages` folder using the convention `demo-my-demo.js` (this a static site with no dynamic pages that the reason for the "demo-" prefix). All of the code should be in the `demos` folder so someone can see the whole thing without hunting around and copy it to their environment etc. So just make a minimal page pointing to your demo. See the existing pages for an example.
 
 3. Add your demo to `demosList` in the `docs/config.js` so it will appear on the sidebar menu.
 

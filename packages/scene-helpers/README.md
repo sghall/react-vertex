@@ -6,6 +6,8 @@
 
 ### [Documentation and Examples](https://react-vertex.com)
 
+This package contains some tools to help make React Vertex development easier. These tools are meant for development only and are not intended for use in a production application.
+
 ##### Install via npm:
 ```js
 npm install @react-vertex/scene-helpers
@@ -27,7 +29,7 @@ import {
 
 #### `useValueSlider(label, value, min, max, step)` => `number`
 
-React hooks to create a value slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
+React hook to create a value slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
 
 ###### Arguments:
 
@@ -70,11 +72,11 @@ function Example() {
 
 #### `useColorPicker(label, hexColor, noAlpha?)` => `array`
 
-React hooks to create a color slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
+React hook to create a color picker in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
 
 ###### Arguments:
 
-`label`: String label for the slider.
+`label`: String label for the picker.
 
 `hexColor`: String hex color for initial color.
 
@@ -116,13 +118,13 @@ function Example() {
 
 #### `useSelectControl(label, options)` => `array`
 
-React hooks to create a select control in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
+React hook to create a select control in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
 
 ###### Arguments:
 
 `label`: String label for the slider.
 
-`options`: An array of `{ label, value }` objects.
+`options`: An array of `{ label, value }` objects. The **hook will not update** when this argument changes so you can provide the options inline.
 
 ###### Return Values:
 
