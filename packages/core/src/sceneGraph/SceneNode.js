@@ -180,11 +180,10 @@ export class SceneNode extends Node {
           gl.disableVertexAttribArray(nextMaterial.attribCount + i)
         }
       }
-    
 
       this.activeAttribCount = nextMaterial.attribCount
       this.activeAttributes = null
-      
+
       activeMaterial = nextMaterial
 
       gl.useProgram(activeMaterial.program)
@@ -211,11 +210,7 @@ export class SceneNode extends Node {
         this.activeAttributes = node.attributes
       }
 
-      gl.uniformMatrix4fv(
-        activeMaterial.uniforms.m,
-        false,
-        node.worldMatrix,
-      )
+      gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
 
       if (node.drawArrays) {
         gl.drawArrays(
@@ -262,11 +257,7 @@ export class SceneNode extends Node {
         this.activeAttributes = node.attributes
       }
 
-      gl.uniformMatrix4fv(
-        activeMaterial.uniforms.m,
-        false,
-        node.worldMatrix,
-      )
+      gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
@@ -283,7 +274,12 @@ export class SceneNode extends Node {
     }
 
     for (let i = 0; i < node.children.length; i++) {
-      this.renderNode(node.children[i], activeCamera, activeMaterial, needsMatrixUpdate)
+      this.renderNode(
+        node.children[i],
+        activeCamera,
+        activeMaterial,
+        needsMatrixUpdate,
+      )
     }
   }
 }

@@ -34,9 +34,7 @@ export default class Canvas extends Component {
     this.contextObject = { scene: this.sceneNode, width, height }
 
     ReactVertexReconciler.updateContainer(
-      <ReactVertexContext.Provider
-        value={this.contextObject}
-      >
+      <ReactVertexContext.Provider value={this.contextObject}>
         {children}
       </ReactVertexContext.Provider>,
       this.container,
@@ -53,9 +51,7 @@ export default class Canvas extends Component {
     this.contextObject.height = height
 
     ReactVertexReconciler.updateContainer(
-      <ReactVertexContext.Provider
-        value={this.contextObject}
-      >
+      <ReactVertexContext.Provider value={this.contextObject}>
         {children}
       </ReactVertexContext.Provider>,
       this.container,
