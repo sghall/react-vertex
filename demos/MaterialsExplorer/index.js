@@ -7,12 +7,12 @@ import Scene from './Scene'
 
 const clearColor = convertHex('#323334')
 
-function PointLight() {
+function MaterialsExplorer() {
   const container = useRef()
   const { width } = useMeasure(container)
 
   return (
-    <DemoWrapper src="demos/PointLightsPhong">
+    <DemoWrapper src="demos/MaterialsExplorer">
       <div ref={container}>
         <Canvas
           antialias
@@ -33,4 +33,4 @@ function PointLight() {
   )
 }
 
-export default PointLight
+export default MaterialsExplorer

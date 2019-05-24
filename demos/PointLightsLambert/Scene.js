@@ -7,7 +7,7 @@ import Sphere from './Sphere'
 import Light from './Light'
 import { AxesHelper } from '@react-vertex/scene-helpers'
 
-function PointLightScene() {
+function Scene() {
   const { width, height } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
@@ -57,6 +57,6 @@ function PointLightScene() {
   )
 }
 
-PointLightScene.propTypes = {}
+Scene.propTypes = {}
 
-export default memo(PointLightScene)
+export default memo(Scene)

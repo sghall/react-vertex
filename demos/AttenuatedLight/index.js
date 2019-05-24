@@ -7,7 +7,7 @@ import Scene from './Scene'
 
 const clearColor = convertHex('#323334')
 
-function PointLight() {
+function AttenuatedLight() {
   const container = useRef()
   const { width } = useMeasure(container)
 
@@ -33,4 +33,4 @@ function PointLight() {
   )
 }
 
-export default PointLight
+export default AttenuatedLight
