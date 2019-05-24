@@ -69,7 +69,7 @@ class OrbitCamera {
     vec3.copy(this.normal, normal)
   }
 
-  setRotX(rotX) {
+  setRotationX(rotX) {
     this.rotX = rotX
 
     if (this.rotX > 360 || this.rotX < -360) {
@@ -79,7 +79,7 @@ class OrbitCamera {
     this.update()
   }
 
-  incRotX(rotX) {
+  incRotationX(rotX) {
     this.rotX += rotX
 
     if (this.rotX > 360 || this.rotX < -360) {
@@ -89,7 +89,7 @@ class OrbitCamera {
     this.update()
   }
 
-  setRotY(rotY) {
+  setRotationY(rotY) {
     this.rotY = rotY
 
     if (this.rotY > 360 || this.rotY < -360) {
@@ -99,7 +99,7 @@ class OrbitCamera {
     this.update()
   }
 
-  incRotY(rotY) {
+  incRotationY(rotY) {
     this.rotY += rotY
 
     if (this.rotY > 360 || this.rotY < -360) {
