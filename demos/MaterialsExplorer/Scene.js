@@ -1,9 +1,11 @@
-import React, { memo, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender, usePointLight } from '@react-vertex/core'
 import { useHex } from '@react-vertex/color-hooks'
-import Sphere from './Sphere'
+import { Sphere } from './geometries'
+import { SolidPhong, TexturedPhong } from './materials'
+import tiles from 'static/textures/tiles_pink_diff.png'
 import Light from './Light'
 import { AxesHelper, useSelectControl } from '@react-vertex/scene-helpers'
 
@@ -17,18 +19,17 @@ function PointLightScene() {
 
   const [rLightPosition, setRLightPostion] = useState([0, 0, 0])
 
-  const value1 = useSelectControl('Material: ', 50, [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ])
-  const value2 = useSelectControl('Material: ', 50, [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
+  const { value: Material } = useSelectControl('Material: ', [
+    { value: SolidPhong, label: 'Solid Phong' },
+    { value: TexturedPhong, label: 'Textured Phong' },
   ])
 
-  const r = useHex('#ff0000', true)
+  const { value: toggle } = useSelectControl('Toggle: ', [
+    { value: true, label: 'True' },
+    { value: false, label: 'False' },
+  ])
+
+  const r = useHex('#ffffff', true)
 
   usePointLight(r, rLightPosition)
 
@@ -38,7 +39,7 @@ function PointLightScene() {
     const timerLoop = timer(elapsed => {
       renderScene()
 
-      const time = elapsed * 0.0006
+      const time = elapsed * 0.006
 
       const k1 = 0.25 + Math.sin(time) * 21
       const k2 = 0.25 + Math.cos(time) * 21
@@ -51,13 +52,22 @@ function PointLightScene() {
 
   return (
     <camera view={camera.view} projection={camera.projection}>
-      <AxesHelper size={30} />
-      <Sphere lightPosition={rLightPosition} />
-      <Light color={r} position={rLightPosition} />
+      <Material textureUrl={tiles}>
+        {toggle ? <Sphere /> : null}
+      </Material>
     </camera>
   )
+  // return (
+  //   <camera view={camera.view} projection={camera.projection}>
+  //     <AxesHelper size={30} />
+  //     <Material textureUrl={tiles}>
+  //       {toggle ? <Sphere /> : null}
+  //     </Material>
+  //     <Light color={r} position={rLightPosition} />
+  //   </camera>
+  // )
 }
 
 PointLightScene.propTypes = {}
 
-export default memo(PointLightScene)
+export default PointLightScene
