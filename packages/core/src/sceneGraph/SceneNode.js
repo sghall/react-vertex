@@ -167,7 +167,20 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isMaterialNode] === true) {
-      activeMaterial = this.setMaterial(gl, node)
+      const nextMaterial = this.setMaterial(gl, node)
+
+      if (activeMaterial) {
+        const diff = activeMaterial.attribCount - nextMaterial.attribCount
+        console.log('diff: ', diff)
+        if (diff > 0) {
+          console.log(diff)
+          for (let i = 1; i <= diff; i++) {
+            gl.disableVertexAttribArray(nextMaterial.attribCount)
+          }
+        }
+      }
+
+      activeMaterial = nextMaterial
 
       gl.useProgram(activeMaterial.program)
 
