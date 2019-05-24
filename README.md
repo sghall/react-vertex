@@ -4,13 +4,16 @@ Hooks-based WebGL Library for React
 
 **This library is experimental.**
 
+```npm install @react-vertex/core```
+
 This started as a little experiment and quickly got out of hand. I've been working on this to try out hooks and learn more about WebGL. It's looking pretty good but it's unlikely to be truly stable until late 2019.  I've got a project I would like to use it for so I'm motivated to take care of the items on the roadmap over the next few months. Right now, there's still some major API challenges, hard-coded WebGL parameters in a few spots and it lacks some key features like events. The materials are pretty crude and should be considered a WIP.  
 
 If you have some WebGL/GLSL chops or experience with 3D engines and want to collaborate, drop a line in the issues.
 
 ### [Documentation and Examples](https://react-vertex.com)
 
-```npm install @react-vertex/core```
+All the demos on the site are in the [demos folder](https://github.com/sghall/react-vertex/tree/master/demos)
+
 
 ### What's been built
 - Scene renderer using React Reconciler
