@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useRender, useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useBasicSolid } from '@react-vertex/material-hooks'
-import { AxesHelper, useColorSlider } from '@react-vertex/scene-helpers'
+import { AxesHelper, useColorPicker } from '@react-vertex/scene-helpers'
 import TunaGeometry from './TunaGeometry'
 
 function Scene() {
@@ -22,7 +22,7 @@ function Scene() {
     return () => camera.removeListener(renderScene)
   }, [camera, renderScene])
 
-  const color = useColorSlider('Wireframe Color: ', '#A9E6E3', true)
+  const color = useColorPicker('Wireframe Color: ', '#A9E6E3', true)
   const basicProgram = useBasicSolid(color)
 
   return (

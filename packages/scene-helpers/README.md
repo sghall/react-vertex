@@ -16,16 +16,18 @@ npm install @react-vertex/scene-helpers
 ```js
 import {
   useValueSlider,
-  useColorSlider,
+  useColorPicker,
+  useSelectControl,
   AxesHelper,
   useAxesHelperProgram,
   useAxesHelperGeometry,
   useAxesHelperElements,
 } from '@react-vertex/scene-helpers'
 ```
+
 #### `useValueSlider(label, value, min, max, step)` => `number`
 
-React hooks to create a value slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.
+React hooks to create a value slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
 
 ###### Arguments:
 
@@ -66,9 +68,9 @@ function Example() {
 }
 ```
 
-#### `useColorSlider(label, hexColor, noAlpha?)` => `array`
+#### `useColorPicker(label, hexColor, noAlpha?)` => `array`
 
-React hooks to create a color slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.
+React hooks to create a color slider in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
 
 ###### Arguments:
 
@@ -89,28 +91,64 @@ import React from 'react'
 import { useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useBasicSolid } from '@react-vertex/material-hooks'
-import { useColorSlider } from '@react-vertex/scene-helpers'
+import { useColorPicker } from '@react-vertex/scene-helpers'
 
 function Example() {
   const { width, height } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 25])
-    c.setRotY(80)
   })
   useOrbitControls(camera)
 
-  const color = useColorSlider('Wireframe Color: ', '#A9E6E3', true)
-  const basicProgram = useBasicSolid(color)
+  const diffuse = useColorPicker('Wireframe Color: ', '#A9E6E3', true)
+  const program = useBasicSolid(diffuse)
 
   return (
     <camera view={camera.view} projection={camera.projection}>
-      <material program={basicProgram}>
+      <material program={program}>
         ...
       </material>
     </camera>
   )
 }
+```
+
+#### `useSelectControl(label, options)` => `array`
+
+React hooks to create a select control in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
+
+###### Arguments:
+
+`label`: String label for the slider.
+
+`options`: An array of `{ label, value }` objects.
+
+###### Return Values:
+
+`value`: The selected value.  The first item in the array will be returned on the initial render.
+
+###### Example Usage:
+
+```js
+import React from 'react'
+import { useCanvasSize } from '@react-vertex/core'
+import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
+import { useBasicSolid } from '@react-vertex/material-hooks'
+import { useColorPicker } from '@react-vertex/scene-helpers'
+
+function Example() {
+
+  const showWireframe  = useSelectControl('Show Wireframe?', [
+    { value: true, label: 'True' },
+    { value: false, label: 'False' },
+  ])
+
+  const Material = useSelectControl('Material: ', [
+    { value: PhongTextured, label: 'Phong Textured' },
+    { value: PhongSolid, label: 'Phong Solid' },
+  ])
+  ...
 ```
 
 #### `AxesHelper`

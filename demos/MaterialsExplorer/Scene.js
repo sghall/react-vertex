@@ -21,7 +21,7 @@ import {
   AxesHelper,
   useSelectControl,
   useValueSlider,
-  useColorSlider,
+  useColorPicker,
 } from '@react-vertex/scene-helpers'
 
 // prettier-ignore
@@ -33,9 +33,9 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const solidColor = useColorSlider('Solid Color (solid materials only): ', '#D33115', true)
+  const solidColor = useColorPicker('Solid Color (solid materials only): ', '#D33115', true)
 
-  const { value: textureUrl } = useSelectControl('Texture (textured materials only): ', [
+  const textureUrl = useSelectControl('Texture (textured materials only): ', [
     { value: tilesBlue, label: 'Blue Tiles' },
     { value: tilesPink, label: 'Pink Tiles' },
     { value: hexagons, label: 'Abstract' },
@@ -46,7 +46,7 @@ function Scene() {
 
   const [lightPosition, setLightPostion] = useState([0, 0, 0])
 
-  const { value: Material } = useSelectControl('Material: ', [
+  const Material = useSelectControl('Material: ', [
     { value: PhongTextured, label: 'Phong Textured' },
     { value: PhongSolid, label: 'Phong Solid' },
     { value: BasicTextured, label: 'Basic Textured' },
@@ -55,7 +55,7 @@ function Scene() {
     { value: LambertSolid, label: 'Lambert Solid' },
   ])
 
-  const { value: Geometry } = useSelectControl('Geometry: ', [
+  const Geometry = useSelectControl('Geometry: ', [
     { value: Sphere, label: 'Sphere' },
     { value: Box, label: 'Box' },
     { value: Torus, label: 'Torus' },

@@ -120,7 +120,7 @@ export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
   return Array.isArray(float) ? float[0] : float
 }
 
-export function useColorSlider(label, hex, noAlpha = false) {
+export function useColorPicker(label, hex, noAlpha = false) {
   const inputColor = useHex(hex, noAlpha)
 
   const [color, setColor] = useState(inputColor)
@@ -140,7 +140,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
       setColor(convertHex(color.hex, noAlpha))
     }
 
-    function ColorSelectorApp() {
+    function ColorPickerApp() {
       return (
         <div style={{ padding: 5 }}>
           <div
@@ -156,7 +156,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
       )
     }
 
-    render(<ColorSelectorApp />, controlContainer)
+    render(<ColorPickerApp />, controlContainer)
 
     return () => {
       container.removeChild(controlContainer)
@@ -243,5 +243,5 @@ export function useSelectControl(label, options) {
     }
   }, [controlsRoot, label])
 
-  return option
+  return option.value
 }
