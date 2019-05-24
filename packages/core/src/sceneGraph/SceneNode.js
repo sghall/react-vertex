@@ -232,8 +232,8 @@ export class SceneNode extends Node {
       const ext = this.extensions[instancedExt]
 
       if (node.attributes !== this.activeAttributes) {
-        for (const attr in node.attributes) {
-          const location = gl.getAttribLocation(activeMaterial.program, attr)
+        for (const attr in activeMaterial.attributes) {
+          const location = activeMaterial.attributes[attr]
           node.attributes[attr](location, ext)
         }
 
