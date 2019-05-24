@@ -202,7 +202,15 @@ export function useSelectControl(label, options) {
       }
 
       return (
-        <div style={{ padding: 5 }}>
+        <div style={{ padding: 2 }}>
+          <div
+            style={{
+              paddingLeft: 15,
+              ...textStyles,
+            }}
+          >
+            {label}
+          </div>
           <Select
             styles={customStyles}
             defaultValue={option}
