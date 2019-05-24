@@ -5,7 +5,7 @@ import { useLambertTextured } from '@react-vertex/material-hooks'
 
 function LambertTextured({ children, textureUrl }) {
   const [texture] = useTexture2d(textureUrl)
-  const program = useLambertTextured(texture)
+  const program = useLambertTextured(texture, 0.25)
 
   return <material program={program}>{children}</material>
 }
