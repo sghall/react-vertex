@@ -34,6 +34,8 @@ If you have some WebGL/GLSL chops or experience with 3D engines and want to coll
 
 ### CodeSandbox
 
+Keep in mind these sandboxes run in "development" mode and, just like for React, that makes a huge difference in performance for this library.
+
 - [Sphere of Spheres](https://codesandbox.io/s/react-vertex-sphere-of-spheres-jn073?fontsize=14) - Basic scene with Phong shading and a single point light.
 - [Sphere Wireframe](https://codesandbox.io/s/react-vertex-sphere-wireframe-qbvlv?fontsize=14) - Simple sphere wireframe example with axes.
 - [Starter Sandbox](https://codesandbox.io/s/react-vertex-starter-2psb2?fontsize=14) - Starter sandbox with axes.
