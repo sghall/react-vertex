@@ -1,9 +1,9 @@
 export const demosList = [
-  // {
-  //   href: '/demo-materials-explorer',
-  //   name: 'Materials Explorer',
-  //   tag: '',
-  // },
+  {
+    href: '/demo-materials-explorer',
+    name: 'Materials Explorer',
+    tag: '',
+  },
   {
     href: '/demo-axes-helper',
     name: 'Axes Helper',
