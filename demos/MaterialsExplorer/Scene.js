@@ -3,9 +3,10 @@ import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender, usePointLight } from '@react-vertex/core'
 import { useHex } from '@react-vertex/color-hooks'
-import { Sphere, Torus, Cylinder } from './geometries'
+import { Sphere, Torus, Cylinder, Box, Plane, Circle } from './geometries'
 import { SolidPhong, TexturedPhong } from './materials'
-import tiles from 'static/textures/tiles_pink_diff.png'
+import tilesBlue from 'static/textures/tiles_blue_diff.png'
+import tilesPink from 'static/textures/tiles_pink_diff.png'
 import Light from './Light'
 import { AxesHelper, useSelectControl } from '@react-vertex/scene-helpers'
 
@@ -26,8 +27,16 @@ function PointLightScene() {
 
   const { value: Geometry } = useSelectControl('Geometry: ', [
     { value: Cylinder, label: 'Cylinder' },
-    { value: Torus, label: 'Torus' },
     { value: Sphere, label: 'Sphere' },
+    { value: Torus, label: 'Torus' },
+    { value: Box, label: 'Box' },
+    { value: Circle, label: 'Circle' },
+    { value: Plane, label: 'Plane' },
+  ])
+
+  const { value: textureUrl } = useSelectControl('Texture: ', [
+    { value: tilesBlue, label: 'Blue Tiles' },
+    { value: tilesPink, label: 'Pink Tiles' },
   ])
 
   const r = useHex('#ffffff', true)
@@ -54,7 +63,7 @@ function PointLightScene() {
   return (
     <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={30} />
-      <Material textureUrl={tiles}>
+      <Material textureUrl={textureUrl}>
         <Geometry />
       </Material>
       <Light color={r} position={rLightPosition} />

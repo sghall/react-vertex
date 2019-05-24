@@ -1,3 +1,6 @@
 export { default as Sphere } from './Sphere'
 export { default as Torus } from './Torus'
 export { default as Cylinder } from './Cylinder'
+export { default as Box } from './Box'
+export { default as Plane } from './Plane'
+export { default as Circle } from './Circle'
