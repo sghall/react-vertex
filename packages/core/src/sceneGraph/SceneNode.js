@@ -78,6 +78,37 @@ export class SceneNode extends Node {
     delete this.textureUnits[unit]
   }
 
+  materialMap = new WeakMap()
+
+  setMaterial(gl, { program }) {
+    let material = this.materialMap.get(program)
+
+    if (material) {
+      return material
+    }
+
+    const attributes = {}
+
+    const attribCount = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)
+
+    for (let i = attribCount - 1; i >= 0; i--) {
+      const name = gl.getActiveAttrib(program, i).name
+      attributes[name] = gl.getAttribLocation(program, name)
+    }
+
+    const uniforms = {
+      v: gl.getUniformLocation(program, 'viewMatrix'),
+      m: gl.getUniformLocation(program, 'modelMatrix'),
+      p: gl.getUniformLocation(program, 'projectionMatrix'),
+    }
+
+    material = { program, uniforms, attributes, attribCount }
+
+    this.materialMap.set(program, material)
+
+    return material
+  }
+
   activeAttributes = null
 
   render = () => {
@@ -136,15 +167,9 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isMaterialNode] === true) {
-      activeMaterial = node
+      activeMaterial = this.setMaterial(gl, node)
 
       gl.useProgram(activeMaterial.program)
-
-      activeMaterial.uniforms = {
-        v: gl.getUniformLocation(activeMaterial.program, 'viewMatrix'),
-        m: gl.getUniformLocation(activeMaterial.program, 'modelMatrix'),
-        p: gl.getUniformLocation(activeMaterial.program, 'projectionMatrix'),
-      }
 
       const { view, projection } = activeCamera
 
@@ -160,8 +185,8 @@ export class SceneNode extends Node {
       gl.useProgram(activeMaterial.program)
 
       if (node.attributes !== this.activeAttributes) {
-        for (const attr in node.attributes) {
-          const location = gl.getAttribLocation(activeMaterial.program, attr)
+        for (const attr in activeMaterial.attributes) {
+          const location = activeMaterial.attributes[attr]
           node.attributes[attr](location)
         }
 
