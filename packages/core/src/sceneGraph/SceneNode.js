@@ -109,7 +109,7 @@ export class SceneNode extends Node {
     return material
   }
 
-  activeMaterial = null
+  activeAttribCount = 0
   activeAttributes = null
 
   render = () => {
@@ -135,13 +135,13 @@ export class SceneNode extends Node {
     }
 
     for (let i = 0; i < this.children.length; i++) {
-      this.renderNode(this.children[i], null, needsMatrixUpdate)
+      this.renderNode(this.children[i], null, null, needsMatrixUpdate)
     }
   }
 
   requestRender = throttle(this.render, 17)
 
-  renderNode(node, activeCamera, needsMatrixUpdate) {
+  renderNode(node, activeCamera, activeMaterial, needsMatrixUpdate) {
     const gl = this.context
 
     // *************************************************
@@ -170,25 +170,29 @@ export class SceneNode extends Node {
     if (node[isMaterialNode] === true) {
       const nextMaterial = this.setMaterial(gl, node)
 
-      if (this.activeMaterial) {
-        const diff = this.activeMaterial.attribCount - nextMaterial.attribCount
-        
-        if (diff > 0) {
-          for (let i = 1; i <= diff; i++) {
-            gl.disableVertexAttribArray(nextMaterial.attribCount)
-          }
+      // note: buffers are deleted when no longer in use by the buffer
+      // hooks. So we to disable attribute indexes no longer in use or it
+      // will throw an error about no buffer being bound to the index.
+      const diff = this.activeAttribCount - nextMaterial.attribCount
+
+      if (diff > 0) {
+        for (let i = 0; i < diff; i++) {
+          gl.disableVertexAttribArray(nextMaterial.attribCount + i)
         }
       }
+    
 
-      this.activeMaterial = nextMaterial
+      this.activeAttribCount = nextMaterial.attribCount
       this.activeAttributes = null
+      
+      activeMaterial = nextMaterial
 
-      gl.useProgram(this.activeMaterial.program)
+      gl.useProgram(activeMaterial.program)
 
       const { view, projection } = activeCamera
 
-      gl.uniformMatrix4fv(this.activeMaterial.uniforms.v, false, view)
-      gl.uniformMatrix4fv(this.activeMaterial.uniforms.p, false, projection)
+      gl.uniformMatrix4fv(activeMaterial.uniforms.v, false, view)
+      gl.uniformMatrix4fv(activeMaterial.uniforms.p, false, projection)
     }
 
     // *************************************************
@@ -196,24 +200,19 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isGeometryNode] === true) {
-      gl.useProgram(this.activeMaterial.program)
+      gl.useProgram(activeMaterial.program)
 
       if (node.attributes !== this.activeAttributes) {
-        for (const attr in this.activeMaterial.attributes) {
-          const location = this.activeMaterial.attributes[attr]
-
-          if (!node.attributes[attr]) {
-            console.log(attr, node, this.activeMaterial)
-          } else {
-            node.attributes[attr](location)
-          }
+        for (const attr in activeMaterial.attributes) {
+          const location = activeMaterial.attributes[attr]
+          node.attributes[attr](location)
         }
 
         this.activeAttributes = node.attributes
       }
 
       gl.uniformMatrix4fv(
-        this.activeMaterial.uniforms.m,
+        activeMaterial.uniforms.m,
         false,
         node.worldMatrix,
       )
@@ -246,7 +245,7 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isInstancedNode] === true) {
-      gl.useProgram(this.activeMaterial.program)
+      gl.useProgram(activeMaterial.program)
 
       if (this.extensions[instancedExt] === undefined) {
         this.extensions[instancedExt] = gl.getExtension(instancedExt)
@@ -255,8 +254,8 @@ export class SceneNode extends Node {
       const ext = this.extensions[instancedExt]
 
       if (node.attributes !== this.activeAttributes) {
-        for (const attr in this.activeMaterial.attributes) {
-          const location = this.activeMaterial.attributes[attr]
+        for (const attr in activeMaterial.attributes) {
+          const location = activeMaterial.attributes[attr]
           node.attributes[attr](location, ext)
         }
 
@@ -264,7 +263,7 @@ export class SceneNode extends Node {
       }
 
       gl.uniformMatrix4fv(
-        this.activeMaterial.uniforms.m,
+        activeMaterial.uniforms.m,
         false,
         node.worldMatrix,
       )
@@ -284,7 +283,7 @@ export class SceneNode extends Node {
     }
 
     for (let i = 0; i < node.children.length; i++) {
-      this.renderNode(node.children[i], activeCamera, needsMatrixUpdate)
+      this.renderNode(node.children[i], activeCamera, activeMaterial, needsMatrixUpdate)
     }
   }
 }
