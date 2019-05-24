@@ -60,7 +60,7 @@ export function usePhongTextured(mapKd, na, ns, ka, ks) {
   return program
 }
 
-export function useAttenuatedPhong(lightPosition, mapKd) {
+export function usePhongAttenuated(lightPosition, mapKd) {
   const gl = useWebGLContext()
   const program = useProgram(gl, attenuatedVert, attenuatedFrag)
 
