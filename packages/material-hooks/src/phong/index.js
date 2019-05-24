@@ -16,8 +16,8 @@ import attenuatedVert from './attenuated.vert'
 import attenuatedFrag from './attenuated.frag'
 
 const defaultKd = [1.0, 1.0, 1.0]
-const defaultKs = [0.7, 0.7, 0.7]
-const defaultNs = 200
+const defaultKs = [0.6, 0.6, 0.6]
+const defaultNs = 500
 const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
