@@ -26,16 +26,16 @@ export default class Canvas extends Component {
 
     const { width, height } = this.updateDimensions()
 
-    window.sceneNode = this.sceneNode
-
     this.container = ReactVertexReconciler.createContainer(this.sceneNode)
 
     const gl = this.sceneNode.context
     textureFlip && gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
 
+    this.contextObject = { scene: this.sceneNode, width, height }
+
     ReactVertexReconciler.updateContainer(
       <ReactVertexContext.Provider
-        value={{ scene: this.sceneNode, width, height }}
+        value={this.contextObject}
       >
         {children}
       </ReactVertexContext.Provider>,
@@ -49,9 +49,12 @@ export default class Canvas extends Component {
 
     const { width, height } = this.updateDimensions()
 
+    this.contextObject.width = width
+    this.contextObject.height = height
+
     ReactVertexReconciler.updateContainer(
       <ReactVertexContext.Provider
-        value={{ scene: this.sceneNode, width, height }}
+        value={this.contextObject}
       >
         {children}
       </ReactVertexContext.Provider>,
