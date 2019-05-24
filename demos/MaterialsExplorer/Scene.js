@@ -7,6 +7,8 @@ import { Sphere, Torus, Cylinder, Box, Plane, Circle } from './geometries'
 import { SolidPhong, TexturedPhong } from './materials'
 import tilesBlue from 'static/textures/tiles_blue_diff.png'
 import tilesPink from 'static/textures/tiles_pink_diff.png'
+import hexagons from 'static/textures/hexagons.jpg'
+import fancyTile from 'static/textures/fancy_tile.jpg'
 import Light from './Light'
 import { AxesHelper, useSelectControl } from '@react-vertex/scene-helpers'
 
@@ -18,7 +20,7 @@ function PointLightScene() {
   })
   useOrbitControls(camera)
 
-  const [rLightPosition, setRLightPostion] = useState([0, 0, 0])
+  const [lightPosition, setLightPostion] = useState([0, 0, 0])
 
   const { value: Material } = useSelectControl('Material: ', [
     { value: TexturedPhong, label: 'Textured Phong' },
@@ -37,11 +39,13 @@ function PointLightScene() {
   const { value: textureUrl } = useSelectControl('Texture: ', [
     { value: tilesBlue, label: 'Blue Tiles' },
     { value: tilesPink, label: 'Pink Tiles' },
+    { value: hexagons, label: 'Abstract' },
+    { value: fancyTile, label: 'Fancy Tile' },
   ])
 
-  const r = useHex('#ffffff', true)
+  const lightColor = useHex('#ffffff', true)
 
-  usePointLight(r, rLightPosition)
+  usePointLight(lightColor, lightPosition)
 
   const renderScene = useRender()
 
@@ -54,7 +58,7 @@ function PointLightScene() {
       const k1 = 0.25 + Math.sin(time) * 21
       const k2 = 0.25 + Math.cos(time) * 21
 
-      setRLightPostion([k1, k1, k2])
+      setLightPostion([k1, k1, k2])
     })
 
     return () => timerLoop.stop()
@@ -66,7 +70,7 @@ function PointLightScene() {
       <Material textureUrl={textureUrl}>
         <Geometry />
       </Material>
-      <Light color={r} position={rLightPosition} />
+      <Light color={lightColor} position={lightPosition} />
     </camera>
   )
 }
