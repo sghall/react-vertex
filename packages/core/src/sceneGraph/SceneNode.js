@@ -109,6 +109,7 @@ export class SceneNode extends Node {
     return material
   }
 
+  activeMaterial = null
   activeAttributes = null
 
   render = () => {
@@ -134,13 +135,13 @@ export class SceneNode extends Node {
     }
 
     for (let i = 0; i < this.children.length; i++) {
-      this.renderNode(this.children[i], null, null, needsMatrixUpdate)
+      this.renderNode(this.children[i], null, needsMatrixUpdate)
     }
   }
 
   requestRender = throttle(this.render, 17)
 
-  renderNode(node, activeCamera, activeMaterial, needsMatrixUpdate) {
+  renderNode(node, activeCamera, needsMatrixUpdate) {
     const gl = this.context
 
     // *************************************************
@@ -169,25 +170,23 @@ export class SceneNode extends Node {
     if (node[isMaterialNode] === true) {
       const nextMaterial = this.setMaterial(gl, node)
 
-      if (activeMaterial) {
-        const diff = activeMaterial.attribCount - nextMaterial.attribCount
-        console.log('diff: ', diff)
+      if (this.activeMaterial) {
+        const diff = this.activeMaterial.attribCount - nextMaterial.attribCount
         if (diff > 0) {
-          console.log(diff)
           for (let i = 1; i <= diff; i++) {
             gl.disableVertexAttribArray(nextMaterial.attribCount)
           }
         }
       }
 
-      activeMaterial = nextMaterial
+      this.activeMaterial = nextMaterial
 
-      gl.useProgram(activeMaterial.program)
+      gl.useProgram(this.activeMaterial.program)
 
       const { view, projection } = activeCamera
 
-      gl.uniformMatrix4fv(activeMaterial.uniforms.v, false, view)
-      gl.uniformMatrix4fv(activeMaterial.uniforms.p, false, projection)
+      gl.uniformMatrix4fv(this.activeMaterial.uniforms.v, false, view)
+      gl.uniformMatrix4fv(this.activeMaterial.uniforms.p, false, projection)
     }
 
     // *************************************************
@@ -195,18 +194,18 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isGeometryNode] === true) {
-      gl.useProgram(activeMaterial.program)
+      gl.useProgram(this.activeMaterial.program)
 
       if (node.attributes !== this.activeAttributes) {
-        for (const attr in activeMaterial.attributes) {
-          const location = activeMaterial.attributes[attr]
+        for (const attr in this.activeMaterial.attributes) {
+          const location = this.activeMaterial.attributes[attr]
           node.attributes[attr](location)
         }
 
         this.activeAttributes = node.attributes
       }
 
-      gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
+      gl.uniformMatrix4fv(this.activeMaterial.uniforms.m, false, node.worldMatrix)
 
       if (node.drawArrays) {
         gl.drawArrays(
@@ -236,7 +235,7 @@ export class SceneNode extends Node {
     // *************************************************
 
     if (node[isInstancedNode] === true) {
-      gl.useProgram(activeMaterial.program)
+      gl.useProgram(this.activeMaterial.program)
 
       if (this.extensions[instancedExt] === undefined) {
         this.extensions[instancedExt] = gl.getExtension(instancedExt)
@@ -245,15 +244,15 @@ export class SceneNode extends Node {
       const ext = this.extensions[instancedExt]
 
       if (node.attributes !== this.activeAttributes) {
-        for (const attr in activeMaterial.attributes) {
-          const location = activeMaterial.attributes[attr]
+        for (const attr in this.activeMaterial.attributes) {
+          const location = this.activeMaterial.attributes[attr]
           node.attributes[attr](location, ext)
         }
 
         this.activeAttributes = node.attributes
       }
 
-      gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
+      gl.uniformMatrix4fv(this.activeMaterial.uniforms.m, false, node.worldMatrix)
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
@@ -273,7 +272,6 @@ export class SceneNode extends Node {
       this.renderNode(
         node.children[i],
         activeCamera,
-        activeMaterial,
         needsMatrixUpdate,
       )
     }
