@@ -17,7 +17,7 @@ npm install @react-vertex/material-hooks
 
 ```js
 import {
-  useBasicProgram,
+  useBasicSolid,
   useSolidPhongProgram,
   useSolidLambert,
 } from '@react-vertex/material-hooks'
@@ -37,7 +37,7 @@ This package uses a naming convention based loosely on the convention used by th
 |  mapKd | Diffuse Map        |
 |  mapKs | Specular Map       |
 
-#### `useBasicProgram(kd?)` => `WebGLProgram`
+#### `useBasicSolid(kd?)` => `WebGLProgram`
 
 Hook for basic program.  This program only has diffuse color and does not react to lights in the scene.
 
@@ -59,11 +59,11 @@ Geometries using this program must set the following attributes:
 
 ```js
 import { useHex } from '@react-vertex/color-hooks'
-import { useBasicProgram } from '@react-vertex/material-hooks'
+import { useBasicSolid } from '@react-vertex/material-hooks'
 
 ...
   const diffuse = useHex('#323334', true)
-  const basicProgram = useBasicProgram(diffuse)
+  const basicProgram = useBasicSolid(diffuse)
 ...
 
 ```

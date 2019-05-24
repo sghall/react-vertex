@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useRender, useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
-import { useBasicProgram } from '@react-vertex/material-hooks'
+import { useBasicSolid } from '@react-vertex/material-hooks'
 import { AxesHelper, useColorSlider } from '@react-vertex/scene-helpers'
 import TunaGeometry from './TunaGeometry'
 
@@ -23,7 +23,7 @@ function Scene() {
   }, [camera, renderScene])
 
   const color = useColorSlider('Wireframe Color: ', '#A9E6E3', true)
-  const basicProgram = useBasicProgram(color)
+  const basicProgram = useBasicSolid(color)
 
   return (
     <camera view={camera.view} projection={camera.projection}>

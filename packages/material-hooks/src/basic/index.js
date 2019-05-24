@@ -4,7 +4,7 @@ import frag from './frag'
 
 const defaultKd = [1, 1, 1]
 
-export function useBasicProgram(kd = defaultKd) {
+export function useBasicSolid(kd = defaultKd) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 

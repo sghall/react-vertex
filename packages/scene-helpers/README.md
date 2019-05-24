@@ -88,7 +88,7 @@ React hooks to create a color slider in a React Vertex component tree. You can u
 import React from 'react'
 import { useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
-import { useBasicProgram } from '@react-vertex/material-hooks'
+import { useBasicSolid } from '@react-vertex/material-hooks'
 import { useColorSlider } from '@react-vertex/scene-helpers'
 
 function Example() {
@@ -101,7 +101,7 @@ function Example() {
   useOrbitControls(camera)
 
   const color = useColorSlider('Wireframe Color: ', '#A9E6E3', true)
-  const basicProgram = useBasicProgram(color)
+  const basicProgram = useBasicSolid(color)
 
   return (
     <camera view={camera.view} projection={camera.projection}>

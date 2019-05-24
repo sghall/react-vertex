@@ -222,12 +222,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useHex } from '@react-vertex/color-hooks'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
-import { useBasicProgram } from '@react-vertex/material-hooks'
+import { useBasicSolid } from '@react-vertex/material-hooks'
 
 function Light({ lightPosition }) {
   const sphere = useSphereElements(0.75, 10, 10)
   const diffuse = useHex('#ffa500', true)
-  const program = useBasicProgram(diffuse)
+  const program = useBasicSolid(diffuse)
 
   return (
     <material program={program}>

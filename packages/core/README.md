@@ -138,12 +138,12 @@ The `<material>` element defines the WebGL program used to render downstream geo
 import React from 'react'
 import { useHex } from '@react-vertex/color-hooks'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
-import { useBasicProgram } from '@react-vertex/material-hooks'
+import { useBasicSolid } from '@react-vertex/material-hooks'
 
 function Example() {
   const sphere = useSphereElements(0.75, 10, 10)
   const diffuse = useHex('#ffa500', true)
-  const program = useBasicProgram(diffuse)
+  const program = useBasicSolid(diffuse)
 
   return (
     <material program={program}>
