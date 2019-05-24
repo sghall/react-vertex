@@ -146,7 +146,7 @@ export function useColorSlider(label, hex, noAlpha = false) {
           <div
             style={{
               paddingLeft: 15,
-              ...textStyles
+              ...textStyles,
             }}
           >
             {label}
@@ -194,10 +194,10 @@ export function useSelectControl(label, options) {
     function SelectControlApp() {
       const customStyles = {
         menu: provided => {
-          return {...provided, zIndex: 50010 }
+          return { ...provided, zIndex: 50010 }
         },
         container: provided => {
-          return {...provided, ...textStyles }
+          return { ...provided, ...textStyles }
         },
       }
 
