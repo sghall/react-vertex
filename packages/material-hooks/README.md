@@ -18,8 +18,11 @@ npm install @react-vertex/material-hooks
 ```js
 import {
   useBasicSolid,
-  usePhongSolidProgram,
+  useBasicTextured,
   useLambertSolid,
+  useLambertTextured,
+  usePhongSolid,
+  usePhongTextured,
 } from '@react-vertex/material-hooks'
 ```
 
