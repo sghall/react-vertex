@@ -17,9 +17,15 @@ import tilesPink from 'static/textures/tiles_pink_diff.png'
 import hexagons from 'static/textures/hexagons.jpg'
 import fancyTile from 'static/textures/fancy_tile.jpg'
 import Light from './Light'
-import { AxesHelper, useSelectControl } from '@react-vertex/scene-helpers'
+import {
+  AxesHelper,
+  useSelectControl,
+  useValueSlider,
+  useColorSlider,
+} from '@react-vertex/scene-helpers'
 
-function PointLightScene() {
+// prettier-ignore
+function Scene() {
   const { width, height } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
@@ -27,31 +33,35 @@ function PointLightScene() {
   })
   useOrbitControls(camera)
 
-  const [lightPosition, setLightPostion] = useState([0, 0, 0])
+  const solidColor = useColorSlider('Solid Color (solid materials only): ', '#D33115', true)
 
-  const { value: Material } = useSelectControl('Material: ', [
-    { value: LambertTextured, label: 'Lambert Textured' },
-    { value: LambertSolid, label: 'Lambert Solid' },
-    { value: BasicTextured, label: 'Basic Textured' },
-    { value: BasicSolid, label: 'Basic Solid' },
-    { value: PhongTextured, label: 'Phong Textured' },
-    { value: PhongSolid, label: 'Phong Solid' },
-  ])
-
-  const { value: Geometry } = useSelectControl('Geometry: ', [
-    { value: Cylinder, label: 'Cylinder' },
-    { value: Sphere, label: 'Sphere' },
-    { value: Torus, label: 'Torus' },
-    { value: Box, label: 'Box' },
-    { value: Circle, label: 'Circle' },
-    { value: Plane, label: 'Plane' },
-  ])
-
-  const { value: textureUrl } = useSelectControl('Texture: ', [
+  const { value: textureUrl } = useSelectControl('Texture (textured materials only): ', [
     { value: tilesBlue, label: 'Blue Tiles' },
     { value: tilesPink, label: 'Pink Tiles' },
     { value: hexagons, label: 'Abstract' },
     { value: fancyTile, label: 'Fancy Tile' },
+  ])
+
+  const ambientLevel = useValueSlider('Ambient Level: ', 0.2, 0, 1, 0.01)
+
+  const [lightPosition, setLightPostion] = useState([0, 0, 0])
+
+  const { value: Material } = useSelectControl('Material: ', [
+    { value: PhongTextured, label: 'Phong Textured' },
+    { value: PhongSolid, label: 'Phong Solid' },
+    { value: BasicTextured, label: 'Basic Textured' },
+    { value: BasicSolid, label: 'Basic Solid' },
+    { value: LambertTextured, label: 'Lambert Textured' },
+    { value: LambertSolid, label: 'Lambert Solid' },
+  ])
+
+  const { value: Geometry } = useSelectControl('Geometry: ', [
+    { value: Sphere, label: 'Sphere' },
+    { value: Box, label: 'Box' },
+    { value: Torus, label: 'Torus' },
+    { value: Cylinder, label: 'Cylinder' },
+    { value: Circle, label: 'Circle' },
+    { value: Plane, label: 'Plane' },
   ])
 
   const lightColor = useHex('#ffffff', true)
@@ -78,7 +88,11 @@ function PointLightScene() {
   return (
     <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={30} />
-      <Material textureUrl={textureUrl}>
+      <Material
+        solidColor={solidColor}
+        textureUrl={textureUrl}
+        ambientLevel={ambientLevel}
+      >
         <Geometry />
       </Material>
       <Light color={lightColor} position={lightPosition} />
@@ -86,6 +100,6 @@ function PointLightScene() {
   )
 }
 
-PointLightScene.propTypes = {}
+Scene.propTypes = {}
 
-export default PointLightScene
+export default Scene
