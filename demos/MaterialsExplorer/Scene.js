@@ -4,7 +4,7 @@ import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender, usePointLight } from '@react-vertex/core'
 import { useHex } from '@react-vertex/color-hooks'
 import { Sphere, Torus, Cylinder, Box, Plane, Circle } from './geometries'
-import { SolidPhong, TexturedPhong, BasicSolid, BasicTextured } from './materials'
+import { PhongSolid, PhongTextured, BasicSolid, BasicTextured } from './materials'
 import tilesBlue from 'static/textures/tiles_blue_diff.png'
 import tilesPink from 'static/textures/tiles_pink_diff.png'
 import hexagons from 'static/textures/hexagons.jpg'
@@ -25,8 +25,8 @@ function PointLightScene() {
   const { value: Material } = useSelectControl('Material: ', [
     { value: BasicTextured, label: 'Basic Textured' },
     { value: BasicSolid, label: 'Basic Solid' },
-    { value: TexturedPhong, label: 'Textured Phong' },
-    { value: SolidPhong, label: 'Solid Phong' },
+    { value: PhongTextured, label: 'Phong Textured' },
+    { value: PhongSolid, label: 'Phong Solid' },
   ])
 
   const { value: Geometry } = useSelectControl('Geometry: ', [

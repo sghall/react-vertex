@@ -21,7 +21,7 @@ const defaultNs = 200
 const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
-export function useSolidPhong(kd, na, ns, ka, ks) {
+export function usePhongSolid(kd, na, ns, ka, ks) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(solidVert, solidFrag)
   const program = useProgram(gl, vert, frag)
@@ -40,7 +40,7 @@ export function useSolidPhong(kd, na, ns, ka, ks) {
 
 const uVScale = [1.0, 1.0]
 
-export function useTexturedPhong(mapKd, na, ns, ka, ks) {
+export function usePhongTextured(mapKd, na, ns, ka, ks) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(texturedVert, texturedFrag)
   const program = useProgram(gl, vert, frag)
