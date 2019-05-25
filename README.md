@@ -1,6 +1,6 @@
 # React Vertex
 
-Hooks-based WebGL Library for React
+Hooks-based WebGL library for React
 
 **This library is experimental.**
 
