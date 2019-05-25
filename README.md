@@ -353,7 +353,7 @@ function Scene() {
 
 ### Rendering when camera updates
 
-If you want to render when the camera moves. You can do something like the below example. If you look at the "Tuna Wireframe" example, it updates when the camera changes and ALSO sets the `renderOnUpdate` prop on the canvas to true to make sure it renders when the controls in the scene update.  If you are creating more of an app that has less frequent state updates and mainly responding to use input that's a pretty efficient way to approach it.
+If you want to render when the camera moves. You can do something like the below example. If you look at the "Tuna Wireframe" example, it updates when the camera changes and ALSO sets the `renderOnUpdate` prop on the canvas to true to make sure it renders when the controls in the scene update.  If you are creating more of an app that has less frequent state updates and mainly responding to user input that's a pretty efficient way to approach it.
 
 ```js
 import React, { useEffect } from 'react'
