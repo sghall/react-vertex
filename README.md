@@ -6,9 +6,9 @@ Hooks-based WebGL Library for React
 
 ```npm install @react-vertex/core```
 
-I started working on this to try out hooks and learn more about WebGL. It quickly got out of hand.  There were some dark moments but it's looking pretty good now. There's a lot to do still so it's unlikely to be stable for production applications until late 2019.  I have a project in mind that I would like to use it for, so I'm motivated to try and knockout the items on the roadmap in the coming months. 
+I started working on this to try out hooks and learn more about WebGL. It quickly got out of hand.  There's a lot to do still so it's unlikely to be stable for production applications until late 2019.  I have a project in mind that I would like to use it for, so I'm motivated to try and knockout the items on the roadmap in the coming months. 
 
-If you have some WebGL/GLSL chops or experience with 3D engines and want to collaborate, drop a line in the issues.
+If you have some WebGL/GLSL chops or experience with 3D engines and would like to help out, drop a line in the issues.
 
 ### [Documentation and Examples](https://react-vertex.com)
 
@@ -28,7 +28,7 @@ All the demos on the site are in the [demos folder](https://github.com/sghall/re
 - Use quaternions for rotations
 - Optimize matrix calculations
 - More lighting options
-- Better materials and shader system
+- Better materials and shaders
 - Events/raycasting
 - Scene shadows 
 - Composite effects
@@ -37,7 +37,7 @@ All the demos on the site are in the [demos folder](https://github.com/sghall/re
 
 ### CodeSandbox
 
-Keep in mind these sandboxes run in "development" mode and, just like for React, that makes a huge difference in performance for this library.
+Keep in mind these sandboxes run in "development" mode and, just like for React, that makes a significant difference in performance for this library.
 
 - [Sphere of Spheres](https://codesandbox.io/s/react-vertex-sphere-of-spheres-jn073?fontsize=14) - Basic scene with Phong shading and a single point light.
 - [Sphere Wireframe](https://codesandbox.io/s/react-vertex-sphere-wireframe-qbvlv?fontsize=14) - Simple sphere wireframe example with axes.
