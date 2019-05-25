@@ -159,7 +159,7 @@ Of course, you can create your own custom components to build up that document h
   </camera>
 ```
 
-### <camera>
+### `<camera>`
 
 The camera takes just two props that define the `view` (matrix) and the `projection` (matrix): 
 ```html
@@ -214,7 +214,7 @@ function Scene() {
   )
 ```
 
-### <material>
+### `<material>`
 
 Right now, the material nodes just take a single `program` prop.  The `program` is a WebGL program returned from a hook.  The nearest `<camera>` ancestor will define the view and projection. The renderer will set `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms in the program shaders.  You can use `@react-vertex/material-hooks` for some common programs or look at the source to compose your own custom program hooks. The Phong and Lambert programs in `@react-vertex/material-hooks` make use of lights in the scene.
 
@@ -244,7 +244,7 @@ Example.propTypes = {
 export default Example
 ```
 
-### <geometry>
+### `<geometry>`
 
 The `<geometry>` element defines the attributes and several other parameters for drawing. You can also set the `position`, `rotation` and `scale`. The nearest `<material>` ancestor will define what program is applied to the geometries.  Probably, the easiest way to get started is to use the hooks from `@react-vertex/geometry-hooks`. 
 
