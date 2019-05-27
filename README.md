@@ -51,7 +51,7 @@ Keep in mind these sandboxes run in "development" mode and, just like for React,
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/@react-vertex/core)](https://bundlephobia.com/result?p=@react-vertex/core)
 [![npm version](https://img.shields.io/npm/v/@react-vertex/core.svg)](https://www.npmjs.com/package/@react-vertex/core)
 
-React components, renderer and hooks for in React Vertex.
+React components, renderer and hooks for React Vertex.
 
 ```npm install @react-vertex/core```
 
