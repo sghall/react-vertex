@@ -1,5 +1,10 @@
 export const demosList = [
   {
+    href: '/demo-flocking-birds',
+    name: 'Flocking Birds',
+    tag: '',
+  },
+  {
     href: '/demo-axes-helper',
     name: 'Axes Helper',
     tag: '',
