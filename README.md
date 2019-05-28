@@ -380,7 +380,7 @@ function Scene() {
 ## Running the repo locally
 
 ```
-git clone git@github.com:sghall/react-vertex.git
+git clone https://github.com/sghall/react-vertex.git
 cd react-vertex
 npm install && npm run dev
 
