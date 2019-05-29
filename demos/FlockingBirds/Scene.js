@@ -1,7 +1,12 @@
 import React, { memo, useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
-import { useWebGLContext, useCanvasSize, useRender, useDataTexture } from '@react-vertex/core'
+import {
+  useWebGLContext,
+  useCanvasSize,
+  useRender,
+  useDataTexture,
+} from '@react-vertex/core'
 import { randomPositions, randomVelocities } from './utils'
 import Birds from './Birds'
 
