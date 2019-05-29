@@ -26,7 +26,7 @@ function Birds({ elapsed, texPosition, texVelocity }) {
 
   const positionBuffer = useStaticBuffer(gl, birds.vertices, false, 'F32')
   const position = useAttribute(gl, 4, positionBuffer)
-  
+
   const uvsBuffer = useStaticBuffer(gl, birds.uvs, false, 'F32')
   const uv = useInstancedAttribute(gl, 2, uvsBuffer)
 
@@ -35,9 +35,14 @@ function Birds({ elapsed, texPosition, texVelocity }) {
 
   const indexBuffer = useStaticBuffer(gl, birds.indices, true, 'U16')
 
-  const attributes = useMemo(() => ({
-    position, color, uv 
-  }), [position, color, uv])
+  const attributes = useMemo(
+    () => ({
+      position,
+      color,
+      uv,
+    }),
+    [position, color, uv],
+  )
 
   return (
     <material program={program}>
@@ -47,7 +52,7 @@ function Birds({ elapsed, texPosition, texVelocity }) {
         drawElements={{
           count: birds.indices.length,
           primcount: birds.instanceCount,
-        }}      
+        }}
       />
     </material>
   )

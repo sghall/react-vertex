@@ -1,4 +1,3 @@
-
 export default `
   precision <<FLOAT_PRECISION>> float;
 
