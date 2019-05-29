@@ -14,7 +14,7 @@ function FlockingBirds() {
   return (
     <DemoWrapper src="demos/FlockingBirds">
       <div ref={container}>
-        <Canvas antialias width={width} height={width} clearColor={clearColor}>
+        <Canvas antialias width={width} height={width} clearColor={clearColor} extensions={['OES_texture_float']}>
           <Scene />
         </Canvas>
       </div>

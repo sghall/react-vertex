@@ -7,31 +7,37 @@ import {
   useAttribute,
   useInstancedAttribute,
   useUniform1f,
+  useUniformSampler2d,
 } from '@react-vertex/core'
-import vert from './vert.glsl'
-import frag from './frag.glsl'
-import * as geometry from './geometry'
+import vert from './vert'
+import frag from './frag'
+import birdGeometry from './geometry'
 
-function Birds({ elapsed }) {
+const size = 16
+const birds = birdGeometry(size)
+
+function Birds({ elapsed, texPosition, texVelocity }) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
   useUniform1f(gl, program, 'elapsed', elapsed * 0.003)
+  useUniformSampler2d(gl, program, 'texPosition', texPosition)
+  useUniformSampler2d(gl, program, 'texVelocity', texVelocity)
 
-  const positionBuffer = useStaticBuffer(gl, geometry.positions, false, 'F32')
+  const positionBuffer = useStaticBuffer(gl, birds.vertices, false, 'F32')
   const position = useAttribute(gl, 4, positionBuffer)
   
-  const offsetsBuffer = useStaticBuffer(gl, geometry.offsets, false, 'F32')
-  const offset = useInstancedAttribute(gl, 3, offsetsBuffer)
+  const uvsBuffer = useStaticBuffer(gl, birds.uvs, false, 'F32')
+  const uv = useInstancedAttribute(gl, 2, uvsBuffer)
 
-  const colorsBuffer = useStaticBuffer(gl, geometry.colors, false, 'F32')
-  const color = useInstancedAttribute(gl, 4, colorsBuffer)
+  const colorsBuffer = useStaticBuffer(gl, birds.colors, false, 'F32')
+  const color = useInstancedAttribute(gl, 3, colorsBuffer)
 
-  const indexBuffer = useStaticBuffer(gl, geometry.indices, true, 'U16')
+  const indexBuffer = useStaticBuffer(gl, birds.indices, true, 'U16')
 
   const attributes = useMemo(() => ({
-    position, color, offset 
-  }), [position, color, offset])
+    position, color, uv 
+  }), [position, color, uv])
 
   return (
     <material program={program}>
@@ -39,8 +45,8 @@ function Birds({ elapsed }) {
         index={indexBuffer}
         attributes={attributes}
         drawElements={{
-          count: geometry.indices.length,
-          primcount: geometry.instanceCount,
+          count: birds.indices.length,
+          primcount: birds.instanceCount,
         }}      
       />
     </material>
@@ -48,7 +54,9 @@ function Birds({ elapsed }) {
 }
 
 Birds.propTypes = {
-  elapsed: PropTypes.number.isRequired
+  elapsed: PropTypes.number.isRequired,
+  texPosition: PropTypes.object.isRequired,
+  texVelocity: PropTypes.object.isRequired,
 }
 
 export default Birds

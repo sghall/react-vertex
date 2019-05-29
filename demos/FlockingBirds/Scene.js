@@ -1,8 +1,13 @@
 import React, { memo, useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
-import { useCanvasSize, useRender } from '@react-vertex/core'
-import Birds from './Birds'
+import { useWebGLContext, useCanvasSize, useRender, useDataTexture } from '@react-vertex/core'
+import { randomPositions, randomVelocities } from './utils'
+import Birds from './Flocking'
+
+const size = 16
+const positionData = randomPositions(size)
+const velocityData = randomVelocities(size)
 
 function Scene() {
   const { width, height } = useCanvasSize()
@@ -11,9 +16,13 @@ function Scene() {
   const [elapsed, setElapsed] = useState(0)
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
-    c.setPosition([0, 0, 2000])
+    c.setPosition([0, 0, 500])
   })
   useOrbitControls(camera)
+
+  const gl = useWebGLContext()
+  const texPosition = useDataTexture(gl, positionData, size, size)
+  const texVelocity = useDataTexture(gl, velocityData, size, size)
 
   useEffect(() => {
     const timerLoop = timer(e => {
@@ -26,11 +35,11 @@ function Scene() {
 
   return (
     <camera view={camera.view} projection={camera.projection}>
-      <group rotation={[0, -elapsed * 0.0002 + Math.PI / 2, 0]}>
-        <group position={[200, 0, 0]}>
-          <Birds elapsed={elapsed} />
-        </group>
-      </group>
+      <Birds
+        elapsed={elapsed}
+        texPosition={texPosition}
+        texVelocity={texVelocity}
+      />
     </camera>
   )
 }
