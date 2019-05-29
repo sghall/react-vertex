@@ -1,76 +1,47 @@
-import { interpolateYlGnBu } from 'd3-scale-chromatic'
-import { convertRgb } from '@react-vertex/color-hooks'
 
-const w = 30
-const d = 12
-
-const VERT_TYPE_1 = 1
-const VERT_TYPE_2 = 2
-const VERT_TYPE_3 = 3
-
-// prettier-ignore
-export const positions = [
-  // BODY
-  0, 0, -20, VERT_TYPE_1, 0, 6, -20, VERT_TYPE_1, 0, 0, 25, VERT_TYPE_1,
-
-  // LEFT WING
-  0, 0, +d, VERT_TYPE_1, 0, 0, -d, VERT_TYPE_1, -w, 0, -d, VERT_TYPE_2,
-  -w, 0, +d, VERT_TYPE_2, 0, 0, d, VERT_TYPE_1, -w, 0, -d, VERT_TYPE_2,
-  -w, 0, -d, VERT_TYPE_2, -w * 1.5, 0, -d, VERT_TYPE_3, -w, 0, +d, VERT_TYPE_2,
+export default function birdGeometry(size) {
+  const instanceCount = size * size
+ 
+  const w = 30
+  const d = 12
   
-  // RIGHT WING
-  0, 0, -d, VERT_TYPE_1, 0, 0, +d, VERT_TYPE_1, +w, 0, -d, VERT_TYPE_2, 
-  +w, 0, -d, VERT_TYPE_2, 0, 0, d, VERT_TYPE_1, +w, 0, +d, VERT_TYPE_2,
-  +w, 0, +d, VERT_TYPE_2, +w * 1.5, 0, -d, VERT_TYPE_3, +w, 0, -d, VERT_TYPE_2,
-]
-
-// prettier-ignore
-export const indices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-
-const rowCount = 32
-
-export const instanceCount = rowCount * rowCount
-
-const cellX = 100
-const cellY = 120
-
-const variance = 2000
-
-function createOffets() {
-  const result = []
-
-  let x = cellX / 2
-
-  for (let i = 0; i < instanceCount; i += 4) {
-    const y = Math.floor((i - 1) / rowCount) * cellY + cellY / 2
-    const z = Math.random() * variance - variance / 2
-
-    result.push(-x, +y, +z)
-    result.push(-x, -y, +z)
-    result.push(-x, -y, +z)
-    result.push(-x, +y, +z)
-
-    if (i % rowCount === 0) {
-      x = cellX / 2
-    } else {
-      x += cellX
-    }
-  }
-
-  return result
-}
-
-export const offsets = createOffets()
-
-function createColors() {
-  const result = []
+  const vertType1 = 1
+  const vertType2 = 2
+  const vertType3 = 3
+  
+  // prettier-ignore
+  const vertices = [
+    // BODY
+    0, 0, -20, vertType1, 0, 6, -20, vertType1, 0, 0, 25, vertType1,
+  
+    // LEFT WING
+    0, 0, +d, vertType1, 0, 0, -d, vertType1, -w, 0, -d, vertType2,
+    -w, 0, +d, vertType2, 0, 0, d, vertType1, -w, 0, -d, vertType2,
+    -w, 0, -d, vertType2, -w * 1.5, 0, -d, vertType3, -w, 0, +d, vertType2,
+    
+    // RIGHT WING
+    0, 0, -d, vertType1, 0, 0, +d, vertType1, +w, 0, -d, vertType2, 
+    +w, 0, -d, vertType2, 0, 0, d, vertType1, +w, 0, +d, vertType2,
+    +w, 0, +d, vertType2, +w * 1.5, 0, -d, vertType3, +w, 0, -d, vertType2,
+  ]
+  
+  // prettier-ignore
+  const indices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  
+  const colors = []
+  const uvs = []
 
   for (let i = 0; i < instanceCount; i++) {
-    const rgb = interpolateYlGnBu(Math.random())
-    result.push(...convertRgb(rgb))
+    const x = (i % size) / size
+    const y = Math.floor(i / size) / size
+
+    colors[i * 3 + 0] = Math.max(x, 1 - x)
+    colors[i * 3 + 1] = Math.max(y, 1 - y)
+    colors[i * 3 + 2] = 1
+
+    uvs[i * 2 + 0] = x
+    uvs[i * 2 + 1] = y
   }
 
-  return result
+  return { instanceCount, indices, vertices, colors, uvs }
 }
-
-export const colors = createColors()
