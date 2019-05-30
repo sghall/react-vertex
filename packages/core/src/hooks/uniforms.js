@@ -19,7 +19,7 @@ export function useUniformSampler2d(gl, program, name, texture) {
     return () => scene.releaseTextureUnit(unit)
   }, [scene, unit])
 
-  return [memoized, unit]
+  return [unit, memoized]
 }
 
 export function useMatrixUniform(gl, program, name, value, type) {
