@@ -3,6 +3,7 @@ export default `
 
   uniform sampler2D texPosition;
   uniform sampler2D texVelocity;
+  uniform vec2 resolution;
 
   uniform float delta;
 
