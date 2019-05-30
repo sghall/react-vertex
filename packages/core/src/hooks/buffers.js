@@ -103,24 +103,24 @@ export function useRenderBuffer(gl, width, height, format) {
   return memoized
 }
 
-export function useFrameBuffer(gl, texture, unit) {
+export function useFrameBuffer(gl /*, texture, unitv*/) {
   const memoized = useMemo(() => {
     const buffer = gl.createFramebuffer()
 
     warn(!!buffer, `${prefix} Failed to create frame buffer.`)
 
-    gl.activeTexture(gl[`TEXTURE${unit}`])
-    gl.bindTexture(gl.TEXTURE_2D, texture)
-    gl.bindFramebuffer(gl.FRAMEBUFFER, buffer)
+    // gl.activeTexture(gl[`TEXTURE${unit}`])
+    // gl.bindTexture(gl.TEXTURE_2D, texture)
+    // gl.bindFramebuffer(gl.FRAMEBUFFER, buffer)
 
-    // prettier-ignore
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0)
+    // // prettier-ignore
+    // gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0)
 
-    gl.bindTexture(gl.TEXTURE_2D, null)
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+    // gl.bindTexture(gl.TEXTURE_2D, null)
+    // gl.bindFramebuffer(gl.FRAMEBUFFER, null)
 
     return buffer
-  }, [gl, texture, unit])
+  }, [gl])
 
   useEffect(() => {
     return () => gl.deleteFramebuffer(memoized)
