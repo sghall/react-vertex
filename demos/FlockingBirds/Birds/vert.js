@@ -28,16 +28,17 @@ export default `
   
     if (vertType == 1.0) {
       adjustedPosition.y -= sin(elapsed) * 3.0;
+      adjustedColor *= 0.9;
     }
   
     if (vertType == 2.0) {
       adjustedPosition.y += sin(elapsed) * 15.0;
-      adjustedColor *= 0.6;
+      adjustedColor *= 1.1;
     }
     
     if (vertType == 3.0) {
       adjustedPosition.y += sin(elapsed) * 30.0;
-      adjustedColor *= 0.5;
+      adjustedColor *= 1.2;
     }
     
     adjustedPosition = mat3(modelMatrix) * adjustedPosition;

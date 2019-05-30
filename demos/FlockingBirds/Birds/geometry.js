@@ -11,7 +11,7 @@ export default function birdGeometry(size) {
   // prettier-ignore
   const vertices = [
     // BODY
-    0, 0, -20, vertType1, 0, 6, -20, vertType1, 0, 0, 25, vertType1,
+    0, 0, -20, vertType1, 0, -6, -20, vertType1, 0, 0, 25, vertType1,
   
     // LEFT WING
     0, 0, +d, vertType1, 0, 0, -d, vertType1, -w, 0, -d, vertType2,

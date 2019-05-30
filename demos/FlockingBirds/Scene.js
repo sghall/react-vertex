@@ -2,17 +2,11 @@ import React, { memo, useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import {
-  useWebGLContext,
   useCanvasSize,
   useRender,
-  useDataTexture,
 } from '@react-vertex/core'
-import { randomPositions, randomVelocities } from './utils'
+import { useDataTextures } from './PingPong'
 import Birds from './Birds'
-
-const size = 16
-const positionData = randomPositions(size)
-const velocityData = randomVelocities(size)
 
 function Scene() {
   const { width, height } = useCanvasSize()
@@ -25,9 +19,7 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const gl = useWebGLContext()
-  const texPosition = useDataTexture(gl, positionData, size, size)
-  const texVelocity = useDataTexture(gl, velocityData, size, size)
+  const [texPosition, texVelocity] = useDataTextures(16)
 
   useEffect(() => {
     const timerLoop = timer(e => {
