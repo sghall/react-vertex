@@ -57,7 +57,7 @@ export default `
     velocity -= normalize(direction) * delta * 5.0;
     
     for (float y = 0.0; y < height; y++) {
-      for (float x=0.0; x < width; x++) {
+      for (float x= 0.0; x < width; x++) {
         vec2 ref = vec2(x + 0.5, y + 0.5) / resolution.xy;
         
         birdPosition = texture2D(texPosition, ref).xyz;
