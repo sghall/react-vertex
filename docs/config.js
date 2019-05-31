@@ -1,5 +1,10 @@
 export const demosList = [
   {
+    href: '/demo-curl-noise',
+    name: 'Curl Noise',
+    tag: '',
+  },
+  {
     href: '/demo-flocking-birds',
     name: 'Flocking Birds',
     tag: '',
