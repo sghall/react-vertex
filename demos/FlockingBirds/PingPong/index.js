@@ -56,15 +56,16 @@ export function usePingPong(program, size, name, ping, pong) {
     let prevElapsed = 0
     let activeIndex = 0
   
-    const timerLoop = timer(elapsed => {
+    const timerLoop = timer(e => {
+      const elapsed = e * 0.001
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
       gl.useProgram(program)
 
       gl.uniform2f(rLocation, size, size)
-      gl.uniform1f(dLocation, delta * 0.03)
-      gl.uniform1f(eLocation, elapsed * 0.003)
+      gl.uniform1f(dLocation, delta)
+      gl.uniform1f(eLocation, elapsed)
 
       if (activeIndex === 0) {
         gl.activeTexture(gl[`TEXTURE${pongUnit}`])
