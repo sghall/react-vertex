@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react'
+import { useReducer, useEffect, useMemo } from 'react'
 import { timer } from 'd3-timer'
 import {
   useWebGLContext,
@@ -6,13 +6,12 @@ import {
   useStaticBuffer,
   useAttribute,
   useFrameBuffer,
-  useUniform1f,
-  useUniform2f,
   useDataTexture,
-  useUniformSampler2d,
+  useSceneNode,
 } from '@react-vertex/core'
 import vert from './vert'
 import positionFrag from './position.frag'
+import velocityFrag from './velocity.frag'
 import { useRandomPositionData, useRandomVelocityData } from './dataHooks'
 
 function reducer(state, action) {
@@ -36,22 +35,24 @@ export function usePingPong(program, size, name, ping, pong) {
 
   const gl = useWebGLContext()
 
+  const scene = useSceneNode()
   const frameBuffer = useFrameBuffer(gl)
-
-  const [pingUnit, location] = useUniformSampler2d(gl, program, `${name}`, ping)
-  const [pongUnit] = useUniformSampler2d(gl, program, `${name}`, pong)
-
-  const dLocation = useUniform1f(gl, program, 'delta', 0)
-  const eLocation = useUniform1f(gl, program, 'elapsed', 0)
   
-  useUniform2f(gl, program, 'resolution', size, size)
-
   const positionsBuffer = useStaticBuffer(gl, vertices, false, 'F32')
   const position = useAttribute(gl, 3, positionsBuffer)
 
   const indexBuffer = useStaticBuffer(gl, indices, true, 'U16')
 
   useEffect(() => {
+    const pingUnit = scene.getTextureUnit()
+    const pongUnit = scene.getTextureUnit()
+
+    const tLocation = gl.getUniformLocation(program, name)
+    const pLocation = gl.getAttribLocation(program, 'position')
+    const eLocation = gl.getUniformLocation(program, 'elapsed')
+    const dLocation = gl.getUniformLocation(program, 'delta')
+    const rLocation = gl.getUniformLocation(program, 'resolution')
+
     let prevElapsed = 0
     let activeIndex = 0
   
@@ -61,29 +62,37 @@ export function usePingPong(program, size, name, ping, pong) {
 
       gl.useProgram(program)
 
-      gl.uniform1f(dLocation, delta)
-      gl.uniform1f(eLocation, elapsed)
+      gl.uniform2f(rLocation, size, size)
+      gl.uniform1f(dLocation, delta * 0.03)
+      gl.uniform1f(eLocation, elapsed * 0.003)
 
-      let texture = activeIndex === 0 ? ping : pong
-      let unit = activeIndex === 0 ? pingUnit : pongUnit
+      if (activeIndex === 0) {
+        gl.activeTexture(gl[`TEXTURE${pongUnit}`])
+        gl.bindTexture(gl.TEXTURE_2D, pong)
+        
+        const attach = gl.COLOR_ATTACHMENT0
+        gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, attach, gl.TEXTURE_2D, pong, 0)
+
+        gl.activeTexture(gl[`TEXTURE${pingUnit}`])
+        gl.bindTexture(gl.TEXTURE_2D, ping)
+        gl.uniform1i(tLocation, pingUnit)
+      } else {
+        gl.activeTexture(gl[`TEXTURE${pingUnit}`])
+        gl.bindTexture(gl.TEXTURE_2D, ping)
+        
+        const attach = gl.COLOR_ATTACHMENT0
+        gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, attach, gl.TEXTURE_2D, ping, 0) 
       
-      gl.uniform1i(location, unit)
-      gl.activeTexture(gl[`TEXTURE${unit}`])
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-
-      texture = activeIndex === 1 ? ping : pong
-      unit = activeIndex === 1 ? pingUnit : pongUnit
+        gl.activeTexture(gl[`TEXTURE${pongUnit}`])
+        gl.bindTexture(gl.TEXTURE_2D, pong)
+        gl.uniform1i(tLocation, pongUnit)
+      }
       
-      gl.activeTexture(gl[`TEXTURE${unit}`])
-      gl.bindTexture(gl.TEXTURE_2D, texture)
+      position(pLocation)
 
-      gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
-
-      const attach = gl.COLOR_ATTACHMENT0
-      gl.framebufferTexture2D(gl.FRAMEBUFFER, attach, gl.TEXTURE_2D, texture, 0)
-
-      const positionLocation = gl.getAttribLocation(program, 'position')
-      position(positionLocation)
+      gl.viewport(0, 0, size, size)
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
       gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0) 
@@ -94,30 +103,53 @@ export function usePingPong(program, size, name, ping, pong) {
       dispatch({ type: 'swap'})
     })
 
-    return () => timerLoop.stop()
-  }, [gl, ping, pingUnit, pong, location, frameBuffer, pongUnit, program, indexBuffer, position, eLocation, dLocation])
+    return () => {
+      timerLoop.stop()
+      scene.releaseTextureUnit(pingUnit)
+      scene.releaseTextureUnit(pongUnit)
+    }
+  }, [gl, scene, name, size, ping, pong, frameBuffer, program, indexBuffer, position])
 
   return index === 0 ? ping : pong
 }
 
 export function useDataTextures(size) {
   const gl = useWebGLContext()
-  // const velProgram = useProgram(gl, vert, positionFrag)
+  const scene = useSceneNode()
+
+  const velProgram = useProgram(gl, vert, velocityFrag)
   const posProgram = useProgram(gl, vert, positionFrag)
+
+  const deps = useMemo(() => {
+    const velUnit = scene.getTextureUnit()
+    const velLocation = gl.getUniformLocation(posProgram, 'texVelocity')
+
+    const posUnit = scene.getTextureUnit()
+    const posLocation = gl.getUniformLocation(velProgram, 'texPosition')
+
+    return { velUnit, velLocation, posUnit, posLocation}
+  }, [gl, scene, posProgram, velProgram] )
 
   const randomVelocityData = useRandomVelocityData(size)
   const randomPositionData = useRandomPositionData(size)
 
-  const texVelocity = useDataTexture(gl, randomVelocityData, size, size)
-  // const velPong = useDataTexture(gl, randomVelocityData, size, size)
-  // const texVelocity = usePingPong(velProgram, size, 'texVelocity', velPing, velPong)
+  const velPing = useDataTexture(gl, randomVelocityData, size, size)
+  const velPong = useDataTexture(gl, randomVelocityData, size, size)
+  const texVelocity = usePingPong(velProgram, size, 'texVelocity', velPing, velPong)
 
   const posPing = useDataTexture(gl, randomPositionData, size, size)
   const posPong = useDataTexture(gl, randomPositionData, size, size)
   const texPosition = usePingPong(posProgram, size, 'texPosition', posPing, posPong)
 
-  useUniformSampler2d(gl, posProgram, 'texVelocity', texVelocity)
-  // useUniformSampler2d(gl, velProgram, 'texPosition', texPosition)
+  gl.useProgram(posProgram)
+  gl.activeTexture(gl[`TEXTURE${deps.velUnit}`])
+  gl.bindTexture(gl.TEXTURE_2D, texVelocity)
+  gl.uniform1i(deps.velLocation, deps.velUnit)
+
+  gl.useProgram(velProgram)
+  gl.activeTexture(gl[`TEXTURE${deps.posUnit}`])
+  gl.bindTexture(gl.TEXTURE_2D, texPosition)
+  gl.uniform1i(deps.posLocation, deps.posUnit)
 
   return [texPosition, texVelocity]
 }
