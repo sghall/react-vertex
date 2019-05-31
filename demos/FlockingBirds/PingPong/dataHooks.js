@@ -8,13 +8,13 @@ export function useRandomPositionData(size) {
       const r = 0.01 + Math.random() * 600
       const p = (Math.random() - 0.5) * Math.PI
       const t = Math.random() * Math.PI * 2
-  
+
       arr[k + 0] = r * Math.cos(t) * Math.cos(p)
       arr[k + 1] = r * Math.sin(p)
       arr[k + 2] = r * Math.sin(t) * Math.cos(p)
       arr[k + 3] = Math.random()
     }
-  
+
     return arr
   }, [size])
 
@@ -29,16 +29,15 @@ export function useRandomVelocityData(size) {
       const x = Math.random() - 0.5
       const y = Math.random() - 0.5
       const z = Math.random() - 0.5
-  
+
       arr[k + 0] = x * 10
       arr[k + 1] = y * 10
       arr[k + 2] = z * 10
       arr[k + 3] = 1
     }
-  
+
     return arr
   }, [size])
 
   return data
 }
-
