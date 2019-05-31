@@ -60,7 +60,6 @@ export default `
     mat3 matz = mat3(cosrz, sinrz, 0, -sinrz, cosrz, 0, 0, 0, 1);
 
     adjustedPosition = maty * matz * adjustedPosition;
-    adjustedPosition += offset;
 
     vColor = adjustedColor;
 

@@ -19,7 +19,7 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const [texPosition, texVelocity] = useDataTextures(16)
+  const [texPosition, texVelocity] = useDataTextures(32)
 
   useEffect(() => {
     const timerLoop = timer(e => {
