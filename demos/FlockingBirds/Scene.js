@@ -15,7 +15,7 @@ function Scene() {
   const [elapsed, setElapsed] = useState(0)
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
-    c.setPosition([0, 0, 500])
+    c.setPosition([0, 0, 3000])
   })
   useOrbitControls(camera)
 
@@ -24,7 +24,7 @@ function Scene() {
   useEffect(() => {
     const timerLoop = timer(e => {
       renderScene()
-      setElapsed(e)
+      setElapsed(e * 0.001)
     })
 
     return () => timerLoop.stop()
