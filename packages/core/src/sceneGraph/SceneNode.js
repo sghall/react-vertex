@@ -61,9 +61,9 @@ export class SceneNode extends Node {
 
   textureUnits = {}
 
-  getTextureUnit(texture) {
+  getTextureUnit(texture = false) {
     for (let unit = 0; unit < this.maxTextures; unit++) {
-      if (!this.textureUnits[unit]) {
+      if (this.textureUnits[unit] === undefined) {
         this.textureUnits[unit] = texture
         return unit
       }
@@ -122,8 +122,10 @@ export class SceneNode extends Node {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
     Object.keys(this.textureUnits).forEach(unit => {
-      gl.activeTexture(gl[`TEXTURE${unit}`])
-      gl.bindTexture(gl.TEXTURE_2D, this.textureUnits[unit])
+      if (this.textureUnits[unit] !== false) {
+        gl.activeTexture(gl[`TEXTURE${unit}`])
+        gl.bindTexture(gl.TEXTURE_2D, this.textureUnits[unit])
+      }
     })
 
     const needsMatrixUpdate = this.needsMatrixUpdate === true
