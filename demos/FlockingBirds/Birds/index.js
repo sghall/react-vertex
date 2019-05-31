@@ -20,7 +20,7 @@ function Birds({ elapsed, texPosition, texVelocity }) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
-  useUniform1f(gl, program, 'elapsed', elapsed * 0.003)
+  useUniform1f(gl, program, 'elapsed', elapsed)
   useUniformSampler2d(gl, program, 'texPosition', texPosition)
   useUniformSampler2d(gl, program, 'texVelocity', texVelocity)
 
