@@ -125,9 +125,9 @@ import {
 
 | Format | Type         | Range                            |
 | -------|--------------|----------------------------------|
-| 'U8'   | Uint8Array   | -128 to 127                      |
-| 'U16'  | Uint16Array  | -32,768 to 32,767                |
-| 'U32'  | Uint32Array  | -2,147,483,648 to 2,147,483,647  |
+| 'U8'   | Uint8Array   | 0 to 255                         |
+| 'U16'  | Uint16Array  | 0 to 65,535                      |
+| 'U32'  | Uint32Array  | 0 to 4,294,967,295               |
 | 'I8'   | Int8Array    | -128 to 127                      |
 | 'I16'  | Int16Array   | -32,768 to 32,767                |
 | 'I32'  | Int32Array   | -2,147,483,648 to 2,147,483,647  |
