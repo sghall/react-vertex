@@ -5,7 +5,7 @@ export default function birdGeometry(size) {
 
   const w = 30 * scale
   const d = 12 * scale
-  const k = 30 * scale
+  const k = 20 * scale
 
   const vertType1 = 1
   const vertType2 = 2
@@ -14,8 +14,7 @@ export default function birdGeometry(size) {
   // prettier-ignore
   const vertices = [
     // BODY
-    0, 0, -k, vertType1, 0, -k / 2, -k, vertType1, 0, 0, k, vertType1,
-  
+    0, 0, -k, vertType1, 0, -6 * scale, -k, vertType1, 0, 0, 25 * scale, vertType1,
     // LEFT WING
     0, 0, +d, vertType1, 0, 0, -d, vertType1, -w, 0, -d, vertType2,
     -w, 0, +d, vertType2, 0, 0, d, vertType1, -w, 0, -d, vertType2,
@@ -37,8 +36,8 @@ export default function birdGeometry(size) {
     const x = (i % size) / size
     const y = Math.floor(i / size) / size
 
-    colors[i * 3 + 0] = Math.max(x, 1 - x)
-    colors[i * 3 + 1] = Math.max(y, 1 - y)
+    colors[i * 3 + 0] = Math.max(y, 1 - y)
+    colors[i * 3 + 1] = Math.max(x, 1 - x)
     colors[i * 3 + 2] = 1
 
     uvs[i * 2 + 0] = x
