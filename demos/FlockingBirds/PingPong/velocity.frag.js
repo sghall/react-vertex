@@ -22,10 +22,6 @@ export default `
 
   const float SPEED_LIMIT = 9.0;
 
-  float rand(vec2 co){
-    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
-  }
-
   void main() {
     zoneRadius = separationDistance + alignmentDistance + cohesionDistance;
     separationThresh = separationDistance / zoneRadius;
