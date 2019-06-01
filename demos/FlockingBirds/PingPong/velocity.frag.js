@@ -7,12 +7,12 @@ export default `
 
   uniform float delta;
 
-  const float width = 32.0;
-  const float height = 32.0;
+  const float width = 16.0;
+  const float height = 16.0;
 
   float separationDistance = 50.0;
   float alignmentDistance = 20.0;
-  float cohesionDistance = 20.0;
+  float cohesionDistance = 50.0;
   
   const float PI = 3.141592653589793;
   const float PI_2 = PI * 2.0;
