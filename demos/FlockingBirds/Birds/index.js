@@ -11,12 +11,11 @@ import {
 } from '@react-vertex/core'
 import vert from './vert'
 import frag from './frag'
-import birdGeometry from './geometry'
+import { useBirdGeometry } from './geometry'
 
-const size = 32
-const birds = birdGeometry(size)
+function Birds({ size, elapsed, texPosition, texVelocity }) {
+  const birds = useBirdGeometry(size)
 
-function Birds({ elapsed, texPosition, texVelocity }) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
@@ -59,6 +58,7 @@ function Birds({ elapsed, texPosition, texVelocity }) {
 }
 
 Birds.propTypes = {
+  size: PropTypes.number.isRequired,
   elapsed: PropTypes.number.isRequired,
   texPosition: PropTypes.object.isRequired,
   texVelocity: PropTypes.object.isRequired,

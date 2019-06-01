@@ -5,6 +5,8 @@ import { useCanvasSize, useRender } from '@react-vertex/core'
 import { useDataTextures } from './PingPong'
 import Birds from './Birds'
 
+const size = 64
+
 function Scene() {
   const { width, height } = useCanvasSize()
   const renderScene = useRender()
@@ -13,11 +15,10 @@ function Scene() {
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 500])
-    c.setRotationY(180)
   })
   useOrbitControls(camera)
 
-  const [texPosition, texVelocity] = useDataTextures(32)
+  const [texPosition, texVelocity] = useDataTextures(size)
 
   useEffect(() => {
     const timerLoop = timer(e => {
@@ -31,6 +32,7 @@ function Scene() {
   return (
     <camera view={camera.view} projection={camera.projection}>
       <Birds
+        size={size}
         elapsed={elapsed}
         texPosition={texPosition}
         texVelocity={texVelocity}

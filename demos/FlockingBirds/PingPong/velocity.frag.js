@@ -7,15 +7,13 @@ export default `
 
   uniform float delta;
 
-  const float width = 32.0;
-  const float height = 32.0;
-
   float separationDistance = 50.0;
   float alignmentDistance = 20.0;
-  float cohesionDistance = 20.0;
+  float cohesionDistance = 50.0;
   
   const float PI = 3.141592653589793;
   const float PI_2 = PI * 2.0;
+  const float MAX_RESOLUTION = 64.0;
 
   float zoneRadius = 40.0;
   float zoneRadiusSquared = 1600.0;
@@ -56,8 +54,16 @@ export default `
     direction.y *= 2.5;
     velocity -= normalize(direction) * delta * 5.0;
     
-    for (float y = 0.0; y < height; y++) {
-      for (float x= 0.0; x < width; x++) {
+    for (float y = 0.0; y < MAX_RESOLUTION; y++) {
+      if (y >= resolution.y){
+        break;
+      }
+      
+      for (float x= 0.0; x < MAX_RESOLUTION; x++) {
+        if (x >= resolution.x){
+          break;
+        }
+
         vec2 ref = vec2(x + 0.5, y + 0.5) / resolution.xy;
         
         birdPosition = texture2D(texPosition, ref).xyz;
