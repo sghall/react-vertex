@@ -2,7 +2,7 @@ export default `
   precision <<FLOAT_PRECISION>> float;
 
   float near = 0.0;
-  float far = 6000.0;
+  float far = 7000.0;
 
   varying vec4 vColor;
 

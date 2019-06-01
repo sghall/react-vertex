@@ -12,7 +12,7 @@ function Scene() {
   const [elapsed, setElapsed] = useState(0)
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
-    c.setPosition([0, 0, 3000])
+    c.setPosition([0, 0, 500])
   })
   useOrbitControls(camera)
 
