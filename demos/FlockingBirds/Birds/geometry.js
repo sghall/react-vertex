@@ -1,8 +1,11 @@
 export default function birdGeometry(size) {
   const instanceCount = size * size
 
-  const w = 30
-  const d = 12
+  const scale = 0.15
+
+  const w = 30 * scale
+  const d = 12 * scale
+  const k = 20 * scale
 
   const vertType1 = 1
   const vertType2 = 2
@@ -11,7 +14,7 @@ export default function birdGeometry(size) {
   // prettier-ignore
   const vertices = [
     // BODY
-    0, 0, -20, vertType1, 0, -6, -20, vertType1, 0, 0, 25, vertType1,
+    0, 0, -k, vertType1, 0, -k / 2, -k, vertType1, 0, 0, k, vertType1,
   
     // LEFT WING
     0, 0, +d, vertType1, 0, 0, -d, vertType1, -w, 0, -d, vertType2,

@@ -5,7 +5,7 @@ export function useRandomPositionData(size) {
     const arr = new Float32Array(size * size * 4)
 
     for (let k = 0, kl = arr.length; k < kl; k += 4) {
-      const r = 0.01 + Math.random() * 600
+      const r = 0.01 + Math.random() * 200
       const p = (Math.random() - 0.5) * Math.PI
       const t = Math.random() * Math.PI * 2
 

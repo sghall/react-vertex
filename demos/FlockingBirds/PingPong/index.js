@@ -65,7 +65,7 @@ export function usePingPong(program, size, name, ping, pong) {
       gl.useProgram(program)
 
       gl.uniform2f(rLocation, size, size)
-      gl.uniform1f(dLocation, delta)
+      gl.uniform1f(dLocation, delta * 0.5)
       gl.uniform1f(eLocation, elapsed)
 
       if (activeIndex === 0) {
