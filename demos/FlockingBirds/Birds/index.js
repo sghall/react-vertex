@@ -13,7 +13,7 @@ import vert from './vert'
 import frag from './frag'
 import birdGeometry from './geometry'
 
-const size = 16
+const size = 32
 const birds = birdGeometry(size)
 
 function Birds({ elapsed, texPosition, texVelocity }) {

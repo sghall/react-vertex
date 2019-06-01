@@ -5,7 +5,7 @@ export default function birdGeometry(size) {
 
   const w = 30 * scale
   const d = 12 * scale
-  const k = 20 * scale
+  const k = 30 * scale
 
   const vertType1 = 1
   const vertType2 = 2
