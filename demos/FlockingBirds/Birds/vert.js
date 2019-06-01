@@ -25,17 +25,17 @@ export default `
     float vertType = position.w;
 
     if (vertType == 1.0) {
-      newColor *= 0.9;
+      newColor *= 1.3;
     }
   
     if (vertType == 2.0) {
       newPosition.y = sin(tempPosition.w) * 3.0;
-      newColor *= 1.1;
+      newColor *= 0.6;
     }
     
     if (vertType == 3.0) {
       newPosition.y = sin(tempPosition.w) * 6.0;
-      newColor *= 1.2;
+      newColor *= 0.4;
     }
         
     float xz = length(velocity.xz);

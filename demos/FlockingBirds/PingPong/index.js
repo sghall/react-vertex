@@ -117,10 +117,10 @@ export function usePingPong(program, size, name, ping, pong) {
     size,
     ping,
     pong,
-    frameBuffer,
     program,
-    indexBuffer,
     position,
+    indexBuffer,
+    frameBuffer,
   ])
 
   return index === 0 ? ping : pong
@@ -148,6 +148,7 @@ export function useDataTextures(size) {
 
   const velPing = useDataTexture(gl, randomVelocityData, size, size)
   const velPong = useDataTexture(gl, randomVelocityData, size, size)
+
   const texVelocity = usePingPong(
     velProgram,
     size,
@@ -158,6 +159,7 @@ export function useDataTextures(size) {
 
   const posPing = useDataTexture(gl, randomPositionData, size, size)
   const posPong = useDataTexture(gl, randomPositionData, size, size)
+
   const texPosition = usePingPong(
     posProgram,
     size,
