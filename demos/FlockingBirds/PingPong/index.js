@@ -178,5 +178,5 @@ export function useDataTextures(size) {
   gl.bindTexture(gl.TEXTURE_2D, texPosition)
   gl.uniform1i(deps.posLocation, deps.posUnit)
 
-  return [texPosition, texVelocity]
+  return [deps.posUnit, texPosition, deps.velUnit, texVelocity]
 }

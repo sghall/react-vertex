@@ -7,21 +7,31 @@ import {
   useAttribute,
   useInstancedAttribute,
   useUniform1f,
-  useUniformSampler2d,
 } from '@react-vertex/core'
 import vert from './vert'
 import frag from './frag'
 import { useBirdGeometry } from './geometry'
 
-function Birds({ size, elapsed, texPosition, texVelocity }) {
+function Birds({ size, elapsed, posUnit, texPosition, velUnit, texVelocity }) {
   const birds = useBirdGeometry(size)
 
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
   useUniform1f(gl, program, 'elapsed', elapsed)
-  useUniformSampler2d(gl, program, 'texPosition', texPosition)
-  useUniformSampler2d(gl, program, 'texVelocity', texVelocity)
+
+  const posLocation = gl.getUniformLocation(program, 'texPosition')
+  const velLocation = gl.getUniformLocation(program, 'texVelocity')
+
+  gl.useProgram(program)
+
+  gl.activeTexture(gl[`TEXTURE${posUnit}`])
+  gl.bindTexture(gl.TEXTURE_2D, texPosition)
+  gl.uniform1i(posLocation, posUnit)
+
+  gl.activeTexture(gl[`TEXTURE${velUnit}`])
+  gl.bindTexture(gl.TEXTURE_2D, texVelocity)
+  gl.uniform1i(velLocation, velUnit)
 
   const positionBuffer = useStaticBuffer(gl, birds.vertices, false, 'F32')
   const position = useAttribute(gl, 4, positionBuffer)
@@ -60,7 +70,9 @@ function Birds({ size, elapsed, texPosition, texVelocity }) {
 Birds.propTypes = {
   size: PropTypes.number.isRequired,
   elapsed: PropTypes.number.isRequired,
+  posUnit: PropTypes.number.isRequired,
   texPosition: PropTypes.object.isRequired,
+  velUnit: PropTypes.number.isRequired,
   texVelocity: PropTypes.object.isRequired,
 }
 
