@@ -1,10 +1,31 @@
 import { useEffect, useMemo } from 'react'
+import { timer } from 'd3-timer'
+import { useCanvas } from '@react-vertex/core'
 import { Pointer, generateColor } from './utils'
 
-export default function usePointers(canvas) {
+export default function usePointers() {
+  const canvas = useCanvas()
+
   const pointers = useMemo(() => {
     return [new Pointer()]
   }, [])
+
+  useEffect(() => {
+    let lastColorChange = 0
+
+    const timerLoop = timer(() => {
+      if (lastColorChange + 100 < Date.now()) {
+        lastColorChange = Date.now()
+
+        for (let i = 0; i < pointers.length; i++) {
+          const p = pointers[i]
+          p.color = generateColor()
+        }
+      }
+    })
+
+    return () => timerLoop.stop()
+  })
 
   useEffect(() => {
     function onMouseMove(e) {
@@ -19,7 +40,7 @@ export default function usePointers(canvas) {
       e.preventDefault()
 
       const touches = e.targetTouches
-      
+
       for (let i = 0; i < touches.length; i++) {
         const pointer = pointers[i]
         pointer.moved = pointer.down
@@ -37,14 +58,14 @@ export default function usePointers(canvas) {
 
     function onTouchStart(e) {
       e.preventDefault()
-      
+
       const touches = e.targetTouches
-      
+
       for (let i = 0; i < touches.length; i++) {
         if (i >= pointers.length) {
           pointers.push(new Pointer())
         }
-    
+
         pointers[i].id = touches[i].identifier
         pointers[i].down = true
         pointers[i].x = touches[i].pageX
@@ -59,9 +80,9 @@ export default function usePointers(canvas) {
 
     function onTouchEnd(e) {
       const touches = e.changedTouches
-      
+
       for (let i = 0; i < touches.length; i++) {
-        for (let j = 0; j < pointers.length; j++){
+        for (let j = 0; j < pointers.length; j++) {
           if (touches[i].identifier == pointers[j].id) {
             pointers[j].down = false
           }
@@ -84,7 +105,6 @@ export default function usePointers(canvas) {
       window.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('touchend', onTouchEnd)
     }
-
   }, [pointers, canvas])
 
   return pointers
