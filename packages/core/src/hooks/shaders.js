@@ -78,3 +78,20 @@ export function useProgram(gl, vertSource, fragSource) {
 
   return memoized
 }
+
+export function useProgramUniforms(gl, program) {
+  const memoized = useMemo(() => {
+    const uniforms = {}
+
+    const uniformCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
+
+    for (let i = 0; i < uniformCount; i++) {
+      const name = gl.getActiveUniform(program, i).name
+      uniforms[name] = gl.getUniformLocation(program, name)
+    }
+
+    return uniforms
+  }, [gl, program])
+
+  return memoized
+}
