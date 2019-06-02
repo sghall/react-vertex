@@ -18,7 +18,7 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const [posUnit, texPosition, velUnit, texVelocity] = useDataTextures(size)
+  const [posUnit, velUnit] = useDataTextures(size)
 
   useEffect(() => {
     const timerLoop = timer(e => {
@@ -35,9 +35,7 @@ function Scene() {
         size={size}
         elapsed={elapsed}
         posUnit={posUnit}
-        texPosition={texPosition}
         velUnit={velUnit}
-        texVelocity={texVelocity}
       />
     </camera>
   )
