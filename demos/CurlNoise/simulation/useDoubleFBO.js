@@ -1,7 +1,9 @@
 import { useMemo } from 'react'
 import { useDataTexture, useFrameBuffer } from '@react-vertex/core'
 
-function useFBO(gl, w, h, format, type, minMag) {
+export function useFBO(gl, size, format, type, minMag) {
+  const [w, h] = size
+  
   const texture = useDataTexture(gl, null, w, h, () => ({
     type,
     minMag,
@@ -36,9 +38,9 @@ function useFBO(gl, w, h, format, type, minMag) {
   }
 }
 
-export default function useDoubleFBO(gl, [w, h], format, type, minMag) {
-  const frameBuffer1 = useFBO(gl, w, h, format, type, minMag)
-  const frameBuffer2 = useFBO(gl, w, h, format, type, minMag)
+export function useDoubleFBO(gl, size, format, type, minMag) {
+  const frameBuffer1 = useFBO(gl, size, format, type, minMag)
+  const frameBuffer2 = useFBO(gl, size, format, type, minMag)
 
   const memoized = useMemo(() => {
     let fbo1 = frameBuffer1

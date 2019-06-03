@@ -30,7 +30,6 @@ function supportRenderTextureFormat(gl, internalFormat, format, type) {
 
 function getSupportedFormat(gl, internalFormat, format, type) {
   if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
-    console.log('not supported')
     switch (internalFormat) {
       case gl.R16F:
         return getSupportedFormat(gl, gl.RG16F, gl.RG, type)
@@ -48,6 +47,8 @@ export default function useFormats(gl) {
   const memoized = useMemo(() => {
     const halfFloat = gl.getExtension('OES_texture_half_float').HALF_FLOAT_OES
     const hasLinear = !!gl.getExtension('OES_texture_half_float_linear')
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0)
 
     const r = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloat)
     const rg = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloat)
