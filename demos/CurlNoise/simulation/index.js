@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useWebGLContext, useCanvasSize } from '@react-vertex/core'
-import { SIM_RESOLUTION, DYE_RESOLUTION, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
+import { SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
 import usePointers from './usePointers'
 import useSplatProgram from './useSplatProgram'
 import useColorProgram from './useColorProgram'
@@ -51,8 +51,9 @@ export default function useSimulation() {
   const pressureDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
 
   useEffect(() => {
-    gl.clearColor(0, 0, 0, 1)
-    gl.clear(gl.COLOR_BUFFER_BIT)
+    console.log('Canvas Size: ', [width, height])
+    console.log('Sim Size: ', simSize)
+    console.log('Dye Size: ', dyeSize)
 
     const blit = (() => {
       gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
@@ -174,13 +175,12 @@ export default function useSimulation() {
     function updateSplat(x, y, dx, dy, splatRGB) {
       gl.viewport(0, 0, ...simSize)
 
-      // gl.clearColor(0, 0, 0, 1)
-      // gl.clear(gl.COLOR_BUFFER_BIT)
-
       gl.useProgram(splat.program)
       gl.uniform1i(splat.uniforms.uTarget, velocityDFBO.read.attach(0))
+      gl.uniform1f(splat.uniforms.aspectRatio, width / height)
       gl.uniform2f(splat.uniforms.point, x / width, 1.0 - y / height)
       gl.uniform3f(splat.uniforms.color, dx, -dy, 1.0)
+      gl.uniform1f(splat.uniforms.radius, SPLAT_RADIUS / 100.0)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 
@@ -189,7 +189,8 @@ export default function useSimulation() {
       gl.uniform3f(splat.uniforms.color, splatRGB.r, splatRGB.g, splatRGB.b)
       blit(densityDFBO.write.fbo)
       densityDFBO.swap()
-      // console.log(dx, dy)
+
+      console.log(dx, dy) // eslint-disable-line
     }
 
     function input() {
@@ -210,5 +211,5 @@ export default function useSimulation() {
     })
 
     return () => timerLoop.stop()
-  }, [gl, simSize, dyeSize, pointers, width, height, splat, color, curl, clear, pressure, vorticity, divergence, background, displayShading, divergenceFBO, curlFBO, pressureDFBO, velocityDFBO, densityDFBO])
+  }, [gl, hasLinear, simSize, dyeSize, pointers, width, height, splat, color, curl, clear, pressure, vorticity, divergence, background, displayShading, gradient, advection, divergenceFBO, curlFBO, pressureDFBO, velocityDFBO, densityDFBO])
 }
