@@ -3,6 +3,7 @@ export default `
   precision highp sampler2D;
 
   varying vec2 vUv;
+
   uniform sampler2D uTarget;
   uniform float aspectRatio;
   uniform vec3 color;
