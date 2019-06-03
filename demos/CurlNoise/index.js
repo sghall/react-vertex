@@ -15,11 +15,10 @@ function FlockingBirds() {
     <DemoWrapper src="demos/FlockingBirds">
       <div ref={container}>
         <Canvas
-          antialias
           width={width}
           height={width}
           clearColor={clearColor}
-          extensions={['OES_texture_float']}
+          contextAttrs={{ alpha: true, depth: false, stencil: false, antialias: false, preserveDrawingBuffer: false }}
         >
           <Scene />
         </Canvas>
