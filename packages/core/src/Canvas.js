@@ -47,10 +47,11 @@ export default class Canvas extends Component {
   componentDidUpdate() {
     const { children } = this.props
 
-    const { width, height } = this.updateDimensions()
+    const { width, height, update } = this.updateDimensions()
 
-    this.contextObject.width = width
-    this.contextObject.height = height
+    if (update) {
+      this.contextObject = {...this.contextObject, width, height }
+    }
 
     ReactVertexReconciler.updateContainer(
       <ReactVertexContext.Provider value={this.contextObject}>
@@ -70,7 +71,9 @@ export default class Canvas extends Component {
     const nextWidth = Math.round(width * devicePixelRatio)
     const nextHeight = Math.round(height * devicePixelRatio)
 
-    if (nextWidth !== current.width || nextHeight !== current.height) {
+    const update = nextWidth !== current.width || nextHeight !== current.height
+
+    if (update) {
       current.style.width = `${width}px`
       current.style.height = `${height}px`
       current.width = nextWidth
@@ -79,7 +82,7 @@ export default class Canvas extends Component {
       renderOnResize && this.sceneNode.requestRender()
     }
 
-    return { width: nextWidth, height: nextHeight }
+    return { width: nextWidth, height: nextHeight, update }
   }
 
   renderScene = () => {
