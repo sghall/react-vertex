@@ -24,8 +24,9 @@ export default `
     return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
   }
 
-  void main() {
+  void main () {
     vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
+
     gl_FragColor = dissipation * bilerp(uSource, coord, dyeTexelSize);
     gl_FragColor.a = 1.0;
   }
