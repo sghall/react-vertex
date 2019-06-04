@@ -16,8 +16,8 @@ import { generateColor } from './utils'
 // import useGradientProgram from './useGradientProgram'
 // import useAdvectionProgram from './useAdvectionProgram'
 import useResolution from './useResolution'
-// import { useFBO, useDoubleFBO } from './useDoubleFBO'
-// import useFormats from './useFormats'
+import { useFBO, useDoubleFBO } from './useDoubleFBO'
+import useFormats from './useFormats'
 
 export default function useSimulation() {
   const { width, height } = useCanvasSize()
@@ -44,15 +44,15 @@ export default function useSimulation() {
   const simSize = useResolution(SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(DYE_RESOLUTION, width, height)
 
-  // const { rgb, halfFloat, hasLinear } = useFormats(gl)
-  // const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
+  const { rgb, halfFloat, hasLinear } = useFormats(gl)
+  const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
 
-  // const velocityDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, filtering)
-  // const densityDFBO = useDoubleFBO(gl, dyeSize, rgb, halfFloat, filtering)
+  const densityDFBO = useDoubleFBO(gl, dyeSize, rgb, halfFloat, filtering)
+  const velocityDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, filtering)
 
-  // const curlFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
-  // const divergenceFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
-  // const pressureDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
+  const curlFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
+  const pressureDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
+  const divergenceFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
 
   useEffect(() => { 
     if (!width || !height) {
@@ -435,11 +435,11 @@ export default function useSimulation() {
     let simHeight
     let dyeWidth
     let dyeHeight
-    let density
-    let velocity
-    let divergence
-    let curl
-    let pressure
+    // let density
+    // let velocity
+    // let divergence
+    // let curl
+    // let pressure
     
     const clearProgram               = new GLProgram(baseVertexShader, clearShader)
     const colorProgram               = new GLProgram(baseVertexShader, colorShader)
@@ -453,107 +453,13 @@ export default function useSimulation() {
     const pressureProgram            = new GLProgram(baseVertexShader, pressureShader)
     const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
-    function initFramebuffers () {
-      // console.log('simRes: ', simRes)
-      // console.log('dyeRes: ', dyeRes)
-  
+    function initFramebuffers () {  
       simWidth  = simSize[0]
       simHeight = simSize[1]
       dyeWidth  = dyeSize[0]
       dyeHeight = dyeSize[1]
-  
-      const texType = ext.halfFloatTexType
-      const rgba    = ext.formatRGBA
-      const rg      = ext.formatRG
-      const r       = ext.formatR
-      const filtering = ext.supportLinearFiltering ? gl.LINEAR : gl.NEAREST
-    
-      if (density == null)
-        density = createDoubleFBO(dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, filtering)
-      else
-        density = resizeDoubleFBO(density, dyeWidth, dyeHeight, rgba.internalFormat, rgba.format, texType, filtering)
-  
-      if (velocity == null)
-        velocity = createDoubleFBO(simWidth, simHeight, rg.internalFormat, rg.format, texType, filtering)
-      else
-        velocity = resizeDoubleFBO(velocity, simWidth, simHeight, rg.internalFormat, rg.format, texType, filtering)
-  
-      divergence = createFBO      (simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST)
-      curl       = createFBO      (simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST)
-      pressure   = createDoubleFBO(simWidth, simHeight, r.internalFormat, r.format, texType, gl.NEAREST)
     }
-    
-    function createFBO (w, h, internalFormat, format, type, param) {
-      // console.log('createFBO: ', w, h, internalFormat, format, type, param)
-      gl.activeTexture(gl.TEXTURE0)
-      let texture = gl.createTexture()
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, param)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, param)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-      gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, w, h, 0, format, type, null)
   
-      let fbo = gl.createFramebuffer()
-      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
-      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0)
-      gl.viewport(0, 0, w, h)
-      gl.clear(gl.COLOR_BUFFER_BIT)
-    
-      return {
-        texture,
-        fbo,
-        width: w,
-        height: h,
-        attach (id) {
-          gl.activeTexture(gl.TEXTURE0 + id)
-          gl.bindTexture(gl.TEXTURE_2D, texture)
-          return id
-        }
-      }
-    }
-    
-    function createDoubleFBO (w, h, internalFormat, format, type, param) {
-      let fbo1 = createFBO(w, h, internalFormat, format, type, param)
-      let fbo2 = createFBO(w, h, internalFormat, format, type, param)
-  
-      return {
-        get read () {
-          return fbo1
-        },
-        set read (value) {
-          fbo1 = value
-        },
-        get write () {
-          return fbo2
-        },
-        set write (value) {
-          fbo2 = value
-        },
-        swap () {
-          let temp = fbo1
-          fbo1 = fbo2
-          fbo2 = temp
-        }
-      }
-    }
-    
-    function resizeFBO (target, w, h, internalFormat, format, type, param) {
-      let newFBO = createFBO(w, h, internalFormat, format, type, param)
-      clearProgram.bind()
-      gl.uniform1i(clearProgram.uniforms.uTexture, target.attach(0))
-      gl.uniform1f(clearProgram.uniforms.value, 1)
-      blit(newFBO.fbo)
-      return newFBO
-    }
-    
-    function resizeDoubleFBO (target, w, h, internalFormat, format, type, param) {
-      // console.log('resize FBO')
-      target.read = resizeFBO(target.read, w, h, internalFormat, format, type, param)
-      target.write = createFBO(w, h, internalFormat, format, type, param)
-      return target
-    }
-    
     initFramebuffers()
 
     const splatStack = []
@@ -568,7 +474,6 @@ export default function useSimulation() {
       requestAnimationFrame(update)
     }
 
-    
     function input () {
       if (splatStack.length > 0) {
         multipleSplats(splatStack.pop())
@@ -590,66 +495,66 @@ export default function useSimulation() {
   
       curlProgram.bind()
       gl.uniform2f(curlProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(curlProgram.uniforms.uVelocity, velocity.read.attach(0))
-      blit(curl.fbo)
+      gl.uniform1i(curlProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      blit(curlFBO.fbo)
   
       vorticityProgram.bind()
       gl.uniform2f(vorticityProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocity.read.attach(0))
-      gl.uniform1i(vorticityProgram.uniforms.uCurl, curl.attach(1))
+      gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      gl.uniform1i(vorticityProgram.uniforms.uCurl, curlFBO.attach(1))
       gl.uniform1f(vorticityProgram.uniforms.curl, CURL)
       gl.uniform1f(vorticityProgram.uniforms.dt, dt)
-      blit(velocity.write.fbo)
-      velocity.swap()
+      blit(velocityDFBO.write.fbo)
+      velocityDFBO.swap()
     
       divergenceProgram.bind()
       gl.uniform2f(divergenceProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocity.read.attach(0))
-      blit(divergence.fbo)
+      gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      blit(divergenceFBO.fbo)
   
       clearProgram.bind()
-      gl.uniform1i(clearProgram.uniforms.uTexture, pressure.read.attach(0))
+      gl.uniform1i(clearProgram.uniforms.uTexture, pressureDFBO.read.attach(0))
       gl.uniform1f(clearProgram.uniforms.value, PRESSURE_DISSIPATION)
-      blit(pressure.write.fbo)
-      pressure.swap()
+      blit(pressureDFBO.write.fbo)
+      pressureDFBO.swap()
   
       pressureProgram.bind()
       gl.uniform2f(pressureProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0))
+      gl.uniform1i(pressureProgram.uniforms.uDivergence, divergenceFBO.attach(0))
       for (let i = 0; i < PRESSURE_ITERATIONS; i++) {
-        gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1))
-        blit(pressure.write.fbo)
-        pressure.swap()
+        gl.uniform1i(pressureProgram.uniforms.uPressure, pressureDFBO.read.attach(1))
+        blit(pressureDFBO.write.fbo)
+        pressureDFBO.swap()
       }
     
       gradienSubtractProgram.bind()
       gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressure.read.attach(0))
-      gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocity.read.attach(1))
-      blit(velocity.write.fbo)
-      velocity.swap()
+      gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressureDFBO.read.attach(0))
+      gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocityDFBO.read.attach(1))
+      blit(velocityDFBO.write.fbo)
+      velocityDFBO.swap()
   
       advectionProgram.bind()
       gl.uniform2f(advectionProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
       if (!ext.supportLinearFiltering)
         gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight)
-      let velocityId = velocity.read.attach(0)
+      let velocityId = velocityDFBO.read.attach(0)
       gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId)
       gl.uniform1i(advectionProgram.uniforms.uSource, velocityId)
       gl.uniform1f(advectionProgram.uniforms.dt, dt)
       gl.uniform1f(advectionProgram.uniforms.dissipation, VELOCITY_DISSIPATION)
-      blit(velocity.write.fbo)
-      velocity.swap()
+      blit(velocityDFBO.write.fbo)
+      velocityDFBO.swap()
     
       gl.viewport(0, 0, dyeWidth, dyeHeight)
   
       if (!ext.supportLinearFiltering)
         gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight)
-      gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0))
-      gl.uniform1i(advectionProgram.uniforms.uSource, density.read.attach(1))
+      gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      gl.uniform1i(advectionProgram.uniforms.uSource, densityDFBO.read.attach(1))
       gl.uniform1f(advectionProgram.uniforms.dissipation, DENSITY_DISSIPATION)
-      blit(density.write.fbo)
-      density.swap()
+      blit(densityDFBO.write.fbo)
+      densityDFBO.swap()
     }
     
     function render (target) {
@@ -682,7 +587,7 @@ export default function useSimulation() {
       let program = displayShadingProgram
       program.bind()
       gl.uniform2f(program.uniforms.texelSize, 1.0 / width, 1.0 / height)
-      gl.uniform1i(program.uniforms.uTexture, density.read.attach(0))
+      gl.uniform1i(program.uniforms.uTexture, densityDFBO.read.attach(0))
 
       blit(target)
     }
@@ -692,19 +597,19 @@ export default function useSimulation() {
 
       gl.viewport(0, 0, simWidth, simHeight)
       splatProgram.bind()
-      gl.uniform1i(splatProgram.uniforms.uTarget, velocity.read.attach(0))
+      gl.uniform1i(splatProgram.uniforms.uTarget, velocityDFBO.read.attach(0))
       gl.uniform1f(splatProgram.uniforms.aspectRatio, width / height)
       gl.uniform2f(splatProgram.uniforms.point, x / width, 1.0 - y / height)
       gl.uniform3f(splatProgram.uniforms.color, dx, -dy, 1.0)
       gl.uniform1f(splatProgram.uniforms.radius, SPLAT_RADIUS / 100.0)
-      blit(velocity.write.fbo)
-      velocity.swap()
+      blit(velocityDFBO.write.fbo)
+      velocityDFBO.swap()
     
       gl.viewport(0, 0, dyeWidth, dyeHeight)
-      gl.uniform1i(splatProgram.uniforms.uTarget, density.read.attach(0))
+      gl.uniform1i(splatProgram.uniforms.uTarget, densityDFBO.read.attach(0))
       gl.uniform3f(splatProgram.uniforms.color, color.r, color.g, color.b)
-      blit(density.write.fbo)
-      density.swap()
+      blit(densityDFBO.write.fbo)
+      densityDFBO.swap()
     }
     
     function multipleSplats (amount) {
@@ -731,21 +636,6 @@ export default function useSimulation() {
       // }
     }
     
-    // function getResolution (resolution) {
-    //   let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
-      
-    //   if (aspectRatio < 1) {
-    //     aspectRatio = 1.0 / aspectRatio
-    //   }
-  
-    //   let max = Math.round(resolution * aspectRatio)
-    //   let min = Math.round(resolution)
-  
-    //   if (gl.drawingBufferWidth > gl.drawingBufferHeight)
-    //     return { width: max, height: min }
-    //   else
-    //     return { width: min, height: max }
-    // }
   }, [gl, pointers, width, height, canvas])
 
   return 1
