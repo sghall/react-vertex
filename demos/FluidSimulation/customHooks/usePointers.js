@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { timer } from 'd3-timer'
 import { useCanvas } from '@react-vertex/core'
-import { generateColor } from '../../utils'
+import { generateColor } from '../utils'
 
 export function Pointer() {
   this.id = -1
