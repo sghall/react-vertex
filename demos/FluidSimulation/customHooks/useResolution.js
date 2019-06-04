@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 
 export default function useResolution(size, width, height) {
-  console.log('useResolution:', size, width, height)
   const memoized = useMemo(() => {
     let aspectRatio = 1
 

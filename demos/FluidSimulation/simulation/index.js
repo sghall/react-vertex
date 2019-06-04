@@ -2,12 +2,8 @@ import { useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useWebGLContext, useCanvasSize } from '@react-vertex/core'
 import { TRANSPARENT, BACK_COLOR, SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
-import usePointers from './usePointers'
 import { generateColor } from './utils'
-import useResolution from './useResolution'
-import { useFBO, useDoubleFBO } from './useDoubleFBO'
-import useFormats from './useFormats'
-import { usePrograms } from '../customHooks'
+import { usePointers, usePrograms, useFBO, useDoubleFBO, useFormats, useResolution } from '../customHooks'
 
 export default function useSimulation() {
   const { width, height } = useCanvasSize()
