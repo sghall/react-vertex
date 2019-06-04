@@ -214,8 +214,8 @@ function Scene() {
         gl.disable(gl.BLEND)
       }
 
-      const width = target == null ? gl.drawingBufferWidth : dyeSize[0]
-      const height = target == null ? gl.drawingBufferHeight : dyeSize[1]
+      const tWidth = target == null ? width : dyeSize[0]
+      const tHeight = target == null ? height : dyeSize[1]
 
       gl.viewport(0, 0, width, height)
 
@@ -227,12 +227,12 @@ function Scene() {
 
       if (target == null && TRANSPARENT) {
         gl.useProgram(background.program)
-        gl.uniform1f(background.uniforms.aspectRatio, width / height)
+        gl.uniform1f(background.uniforms.aspectRatio, tWidth / tHeight)
         blit(null)
       }
 
       gl.useProgram(displayShading.program)
-      gl.uniform2f(displayShading.uniforms.texelSize, 1.0 / width, 1.0 / height)
+      gl.uniform2f(displayShading.uniforms.texelSize, 1.0 / tWidth, 1.0 / tHeight)
       gl.uniform1i(displayShading.uniforms.uTexture, densityDFBO.read.attach(0))
 
       blit(target)
@@ -294,7 +294,5 @@ function Scene() {
 
   return null
 }
-
-Scene.propTypes = {}
 
 export default Scene
