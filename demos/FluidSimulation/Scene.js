@@ -25,7 +25,7 @@ import {
 const backColor = convertHex('#323334')
 
 function Scene() {
-  const { width, height } = useCanvasSize()
+  const { width, clientWidth, height, clientHeight } = useCanvasSize()
 
   const gl = useWebGLContext()
   const { halfFloat, hasLinear } = useFormats(gl)
@@ -244,7 +244,7 @@ function Scene() {
       gl.useProgram(splat.program)
       gl.uniform1i(splat.uniforms.uTarget, velocityDFBO.read.attach(0))
       gl.uniform1f(splat.uniforms.aspectRatio, width / height)
-      gl.uniform2f(splat.uniforms.point, x / width, 1.0 - y / height)
+      gl.uniform2f(splat.uniforms.point, x / clientWidth, 1.0 - y / clientHeight)
       gl.uniform3f(splat.uniforms.color, dx, -dy, 1.0)
       gl.uniform1f(splat.uniforms.radius, SPLAT_RADIUS / 100.0)
       blit(velocityDFBO.write.fbo)
@@ -277,7 +277,7 @@ function Scene() {
       render(null)
     })
 
-    multipleSplats(parseInt(Math.random() * 20) + 5)
+    multipleSplats(parseInt(Math.random() * 20) + 20)
 
     return () => timerLoop.stop()
   }, [
@@ -287,7 +287,9 @@ function Scene() {
     simSize,
     dyeSize,
     width,
+    clientWidth,
     height,
+    clientHeight,
     programs,
     frameBuffers,
   ])
