@@ -12,7 +12,7 @@ import useCurlProgram from './useCurlProgram'
 import useVorticityProgram from './useVorticityProgram'
 import useDivergenceProgram from './useDivergenceProgram'
 import useClearProgram from './useClearProgram'
-// import usePressureProgram from './usePressureProgram'
+import usePressureProgram from './usePressureProgram'
 // import useGradientProgram from './useGradientProgram'
 // import useAdvectionProgram from './useAdvectionProgram'
 import useResolution from './useResolution'
@@ -37,7 +37,7 @@ export default function useSimulation() {
   const vorticity = useVorticityProgram()
   const divergence = useDivergenceProgram()
   const clear = useClearProgram()
-  // const pressure = usePressureProgram()
+  const pressure = usePressureProgram()
   // const gradient = useGradientProgram()
   // const advection = useAdvectionProgram()
 
@@ -168,37 +168,6 @@ export default function useSimulation() {
         }
     `)
 
-    const pressureShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision mediump float;
-        precision mediump sampler2D;
-
-        varying highp vec2 vUv;
-        varying highp vec2 vL;
-        varying highp vec2 vR;
-        varying highp vec2 vT;
-        varying highp vec2 vB;
-        uniform sampler2D uPressure;
-        uniform sampler2D uDivergence;
-
-        vec2 boundary (vec2 uv) {
-            return uv;
-            // uncomment if you use wrap or repeat texture mode
-            // uv = min(max(uv, 0.0), 1.0);
-            // return uv;
-        }
-
-        void main () {
-            float L = texture2D(uPressure, boundary(vL)).x;
-            float R = texture2D(uPressure, boundary(vR)).x;
-            float T = texture2D(uPressure, boundary(vT)).x;
-            float B = texture2D(uPressure, boundary(vB)).x;
-            float C = texture2D(uPressure, vUv).x;
-            float divergence = texture2D(uDivergence, vUv).x;
-            float pressure = (L + R + B + T - divergence) * 0.25;
-            gl_FragColor = vec4(pressure, 0.0, 0.0, 1.0);
-        }
-    `)
-
     const gradientSubtractShader = compileShader(gl.FRAGMENT_SHADER, `
         precision mediump float;
         precision mediump sampler2D;
@@ -249,7 +218,6 @@ export default function useSimulation() {
     let dyeHeight
     
     const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
-    const pressureProgram            = new GLProgram(baseVertexShader, pressureShader)
     const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
     function initFramebuffers () {  
@@ -317,11 +285,12 @@ export default function useSimulation() {
       blit(pressureDFBO.write.fbo)
       pressureDFBO.swap()
   
-      pressureProgram.bind()
-      gl.uniform2f(pressureProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(pressureProgram.uniforms.uDivergence, divergenceFBO.attach(0))
+      gl.useProgram(pressure.program)
+      gl.uniform2f(pressure.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform1i(pressure.uniforms.uDivergence, divergenceFBO.attach(0))
+      
       for (let i = 0; i < PRESSURE_ITERATIONS; i++) {
-        gl.uniform1i(pressureProgram.uniforms.uPressure, pressureDFBO.read.attach(1))
+        gl.uniform1i(pressure.uniforms.uPressure, pressureDFBO.read.attach(1))
         blit(pressureDFBO.write.fbo)
         pressureDFBO.swap()
       }
