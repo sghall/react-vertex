@@ -2,6 +2,9 @@ export default `
   precision highp float;
   precision highp sampler2D;
 
+  // This shader is from the awesome demo at:
+  // https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
+
   varying vec2 vUv;
   varying vec2 vL;
   varying vec2 vR;
