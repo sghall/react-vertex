@@ -171,8 +171,8 @@ export default function useSimulation() {
         gl.disable(gl.BLEND)
       }
     
-      let width  = target == null ? gl.drawingBufferWidth : dyeSize[0]
-      let height = target == null ? gl.drawingBufferHeight : dyeSize[1]
+      const width  = target == null ? gl.drawingBufferWidth : dyeSize[0]
+      const height = target == null ? gl.drawingBufferHeight : dyeSize[1]
     
       gl.viewport(0, 0, width, height)
   
