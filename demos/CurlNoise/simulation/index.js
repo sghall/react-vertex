@@ -15,7 +15,7 @@ import { generateColor } from './utils'
 // import usePressureProgram from './usePressureProgram'
 // import useGradientProgram from './useGradientProgram'
 // import useAdvectionProgram from './useAdvectionProgram'
-// import useResolution from './useResolution'
+import useResolution from './useResolution'
 // import { useFBO, useDoubleFBO } from './useDoubleFBO'
 // import useFormats from './useFormats'
 
@@ -41,8 +41,8 @@ export default function useSimulation() {
   // const gradient = useGradientProgram()
   // const advection = useAdvectionProgram()
 
-  // const simSize = useResolution(SIM_RESOLUTION, width, height)
-  // const dyeSize = useResolution(DYE_RESOLUTION, width, height)
+  const simSize = useResolution(SIM_RESOLUTION, width, height)
+  const dyeSize = useResolution(DYE_RESOLUTION, width, height)
 
   // const { rgb, halfFloat, hasLinear } = useFormats(gl)
   // const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
@@ -454,15 +454,13 @@ export default function useSimulation() {
     const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
     function initFramebuffers () {
-      let simRes = getResolution(SIM_RESOLUTION)
       // console.log('simRes: ', simRes)
-      let dyeRes = getResolution(DYE_RESOLUTION)
       // console.log('dyeRes: ', dyeRes)
   
-      simWidth  = simRes.width
-      simHeight = simRes.height
-      dyeWidth  = dyeRes.width
-      dyeHeight = dyeRes.height
+      simWidth  = simSize[0]
+      simHeight = simSize[1]
+      dyeWidth  = dyeSize[0]
+      dyeHeight = dyeSize[1]
   
       const texType = ext.halfFloatTexType
       const rgba    = ext.formatRGBA
@@ -733,21 +731,21 @@ export default function useSimulation() {
       // }
     }
     
-    function getResolution (resolution) {
-      let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
+    // function getResolution (resolution) {
+    //   let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
       
-      if (aspectRatio < 1) {
-        aspectRatio = 1.0 / aspectRatio
-      }
+    //   if (aspectRatio < 1) {
+    //     aspectRatio = 1.0 / aspectRatio
+    //   }
   
-      let max = Math.round(resolution * aspectRatio)
-      let min = Math.round(resolution)
+    //   let max = Math.round(resolution * aspectRatio)
+    //   let min = Math.round(resolution)
   
-      if (gl.drawingBufferWidth > gl.drawingBufferHeight)
-        return { width: max, height: min }
-      else
-        return { width: min, height: max }
-    }
+    //   if (gl.drawingBufferWidth > gl.drawingBufferHeight)
+    //     return { width: max, height: min }
+    //   else
+    //     return { width: min, height: max }
+    // }
   }, [gl, pointers, width, height, canvas])
 
   return 1
