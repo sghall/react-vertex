@@ -4,20 +4,10 @@ import { useWebGLContext, useCanvasSize } from '@react-vertex/core'
 import { TRANSPARENT, BACK_COLOR, SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
 import usePointers from './usePointers'
 import { generateColor } from './utils'
-import useSplatProgram from './useSplatProgram'
-import useColorProgram from './useColorProgram'
-import useBackgroundProgram from './useBackgroundProgram'
-import useDisplayShadingProgram from './useDisplayShadingProgram'
-import useCurlProgram from './useCurlProgram'
-import useVorticityProgram from './useVorticityProgram'
-import useDivergenceProgram from './useDivergenceProgram'
-import useClearProgram from './useClearProgram'
-import usePressureProgram from './usePressureProgram'
-import useGradientProgram from './useGradientProgram'
-import useAdvectionProgram from './useAdvectionProgram'
 import useResolution from './useResolution'
 import { useFBO, useDoubleFBO } from './useDoubleFBO'
 import useFormats from './useFormats'
+import { usePrograms } from '../customHooks'
 
 export default function useSimulation() {
   const { width, height } = useCanvasSize()
@@ -27,19 +17,7 @@ export default function useSimulation() {
   const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
 
   const pointers = usePointers()
-
-  const splat = useSplatProgram()
-  const color = useColorProgram()
-  const background = useBackgroundProgram()
-  const displayShading = useDisplayShadingProgram()
-
-  const curl = useCurlProgram()
-  const vorticity = useVorticityProgram()
-  const divergence = useDivergenceProgram()
-  const clear = useClearProgram()
-  const pressure = usePressureProgram()
-  const gradient = useGradientProgram()
-  const advection = useAdvectionProgram(hasLinear)
+  const programs = usePrograms(gl, hasLinear)
 
   const simSize = useResolution(SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(DYE_RESOLUTION, width, height)
@@ -55,6 +33,8 @@ export default function useSimulation() {
     if (!width || !height) {
       return
     }
+
+    const { advection, background, clear, color, curl, displayShading, divergence, gradient, pressure, splat, vorticity } = programs
 
     const splatStack = []
     
