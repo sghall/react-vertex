@@ -28,7 +28,7 @@ export default function usePrograms(gl, hasLinear) {
   const splat = useProgramAndUniforms(gl, shaders.splat)
   const vorticity = useProgramAndUniforms(gl, shaders.vorticity)
 
-  const programs = useMemo(() => {
+  const memoized = useMemo(() => {
     return {
       advection,
       background,
@@ -56,5 +56,5 @@ export default function usePrograms(gl, hasLinear) {
     vorticity,
   ])
 
-  return programs
+  return memoized
 }

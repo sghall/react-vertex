@@ -17,8 +17,7 @@ import { generateColor } from './utils'
 import {
   usePointers,
   usePrograms,
-  useFBO,
-  useDoubleFBO,
+  useFrameBuffers,
   useFormats,
   useResolution,
 } from '../customHooks'
@@ -27,8 +26,8 @@ export default function useSimulation() {
   const { width, height } = useCanvasSize()
 
   const gl = useWebGLContext()
-  const { rgb, halfFloat, hasLinear } = useFormats(gl)
-  const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
+  const { halfFloat, hasLinear } = useFormats(gl)
+  const minMag = hasLinear ? gl.LINEAR : gl.NEAREST
 
   const pointers = usePointers()
   const programs = usePrograms(gl, hasLinear)
@@ -36,12 +35,7 @@ export default function useSimulation() {
   const simSize = useResolution(SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(DYE_RESOLUTION, width, height)
 
-  const densityDFBO = useDoubleFBO(gl, dyeSize, rgb, halfFloat, filtering)
-  const velocityDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, filtering)
-
-  const curlFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
-  const pressureDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
-  const divergenceFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
+  const frameBuffers = useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag)
 
   useEffect(() => {
     if (!width || !height) {
@@ -61,6 +55,14 @@ export default function useSimulation() {
       splat,
       vorticity,
     } = programs
+
+    const {
+      curlFBO,
+      divergenceFBO,
+      densityDFBO,
+      pressureDFBO,
+      velocityDFBO,
+    } = frameBuffers
 
     const splatStack = []
 
@@ -219,12 +221,11 @@ export default function useSimulation() {
 
       if (!TRANSPARENT) {
         gl.useProgram(color.program)
-        let bc = BACK_COLOR
         gl.uniform4f(
           color.uniforms.color,
-          bc.r / 255,
-          bc.g / 255,
-          bc.b / 255,
+          BACK_COLOR.r / 255,
+          BACK_COLOR.g / 255,
+          BACK_COLOR.b / 255,
           1,
         )
         blit(target)
@@ -285,7 +286,17 @@ export default function useSimulation() {
     multipleSplats(parseInt(Math.random() * 20) + 5)
 
     return () => timerLoop.stop()
-  }, [gl, pointers, width, height])
+  }, [
+    gl,
+    hasLinear,
+    pointers,
+    simSize,
+    dyeSize,
+    width,
+    height,
+    programs,
+    frameBuffers,
+  ])
 
   return 1
 }
