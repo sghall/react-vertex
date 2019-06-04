@@ -1,40 +1,28 @@
 import { useMemo } from 'react'
 import { useDataTexture, useFrameBuffer } from '@react-vertex/core'
 
-function useFBO(gl, size, type, minMag) {
-  const [w, h] = size
+function useFBO(gl, width, height, getTexOpts) {
 
-  const texture = useDataTexture(gl, null, w, h, () => ({
-    type,
-    minMag,
-  }))
+  const tex = useDataTexture(gl, null, width, height, getTexOpts)
+  const fbo = useFrameBuffer(gl)
 
-  const frameBuffer = useFrameBuffer(gl)
+  const memoized = useMemo(() => {
+    const attach = gl.COLOR_ATTACHMENT0
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, attach, gl.TEXTURE_2D, tex, 0)
 
-  useMemo(() => {
-    gl.bindFramebuffer(gl.FRAMEBUFFER, frameBuffer)
-    gl.framebufferTexture2D(
-      gl.FRAMEBUFFER,
-      gl.COLOR_ATTACHMENT0,
-      gl.TEXTURE_2D,
-      texture,
-      0,
-    )
-    gl.viewport(0, 0, w, h)
-    gl.clear(gl.COLOR_BUFFER_BIT)
-  }, [gl, frameBuffer, texture, w, h])
+    return {
+      tex,
+      fbo,
+      attach(unit) {
+        gl.activeTexture(gl.TEXTURE0 + unit)
+        gl.bindTexture(gl.TEXTURE_2D, tex)
+        return unit
+      },
+    }
+  }, [gl, fbo, tex])
 
-  return {
-    texture,
-    fbo: frameBuffer,
-    width: w,
-    height: h,
-    attach(id) {
-      gl.activeTexture(gl.TEXTURE0 + id)
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-      return id
-    },
-  }
+  return memoized
 }
 
 function useDoubleFBO(gl, size, type, minMag) {
@@ -70,11 +58,14 @@ function useDoubleFBO(gl, size, type, minMag) {
 }
 
 function useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag) {
-  const curlFBO = useFBO(gl, simSize, halfFloat, gl.NEAREST)
-  const divergenceFBO = useFBO(gl, simSize, halfFloat, gl.NEAREST)
-  const densityDFBO = useDoubleFBO(gl, dyeSize, halfFloat, minMag)
-  const pressureDFBO = useDoubleFBO(gl, simSize, halfFloat, gl.NEAREST)
-  const velocityDFBO = useDoubleFBO(gl, simSize, halfFloat, minMag)
+  const getOptsIfLinear = () => ({ type: halfFloat, minMag })
+  const getOptsUseNearest = () => ({ type: halfFloat, minMag: gl.NEAREST })
+
+  const curlFBO = useFBO(gl, ...simSize, getOptsUseNearest)
+  const divergenceFBO = useFBO(gl, ...simSize, getOptsUseNearest)
+  const densityDFBO = useDoubleFBO(gl, ...dyeSize, getOptsIfLinear)
+  const pressureDFBO = useDoubleFBO(gl, ...simSize, getOptsUseNearest)
+  const velocityDFBO = useDoubleFBO(gl, ...simSize, getOptsIfLinear)
 
   const memoized = useMemo(() => {
     return {
