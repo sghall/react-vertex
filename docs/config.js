@@ -1,7 +1,7 @@
 export const demosList = [
   {
-    href: '/demo-curl-noise',
-    name: 'Curl Noise',
+    href: '/demo-fluid-simulation',
+    name: 'Fluid Simulation',
     tag: '',
   },
   {
