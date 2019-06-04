@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 // import { timer } from 'd3-timer'
 import { useWebGLContext, useCanvas, useCanvasSize } from '@react-vertex/core'
-// import { SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
+import { TRANSPARENT, BACK_COLOR, SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
 import usePointers from './usePointers'
 import { generateColor } from './utils'
 // import useSplatProgram from './useSplatProgram'
@@ -57,22 +57,6 @@ export default function useSimulation() {
   useEffect(() => { 
     if (!width || !height) {
       return
-    }
-
-    let config = {
-      SIM_RESOLUTION: 128,
-      DYE_RESOLUTION: 512,
-      DENSITY_DISSIPATION: 0.97,
-      VELOCITY_DISSIPATION: 0.98,
-      PRESSURE_DISSIPATION: 0.8,
-      PRESSURE_ITERATIONS: 20,
-      CURL: 30,
-      SPLAT_RADIUS: 0.5,
-      SHADING: true,
-      COLORFUL: true,
-      PAUSED: false,
-      BACK_COLOR: { r: 0, g: 0, b: 0 },
-      TRANSPARENT: false,
     }
     
     let halfFloat = gl.getExtension('OES_texture_half_float')
@@ -185,20 +169,6 @@ export default function useSimulation() {
             float v = mod(uv.x + uv.y, 2.0);
             v = v * 0.1 + 0.8;
             gl_FragColor = vec4(vec3(v), 1.0);
-        }
-    `)
-
-    const displayShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        uniform sampler2D uTexture;
-
-        void main () {
-            vec3 C = texture2D(uTexture, vUv).rgb;
-            float a = max(C.r, max(C.g, C.b));
-            gl_FragColor = vec4(C, a);
         }
     `)
 
@@ -474,7 +444,6 @@ export default function useSimulation() {
     const clearProgram               = new GLProgram(baseVertexShader, clearShader)
     const colorProgram               = new GLProgram(baseVertexShader, colorShader)
     const backgroundProgram          = new GLProgram(baseVertexShader, backgroundShader)
-    const displayProgram             = new GLProgram(baseVertexShader, displayShader)
     const displayShadingProgram      = new GLProgram(baseVertexShader, displayShadingShader)
     const splatProgram               = new GLProgram(baseVertexShader, splatShader)
     const advectionProgram           = new GLProgram(baseVertexShader, ext.supportLinearFiltering ? advectionShader : advectionManualFilteringShader)
@@ -485,9 +454,9 @@ export default function useSimulation() {
     const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
     function initFramebuffers () {
-      let simRes = getResolution(config.SIM_RESOLUTION)
+      let simRes = getResolution(SIM_RESOLUTION)
       // console.log('simRes: ', simRes)
-      let dyeRes = getResolution(config.DYE_RESOLUTION)
+      let dyeRes = getResolution(DYE_RESOLUTION)
       // console.log('dyeRes: ', dyeRes)
   
       simWidth  = simRes.width
@@ -596,8 +565,7 @@ export default function useSimulation() {
     function update () {
       resizeCanvas()
       input()
-      if (!config.PAUSED)
-        step(0.016)
+      step(0.016)
       render(null)
       requestAnimationFrame(update)
     }
@@ -631,7 +599,7 @@ export default function useSimulation() {
       gl.uniform2f(vorticityProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
       gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocity.read.attach(0))
       gl.uniform1i(vorticityProgram.uniforms.uCurl, curl.attach(1))
-      gl.uniform1f(vorticityProgram.uniforms.curl, config.CURL)
+      gl.uniform1f(vorticityProgram.uniforms.curl, CURL)
       gl.uniform1f(vorticityProgram.uniforms.dt, dt)
       blit(velocity.write.fbo)
       velocity.swap()
@@ -643,14 +611,14 @@ export default function useSimulation() {
   
       clearProgram.bind()
       gl.uniform1i(clearProgram.uniforms.uTexture, pressure.read.attach(0))
-      gl.uniform1f(clearProgram.uniforms.value, config.PRESSURE_DISSIPATION)
+      gl.uniform1f(clearProgram.uniforms.value, PRESSURE_DISSIPATION)
       blit(pressure.write.fbo)
       pressure.swap()
   
       pressureProgram.bind()
       gl.uniform2f(pressureProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
       gl.uniform1i(pressureProgram.uniforms.uDivergence, divergence.attach(0))
-      for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
+      for (let i = 0; i < PRESSURE_ITERATIONS; i++) {
         gl.uniform1i(pressureProgram.uniforms.uPressure, pressure.read.attach(1))
         blit(pressure.write.fbo)
         pressure.swap()
@@ -671,7 +639,7 @@ export default function useSimulation() {
       gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId)
       gl.uniform1i(advectionProgram.uniforms.uSource, velocityId)
       gl.uniform1f(advectionProgram.uniforms.dt, dt)
-      gl.uniform1f(advectionProgram.uniforms.dissipation, config.VELOCITY_DISSIPATION)
+      gl.uniform1f(advectionProgram.uniforms.dissipation, VELOCITY_DISSIPATION)
       blit(velocity.write.fbo)
       velocity.swap()
     
@@ -681,13 +649,13 @@ export default function useSimulation() {
         gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight)
       gl.uniform1i(advectionProgram.uniforms.uVelocity, velocity.read.attach(0))
       gl.uniform1i(advectionProgram.uniforms.uSource, density.read.attach(1))
-      gl.uniform1f(advectionProgram.uniforms.dissipation, config.DENSITY_DISSIPATION)
+      gl.uniform1f(advectionProgram.uniforms.dissipation, DENSITY_DISSIPATION)
       blit(density.write.fbo)
       density.swap()
     }
     
     function render (target) {
-      if (target == null || !config.TRANSPARENT) {
+      if (target == null || !TRANSPARENT) {
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
         gl.enable(gl.BLEND)
       }
@@ -700,31 +668,24 @@ export default function useSimulation() {
     
       gl.viewport(0, 0, width, height)
   
-      if (!config.TRANSPARENT) {
+      if (!TRANSPARENT) {
         colorProgram.bind()
-        let bc = config.BACK_COLOR
+        let bc = BACK_COLOR
         gl.uniform4f(colorProgram.uniforms.color, bc.r / 255, bc.g / 255, bc.b / 255, 1)
         blit(target)
       }
     
-      if (target == null && config.TRANSPARENT) {
+      if (target == null && TRANSPARENT) {
         backgroundProgram.bind()
         gl.uniform1f(backgroundProgram.uniforms.aspectRatio, width / height)
         blit(null)
       }
     
-      if (config.SHADING) {
-        let program = displayShadingProgram
-        program.bind()
-        gl.uniform2f(program.uniforms.texelSize, 1.0 / width, 1.0 / height)
-        gl.uniform1i(program.uniforms.uTexture, density.read.attach(0))
-      }
-      else {
-        let program = displayProgram
-        program.bind()
-        gl.uniform1i(program.uniforms.uTexture, density.read.attach(0))
-      }
-    
+      let program = displayShadingProgram
+      program.bind()
+      gl.uniform2f(program.uniforms.texelSize, 1.0 / width, 1.0 / height)
+      gl.uniform1i(program.uniforms.uTexture, density.read.attach(0))
+
       blit(target)
     }
     
@@ -737,7 +698,7 @@ export default function useSimulation() {
       gl.uniform1f(splatProgram.uniforms.aspectRatio, width / height)
       gl.uniform2f(splatProgram.uniforms.point, x / width, 1.0 - y / height)
       gl.uniform3f(splatProgram.uniforms.color, dx, -dy, 1.0)
-      gl.uniform1f(splatProgram.uniforms.radius, config.SPLAT_RADIUS / 100.0)
+      gl.uniform1f(splatProgram.uniforms.radius, SPLAT_RADIUS / 100.0)
       blit(velocity.write.fbo)
       velocity.swap()
     
