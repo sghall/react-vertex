@@ -1,6 +1,9 @@
 export default `
   precision highp float;
 
+  // This shader is from the awesome demo at:
+  // https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
+
   attribute vec2 aPosition;
 
   uniform vec2 texelSize;
