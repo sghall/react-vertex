@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { useDataTexture, useFrameBuffer } from '@react-vertex/core'
 
 function useFBO(gl, width, height, getTexOpts) {
-
   const tex = useDataTexture(gl, null, width, height, getTexOpts)
   const fbo = useFrameBuffer(gl)
 
@@ -25,9 +24,9 @@ function useFBO(gl, width, height, getTexOpts) {
   return memoized
 }
 
-function useDoubleFBO(gl, size, type, minMag) {
-  const frameBuffer1 = useFBO(gl, size, type, minMag)
-  const frameBuffer2 = useFBO(gl, size, type, minMag)
+function useDoubleFBO(gl, size, type, getTexOpts) {
+  const frameBuffer1 = useFBO(gl, size, type, getTexOpts)
+  const frameBuffer2 = useFBO(gl, size, type, getTexOpts)
 
   const memoized = useMemo(() => {
     let fbo1 = frameBuffer1
