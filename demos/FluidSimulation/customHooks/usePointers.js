@@ -41,10 +41,10 @@ export default function usePointers() {
   useEffect(() => {
     function onMouseMove(e) {
       pointers[0].moved = pointers[0].down
-      pointers[0].dx = (e.clientX - pointers[0].x) * 5.0
-      pointers[0].dy = (e.clientY - pointers[0].y) * 5.0
-      pointers[0].x = e.clientX
-      pointers[0].y = e.clientY
+      pointers[0].dx = (e.offsetX - pointers[0].x) * 5.0
+      pointers[0].dy = (e.offsetY - pointers[0].y) * 5.0
+      pointers[0].x = e.offsetX
+      pointers[0].y = e.offsetY
     }
 
     function onTouchMove(e) {
