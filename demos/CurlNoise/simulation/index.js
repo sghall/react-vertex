@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 // import { timer } from 'd3-timer'
 import { useWebGLContext, useCanvas, useCanvasSize } from '@react-vertex/core'
 // import { SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
-// import usePointers from './usePointers'
+import usePointers from './usePointers'
+import { generateColor } from './utils'
 // import useSplatProgram from './useSplatProgram'
 // import useColorProgram from './useColorProgram'
 // import useBackgroundProgram from './useBackgroundProgram'
@@ -22,8 +23,10 @@ export default function useSimulation() {
   const { width, height } = useCanvasSize()
   const canvas = useCanvas()
 
+  console.log('useCanvasSize', width, height) // eslint-disable-line
+
   const gl = useWebGLContext()
-  // const pointers = usePointers()
+  const pointers = usePointers()
 
   // const splat = useSplatProgram()
   // const color = useColorProgram()
@@ -51,7 +54,11 @@ export default function useSimulation() {
   // const divergenceFBO = useFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
   // const pressureDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, gl.NEAREST)
 
-  useEffect(() => {   
+  useEffect(() => { 
+    if (!width || !height) {
+      return
+    }
+
     let config = {
       SIM_RESOLUTION: 128,
       DYE_RESOLUTION: 512,
@@ -68,21 +75,6 @@ export default function useSimulation() {
       TRANSPARENT: false,
     }
     
-    function pointerPrototype () {
-      this.id = -1
-      this.x = 0
-      this.y = 0
-      this.dx = 0
-      this.dy = 0
-      this.down = false
-      this.moved = false
-      this.color = [30, 0, 300]
-    }
-    
-    let pointers = []
-    let splatStack = []
-    pointers.push(new pointerPrototype())
-
     let halfFloat = gl.getExtension('OES_texture_half_float')
     let supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear')
 
@@ -596,9 +588,8 @@ export default function useSimulation() {
     }
     
     initFramebuffers()
-    multipleSplats(parseInt(Math.random() * 20) + 5)
-    
-    let lastColorChangeTime = Date.now()
+
+    const splatStack = []
     
     update()
     
@@ -610,29 +601,19 @@ export default function useSimulation() {
       render(null)
       requestAnimationFrame(update)
     }
+
     
     function input () {
-      if (splatStack.length > 0)
+      if (splatStack.length > 0) {
         multipleSplats(splatStack.pop())
+      }
   
       for (let i = 0; i < pointers.length; i++) {
         const p = pointers[i]
         if (p.moved) {
           splat(p.x, p.y, p.dx, p.dy, p.color)
-          console.log(p.x, p.y, p.dx, p.dy, p.color)
+          console.log(p.x, p.y, p.dx, p.dy, p.color) // eslint-disable-line
           p.moved = false
-        }
-      }
-    
-      if (!config.COLORFUL)
-        return
-  
-      if (lastColorChangeTime + 100 < Date.now())
-      {
-        lastColorChangeTime = Date.now()
-        for (let i = 0; i < pointers.length; i++) {
-          const p = pointers[i]
-          p.color = generateColor()
         }
       }
     }
@@ -716,9 +697,7 @@ export default function useSimulation() {
     
       let width  = target == null ? gl.drawingBufferWidth : dyeWidth
       let height = target == null ? gl.drawingBufferHeight : dyeHeight
-  
-      // console.log(width, height)
-  
+    
       gl.viewport(0, 0, width, height)
   
       if (!config.TRANSPARENT) {
@@ -750,6 +729,8 @@ export default function useSimulation() {
     }
     
     function splat (x, y, dx, dy, color) {
+      // console.log('point: ',  x / width, 1.0 - y / height)
+
       gl.viewport(0, 0, simWidth, simHeight)
       splatProgram.bind()
       gl.uniform1i(splatProgram.uniforms.uTarget, velocity.read.attach(0))
@@ -780,6 +761,8 @@ export default function useSimulation() {
         splat(x, y, dx, dy, color)
       }
     }
+
+    multipleSplats(parseInt(Math.random() * 20) + 5)
     
     function resizeCanvas () {
       // if (width != canvas.clientWidth || height != canvas.clientHeight) {
@@ -789,96 +772,12 @@ export default function useSimulation() {
       // }
     }
     
-    canvas.addEventListener('mousemove', e => {
-      pointers[0].moved = pointers[0].down
-      pointers[0].dx = (e.clientX - pointers[0].x) * 5.0
-      pointers[0].dy = (e.clientY - pointers[0].y) * 5.0
-      pointers[0].x = e.clientX
-      pointers[0].y = e.clientY
-    })
-    
-    canvas.addEventListener('touchmove', e => {
-      e.preventDefault()
-      const touches = e.targetTouches
-      for (let i = 0; i < touches.length; i++) {
-        let pointer = pointers[i]
-        pointer.moved = pointer.down
-        pointer.dx = (touches[i].pageX - pointer.x) * 8.0
-        pointer.dy = (touches[i].pageY - pointer.y) * 8.0
-        pointer.x = touches[i].pageX
-        pointer.y = touches[i].pageY
-      }
-    }, false)
-    
-    canvas.addEventListener('mousedown', () => {
-      pointers[0].down = true
-      pointers[0].color = generateColor()
-    })
-    
-    canvas.addEventListener('touchstart', e => {
-      e.preventDefault()
-      const touches = e.targetTouches
-      for (let i = 0; i < touches.length; i++) {
-        if (i >= pointers.length)
-          pointers.push(new pointerPrototype())
-
-        pointers[i].id = touches[i].identifier
-        pointers[i].down = true
-        pointers[i].x = touches[i].pageX
-        pointers[i].y = touches[i].pageY
-        pointers[i].color = generateColor()
-      }
-    })
-    
-    window.addEventListener('mouseup', () => {
-      pointers[0].down = false
-    })
-    
-    window.addEventListener('touchend', e => {
-      const touches = e.changedTouches
-      for (let i = 0; i < touches.length; i++)
-        for (let j = 0; j < pointers.length; j++)
-          if (touches[i].identifier == pointers[j].id)
-            pointers[j].down = false
-    })
-    
-    function generateColor () {
-      let c = HSVtoRGB(Math.random(), 1.0, 1.0)
-      c.r *= 0.15
-      c.g *= 0.15
-      c.b *= 0.15
-      return c
-    }
-    
-    function HSVtoRGB (h, s, v) {
-      let r, g, b, i, f, p, q, t
-      i = Math.floor(h * 6)
-      f = h * 6 - i
-      p = v * (1 - s)
-      q = v * (1 - f * s)
-      t = v * (1 - (1 - f) * s)
-  
-      switch (i % 6) {
-        case 0: r = v, g = t, b = p; break
-        case 1: r = q, g = v, b = p; break
-        case 2: r = p, g = v, b = t; break
-        case 3: r = p, g = q, b = v; break
-        case 4: r = t, g = p, b = v; break
-        case 5: r = v, g = p, b = q; break
-      }
-    
-      return {
-        r,
-        g,
-        b
-      }
-    }
-    
     function getResolution (resolution) {
-      // console.log('getResolution: ', resolution, gl.drawingBufferWidth, gl.drawingBufferHeight)
       let aspectRatio = gl.drawingBufferWidth / gl.drawingBufferHeight
-      if (aspectRatio < 1)
+      
+      if (aspectRatio < 1) {
         aspectRatio = 1.0 / aspectRatio
+      }
   
       let max = Math.round(resolution * aspectRatio)
       let min = Math.round(resolution)
@@ -888,7 +787,7 @@ export default function useSimulation() {
       else
         return { width: min, height: max }
     }
-  }, [gl, width, height, canvas])
+  }, [gl, pointers, width, height, canvas])
 
   return 1
 }
