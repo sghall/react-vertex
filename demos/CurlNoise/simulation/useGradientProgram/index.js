@@ -5,7 +5,7 @@ import {
   useProgramUniforms,
 } from '@react-vertex/core'
 import vert from '../shaders/base.vert'
-import frag from './vorticity.frag'
+import frag from './gradient.subtract.frag'
 
 export default function useVorticityProgram() {
   const gl = useWebGLContext()

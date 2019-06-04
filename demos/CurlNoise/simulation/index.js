@@ -13,7 +13,7 @@ import useVorticityProgram from './useVorticityProgram'
 import useDivergenceProgram from './useDivergenceProgram'
 import useClearProgram from './useClearProgram'
 import usePressureProgram from './usePressureProgram'
-// import useGradientProgram from './useGradientProgram'
+import useGradientProgram from './useGradientProgram'
 // import useAdvectionProgram from './useAdvectionProgram'
 import useResolution from './useResolution'
 import { useFBO, useDoubleFBO } from './useDoubleFBO'
@@ -38,7 +38,7 @@ export default function useSimulation() {
   const divergence = useDivergenceProgram()
   const clear = useClearProgram()
   const pressure = usePressureProgram()
-  // const gradient = useGradientProgram()
+  const gradient = useGradientProgram()
   // const advection = useAdvectionProgram()
 
   const simSize = useResolution(SIM_RESOLUTION, width, height)
@@ -167,36 +167,6 @@ export default function useSimulation() {
             gl_FragColor.a = 1.0;
         }
     `)
-
-    const gradientSubtractShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision mediump float;
-        precision mediump sampler2D;
-
-        varying highp vec2 vUv;
-        varying highp vec2 vL;
-        varying highp vec2 vR;
-        varying highp vec2 vT;
-        varying highp vec2 vB;
-        uniform sampler2D uPressure;
-        uniform sampler2D uVelocity;
-
-        vec2 boundary (vec2 uv) {
-            return uv;
-            // uv = min(max(uv, 0.0), 1.0);
-            // return uv;
-        }
-
-        void main () {
-            float L = texture2D(uPressure, boundary(vL)).x;
-            float R = texture2D(uPressure, boundary(vR)).x;
-            float T = texture2D(uPressure, boundary(vT)).x;
-            float B = texture2D(uPressure, boundary(vB)).x;
-            vec2 velocity = texture2D(uVelocity, vUv).xy;
-            velocity.xy -= vec2(R - L, T - B);
-            gl_FragColor = vec4(velocity, 0.0, 1.0);
-        }
-    `)
-
     
     const blit = (() => {
       gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
@@ -218,7 +188,6 @@ export default function useSimulation() {
     let dyeHeight
     
     const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
-    const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
     function initFramebuffers () {  
       simWidth  = simSize[0]
@@ -295,10 +264,10 @@ export default function useSimulation() {
         pressureDFBO.swap()
       }
     
-      gradienSubtractProgram.bind()
-      gl.uniform2f(gradienSubtractProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(gradienSubtractProgram.uniforms.uPressure, pressureDFBO.read.attach(0))
-      gl.uniform1i(gradienSubtractProgram.uniforms.uVelocity, velocityDFBO.read.attach(1))
+      gl.useProgram(gradient.program)
+      gl.uniform2f(gradient.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform1i(gradient.uniforms.uPressure, pressureDFBO.read.attach(0))
+      gl.uniform1i(gradient.uniforms.uVelocity, velocityDFBO.read.attach(1))
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
   
