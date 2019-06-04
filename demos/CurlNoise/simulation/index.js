@@ -4,7 +4,7 @@ import { useWebGLContext, useCanvas, useCanvasSize } from '@react-vertex/core'
 import { TRANSPARENT, BACK_COLOR, SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
 import usePointers from './usePointers'
 import { generateColor } from './utils'
-// import useSplatProgram from './useSplatProgram'
+import useSplatProgram from './useSplatProgram'
 // import useColorProgram from './useColorProgram'
 // import useBackgroundProgram from './useBackgroundProgram'
 // import useDisplayShadingProgram from './useDisplayShadingProgram'
@@ -28,7 +28,7 @@ export default function useSimulation() {
   const gl = useWebGLContext()
   const pointers = usePointers()
 
-  // const splat = useSplatProgram()
+  const splat = useSplatProgram()
   // const color = useColorProgram()
   // const background = useBackgroundProgram()
   // const displayShading = useDisplayShadingProgram()
@@ -59,21 +59,7 @@ export default function useSimulation() {
       return
     }
     
-    let halfFloat = gl.getExtension('OES_texture_half_float')
-    let supportLinearFiltering = gl.getExtension('OES_texture_half_float_linear')
-
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-
-    const halfFloatTexType =  halfFloat.HALF_FLOAT_OES
-    
-
-    const ext = {
-      formatRGBA: { format: gl.RGBA, internalFormat: gl.RGBA },
-      formatRG: { format: gl.RGBA, internalFormat: gl.RGBA },
-      formatR: { format: gl.RGBA, internalFormat: gl.RGBA },
-      halfFloatTexType,
-      supportLinearFiltering
-    }
         
     class GLProgram {
       constructor (vertexShader, fragmentShader) {
@@ -202,26 +188,6 @@ export default function useSimulation() {
 
             float a = max(C.r, max(C.g, C.b));
             gl_FragColor = vec4(C, a);
-        }
-    `)
-
-    const splatShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        uniform sampler2D uTarget;
-        uniform float aspectRatio;
-        uniform vec3 color;
-        uniform vec2 point;
-        uniform float radius;
-
-        void main () {
-            vec2 p = vUv - point.xy;
-            p.x *= aspectRatio;
-            vec3 splat = exp(-dot(p, p) / radius) * color;
-            vec3 base = texture2D(uTarget, vUv).xyz;
-            gl_FragColor = vec4(base + splat, 1.0);
         }
     `)
 
@@ -445,8 +411,8 @@ export default function useSimulation() {
     const colorProgram               = new GLProgram(baseVertexShader, colorShader)
     const backgroundProgram          = new GLProgram(baseVertexShader, backgroundShader)
     const displayShadingProgram      = new GLProgram(baseVertexShader, displayShadingShader)
-    const splatProgram               = new GLProgram(baseVertexShader, splatShader)
-    const advectionProgram           = new GLProgram(baseVertexShader, ext.supportLinearFiltering ? advectionShader : advectionManualFilteringShader)
+    // const splatProgram               = new GLProgram(baseVertexShader, splatShader)
+    const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
     const divergenceProgram          = new GLProgram(baseVertexShader, divergenceShader)
     const curlProgram                = new GLProgram(baseVertexShader, curlShader)
     const vorticityProgram           = new GLProgram(baseVertexShader, vorticityShader)
@@ -482,7 +448,7 @@ export default function useSimulation() {
       for (let i = 0; i < pointers.length; i++) {
         const p = pointers[i]
         if (p.moved) {
-          splat(p.x, p.y, p.dx, p.dy, p.color)
+          updateSplat(p.x, p.y, p.dx, p.dy, p.color)
           console.log(p.x, p.y, p.dx, p.dy, p.color) // eslint-disable-line
           p.moved = false
         }
@@ -536,8 +502,11 @@ export default function useSimulation() {
   
       advectionProgram.bind()
       gl.uniform2f(advectionProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      if (!ext.supportLinearFiltering)
+      
+      if (!hasLinear) {
         gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight)
+      }
+      
       let velocityId = velocityDFBO.read.attach(0)
       gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId)
       gl.uniform1i(advectionProgram.uniforms.uSource, velocityId)
@@ -548,8 +517,10 @@ export default function useSimulation() {
     
       gl.viewport(0, 0, dyeWidth, dyeHeight)
   
-      if (!ext.supportLinearFiltering)
+      if (!hasLinear) {
         gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight)
+      }
+
       gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
       gl.uniform1i(advectionProgram.uniforms.uSource, densityDFBO.read.attach(1))
       gl.uniform1f(advectionProgram.uniforms.dissipation, DENSITY_DISSIPATION)
@@ -592,22 +563,23 @@ export default function useSimulation() {
       blit(target)
     }
     
-    function splat (x, y, dx, dy, color) {
+    function updateSplat (x, y, dx, dy, color) {
       // console.log('point: ',  x / width, 1.0 - y / height)
 
       gl.viewport(0, 0, simWidth, simHeight)
-      splatProgram.bind()
-      gl.uniform1i(splatProgram.uniforms.uTarget, velocityDFBO.read.attach(0))
-      gl.uniform1f(splatProgram.uniforms.aspectRatio, width / height)
-      gl.uniform2f(splatProgram.uniforms.point, x / width, 1.0 - y / height)
-      gl.uniform3f(splatProgram.uniforms.color, dx, -dy, 1.0)
-      gl.uniform1f(splatProgram.uniforms.radius, SPLAT_RADIUS / 100.0)
+
+      gl.useProgram(splat.program)
+      gl.uniform1i(splat.uniforms.uTarget, velocityDFBO.read.attach(0))
+      gl.uniform1f(splat.uniforms.aspectRatio, width / height)
+      gl.uniform2f(splat.uniforms.point, x / width, 1.0 - y / height)
+      gl.uniform3f(splat.uniforms.color, dx, -dy, 1.0)
+      gl.uniform1f(splat.uniforms.radius, SPLAT_RADIUS / 100.0)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
     
       gl.viewport(0, 0, dyeWidth, dyeHeight)
-      gl.uniform1i(splatProgram.uniforms.uTarget, densityDFBO.read.attach(0))
-      gl.uniform3f(splatProgram.uniforms.color, color.r, color.g, color.b)
+      gl.uniform1i(splat.uniforms.uTarget, densityDFBO.read.attach(0))
+      gl.uniform3f(splat.uniforms.color, color.r, color.g, color.b)
       blit(densityDFBO.write.fbo)
       densityDFBO.swap()
     }
@@ -622,7 +594,7 @@ export default function useSimulation() {
         const y = height * Math.random()
         const dx = 1000 * (Math.random() - 0.5)
         const dy = 1000 * (Math.random() - 0.5)
-        splat(x, y, dx, dy, color)
+        updateSplat(x, y, dx, dy, color)
       }
     }
 
