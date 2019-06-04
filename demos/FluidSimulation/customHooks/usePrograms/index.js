@@ -1,8 +1,5 @@
 import { useMemo } from 'react'
-import {
-  useProgram,
-  useProgramUniforms,
-} from '@react-vertex/core'
+import { useProgram, useProgramUniforms } from '@react-vertex/core'
 import * as shaders from './shaders'
 
 function useProgramAndUniforms(gl, frag) {
@@ -17,8 +14,8 @@ function useProgramAndUniforms(gl, frag) {
 }
 
 export default function usePrograms(gl, hasLinear) {
-  const advectionFrag = hasLinear ? shaders.advection : shaders.advectionManual  
-  
+  const advectionFrag = hasLinear ? shaders.advection : shaders.advectionManual
+
   const advection = useProgramAndUniforms(gl, advectionFrag)
   const background = useProgramAndUniforms(gl, shaders.background)
   const clear = useProgramAndUniforms(gl, shaders.clear)
@@ -32,8 +29,32 @@ export default function usePrograms(gl, hasLinear) {
   const vorticity = useProgramAndUniforms(gl, shaders.vorticity)
 
   const programs = useMemo(() => {
-    return { advection, background, clear, color, curl, displayShading, divergence, gradient, pressure, splat, vorticity }
-  }, [advection, background, clear, color, curl, displayShading, divergence, gradient, pressure, splat, vorticity])
+    return {
+      advection,
+      background,
+      clear,
+      color,
+      curl,
+      displayShading,
+      divergence,
+      gradient,
+      pressure,
+      splat,
+      vorticity,
+    }
+  }, [
+    advection,
+    background,
+    clear,
+    color,
+    curl,
+    displayShading,
+    divergence,
+    gradient,
+    pressure,
+    splat,
+    vorticity,
+  ])
 
   return programs
 }

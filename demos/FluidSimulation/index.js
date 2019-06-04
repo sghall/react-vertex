@@ -18,7 +18,13 @@ function FlockingBirds() {
           width={width}
           height={width}
           clearColor={clearColor}
-          contextAttrs={{ alpha: true, depth: false, stencil: false, antialias: false, preserveDrawingBuffer: false }}
+          contextAttrs={{
+            alpha: true,
+            depth: false,
+            stencil: false,
+            antialias: false,
+            preserveDrawingBuffer: false,
+          }}
         >
           <Scene />
         </Canvas>
