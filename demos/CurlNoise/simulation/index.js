@@ -5,9 +5,9 @@ import { TRANSPARENT, BACK_COLOR, SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, 
 import usePointers from './usePointers'
 import { generateColor } from './utils'
 import useSplatProgram from './useSplatProgram'
-// import useColorProgram from './useColorProgram'
-// import useBackgroundProgram from './useBackgroundProgram'
-// import useDisplayShadingProgram from './useDisplayShadingProgram'
+import useColorProgram from './useColorProgram'
+import useBackgroundProgram from './useBackgroundProgram'
+import useDisplayShadingProgram from './useDisplayShadingProgram'
 // import useCurlProgram from './useCurlProgram'
 // import useVorticityProgram from './useVorticityProgram'
 // import useDivergenceProgram from './useDivergenceProgram'
@@ -29,9 +29,9 @@ export default function useSimulation() {
   const pointers = usePointers()
 
   const splat = useSplatProgram()
-  // const color = useColorProgram()
-  // const background = useBackgroundProgram()
-  // const displayShading = useDisplayShadingProgram()
+  const color = useColorProgram()
+  const background = useBackgroundProgram()
+  const displayShading = useDisplayShadingProgram()
 
   // const curl = useCurlProgram()
   // const vorticity = useVorticityProgram()
@@ -127,67 +127,6 @@ export default function useSimulation() {
 
         void main () {
             gl_FragColor = value * texture2D(uTexture, vUv);
-        }
-    `)
-
-    const colorShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision mediump float;
-
-        uniform vec4 color;
-
-        void main () {
-            gl_FragColor = color;
-        }
-    `)
-
-    const backgroundShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        uniform sampler2D uTexture;
-        uniform float aspectRatio;
-
-        #define SCALE 25.0
-
-        void main () {
-            vec2 uv = floor(vUv * SCALE * vec2(aspectRatio, 1.0));
-            float v = mod(uv.x + uv.y, 2.0);
-            v = v * 0.1 + 0.8;
-            gl_FragColor = vec4(vec3(v), 1.0);
-        }
-    `)
-
-    const displayShadingShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        varying vec2 vL;
-        varying vec2 vR;
-        varying vec2 vT;
-        varying vec2 vB;
-        uniform sampler2D uTexture;
-        uniform vec2 texelSize;
-
-        void main () {
-            vec3 L = texture2D(uTexture, vL).rgb;
-            vec3 R = texture2D(uTexture, vR).rgb;
-            vec3 T = texture2D(uTexture, vT).rgb;
-            vec3 B = texture2D(uTexture, vB).rgb;
-            vec3 C = texture2D(uTexture, vUv).rgb;
-
-            float dx = length(R) - length(L);
-            float dy = length(T) - length(B);
-
-            vec3 n = normalize(vec3(dx, dy, length(texelSize)));
-            vec3 l = vec3(0.0, 0.0, 1.0);
-
-            float diffuse = clamp(dot(n, l) + 0.7, 0.7, 1.0);
-            C.rgb *= diffuse;
-
-            float a = max(C.r, max(C.g, C.b));
-            gl_FragColor = vec4(C, a);
         }
     `)
 
@@ -401,17 +340,8 @@ export default function useSimulation() {
     let simHeight
     let dyeWidth
     let dyeHeight
-    // let density
-    // let velocity
-    // let divergence
-    // let curl
-    // let pressure
     
     const clearProgram               = new GLProgram(baseVertexShader, clearShader)
-    const colorProgram               = new GLProgram(baseVertexShader, colorShader)
-    const backgroundProgram          = new GLProgram(baseVertexShader, backgroundShader)
-    const displayShadingProgram      = new GLProgram(baseVertexShader, displayShadingShader)
-    // const splatProgram               = new GLProgram(baseVertexShader, splatShader)
     const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
     const divergenceProgram          = new GLProgram(baseVertexShader, divergenceShader)
     const curlProgram                = new GLProgram(baseVertexShader, curlShader)
@@ -543,27 +473,26 @@ export default function useSimulation() {
       gl.viewport(0, 0, width, height)
   
       if (!TRANSPARENT) {
-        colorProgram.bind()
+        gl.useProgram(color.program)
         let bc = BACK_COLOR
-        gl.uniform4f(colorProgram.uniforms.color, bc.r / 255, bc.g / 255, bc.b / 255, 1)
+        gl.uniform4f(color.uniforms.color, bc.r / 255, bc.g / 255, bc.b / 255, 1)
         blit(target)
       }
     
       if (target == null && TRANSPARENT) {
-        backgroundProgram.bind()
-        gl.uniform1f(backgroundProgram.uniforms.aspectRatio, width / height)
+        gl.useProgram(background.program)
+        gl.uniform1f(background.uniforms.aspectRatio, width / height)
         blit(null)
       }
     
-      let program = displayShadingProgram
-      program.bind()
-      gl.uniform2f(program.uniforms.texelSize, 1.0 / width, 1.0 / height)
-      gl.uniform1i(program.uniforms.uTexture, densityDFBO.read.attach(0))
+      gl.useProgram(displayShading.program)
+      gl.uniform2f(displayShading.uniforms.texelSize, 1.0 / width, 1.0 / height)
+      gl.uniform1i(displayShading.uniforms.uTexture, densityDFBO.read.attach(0))
 
       blit(target)
     }
     
-    function updateSplat (x, y, dx, dy, color) {
+    function updateSplat (x, y, dx, dy, splatRGB) {
       // console.log('point: ',  x / width, 1.0 - y / height)
 
       gl.viewport(0, 0, simWidth, simHeight)
@@ -579,7 +508,7 @@ export default function useSimulation() {
     
       gl.viewport(0, 0, dyeWidth, dyeHeight)
       gl.uniform1i(splat.uniforms.uTarget, densityDFBO.read.attach(0))
-      gl.uniform3f(splat.uniforms.color, color.r, color.g, color.b)
+      gl.uniform3f(splat.uniforms.color, splatRGB.r, splatRGB.g, splatRGB.b)
       blit(densityDFBO.write.fbo)
       densityDFBO.swap()
     }
