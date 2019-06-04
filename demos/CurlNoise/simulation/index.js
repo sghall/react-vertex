@@ -14,7 +14,7 @@ import useDivergenceProgram from './useDivergenceProgram'
 import useClearProgram from './useClearProgram'
 import usePressureProgram from './usePressureProgram'
 import useGradientProgram from './useGradientProgram'
-// import useAdvectionProgram from './useAdvectionProgram'
+import useAdvectionProgram from './useAdvectionProgram'
 import useResolution from './useResolution'
 import { useFBO, useDoubleFBO } from './useDoubleFBO'
 import useFormats from './useFormats'
@@ -26,6 +26,9 @@ export default function useSimulation() {
   console.log('useCanvasSize', width, height) // eslint-disable-line
 
   const gl = useWebGLContext()
+  const { rgb, halfFloat, hasLinear } = useFormats(gl)
+  const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
+
   const pointers = usePointers()
 
   const splat = useSplatProgram()
@@ -39,13 +42,10 @@ export default function useSimulation() {
   const clear = useClearProgram()
   const pressure = usePressureProgram()
   const gradient = useGradientProgram()
-  // const advection = useAdvectionProgram()
+  const advection = useAdvectionProgram(hasLinear)
 
   const simSize = useResolution(SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(DYE_RESOLUTION, width, height)
-
-  const { rgb, halfFloat, hasLinear } = useFormats(gl)
-  const filtering = hasLinear ? gl.LINEAR : gl.NEAREST
 
   const densityDFBO = useDoubleFBO(gl, dyeSize, rgb, halfFloat, filtering)
   const velocityDFBO = useDoubleFBO(gl, simSize, rgb, halfFloat, filtering)
@@ -60,114 +60,7 @@ export default function useSimulation() {
     }
     
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
-        
-    class GLProgram {
-      constructor (vertexShader, fragmentShader) {
-        this.uniforms = {}
-        this.program = gl.createProgram()
-
-        gl.attachShader(this.program, vertexShader)
-        gl.attachShader(this.program, fragmentShader)
-        gl.linkProgram(this.program)
-
-        if (!gl.getProgramParameter(this.program, gl.LINK_STATUS))
-          throw gl.getProgramInfoLog(this.program)
-
-        const uniformCount = gl.getProgramParameter(this.program, gl.ACTIVE_UNIFORMS)
-        for (let i = 0; i < uniformCount; i++) {
-          const uniformName = gl.getActiveUniform(this.program, i).name
-          this.uniforms[uniformName] = gl.getUniformLocation(this.program, uniformName)
-        }
-      }
-    
-      bind () {
-        gl.useProgram(this.program)
-      }
-    }
-    
-    function compileShader (type, source) {
-      const shader = gl.createShader(type)
-      gl.shaderSource(shader, source)
-      gl.compileShader(shader)
-  
-      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
-        console.log(gl.getShaderInfoLog(shader)) //eslint-disable-line
-  
-      return shader
-    }
-    
-    const baseVertexShader = compileShader(gl.VERTEX_SHADER, `
-        precision highp float;
-
-        attribute vec2 aPosition;
-        varying vec2 vUv;
-        varying vec2 vL;
-        varying vec2 vR;
-        varying vec2 vT;
-        varying vec2 vB;
-        uniform vec2 texelSize;
-
-        void main () {
-            vUv = aPosition * 0.5 + 0.5;
-            vL = vUv - vec2(texelSize.x, 0.0);
-            vR = vUv + vec2(texelSize.x, 0.0);
-            vT = vUv + vec2(0.0, texelSize.y);
-            vB = vUv - vec2(0.0, texelSize.y);
-            gl_Position = vec4(aPosition, 0.0, 1.0);
-        }
-    `)
-
-    const advectionManualFilteringShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        uniform sampler2D uVelocity;
-        uniform sampler2D uSource;
-        uniform vec2 texelSize;
-        uniform vec2 dyeTexelSize;
-        uniform float dt;
-        uniform float dissipation;
-
-        vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
-            vec2 st = uv / tsize - 0.5;
-
-            vec2 iuv = floor(st);
-            vec2 fuv = fract(st);
-
-            vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
-            vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
-            vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
-            vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
-
-            return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
-        }
-
-        void main () {
-            vec2 coord = vUv - dt * bilerp(uVelocity, vUv, texelSize).xy * texelSize;
-            gl_FragColor = dissipation * bilerp(uSource, coord, dyeTexelSize);
-            gl_FragColor.a = 1.0;
-        }
-    `)
-
-    const advectionShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        uniform sampler2D uVelocity;
-        uniform sampler2D uSource;
-        uniform vec2 texelSize;
-        uniform float dt;
-        uniform float dissipation;
-
-        void main () {
-            vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
-            gl_FragColor = dissipation * texture2D(uSource, coord);
-            gl_FragColor.a = 1.0;
-        }
-    `)
-    
+            
     const blit = (() => {
       gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW)
@@ -186,9 +79,7 @@ export default function useSimulation() {
     let simHeight
     let dyeWidth
     let dyeHeight
-    
-    const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
-    
+      
     function initFramebuffers () {  
       simWidth  = simSize[0]
       simHeight = simSize[1]
@@ -219,7 +110,6 @@ export default function useSimulation() {
         const p = pointers[i]
         if (p.moved) {
           updateSplat(p.x, p.y, p.dx, p.dy, p.color)
-          console.log(p.x, p.y, p.dx, p.dy, p.color) // eslint-disable-line
           p.moved = false
         }
       }
@@ -271,30 +161,30 @@ export default function useSimulation() {
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
   
-      advectionProgram.bind()
-      gl.uniform2f(advectionProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.useProgram(advection.program)
+      gl.uniform2f(advection.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
       
       if (!hasLinear) {
-        gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight)
+        gl.uniform2f(advection.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight)
       }
       
       let velocityId = velocityDFBO.read.attach(0)
-      gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityId)
-      gl.uniform1i(advectionProgram.uniforms.uSource, velocityId)
-      gl.uniform1f(advectionProgram.uniforms.dt, dt)
-      gl.uniform1f(advectionProgram.uniforms.dissipation, VELOCITY_DISSIPATION)
+      gl.uniform1i(advection.uniforms.uVelocity, velocityId)
+      gl.uniform1i(advection.uniforms.uSource, velocityId)
+      gl.uniform1f(advection.uniforms.dt, dt)
+      gl.uniform1f(advection.uniforms.dissipation, VELOCITY_DISSIPATION)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
     
       gl.viewport(0, 0, dyeWidth, dyeHeight)
   
       if (!hasLinear) {
-        gl.uniform2f(advectionProgram.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight)
+        gl.uniform2f(advection.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight)
       }
 
-      gl.uniform1i(advectionProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
-      gl.uniform1i(advectionProgram.uniforms.uSource, densityDFBO.read.attach(1))
-      gl.uniform1f(advectionProgram.uniforms.dissipation, DENSITY_DISSIPATION)
+      gl.uniform1i(advection.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      gl.uniform1i(advection.uniforms.uSource, densityDFBO.read.attach(1))
+      gl.uniform1f(advection.uniforms.dissipation, DENSITY_DISSIPATION)
       blit(densityDFBO.write.fbo)
       densityDFBO.swap()
     }
