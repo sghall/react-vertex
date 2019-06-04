@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-// import { timer } from 'd3-timer'
-import { useWebGLContext, useCanvas, useCanvasSize } from '@react-vertex/core'
+import { timer } from 'd3-timer'
+import { useWebGLContext, useCanvasSize } from '@react-vertex/core'
 import { TRANSPARENT, BACK_COLOR, SIM_RESOLUTION, DYE_RESOLUTION, SPLAT_RADIUS, CURL, PRESSURE_DISSIPATION, PRESSURE_ITERATIONS, VELOCITY_DISSIPATION, DENSITY_DISSIPATION } from './config'
 import usePointers from './usePointers'
 import { generateColor } from './utils'
@@ -21,9 +21,6 @@ import useFormats from './useFormats'
 
 export default function useSimulation() {
   const { width, height } = useCanvasSize()
-  const canvas = useCanvas()
-
-  console.log('useCanvasSize', width, height) // eslint-disable-line
 
   const gl = useWebGLContext()
   const { rgb, halfFloat, hasLinear } = useFormats(gl)
@@ -58,6 +55,8 @@ export default function useSimulation() {
     if (!width || !height) {
       return
     }
+
+    const splatStack = []
     
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
             
@@ -74,32 +73,6 @@ export default function useSimulation() {
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0)
       }
     })()
-    
-    let simWidth
-    let simHeight
-    let dyeWidth
-    let dyeHeight
-      
-    function initFramebuffers () {  
-      simWidth  = simSize[0]
-      simHeight = simSize[1]
-      dyeWidth  = dyeSize[0]
-      dyeHeight = dyeSize[1]
-    }
-  
-    initFramebuffers()
-
-    const splatStack = []
-    
-    update()
-    
-    function update () {
-      resizeCanvas()
-      input()
-      step(0.016)
-      render(null)
-      requestAnimationFrame(update)
-    }
 
     function input () {
       if (splatStack.length > 0) {
@@ -117,15 +90,15 @@ export default function useSimulation() {
     
     function step (dt) {
       gl.disable(gl.BLEND)
-      gl.viewport(0, 0, simWidth, simHeight)
+      gl.viewport(0, 0, simSize[0], simSize[1])
   
       gl.useProgram(curl.program)
-      gl.uniform2f(curl.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform2f(curl.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       gl.uniform1i(curl.uniforms.uVelocity, velocityDFBO.read.attach(0))
       blit(curlFBO.fbo)
   
       gl.useProgram(vorticity.program)
-      gl.uniform2f(vorticity.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform2f(vorticity.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       gl.uniform1i(vorticity.uniforms.uVelocity, velocityDFBO.read.attach(0))
       gl.uniform1i(vorticity.uniforms.uCurl, curlFBO.attach(1))
       gl.uniform1f(vorticity.uniforms.curl, CURL)
@@ -134,7 +107,7 @@ export default function useSimulation() {
       velocityDFBO.swap()
     
       gl.useProgram(divergence.program)
-      gl.uniform2f(divergence.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform2f(divergence.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       gl.uniform1i(divergence.uniforms.uVelocity, velocityDFBO.read.attach(0))
       blit(divergenceFBO.fbo)
   
@@ -145,7 +118,7 @@ export default function useSimulation() {
       pressureDFBO.swap()
   
       gl.useProgram(pressure.program)
-      gl.uniform2f(pressure.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform2f(pressure.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       gl.uniform1i(pressure.uniforms.uDivergence, divergenceFBO.attach(0))
       
       for (let i = 0; i < PRESSURE_ITERATIONS; i++) {
@@ -155,17 +128,17 @@ export default function useSimulation() {
       }
     
       gl.useProgram(gradient.program)
-      gl.uniform2f(gradient.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform2f(gradient.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       gl.uniform1i(gradient.uniforms.uPressure, pressureDFBO.read.attach(0))
       gl.uniform1i(gradient.uniforms.uVelocity, velocityDFBO.read.attach(1))
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
   
       gl.useProgram(advection.program)
-      gl.uniform2f(advection.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform2f(advection.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       
       if (!hasLinear) {
-        gl.uniform2f(advection.uniforms.dyeTexelSize, 1.0 / simWidth, 1.0 / simHeight)
+        gl.uniform2f(advection.uniforms.dyeTexelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       }
       
       let velocityId = velocityDFBO.read.attach(0)
@@ -176,10 +149,10 @@ export default function useSimulation() {
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
     
-      gl.viewport(0, 0, dyeWidth, dyeHeight)
+      gl.viewport(0, 0, dyeSize[0], dyeSize[1])
   
       if (!hasLinear) {
-        gl.uniform2f(advection.uniforms.dyeTexelSize, 1.0 / dyeWidth, 1.0 / dyeHeight)
+        gl.uniform2f(advection.uniforms.dyeTexelSize, 1.0 / dyeSize[0], 1.0 / dyeSize[1])
       }
 
       gl.uniform1i(advection.uniforms.uVelocity, velocityDFBO.read.attach(0))
@@ -198,8 +171,8 @@ export default function useSimulation() {
         gl.disable(gl.BLEND)
       }
     
-      let width  = target == null ? gl.drawingBufferWidth : dyeWidth
-      let height = target == null ? gl.drawingBufferHeight : dyeHeight
+      let width  = target == null ? gl.drawingBufferWidth : dyeSize[0]
+      let height = target == null ? gl.drawingBufferHeight : dyeSize[1]
     
       gl.viewport(0, 0, width, height)
   
@@ -224,9 +197,7 @@ export default function useSimulation() {
     }
     
     function updateSplat (x, y, dx, dy, splatRGB) {
-      // console.log('point: ',  x / width, 1.0 - y / height)
-
-      gl.viewport(0, 0, simWidth, simHeight)
+      gl.viewport(0, 0, simSize[0], simSize[1])
 
       gl.useProgram(splat.program)
       gl.uniform1i(splat.uniforms.uTarget, velocityDFBO.read.attach(0))
@@ -237,7 +208,7 @@ export default function useSimulation() {
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
     
-      gl.viewport(0, 0, dyeWidth, dyeHeight)
+      gl.viewport(0, 0, dyeSize[0], dyeSize[1])
       gl.uniform1i(splat.uniforms.uTarget, densityDFBO.read.attach(0))
       gl.uniform3f(splat.uniforms.color, splatRGB.r, splatRGB.g, splatRGB.b)
       blit(densityDFBO.write.fbo)
@@ -246,29 +217,28 @@ export default function useSimulation() {
     
     function multipleSplats (amount) {
       for (let i = 0; i < amount; i++) {
-        const color = generateColor()
-        color.r *= 10.0
-        color.g *= 10.0
-        color.b *= 10.0
+        const splatRGB = generateColor()
+        splatRGB.r *= 10.0
+        splatRGB.g *= 10.0
+        splatRGB.b *= 10.0
         const x = width * Math.random()
         const y = height * Math.random()
         const dx = 1000 * (Math.random() - 0.5)
         const dy = 1000 * (Math.random() - 0.5)
-        updateSplat(x, y, dx, dy, color)
+        updateSplat(x, y, dx, dy, splatRGB)
       }
     }
 
+    const timerLoop = timer(() => {
+      input()
+      step(0.016)
+      render(null)
+    })
+
     multipleSplats(parseInt(Math.random() * 20) + 5)
-    
-    function resizeCanvas () {
-      // if (width != canvas.clientWidth || height != canvas.clientHeight) {
-      //   width = canvas.clientWidth
-      //   height = canvas.clientHeight
-      //   initFramebuffers()
-      // }
-    }
-    
-  }, [gl, pointers, width, height, canvas])
+
+    return () => timerLoop.stop()
+  }, [gl, pointers, width, height])
 
   return 1
 }
