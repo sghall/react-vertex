@@ -1,13 +1,12 @@
 import { useMemo } from 'react'
 import { useDataTexture, useFrameBuffer } from '@react-vertex/core'
 
-export function useFBO(gl, size, format, type, minMag) {
+function useFBO(gl, size, type, minMag) {
   const [w, h] = size
 
   const texture = useDataTexture(gl, null, w, h, () => ({
     type,
     minMag,
-    ...format,
   }))
 
   const frameBuffer = useFrameBuffer(gl)
@@ -38,9 +37,9 @@ export function useFBO(gl, size, format, type, minMag) {
   }
 }
 
-export function useDoubleFBO(gl, size, format, type, minMag) {
-  const frameBuffer1 = useFBO(gl, size, format, type, minMag)
-  const frameBuffer2 = useFBO(gl, size, format, type, minMag)
+function useDoubleFBO(gl, size, type, minMag) {
+  const frameBuffer1 = useFBO(gl, size, type, minMag)
+  const frameBuffer2 = useFBO(gl, size, type, minMag)
 
   const memoized = useMemo(() => {
     let fbo1 = frameBuffer1
@@ -69,3 +68,25 @@ export function useDoubleFBO(gl, size, format, type, minMag) {
 
   return memoized
 }
+
+function useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag) {
+  const curlFBO = useFBO(gl, simSize, halfFloat, gl.NEAREST)
+  const divergenceFBO = useFBO(gl, simSize, halfFloat, gl.NEAREST)
+  const densityDFBO = useDoubleFBO(gl, dyeSize, halfFloat, minMag)
+  const pressureDFBO = useDoubleFBO(gl, simSize, halfFloat, gl.NEAREST)
+  const velocityDFBO = useDoubleFBO(gl, simSize, halfFloat, minMag)
+
+  const memoized = useMemo(() => {
+    return {
+      curlFBO,
+      divergenceFBO,
+      densityDFBO,
+      pressureDFBO,
+      velocityDFBO,
+    }
+  }, [curlFBO, divergenceFBO, densityDFBO, pressureDFBO, velocityDFBO])
+
+  return memoized
+}
+
+export default useFrameBuffers
