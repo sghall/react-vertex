@@ -50,7 +50,7 @@ export default class Canvas extends Component {
     const { width, height, update } = this.updateDimensions()
 
     if (update) {
-      this.contextObject = {...this.contextObject, width, height }
+      this.contextObject = { ...this.contextObject, width, height }
     }
 
     ReactVertexReconciler.updateContainer(

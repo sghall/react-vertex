@@ -1,4 +1,3 @@
-
 export function generateColor() {
   const c = HSVtoRGB(Math.random(), 1.0, 1.0)
 

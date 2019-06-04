@@ -10,4 +10,3 @@ export const SHADING = true
 export const COLORFUL = true
 export const BACK_COLOR = { r: 0, g: 0, b: 0 }
 export const TRANSPARENT = false
-

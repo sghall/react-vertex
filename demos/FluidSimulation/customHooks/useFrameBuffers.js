@@ -3,7 +3,7 @@ import { useDataTexture, useFrameBuffer } from '@react-vertex/core'
 
 export function useFBO(gl, size, format, type, minMag) {
   const [w, h] = size
-  
+
   const texture = useDataTexture(gl, null, w, h, () => ({
     type,
     minMag,
