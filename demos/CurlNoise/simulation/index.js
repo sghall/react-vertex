@@ -10,8 +10,8 @@ import useBackgroundProgram from './useBackgroundProgram'
 import useDisplayShadingProgram from './useDisplayShadingProgram'
 import useCurlProgram from './useCurlProgram'
 import useVorticityProgram from './useVorticityProgram'
-// import useDivergenceProgram from './useDivergenceProgram'
-// import useClearProgram from './useClearProgram'
+import useDivergenceProgram from './useDivergenceProgram'
+import useClearProgram from './useClearProgram'
 // import usePressureProgram from './usePressureProgram'
 // import useGradientProgram from './useGradientProgram'
 // import useAdvectionProgram from './useAdvectionProgram'
@@ -35,8 +35,8 @@ export default function useSimulation() {
 
   const curl = useCurlProgram()
   const vorticity = useVorticityProgram()
-  // const divergence = useDivergenceProgram()
-  // const clear = useClearProgram()
+  const divergence = useDivergenceProgram()
+  const clear = useClearProgram()
   // const pressure = usePressureProgram()
   // const gradient = useGradientProgram()
   // const advection = useAdvectionProgram()
@@ -117,19 +117,6 @@ export default function useSimulation() {
         }
     `)
 
-    const clearShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision mediump float;
-        precision mediump sampler2D;
-
-        varying highp vec2 vUv;
-        uniform sampler2D uTexture;
-        uniform float value;
-
-        void main () {
-            gl_FragColor = value * texture2D(uTexture, vUv);
-        }
-    `)
-
     const advectionManualFilteringShader = compileShader(gl.FRAGMENT_SHADER, `
         precision highp float;
         precision highp sampler2D;
@@ -178,34 +165,6 @@ export default function useSimulation() {
             vec2 coord = vUv - dt * texture2D(uVelocity, vUv).xy * texelSize;
             gl_FragColor = dissipation * texture2D(uSource, coord);
             gl_FragColor.a = 1.0;
-        }
-    `)
-
-    const divergenceShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision mediump float;
-        precision mediump sampler2D;
-
-        varying highp vec2 vUv;
-        varying highp vec2 vL;
-        varying highp vec2 vR;
-        varying highp vec2 vT;
-        varying highp vec2 vB;
-        uniform sampler2D uVelocity;
-
-        void main () {
-            float L = texture2D(uVelocity, vL).x;
-            float R = texture2D(uVelocity, vR).x;
-            float T = texture2D(uVelocity, vT).y;
-            float B = texture2D(uVelocity, vB).y;
-
-            vec2 C = texture2D(uVelocity, vUv).xy;
-            if (vL.x < 0.0) { L = -C.x; }
-            if (vR.x > 1.0) { R = -C.x; }
-            if (vT.y > 1.0) { T = -C.y; }
-            if (vB.y < 0.0) { B = -C.y; }
-
-            float div = 0.5 * (R - L + T - B);
-            gl_FragColor = vec4(div, 0.0, 0.0, 1.0);
         }
     `)
 
@@ -289,9 +248,7 @@ export default function useSimulation() {
     let dyeWidth
     let dyeHeight
     
-    const clearProgram               = new GLProgram(baseVertexShader, clearShader)
     const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
-    const divergenceProgram          = new GLProgram(baseVertexShader, divergenceShader)
     const pressureProgram            = new GLProgram(baseVertexShader, pressureShader)
     const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
@@ -349,14 +306,14 @@ export default function useSimulation() {
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
     
-      divergenceProgram.bind()
-      gl.uniform2f(divergenceProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(divergenceProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      gl.useProgram(divergence.program)
+      gl.uniform2f(divergence.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform1i(divergence.uniforms.uVelocity, velocityDFBO.read.attach(0))
       blit(divergenceFBO.fbo)
   
-      clearProgram.bind()
-      gl.uniform1i(clearProgram.uniforms.uTexture, pressureDFBO.read.attach(0))
-      gl.uniform1f(clearProgram.uniforms.value, PRESSURE_DISSIPATION)
+      gl.useProgram(clear.program)
+      gl.uniform1i(clear.uniforms.uTexture, pressureDFBO.read.attach(0))
+      gl.uniform1f(clear.uniforms.value, PRESSURE_DISSIPATION)
       blit(pressureDFBO.write.fbo)
       pressureDFBO.swap()
   
