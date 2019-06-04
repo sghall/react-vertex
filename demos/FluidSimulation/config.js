@@ -8,5 +8,5 @@ export const CURL = 30
 export const SPLAT_RADIUS = 0.5
 export const SHADING = true
 export const COLORFUL = true
-export const BACK_COLOR = { r: 0, g: 0, b: 0 }
+export const BACK_COLOR = { r: 0, g: 255, b: 0 }
 export const TRANSPARENT = false
