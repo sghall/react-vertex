@@ -8,8 +8,8 @@ import useSplatProgram from './useSplatProgram'
 import useColorProgram from './useColorProgram'
 import useBackgroundProgram from './useBackgroundProgram'
 import useDisplayShadingProgram from './useDisplayShadingProgram'
-// import useCurlProgram from './useCurlProgram'
-// import useVorticityProgram from './useVorticityProgram'
+import useCurlProgram from './useCurlProgram'
+import useVorticityProgram from './useVorticityProgram'
 // import useDivergenceProgram from './useDivergenceProgram'
 // import useClearProgram from './useClearProgram'
 // import usePressureProgram from './usePressureProgram'
@@ -33,8 +33,8 @@ export default function useSimulation() {
   const background = useBackgroundProgram()
   const displayShading = useDisplayShadingProgram()
 
-  // const curl = useCurlProgram()
-  // const vorticity = useVorticityProgram()
+  const curl = useCurlProgram()
+  const vorticity = useVorticityProgram()
   // const divergence = useDivergenceProgram()
   // const clear = useClearProgram()
   // const pressure = usePressureProgram()
@@ -209,58 +209,6 @@ export default function useSimulation() {
         }
     `)
 
-    const curlShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision mediump float;
-        precision mediump sampler2D;
-
-        varying highp vec2 vUv;
-        varying highp vec2 vL;
-        varying highp vec2 vR;
-        varying highp vec2 vT;
-        varying highp vec2 vB;
-        uniform sampler2D uVelocity;
-
-        void main () {
-            float L = texture2D(uVelocity, vL).y;
-            float R = texture2D(uVelocity, vR).y;
-            float T = texture2D(uVelocity, vT).x;
-            float B = texture2D(uVelocity, vB).x;
-            float vorticity = R - L - T + B;
-            gl_FragColor = vec4(0.5 * vorticity, 0.0, 0.0, 1.0);
-        }
-    `)
-
-    const vorticityShader = compileShader(gl.FRAGMENT_SHADER, `
-        precision highp float;
-        precision highp sampler2D;
-
-        varying vec2 vUv;
-        varying vec2 vL;
-        varying vec2 vR;
-        varying vec2 vT;
-        varying vec2 vB;
-        uniform sampler2D uVelocity;
-        uniform sampler2D uCurl;
-        uniform float curl;
-        uniform float dt;
-
-        void main () {
-            float L = texture2D(uCurl, vL).x;
-            float R = texture2D(uCurl, vR).x;
-            float T = texture2D(uCurl, vT).x;
-            float B = texture2D(uCurl, vB).x;
-            float C = texture2D(uCurl, vUv).x;
-
-            vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(R) - abs(L));
-            force /= length(force) + 0.0001;
-            force *= curl * C;
-            force.y *= -1.0;
-
-            vec2 vel = texture2D(uVelocity, vUv).xy;
-            gl_FragColor = vec4(vel + force * dt, 0.0, 1.0);
-        }
-    `)
-
     const pressureShader = compileShader(gl.FRAGMENT_SHADER, `
         precision mediump float;
         precision mediump sampler2D;
@@ -344,8 +292,6 @@ export default function useSimulation() {
     const clearProgram               = new GLProgram(baseVertexShader, clearShader)
     const advectionProgram           = new GLProgram(baseVertexShader, hasLinear ? advectionShader : advectionManualFilteringShader)
     const divergenceProgram          = new GLProgram(baseVertexShader, divergenceShader)
-    const curlProgram                = new GLProgram(baseVertexShader, curlShader)
-    const vorticityProgram           = new GLProgram(baseVertexShader, vorticityShader)
     const pressureProgram            = new GLProgram(baseVertexShader, pressureShader)
     const gradienSubtractProgram     = new GLProgram(baseVertexShader, gradientSubtractShader)
     
@@ -389,17 +335,17 @@ export default function useSimulation() {
       gl.disable(gl.BLEND)
       gl.viewport(0, 0, simWidth, simHeight)
   
-      curlProgram.bind()
-      gl.uniform2f(curlProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(curlProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      gl.useProgram(curl.program)
+      gl.uniform2f(curl.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform1i(curl.uniforms.uVelocity, velocityDFBO.read.attach(0))
       blit(curlFBO.fbo)
   
-      vorticityProgram.bind()
-      gl.uniform2f(vorticityProgram.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
-      gl.uniform1i(vorticityProgram.uniforms.uVelocity, velocityDFBO.read.attach(0))
-      gl.uniform1i(vorticityProgram.uniforms.uCurl, curlFBO.attach(1))
-      gl.uniform1f(vorticityProgram.uniforms.curl, CURL)
-      gl.uniform1f(vorticityProgram.uniforms.dt, dt)
+      gl.useProgram(vorticity.program)
+      gl.uniform2f(vorticity.uniforms.texelSize, 1.0 / simWidth, 1.0 / simHeight)
+      gl.uniform1i(vorticity.uniforms.uVelocity, velocityDFBO.read.attach(0))
+      gl.uniform1i(vorticity.uniforms.uCurl, curlFBO.attach(1))
+      gl.uniform1f(vorticity.uniforms.curl, CURL)
+      gl.uniform1f(vorticity.uniforms.dt, dt)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
     
