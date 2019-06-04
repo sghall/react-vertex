@@ -2,11 +2,9 @@ import React, { useRef } from 'react'
 import Button from '@material-ui/core/Button'
 import { Canvas } from '@react-vertex/core'
 import { useMeasure } from '@react-vertex/dom-hooks'
-import { convertHex } from '@react-vertex/color-hooks'
 import DemoWrapper from '../DemoWrapper'
 import Scene from './Scene'
 
-const clearColor = convertHex('#323334')
 
 function FluidSimulation() {
   const container = useRef()
@@ -21,7 +19,6 @@ function FluidSimulation() {
         <Canvas
           width={width}
           height={width}
-          clearColor={clearColor}
           contextAttrs={{
             alpha: true,
             depth: false,

@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { timer } from 'd3-timer'
+import { convertHex } from '@react-vertex/color-hooks'
 import { useWebGLContext, useCanvasSize } from '@react-vertex/core'
 import {
   TRANSPARENT,
-  BACK_COLOR,
   SIM_RESOLUTION,
   DYE_RESOLUTION,
   SPLAT_RADIUS,
@@ -21,6 +21,8 @@ import {
   useFormats,
   useResolution,
 } from './customHooks'
+
+const backColor = convertHex('#323334')
 
 function Scene() {
   const { width, height } = useCanvasSize()
@@ -65,8 +67,6 @@ function Scene() {
     } = frameBuffers
 
     const splatStack = []
-
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
 
     const blit = (() => {
       gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
@@ -221,13 +221,7 @@ function Scene() {
 
       if (!TRANSPARENT) {
         gl.useProgram(color.program)
-        gl.uniform4f(
-          color.uniforms.color,
-          BACK_COLOR.r / 255,
-          BACK_COLOR.g / 255,
-          BACK_COLOR.b / 255,
-          1,
-        )
+        gl.uniform4f(color.uniforms.color, ...backColor)
         blit(target)
       }
 
