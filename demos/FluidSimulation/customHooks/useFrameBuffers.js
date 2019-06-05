@@ -24,9 +24,9 @@ function useFBO(gl, width, height, getTexOpts) {
   return memoized
 }
 
-function useDoubleFBO(gl, size, type, getTexOpts) {
-  const frameBuffer1 = useFBO(gl, size, type, getTexOpts)
-  const frameBuffer2 = useFBO(gl, size, type, getTexOpts)
+function useDoubleFBO(gl, width, height, type, getTexOpts) {
+  const frameBuffer1 = useFBO(gl, width, height, type, getTexOpts)
+  const frameBuffer2 = useFBO(gl, width, height, type, getTexOpts)
 
   const memoized = useMemo(() => {
     let fbo1 = frameBuffer1
@@ -56,9 +56,9 @@ function useDoubleFBO(gl, size, type, getTexOpts) {
   return memoized
 }
 
-function useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag) {
-  const getOptsIfLinear = () => ({ type: halfFloat, minMag })
-  const getOptsUseNearest = () => ({ type: halfFloat, minMag: gl.NEAREST })
+function useFrameBuffers(gl, dyeSize, simSize, floatType, minMag) {
+  const getOptsIfLinear = () => ({ type: floatType, minMag })
+  const getOptsUseNearest = () => ({ type: floatType, minMag: gl.NEAREST })
 
   const curlFBO = useFBO(gl, ...simSize, getOptsUseNearest)
   const divergenceFBO = useFBO(gl, ...simSize, getOptsUseNearest)
