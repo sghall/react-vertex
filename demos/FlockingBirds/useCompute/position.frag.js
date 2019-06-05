@@ -13,7 +13,7 @@ export default `
     vec3 velocity = texture2D(texVelocity, uv).xyz;
     
     float phase = position.w;
-    phase = mod((phase + delta + length(velocity.xz) * delta * 1.0 + max(velocity.y, 0.0) * delta * 6.0), 62.83);
+    phase = mod((phase + delta + length(velocity.xz) * delta * 1.0 + max(velocity.y, 0.0) * delta * 6.0), 52.83);
    
     gl_FragColor = vec4(position.xyz + velocity * delta * 15.0, phase);
   }

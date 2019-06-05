@@ -9,24 +9,19 @@ export default `
 
   float separationDistance = 50.0;
   float alignmentDistance = 20.0;
-  float cohesionDistance = 50.0;
+  float cohesionDistance = 20.0;
   
   const float PI = 3.141592653589793;
   const float PI_2 = PI * 2.0;
   const float MAX_RESOLUTION = 64.0;
 
-  float zoneRadius = 40.0;
-  float zoneRadiusSquared = 1600.0;
-  float separationThresh = 0.45;
-  float alignmentThresh = 0.65;
-
   const float SPEED_LIMIT = 9.0;
 
   void main() {
-    zoneRadius = separationDistance + alignmentDistance + cohesionDistance;
-    separationThresh = separationDistance / zoneRadius;
-    alignmentThresh = (separationDistance + alignmentDistance) / zoneRadius;
-    zoneRadiusSquared = zoneRadius * zoneRadius;
+    float zoneRadius = separationDistance + alignmentDistance + cohesionDistance;
+    float separationThresh = separationDistance / zoneRadius;
+    float alignmentThresh = (separationDistance + alignmentDistance) / zoneRadius;
+    float zoneRadiusSquared = zoneRadius * zoneRadius;
     
     vec2 uv = gl_FragCoord.xy / resolution.xy;
     vec3 birdPosition, birdVelocity;

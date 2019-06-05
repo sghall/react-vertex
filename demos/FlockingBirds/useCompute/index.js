@@ -12,14 +12,12 @@ import positionFrag from './position.frag'
 import velocityFrag from './velocity.frag'
 import { useRandomPositionData, useRandomVelocityData } from './dataHooks'
 
-function useFormats(gl) {
+function useFloatType(gl) {
   const memoized = useMemo(() => {
     const halfFloat = gl.getExtension('OES_texture_half_float')
-    const hasLinear = !!gl.getExtension('OES_texture_half_float_linear')
-
     const floatType = halfFloat ? halfFloat.HALF_FLOAT_OES : gl.FLOAT
 
-    return { floatType, hasLinear }
+    return { floatType }
   }, [gl])
 
   return memoized
@@ -27,10 +25,7 @@ function useFormats(gl) {
 
 export default function useCompute(size) {
   const gl = useWebGLContext()
-  const { floatType, hasLinear } = useFormats(gl)
-  const getTexOpts = () => {
-    return { type: floatType, minMag: hasLinear ? gl.LINEAR : gl.NEAREST }
-  }
+  const { floatType } = useFloatType(gl)
 
   const texUnit1 = useTextureUnit()
   const texUnit2 = useTextureUnit()
@@ -47,8 +42,12 @@ export default function useCompute(size) {
   const posInitial = useDataTexture(gl, randomPositionData, size, size)
   const velInitial = useDataTexture(gl, randomVelocityData, size, size)
 
-  const velocityDFBO = useDoubleFBO(gl, size, size, getTexOpts)
-  const positionDFBO = useDoubleFBO(gl, size, size, getTexOpts)
+  const velocityDFBO = useDoubleFBO(gl, size, size, () => {
+    return { type: floatType, minMag: gl.NEAREST }
+  })
+  const positionDFBO = useDoubleFBO(gl, size, size, () => {
+    return { type: floatType, minMag: gl.NEAREST }
+  })
 
   const memoized = useMemo(() => {
     let isInitialRender = true
@@ -88,7 +87,7 @@ export default function useCompute(size) {
       gl.useProgram(posProgram)
 
       gl.uniform2f(posUniforms.resolution, size, size)
-      gl.uniform1f(posUniforms.delta, delta * 0.5)
+      gl.uniform1f(posUniforms.delta, delta)
       gl.uniform1f(posUniforms.elapsed, elapsed)
 
       if (isInitialRender) {
@@ -115,7 +114,7 @@ export default function useCompute(size) {
       gl.useProgram(velProgram)
 
       gl.uniform2f(velUniforms.resolution, size, size)
-      gl.uniform1f(velUniforms.delta, delta * 0.5)
+      gl.uniform1f(velUniforms.delta, delta)
       gl.uniform1f(velUniforms.elapsed, elapsed)
 
       if (isInitialRender) {
