@@ -20,6 +20,12 @@ class OrbitCamera {
   right = vec4.create()
   normal = vec4.create()
 
+  userRotate = true
+  userRotateX = true
+  userRotateY = true
+
+  userDolly = true 
+
   rotX = 0
   rotY = 0
 
@@ -33,15 +39,17 @@ class OrbitCamera {
   }
 
   dolly(delta) {
-    const next = vec3.create()
-    const step = delta - this.steps
+    if (this.userDolly) {
+      const next = vec3.create()
+      const step = delta - this.steps
 
-    next[0] = this.position[0]
-    next[1] = this.position[1]
-    next[2] = this.position[2] - step
+      next[0] = this.position[0]
+      next[1] = this.position[1]
+      next[2] = this.position[2] - step
 
-    this.steps = delta
-    this.setPosition(next)
+      this.steps = delta
+      this.setPosition(next)
+    }
   }
 
   setPosition(position) {
@@ -80,13 +88,15 @@ class OrbitCamera {
   }
 
   incRotationX(rotX) {
-    this.rotX += rotX
+    if (this.userRotate && this.userRotateX) {
+      this.rotX += rotX
 
-    if (this.rotX > 360 || this.rotX < -360) {
-      this.rotX = this.rotX % 360
+      if (this.rotX > 360 || this.rotX < -360) {
+        this.rotX = this.rotX % 360
+      }
+  
+      this.update()
     }
-
-    this.update()
   }
 
   setRotationY(rotY) {
@@ -100,13 +110,15 @@ class OrbitCamera {
   }
 
   incRotationY(rotY) {
-    this.rotY += rotY
+    if (this.userRotate && this.userRotateY) {
+      this.rotY += rotY
 
-    if (this.rotY > 360 || this.rotY < -360) {
-      this.rotY = this.rotY % 360
+      if (this.rotY > 360 || this.rotY < -360) {
+        this.rotY = this.rotY % 360
+      }
+
+      this.update()
     }
-
-    this.update()
   }
 
   addListener(func, wait = 16) {
