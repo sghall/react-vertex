@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useWebGLContext } from '..'
+import { useSceneNode, useWebGLContext } from '..'
 
 function applyTextureOptions(gl, texture, data, opts) {
   gl.bindTexture(gl.TEXTURE_2D, texture)
@@ -94,3 +94,17 @@ export function useDataTexture(gl, data, width, height, getOptions) {
 
   return memoized
 }
+
+export function useTextureUnit() {
+  const scene = useSceneNode()
+
+  const memoized = useMemo(() => {
+    return scene.getTextureUnit()
+  }, [scene])
+
+  useEffect(() => {
+    return () => scene.releaseTextureUnit(memoized)
+  }, [scene, memoized])
+
+  return memoized
+} 
