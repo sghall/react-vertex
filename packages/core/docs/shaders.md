@@ -13,6 +13,7 @@ npm install @react-vertex/core
 import {
   useShader,
   useProgram,
+  useProgramUniforms,
 } from '@react-vertex/core'
 ```
 
@@ -37,7 +38,10 @@ React hook for creating a WebGL program.  It uses `useShader` internally so you 
 ###### Example Usage:
 
 ```js
-import { useWebGLContext, useProgram } from '@react-vertex/core'
+import {
+  useProgram
+  useWebGLContext,
+} from '@react-vertex/core'
 
 const vert = `
   precision <<FLOAT_PRECISION>> float;
@@ -62,6 +66,38 @@ const frag = `
 ...
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
+...
+```
+
+#### `useProgramUniforms(gl, program)` => `object`
+
+React hook to get an object with the locations for a program's uniforms.
+
+###### Arguments:
+
+`gl`: A WebGL context.  You can call `useWebGLContext` to get the active context. 
+
+`program`: The WebGL program you want the unforms for.
+
+###### Returns:
+
+`object`: An object with the uniform names as keys and their locations as values.
+
+###### Example Usage:
+
+```js
+import {
+  useProgram,
+  useWebGLContext,
+  useProgramUniforms,
+} from '@react-vertex/core'
+import vert from './vert'
+import frag from './frag'
+
+...
+  const gl = useWebGLContext()
+  const program = useProgram(gl, vert, frag)
+  const uniforms = useProgramUniforms(gl, program)
 ...
 ```
 
