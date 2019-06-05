@@ -18,6 +18,7 @@ function Scene() {
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 500])
+    c.userRotate = false
   })
   useOrbitControls(camera)
 
