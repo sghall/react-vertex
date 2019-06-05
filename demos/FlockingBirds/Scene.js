@@ -5,7 +5,7 @@ import { useCanvasSize, useRender } from '@react-vertex/core'
 import { useDataTextures } from './PingPong'
 import Birds from './Birds'
 
-const size = 64
+const size = 8
 
 function Scene() {
   const { width, height } = useCanvasSize()
