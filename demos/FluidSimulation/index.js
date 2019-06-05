@@ -5,29 +5,43 @@ import { useMeasure } from '@react-vertex/dom-hooks'
 import DemoWrapper from '../DemoWrapper'
 import Scene from './Scene'
 
+const attrs = {
+  alpha: true,
+  depth: false,
+  stencil: false,
+  antialias: false,
+  preserveDrawingBuffer: false,
+}
+
+const style = {
+  borderRadius: 4,
+  cursor: 'pointer',
+  userSelect: 'none',
+  WebkitTapHighlightColor: 'transparent',
+}
+
+const link = 'https://github.com/PavelDoGreat/WebGL-Fluid-Simulation'
+
 function FluidSimulation() {
   const container = useRef()
   const { width } = useMeasure(container)
 
   return (
     <DemoWrapper src="demos/FluidSimulation">
-      <a href="https://github.com/PavelDoGreat/WebGL-Fluid-Simulation">
+      <a href={link}>
         <Button size="small">Original</Button>
       </a>
       <div ref={container}>
-        <Canvas
-          width={width}
-          height={width}
-          contextAttrs={{
-            alpha: true,
-            depth: false,
-            stencil: false,
-            antialias: false,
-            preserveDrawingBuffer: false,
-          }}
-        >
-          <Scene />
-        </Canvas>
+        {width ? (
+          <Canvas
+            width={width}
+            height={width}
+            canvasStyle={style}
+            contextAttrs={attrs}
+          >
+            <Scene />
+          </Canvas>
+        ) : null}
       </div>
     </DemoWrapper>
   )
