@@ -18,7 +18,7 @@ function Scene() {
   const { width, clientWidth, height, clientHeight } = useCanvasSize()
 
   const gl = useWebGLContext()
-  const { halfFloat, hasLinear } = useFormats(gl)
+  const { floatType, hasLinear } = useFormats(gl)
   const minMag = hasLinear ? gl.LINEAR : gl.NEAREST
 
   const pointers = usePointers()
@@ -27,7 +27,7 @@ function Scene() {
   const simSize = useResolution(config.SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(config.DYE_RESOLUTION, width, height)
 
-  const frameBuffers = useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag)
+  const frameBuffers = useFrameBuffers(gl, dyeSize, simSize, floatType, minMag)
 
   useEffect(() => {
     const {
