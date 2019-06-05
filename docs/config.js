@@ -93,6 +93,11 @@ export const docsList = [
     tag: 'Included in core',
   },
   {
+    href: '/docs-framebuffer-hooks',
+    name: 'Framebuffer Hooks',
+    tag: 'Included in core',
+  },
+  {
     href: '/docs-attribute-hooks',
     name: 'Attribute Hooks',
     tag: 'Included in core',

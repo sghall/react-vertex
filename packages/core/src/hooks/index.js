@@ -3,6 +3,7 @@ import ReactVertexContext from '../Context'
 
 export * from './shaders'
 export * from './buffers'
+export * from './framebuffers'
 export * from './lights'
 export * from './attributes'
 export * from './uniforms'
