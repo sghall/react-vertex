@@ -39,7 +39,7 @@ import {
 } from '@react-vertex/core'
 ```
 
-#### `useUniformSampler2d(gl, program, name, texture)` => `uniformLocation`
+#### `useUniformSampler2d(gl, program, name, texture)` => `[TextureUnit, UniformLocation]`
 
 React hook for setting up a sampler uniform to make a texture available in your shader.
 
@@ -51,11 +51,11 @@ React hook for setting up a sampler uniform to make a texture available in your 
 
 `name`: String name of the uniform as used in the shaders for the supplied program.
 
-`texture`: a [WebGLTexture](https://developer.mozilla.org/en-US/docs/Web/API/WebGLTexture) to bind to.
+`texture`: The texture to be bound to.
 
 ###### Returns:
 
-`uniformLocation`: The location of the uniform. See more on [WebGLUniformLocation](https://developer.mozilla.org/en-US/docs/Web/API/WebGLUniformLocation).
+`[TextureUnit, UniformLocation]`: An array with the texture unit used as the first argument and the uniform location in the program as the second argument.
 
 ###### Example Usage:
 ```js
