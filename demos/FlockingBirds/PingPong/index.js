@@ -3,6 +3,7 @@ import { timer } from 'd3-timer'
 import {
   useWebGLContext,
   useProgram,
+  useProgramUniforms,
   useFrameBuffer,
   useDataTexture,
   useSceneNode,
@@ -80,23 +81,32 @@ function useFormats(gl) {
   return memoized
 }
 
-export function usePingPong(program, size, name, initialTexture) {
+export default function usePingPong(size) {
   const gl = useWebGLContext()
-
-  const scene = useSceneNode()
-
   const { floatType, hasLinear } = useFormats(gl)
   const getTexOpts = () => ({ type: floatType, minMag: hasLinear ? gl.LINEAR : gl.NEAREST })
 
-  const pingPong = useDoubleFBO(gl, size, size, getTexOpts)
+  const posProgram = useProgram(gl, vert, positionFrag)
+  const posUniforms = useProgramUniforms(gl, posProgram)
+
+  const velProgram = useProgram(gl, vert, velocityFrag)
+  const velUniforms = useProgramUniforms(gl, velProgram)
+
+  const randomVelocityData = useRandomVelocityData(size)
+  const randomPositionData = useRandomPositionData(size)
+
+  const posInitial = useDataTexture(gl, randomPositionData, size, size)
+  const velInitial = useDataTexture(gl, randomVelocityData, size, size)
+
+  const velocityDFBO = useDoubleFBO(gl, size, size, getTexOpts)
+  const positionDFBO = useDoubleFBO(gl, size, size, getTexOpts)
+
+  const scene = useSceneNode()
+
 
   useEffect(() => {
-    const texUnit = scene.getTextureUnit()
-
-    const tLocation = gl.getUniformLocation(program, name)
-    const eLocation = gl.getUniformLocation(program, 'elapsed')
-    const dLocation = gl.getUniformLocation(program, 'delta')
-    const rLocation = gl.getUniformLocation(program, 'resolution')
+    const texUnit1 = scene.getTextureUnit()
+    const texUnit2 = scene.getTextureUnit()
 
     let prevElapsed = 0
     let isInitialRender = true
@@ -112,14 +122,14 @@ export function usePingPong(program, size, name, initialTexture) {
 
       const index = new Uint16Array([0, 1, 2, 0, 2, 3])
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
-      gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW)
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer())
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index, gl.STATIC_DRAW)
-      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0)
-      gl.enableVertexAttribArray(0)
-
       return buffer => {
+        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
+        gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW)
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer())
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index, gl.STATIC_DRAW)
+        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0)
+        gl.enableVertexAttribArray(0)
+
         gl.bindFramebuffer(gl.FRAMEBUFFER, buffer)
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0)
         gl.bindFramebuffer(gl.FRAMEBUFFER, null)
@@ -131,84 +141,83 @@ export function usePingPong(program, size, name, initialTexture) {
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
-      gl.useProgram(program)
       gl.viewport(0, 0, size, size)
+      
+      // **********************************************
+      // POSTION
+      // **********************************************
+      gl.useProgram(posProgram)
 
-      gl.uniform2f(rLocation, size, size)
-      gl.uniform1f(dLocation, delta * 0.5)
-      gl.uniform1f(eLocation, elapsed)
+      gl.uniform2f(posUniforms.resolution, size, size)
+      gl.uniform1f(posUniforms.delta, delta * 0.5)
+      gl.uniform1f(posUniforms.elapsed, elapsed)
 
       if (isInitialRender) {
-        gl.activeTexture(gl.TEXTURE0 + texUnit)
-        gl.bindTexture(gl.TEXTURE_2D, initialTexture)
-        gl.uniform1i(tLocation, texUnit)
+        gl.activeTexture(gl.TEXTURE0 + texUnit2)
+        gl.bindTexture(gl.TEXTURE_2D, velInitial)
+        gl.uniform1i(posUniforms.texVelocity, texUnit2)
+
+        gl.activeTexture(gl.TEXTURE0 + texUnit1)
+        gl.bindTexture(gl.TEXTURE_2D, posInitial)
+        gl.uniform1i(posUniforms.texPosition, texUnit1)
+      } else {
+        positionDFBO.read.attach(texUnit1)
+        velocityDFBO.read.attach(texUnit2)
+        gl.uniform1i(posUniforms.texPosition, texUnit1)
+        gl.uniform1i(posUniforms.texVelocity, texUnit2)
+      }
+
+      renderToBuffer(positionDFBO.write.fbo)
+      positionDFBO.swap()
+
+      // **********************************************
+      // VELOCITY
+      // **********************************************
+      gl.useProgram(velProgram)
+
+      gl.uniform2f(velUniforms.resolution, size, size)
+      gl.uniform1f(velUniforms.delta, delta * 0.5)
+      gl.uniform1f(velUniforms.elapsed, elapsed)
+
+      if (isInitialRender) {
+        gl.activeTexture(gl.TEXTURE0 + texUnit2)
+        gl.bindTexture(gl.TEXTURE_2D, posInitial)
+        gl.uniform1i(velUniforms.texPosition, texUnit2)
+
+        gl.activeTexture(gl.TEXTURE0 + texUnit1)
+        gl.bindTexture(gl.TEXTURE_2D, velInitial)
+        gl.uniform1i(velUniforms.texVelocity, texUnit1)
 
         isInitialRender = false
       } else {
-        gl.uniform1i(tLocation, pingPong.read.attach(texUnit))
+        velocityDFBO.read.attach(texUnit1)
+        positionDFBO.read.attach(texUnit2)
+        gl.uniform1i(velUniforms.texVelocity, texUnit1)
+        gl.uniform1i(velUniforms.texPosition, texUnit2)
       }
 
-      gl.uniform2f(rLocation, size, size)
-      gl.uniform1f(dLocation, delta * 0.5)
-      gl.uniform1f(eLocation, elapsed)
-
-      renderToBuffer(pingPong.write.fbo)
-
-      pingPong.swap()
+      renderToBuffer(velocityDFBO.write.fbo)
+      velocityDFBO.swap()
     })
 
     return () => {
       timerLoop.stop()
-      scene.releaseTextureUnit(texUnit)
+      scene.releaseTextureUnit(texUnit1)
+      scene.releaseTextureUnit(texUnit2)
     }
   }, [
     gl,
     scene,
-    name,
     size,
-    program,
-    pingPong,
-    initialTexture
+    positionDFBO,
+    posInitial,
+    posProgram,
+    posUniforms,
+    velocityDFBO,
+    velInitial,
+    velProgram,
+    velUniforms,
   ])
 
-  return pingPong
-}
-
-export function useDataTextures(size) {
-  const gl = useWebGLContext()
-  // const scene = useSceneNode()
-
-  const velProgram = useProgram(gl, vert, velocityFrag)
-  const posProgram = useProgram(gl, vert, positionFrag)
-
-  // const deps = useMemo(() => {
-  //   const velUnit = scene.getTextureUnit()
-  //   const velLocation = gl.getUniformLocation(posProgram, 'texVelocity')
-
-  //   const posUnit = scene.getTextureUnit()
-  //   const posLocation = gl.getUniformLocation(velProgram, 'texPosition')
-
-  //   return { velUnit, velLocation, posUnit, posLocation }
-  // }, [gl, scene, posProgram, velProgram])
-
-  const randomVelocityData = useRandomVelocityData(size)
-  const randomPositionData = useRandomPositionData(size)
-
-  const posInitial = useDataTexture(gl, randomPositionData, size, size)
-  const velInitial = useDataTexture(gl, randomVelocityData, size, size)
-
-  const velocityDFBO = usePingPong(velProgram, size, 'texVelocity', velInitial)
-  const positionDFBO = usePingPong(posProgram, size, 'texPosition', posInitial)
-
-  // gl.useProgram(posProgram)
-  // gl.activeTexture(gl[`TEXTURE${deps.velUnit}`])
-  // gl.bindTexture(gl.TEXTURE_2D, texVelocity)
-  // gl.uniform1i(deps.velLocation, deps.velUnit)
-
-  // gl.useProgram(velProgram)
-  // gl.activeTexture(gl[`TEXTURE${deps.posUnit}`])
-  // gl.bindTexture(gl.TEXTURE_2D, texPosition)
-  // gl.uniform1i(deps.posLocation, deps.posUnit)
-
-  return [velocityDFBO, positionDFBO]
+  return [positionDFBO, velocityDFBO]
 }

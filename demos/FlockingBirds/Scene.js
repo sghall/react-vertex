@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender } from '@react-vertex/core'
-import { useDataTextures } from './PingPong'
+import usePingPong from './PingPong'
 import Birds from './Birds'
 
 const size = 8
@@ -18,7 +18,7 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const [posUnit, velUnit] = useDataTextures(size)
+  const [positionDFBO, velocityDFBO] = usePingPong(size)
 
   useEffect(() => {
     const timerLoop = timer(e => {
@@ -34,8 +34,8 @@ function Scene() {
       <Birds
         size={size}
         elapsed={elapsed}
-        posUnit={posUnit}
-        velUnit={velUnit}
+        positionDFBO={positionDFBO}
+        velocityDFBO={velocityDFBO}
       />
     </camera>
   )
