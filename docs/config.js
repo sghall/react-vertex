@@ -1,15 +1,5 @@
 export const demosList = [
   {
-    href: '/demo-fluid-simulation',
-    name: 'Fluid Simulation',
-    tag: '',
-  },
-  {
-    href: '/demo-flocking-birds',
-    name: 'Flocking Birds',
-    tag: '',
-  },
-  {
     href: '/demo-axes-helper',
     name: 'Axes Helper',
     tag: '',
@@ -22,6 +12,16 @@ export const demosList = [
   {
     href: '/demo-shark-week',
     name: 'Shark Week',
+    tag: '',
+  },
+  {
+    href: '/demo-fluid-simulation',
+    name: 'Fluid Simulation',
+    tag: '',
+  },
+  {
+    href: '/demo-flocking-birds',
+    name: 'Flocking Birds',
     tag: '',
   },
   {
