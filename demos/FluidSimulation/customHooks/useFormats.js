@@ -6,7 +6,7 @@ export default function useFormats(gl) {
     const hasLinear = !!gl.getExtension('OES_texture_half_float_linear')
 
     const floatType = halfFloat ? halfFloat.HALF_FLOAT_OES : gl.FLOAT
-  
+
     return { floatType, hasLinear }
   }, [gl])
 

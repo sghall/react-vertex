@@ -54,24 +54,19 @@ function Scene() {
 
     const splatStack = []
 
-    const blit = (() => {
+    const renderToBuffer = (() => {
+      const verts = new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1])
+      const index = new Uint16Array([0, 1, 2, 0, 2, 3])
+
       gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
-      gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]),
-        gl.STATIC_DRAW,
-      )
+      gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW)
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer())
-      gl.bufferData(
-        gl.ELEMENT_ARRAY_BUFFER,
-        new Uint16Array([0, 1, 2, 0, 2, 3]),
-        gl.STATIC_DRAW,
-      )
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index, gl.STATIC_DRAW)
       gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0)
       gl.enableVertexAttribArray(0)
 
-      return destination => {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, destination)
+      return buffer => {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, buffer)
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0)
       }
     })()
@@ -97,7 +92,7 @@ function Scene() {
       gl.useProgram(curl.program)
       gl.uniform2f(curl.uniforms.texelSize, 1.0 / simSize[0], 1.0 / simSize[1])
       gl.uniform1i(curl.uniforms.uVelocity, velocityDFBO.read.attach(0))
-      blit(curlFBO.fbo)
+      renderToBuffer(curlFBO.fbo)
 
       gl.useProgram(vorticity.program)
       gl.uniform2f(
@@ -109,7 +104,7 @@ function Scene() {
       gl.uniform1i(vorticity.uniforms.uCurl, curlFBO.attach(1))
       gl.uniform1f(vorticity.uniforms.curl, config.CURL)
       gl.uniform1f(vorticity.uniforms.dt, dt)
-      blit(velocityDFBO.write.fbo)
+      renderToBuffer(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 
       gl.useProgram(divergence.program)
@@ -119,12 +114,12 @@ function Scene() {
         1.0 / simSize[1],
       )
       gl.uniform1i(divergence.uniforms.uVelocity, velocityDFBO.read.attach(0))
-      blit(divergenceFBO.fbo)
+      renderToBuffer(divergenceFBO.fbo)
 
       gl.useProgram(clear.program)
       gl.uniform1i(clear.uniforms.uTexture, pressureDFBO.read.attach(0))
       gl.uniform1f(clear.uniforms.value, config.PRESSURE_DISSIPATION)
-      blit(pressureDFBO.write.fbo)
+      renderToBuffer(pressureDFBO.write.fbo)
       pressureDFBO.swap()
 
       gl.useProgram(pressure.program)
@@ -137,7 +132,7 @@ function Scene() {
 
       for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
         gl.uniform1i(pressure.uniforms.uPressure, pressureDFBO.read.attach(1))
-        blit(pressureDFBO.write.fbo)
+        renderToBuffer(pressureDFBO.write.fbo)
         pressureDFBO.swap()
       }
 
@@ -149,7 +144,7 @@ function Scene() {
       )
       gl.uniform1i(gradient.uniforms.uPressure, pressureDFBO.read.attach(0))
       gl.uniform1i(gradient.uniforms.uVelocity, velocityDFBO.read.attach(1))
-      blit(velocityDFBO.write.fbo)
+      renderToBuffer(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 
       gl.useProgram(advection.program)
@@ -172,7 +167,7 @@ function Scene() {
       gl.uniform1i(advection.uniforms.uSource, velocityId)
       gl.uniform1f(advection.uniforms.dt, dt)
       gl.uniform1f(advection.uniforms.dissipation, config.VELOCITY_DISSIPATION)
-      blit(velocityDFBO.write.fbo)
+      renderToBuffer(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 
       gl.viewport(0, 0, dyeSize[0], dyeSize[1])
@@ -188,7 +183,7 @@ function Scene() {
       gl.uniform1i(advection.uniforms.uVelocity, velocityDFBO.read.attach(0))
       gl.uniform1i(advection.uniforms.uSource, densityDFBO.read.attach(1))
       gl.uniform1f(advection.uniforms.dissipation, config.DENSITY_DISSIPATION)
-      blit(densityDFBO.write.fbo)
+      renderToBuffer(densityDFBO.write.fbo)
       densityDFBO.swap()
     }
 
@@ -208,13 +203,13 @@ function Scene() {
       if (!config.TRANSPARENT) {
         gl.useProgram(color.program)
         gl.uniform4f(color.uniforms.color, ...backColor)
-        blit(target)
+        renderToBuffer(target)
       }
 
       if (target == null && config.TRANSPARENT) {
         gl.useProgram(background.program)
         gl.uniform1f(background.uniforms.aspectRatio, tWidth / tHeight)
-        blit(null)
+        renderToBuffer(null)
       }
 
       gl.useProgram(displayShading.program)
@@ -225,7 +220,7 @@ function Scene() {
       )
       gl.uniform1i(displayShading.uniforms.uTexture, densityDFBO.read.attach(0))
 
-      blit(target)
+      renderToBuffer(target)
     }
 
     function updateSplat(x, y, dx, dy, splatRGB) {
@@ -240,13 +235,13 @@ function Scene() {
       gl.uniform2f(splat.uniforms.point, centerX, centerY)
       gl.uniform3f(splat.uniforms.color, dx, -dy, 1.0)
       gl.uniform1f(splat.uniforms.radius, config.SPLAT_RADIUS / 100.0)
-      blit(velocityDFBO.write.fbo)
+      renderToBuffer(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 
       gl.viewport(0, 0, dyeSize[0], dyeSize[1])
       gl.uniform1i(splat.uniforms.uTarget, densityDFBO.read.attach(0))
       gl.uniform3f(splat.uniforms.color, splatRGB.r, splatRGB.g, splatRGB.b)
-      blit(densityDFBO.write.fbo)
+      renderToBuffer(densityDFBO.write.fbo)
       densityDFBO.swap()
     }
 
