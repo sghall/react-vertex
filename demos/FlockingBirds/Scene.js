@@ -11,7 +11,7 @@ import useCompute from './useCompute'
 import useBirdsElements from './useBirdsElements'
 import useBirdsMaterial from './useBirdsMaterial'
 
-const size = 16
+const size = 32
 
 function Scene() {
   const { width, height } = useCanvasSize()
@@ -34,7 +34,7 @@ function Scene() {
     let prevElapsed = 0
 
     const timerLoop = timer(e => {
-      const elapsed = e * 0.001
+      const elapsed = e * 0.0005
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
