@@ -7,7 +7,7 @@ import { generateColor } from './utils'
 import {
   usePointers,
   usePrograms,
-  useFrameBuffers,
+  useFramebuffers,
   useFormats,
   useResolution,
 } from './customHooks'
@@ -27,7 +27,7 @@ function Simulation() {
   const simSize = useResolution(config.SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(config.DYE_RESOLUTION, width, height)
 
-  const frameBuffers = useFrameBuffers(gl, dyeSize, simSize, floatType, minMag)
+  const framebuffers = useFramebuffers(gl, dyeSize, simSize, floatType, minMag)
 
   useEffect(() => {
     const {
@@ -50,7 +50,7 @@ function Simulation() {
       densityDFBO,
       pressureDFBO,
       velocityDFBO,
-    } = frameBuffers
+    } = framebuffers
 
     const splatStack = []
 
@@ -279,7 +279,7 @@ function Simulation() {
     height,
     clientHeight,
     programs,
-    frameBuffers,
+    framebuffers,
   ])
 
   return null

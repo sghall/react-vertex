@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useFBO, useDoubleFBO } from '@react-vertex/core'
 
-function useFrameBuffers(gl, dyeSize, simSize, floatType, minMag) {
+function useFramebuffers(gl, dyeSize, simSize, floatType, minMag) {
   const getOptsIfLinear = () => ({ type: floatType, minMag })
   const getOptsUseNearest = () => ({ type: floatType, minMag: gl.NEAREST })
 
@@ -24,4 +24,4 @@ function useFrameBuffers(gl, dyeSize, simSize, floatType, minMag) {
   return memoized
 }
 
-export default useFrameBuffers
+export default useFramebuffers

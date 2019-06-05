@@ -4,7 +4,7 @@ import warn from 'warning'
 
 const prefix = 'react-vertex:'
 
-export function useFrameBuffer(gl) {
+export function useFramebuffer(gl) {
   const memoized = useMemo(() => {
     const buffer = gl.createFramebuffer()
 
@@ -22,7 +22,7 @@ export function useFrameBuffer(gl) {
 
 export function useFBO(gl, width, height, getTexOpts) {
   const tex = useDataTexture(gl, null, width, height, getTexOpts)
-  const fbo = useFrameBuffer(gl)
+  const fbo = useFramebuffer(gl)
 
   const memoized = useMemo(() => {
     const attachment = gl.COLOR_ATTACHMENT0
