@@ -12,12 +12,14 @@ npm install @react-vertex/core
 ```js
 import {
   useTexture2d,
+  useDataTexture
+  useTextureUnit
 } from '@react-vertex/core'
 ```
 
 #### `useTexture2d(url, getOptions?)` => \[`WebGLTexture`, `isLoaded`\]
 
-React hook for 2d WebGL textures. It returns a texture immediately with a placeholder pixel and updates it when the image loads.
+React hook for creating a 2d WebGL texture from an image. It returns a texture immediately with a placeholder pixel and updates it when the image loads.
 
 ###### Arguments:
 
@@ -45,16 +47,91 @@ React hook for 2d WebGL textures. It returns a texture immediately with a placeh
 ###### Example Usage:
 
 ```js
-import { useWebGLContext, useProgram, useTexture2d, useUniformSampler2d } from '@react-vertex/core'
+import {
+  useWebGLContext,
+  useProgram,
+  useTexture2d,
+  useUniformSampler2d
+} from '@react-vertex/core'
 
 ...
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
-  const [texture] = useTexture2d(imageUrl, () => {
-    placeholder: new Uint8Array([0, 0, 1, 1])
-  })
+  const [texture] = useTexture2d(imageUrl)
   useUniformSampler2d(gl, program, 'texDiff', texture)
+...
+
+```
+
+#### `useDataTexture(gl, data, width, height, getOptions?)` => `WebGLTexture`
+
+React hook for 2d data texture.
+
+###### Arguments:
+
+`gl`: A WebGL context.  You can call `useWebGLContext` to get the active context.
+
+`data`: Null or data array.
+
+`width`: Number for the width.
+
+`height`: Number for the height.
+
+`getOptions (optional)`: A function that will be called with the context (gl) that returns the options to be applied to the texture.  The hook does not update when this param changes so you can use an inline function.
+
+###### Valid keys in object returned by getOptions:
+  - `format` defualts to gl.RGBA
+  - `type` defaults to gl.FLOAT
+  - `wrap` defaults to null (sets both wrapS and wrapT)
+  - `wrapS` defaults to gl.CLAMP_TO_EDGE (will be overridden by `wrap` if used)
+  - `wrapT` defaults to gl.CLAMP_TO_EDGE (will be overridden by `wrap` if used)
+  - `minMag` defaults to null (sets both minFilter and magFilter)
+  - `minFilter` defaults to gl.NEAREST (will be overridden by `minMag` if used)
+  - `magFilter` defaults to gl.NEAREST (will be overridden by `minMag` if used)
+
+###### Returns:
+
+`texture` : A [WebGLTexture](https://developer.mozilla.org/en-US/docs/Web/API/WebGLTexture).
+
+###### Example Usage:
+
+```js
+import {
+  useWebGLContext,
+  useProgram,
+  useDataTexture,
+} from '@react-vertex/core'
+
+...
+  const gl = useWebGLContext()
+  const texture = useDataTexture(gl, 256, 256)
+...
+
+```
+
+#### `useTextureUnit()` => `TextureUnit`
+
+React hook to get a texture unit in React Vertex.  There are only limited number of texture units (slots) available on a device (some mobile devices will have just 8).  Callling this hook will claim a texture unit a prevent clashes with other components that need texture units.  The hook will automatically release the texture unit when the caller unmounts.  This is done internally for you when you use `useUniformSampler2d` (see uniforms section).
+
+###### Arguments:
+
+- None.
+
+###### Returns:
+
+`TextureUnit` : A number.
+
+###### Example Usage:
+
+```js
+import {
+  useTextureUnit,
+} from '@react-vertex/core'
+
+...
+  const tex1 = useTextureUnit()
+  const tex2 = useTextureUnit()
 ...
 
 ```
