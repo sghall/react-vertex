@@ -24,7 +24,7 @@ class OrbitCamera {
   userRotateX = true
   userRotateY = true
 
-  userDolly = true 
+  userDolly = true
 
   rotX = 0
   rotY = 0
@@ -94,7 +94,7 @@ class OrbitCamera {
       if (this.rotX > 360 || this.rotX < -360) {
         this.rotX = this.rotX % 360
       }
-  
+
       this.update()
     }
   }
