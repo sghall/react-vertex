@@ -324,14 +324,14 @@ React hook that returns the canvas DOM element. You can use this hook from anywh
 
 #### `useCanvasSize()` => `object`
 
-React hook for the current width and height of the canvas.  This will update when the dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
+React hook for the current width, clientWidth, height and clientHeight of the canvas.  The clientWidth and clientHeight can differ from width and height becasue of the device pixel ratio.  The hook will update when the dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
 
 ###### Arguments:
  - None.
 
 ###### Returns:
 
-`object`: An object with the current width and height e.g. `{ width: 100, height: 100 }`.
+`object`: An object with the current size info e.g. `{ width: 200, clientWidth: 100, height: 200, clientHeight: 100 }`.
 
 ###### Example Usage:
 ```js
