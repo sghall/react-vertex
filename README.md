@@ -6,7 +6,7 @@ Hooks-based WebGL library for React
 
 ```npm install @react-vertex/core```
 
-I started working on this to try out hooks and learn more about WebGL. It quickly got out of hand.  There's a lot to do still so it's unlikely to be stable for production applications until late 2019.  I have a project in mind that I would like to use it for, so I'm motivated to try and knockout the items on the roadmap in the coming months. 
+I started working on this to try out hooks and learn more about WebGL. It quickly got out of hand.  There's a lot to do still. It's unlikely to be truly stable for production applications until late 2019.
 
 If you have some WebGL/GLSL chops or experience with 3D engines and would like to help out, drop a line in the issues.
 
@@ -25,6 +25,7 @@ All the demos on the site are in the [demos folder](https://github.com/sghall/re
 
 ### Roadmap
 - Particle Systems / GPGPU
+- WebGL2 w/ Fallback
 - Use quaternions for rotations
 - Optimize matrix calculations
 - More lighting options
