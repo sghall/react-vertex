@@ -12,8 +12,8 @@ npm install @react-vertex/core
 ```js
 import {
   useTexture2d,
-  useDataTexture
-  useTextureUnit
+  useDataTexture,
+  useTextureUnit,
 } from '@react-vertex/core'
 ```
 

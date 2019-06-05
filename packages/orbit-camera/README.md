@@ -58,6 +58,18 @@ import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 ...
 ```
 
+- Set `userRotate` to false to disable rotation in x and y (orbit camera only rotates in x and y).
+- Set `userRotateX` to false to disable only rotation in x.
+- Set `userRotateY` to false to disable only rotation in y.
+- Set `userDolly` to false to disable dolly function.
+
+```
+  const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
+    c.setPosition([0, 0, 500])
+    c.userRotate = false
+  })
+```
+
 #### `useOrbitControls(camera, configure?)` => `controls`
 
 React hook to setup camera controls.
