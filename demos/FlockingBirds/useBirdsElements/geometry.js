@@ -21,12 +21,12 @@ export function useBirdGeometry(size) {
       // LEFT WING
       -d, 0, 0, vertType1, +d, 0, 0, vertType1, +d, 0, +w, vertType2,
       -d, 0, +w, vertType2, -d, 0, 0, vertType1, +d, 0, +w, vertType2,
-      +d, 0, +w, vertType2, +d, 0, +w * 1.5, vertType3, -d, 0, +w, vertType2,
+      +d, 0, +w, vertType2, -d, 0, +w * 1.5, vertType3, -d, 0, +w, vertType2,
       
       // RIGHT WING
-      +d, 0, 0, vertType1, -d, 0, 0, vertType1, +d, 0, -w, vertType2, 
-      +d, 0, -w, vertType2, -d, 0, 0, vertType1, -d, 0, -w, vertType2,
-      -d, 0, -w, vertType2, +d, 0, -w * 1.5, vertType3, +d, 0, -w, vertType2,
+      +d, 0, 0, vertType1, -d, 0, 0, vertType1, -d, 0, -w, vertType2, 
+      +d, 0, -w, vertType2, +d, 0, 0, vertType1, -d, 0, -w, vertType2,
+      -d, 0, -w, vertType2, -d, 0, -w * 1.5, vertType3, +d, 0, -w, vertType2,
     ]
 
     // prettier-ignore
