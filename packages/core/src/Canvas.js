@@ -24,7 +24,9 @@ export default class Canvas extends Component {
     this.sceneNode.clearColor = clearColor
     this.sceneNode.renderOnUpdate = renderOnUpdate
 
-    window.sceneNode = this.sceneNode
+    if (typeof window === 'object') {
+      window.sceneNode = this.sceneNode
+    }
 
     const { width, height } = this.updateDimensions()
 
