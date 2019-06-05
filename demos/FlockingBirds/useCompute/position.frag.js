@@ -1,6 +1,9 @@
 export default `
   precision <<FLOAT_PRECISION>> float;
 
+  // shader adapted from the awesome THREE.js demo:
+  // https://github.com/mrdoob/three.js/blob/master/examples/webgl_gpgpu_birds.html
+
   uniform sampler2D texPosition;
   uniform sampler2D texVelocity;
   uniform vec2 resolution;
