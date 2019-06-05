@@ -30,11 +30,10 @@ export default function useBirdsElements(size) {
       drawElements: {
         count: birds.indices.length,
         primcount: birds.instanceCount,
-      }
+      },
     }),
     [birds, indexBuffer, position, color, uv],
   )
 
   return memoized
 }
-

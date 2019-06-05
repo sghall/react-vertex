@@ -18,7 +18,7 @@ function useFormats(gl) {
     const hasLinear = !!gl.getExtension('OES_texture_half_float_linear')
 
     const floatType = halfFloat ? halfFloat.HALF_FLOAT_OES : gl.FLOAT
-  
+
     return { floatType, hasLinear }
   }, [gl])
 
@@ -81,7 +81,7 @@ export default function useCompute(size) {
 
     function compute(elapsed, delta) {
       gl.viewport(0, 0, size, size)
-      
+
       // **********************************************
       // POSTION
       // **********************************************

@@ -12,10 +12,7 @@ export default function useBirdsMaterial() {
   const program = useProgram(gl, vert, frag)
   const uniforms = useProgramUniforms(gl, program)
 
-  const memoized = useMemo(
-    () => ({ program, uniforms }),
-    [program, uniforms],
-  )
+  const memoized = useMemo(() => ({ program, uniforms }), [program, uniforms])
 
   return memoized
 }

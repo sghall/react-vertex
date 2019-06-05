@@ -1,7 +1,12 @@
 import React, { memo, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
-import { useWebGLContext, useTextureUnit, useCanvasSize, useRender } from '@react-vertex/core'
+import {
+  useWebGLContext,
+  useTextureUnit,
+  useCanvasSize,
+  useRender,
+} from '@react-vertex/core'
 import useCompute from './useCompute'
 import useBirdsElements from './useBirdsElements'
 import useBirdsMaterial from './useBirdsMaterial'
@@ -27,7 +32,7 @@ function Scene() {
 
   useEffect(() => {
     let prevElapsed = 0
-  
+
     const timerLoop = timer(e => {
       const elapsed = e * 0.001
       const delta = elapsed - prevElapsed
@@ -38,7 +43,7 @@ function Scene() {
       gl.useProgram(birdsMaterial.program)
       gl.uniform1i(birdsMaterial.uniforms.texPosition, pos.read.attach(t2))
       gl.uniform1i(birdsMaterial.uniforms.texVelocity, vel.read.attach(t1))
-      
+
       renderScene()
     })
 
