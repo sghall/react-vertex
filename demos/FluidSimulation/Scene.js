@@ -30,10 +30,6 @@ function Scene() {
   const frameBuffers = useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag)
 
   useEffect(() => {
-    if (!width || !height) {
-      return
-    }
-
     const {
       advection,
       background,
