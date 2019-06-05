@@ -116,7 +116,7 @@ function Example() {
 }
 ```
 
-#### `useSelectControl(label, options)` => `array`
+#### `useSelectControl(label, options)` => `value`
 
 React hook to create a select control in a React Vertex component tree. You can use this hook anywhere in the component tree and it will be added to the list of controls in the upper right of the screen.  The order of controls across different parts of the tree is determined by render order and is not customizable.
 
