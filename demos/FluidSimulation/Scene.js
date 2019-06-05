@@ -2,17 +2,7 @@ import { useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { convertHex } from '@react-vertex/color-hooks'
 import { useWebGLContext, useCanvasSize } from '@react-vertex/core'
-import {
-  TRANSPARENT,
-  SIM_RESOLUTION,
-  DYE_RESOLUTION,
-  SPLAT_RADIUS,
-  CURL,
-  PRESSURE_DISSIPATION,
-  PRESSURE_ITERATIONS,
-  VELOCITY_DISSIPATION,
-  DENSITY_DISSIPATION,
-} from './config'
+import * as config from './config'
 import { generateColor } from './utils'
 import {
   usePointers,
@@ -34,8 +24,8 @@ function Scene() {
   const pointers = usePointers()
   const programs = usePrograms(gl, hasLinear)
 
-  const simSize = useResolution(SIM_RESOLUTION, width, height)
-  const dyeSize = useResolution(DYE_RESOLUTION, width, height)
+  const simSize = useResolution(config.SIM_RESOLUTION, width, height)
+  const dyeSize = useResolution(config.DYE_RESOLUTION, width, height)
 
   const frameBuffers = useFrameBuffers(gl, dyeSize, simSize, halfFloat, minMag)
 
@@ -121,7 +111,7 @@ function Scene() {
       )
       gl.uniform1i(vorticity.uniforms.uVelocity, velocityDFBO.read.attach(0))
       gl.uniform1i(vorticity.uniforms.uCurl, curlFBO.attach(1))
-      gl.uniform1f(vorticity.uniforms.curl, CURL)
+      gl.uniform1f(vorticity.uniforms.curl, config.CURL)
       gl.uniform1f(vorticity.uniforms.dt, dt)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
@@ -137,7 +127,7 @@ function Scene() {
 
       gl.useProgram(clear.program)
       gl.uniform1i(clear.uniforms.uTexture, pressureDFBO.read.attach(0))
-      gl.uniform1f(clear.uniforms.value, PRESSURE_DISSIPATION)
+      gl.uniform1f(clear.uniforms.value, config.PRESSURE_DISSIPATION)
       blit(pressureDFBO.write.fbo)
       pressureDFBO.swap()
 
@@ -149,7 +139,7 @@ function Scene() {
       )
       gl.uniform1i(pressure.uniforms.uDivergence, divergenceFBO.attach(0))
 
-      for (let i = 0; i < PRESSURE_ITERATIONS; i++) {
+      for (let i = 0; i < config.PRESSURE_ITERATIONS; i++) {
         gl.uniform1i(pressure.uniforms.uPressure, pressureDFBO.read.attach(1))
         blit(pressureDFBO.write.fbo)
         pressureDFBO.swap()
@@ -181,11 +171,11 @@ function Scene() {
         )
       }
 
-      let velocityId = velocityDFBO.read.attach(0)
+      const velocityId = velocityDFBO.read.attach(0)
       gl.uniform1i(advection.uniforms.uVelocity, velocityId)
       gl.uniform1i(advection.uniforms.uSource, velocityId)
       gl.uniform1f(advection.uniforms.dt, dt)
-      gl.uniform1f(advection.uniforms.dissipation, VELOCITY_DISSIPATION)
+      gl.uniform1f(advection.uniforms.dissipation, config.VELOCITY_DISSIPATION)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 
@@ -201,13 +191,13 @@ function Scene() {
 
       gl.uniform1i(advection.uniforms.uVelocity, velocityDFBO.read.attach(0))
       gl.uniform1i(advection.uniforms.uSource, densityDFBO.read.attach(1))
-      gl.uniform1f(advection.uniforms.dissipation, DENSITY_DISSIPATION)
+      gl.uniform1f(advection.uniforms.dissipation, config.DENSITY_DISSIPATION)
       blit(densityDFBO.write.fbo)
       densityDFBO.swap()
     }
 
     function render(target) {
-      if (target == null || !TRANSPARENT) {
+      if (target == null || !config.TRANSPARENT) {
         gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
         gl.enable(gl.BLEND)
       } else {
@@ -219,20 +209,24 @@ function Scene() {
 
       gl.viewport(0, 0, width, height)
 
-      if (!TRANSPARENT) {
+      if (!config.TRANSPARENT) {
         gl.useProgram(color.program)
         gl.uniform4f(color.uniforms.color, ...backColor)
         blit(target)
       }
 
-      if (target == null && TRANSPARENT) {
+      if (target == null && config.TRANSPARENT) {
         gl.useProgram(background.program)
         gl.uniform1f(background.uniforms.aspectRatio, tWidth / tHeight)
         blit(null)
       }
 
       gl.useProgram(displayShading.program)
-      gl.uniform2f(displayShading.uniforms.texelSize, 1.0 / tWidth, 1.0 / tHeight)
+      gl.uniform2f(
+        displayShading.uniforms.texelSize,
+        1.0 / tWidth,
+        1.0 / tHeight,
+      )
       gl.uniform1i(displayShading.uniforms.uTexture, densityDFBO.read.attach(0))
 
       blit(target)
@@ -241,12 +235,15 @@ function Scene() {
     function updateSplat(x, y, dx, dy, splatRGB) {
       gl.viewport(0, 0, simSize[0], simSize[1])
 
+      const centerX = x / clientWidth
+      const centerY = 1.0 - y / clientHeight
+
       gl.useProgram(splat.program)
       gl.uniform1i(splat.uniforms.uTarget, velocityDFBO.read.attach(0))
       gl.uniform1f(splat.uniforms.aspectRatio, width / height)
-      gl.uniform2f(splat.uniforms.point, x / clientWidth, 1.0 - y / clientHeight)
+      gl.uniform2f(splat.uniforms.point, centerX, centerY)
       gl.uniform3f(splat.uniforms.color, dx, -dy, 1.0)
-      gl.uniform1f(splat.uniforms.radius, SPLAT_RADIUS / 100.0)
+      gl.uniform1f(splat.uniforms.radius, config.SPLAT_RADIUS / 100.0)
       blit(velocityDFBO.write.fbo)
       velocityDFBO.swap()
 

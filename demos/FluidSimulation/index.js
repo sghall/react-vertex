@@ -5,7 +5,6 @@ import { useMeasure } from '@react-vertex/dom-hooks'
 import DemoWrapper from '../DemoWrapper'
 import Scene from './Scene'
 
-
 function FluidSimulation() {
   const container = useRef()
   const { width } = useMeasure(container)

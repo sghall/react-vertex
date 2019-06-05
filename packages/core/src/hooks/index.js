@@ -53,7 +53,7 @@ export function useCanvasSize() {
   }
 
   const memoized = useMemo(() => {
-    return { 
+    return {
       width: context.width,
       clientWidth: context.scene.element.clientWidth,
       height: context.height,
@@ -63,5 +63,3 @@ export function useCanvasSize() {
 
   return memoized
 }
-
-
