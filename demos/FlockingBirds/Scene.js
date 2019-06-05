@@ -7,11 +7,10 @@ import {
   useCanvasSize,
   useRender,
 } from '@react-vertex/core'
+import { useSelectControl } from '@react-vertex/scene-helpers'
 import useCompute from './useCompute'
 import useBirdsElements from './useBirdsElements'
 import useBirdsMaterial from './useBirdsMaterial'
-
-const size = 32
 
 function Scene() {
   const { width, height } = useCanvasSize()
@@ -21,6 +20,12 @@ function Scene() {
     c.setPosition([0, 0, 500])
   })
   useOrbitControls(camera)
+
+  const size = useSelectControl('Flock Size: ', [
+    { value: 32, label: `${32 * 32} (32 x 32)` },
+    { value: 64, label: `${64 * 64} (64 x 64)` },
+    { value: 128, label: `${128 * 128} (128 x 128)` },
+  ])
 
   const compute = useCompute(size)
   const birdsMaterial = useBirdsMaterial(size)
