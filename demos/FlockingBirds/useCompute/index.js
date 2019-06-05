@@ -1,72 +1,16 @@
-import { useEffect, useMemo } from 'react'
-import { timer } from 'd3-timer'
+import { useMemo } from 'react'
 import {
   useWebGLContext,
   useProgram,
+  useTextureUnit,
   useProgramUniforms,
-  useFrameBuffer,
   useDataTexture,
-  useSceneNode,
+  useDoubleFBO,
 } from '@react-vertex/core'
 import vert from './vert'
 import positionFrag from './position.frag'
 import velocityFrag from './velocity.frag'
 import { useRandomPositionData, useRandomVelocityData } from './dataHooks'
-
-function useFBO(gl, width, height, getTexOpts) {
-  const tex = useDataTexture(gl, null, width, height, getTexOpts)
-  const fbo = useFrameBuffer(gl)
-
-  const memoized = useMemo(() => {
-    const attach = gl.COLOR_ATTACHMENT0
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, attach, gl.TEXTURE_2D, tex, 0)
-
-    return {
-      tex,
-      fbo,
-      attach(unit) {
-        gl.activeTexture(gl.TEXTURE0 + unit)
-        gl.bindTexture(gl.TEXTURE_2D, tex)
-        return unit
-      },
-    }
-  }, [gl, fbo, tex])
-
-  return memoized
-}
-
-function useDoubleFBO(gl, width, height, getTexOpts) {
-  const frameBuffer1 = useFBO(gl, width, height, getTexOpts)
-  const frameBuffer2 = useFBO(gl, width, height, getTexOpts)
-
-  const memoized = useMemo(() => {
-    let fbo1 = frameBuffer1
-    let fbo2 = frameBuffer2
-
-    return {
-      get read() {
-        return fbo1
-      },
-      set read(value) {
-        fbo1 = value
-      },
-      get write() {
-        return fbo2
-      },
-      set write(value) {
-        fbo2 = value
-      },
-      swap() {
-        const temp = fbo1
-        fbo1 = fbo2
-        fbo2 = temp
-      },
-    }
-  }, [frameBuffer1, frameBuffer2])
-
-  return memoized
-}
 
 function useFormats(gl) {
   const memoized = useMemo(() => {
@@ -81,10 +25,15 @@ function useFormats(gl) {
   return memoized
 }
 
-export default function usePingPong(size) {
+export default function useCompute(size) {
   const gl = useWebGLContext()
   const { floatType, hasLinear } = useFormats(gl)
-  const getTexOpts = () => ({ type: floatType, minMag: hasLinear ? gl.LINEAR : gl.NEAREST })
+  const getTexOpts = () => {
+    return { type: floatType, minMag: hasLinear ? gl.LINEAR : gl.NEAREST }
+  }
+
+  const texUnit1 = useTextureUnit()
+  const texUnit2 = useTextureUnit()
 
   const posProgram = useProgram(gl, vert, positionFrag)
   const posUniforms = useProgramUniforms(gl, posProgram)
@@ -101,31 +50,25 @@ export default function usePingPong(size) {
   const velocityDFBO = useDoubleFBO(gl, size, size, getTexOpts)
   const positionDFBO = useDoubleFBO(gl, size, size, getTexOpts)
 
-  const scene = useSceneNode()
-
-
-  useEffect(() => {
-    const texUnit1 = scene.getTextureUnit()
-    const texUnit2 = scene.getTextureUnit()
-
-    let prevElapsed = 0
+  const memoized = useMemo(() => {
     let isInitialRender = true
 
-    // prettier-ignore
     const renderToBuffer = (() => {
+      // prettier-ignore
       const verts = new Float32Array([
         -1.0, +1.0, +0.0, 
         -1.0, -1.0, +0.0, 
         +1.0, -1.0, +0.0, 
         +1.0, +1.0, +0.0,
       ])
-
       const index = new Uint16Array([0, 1, 2, 0, 2, 3])
+      const vertsBuffer = gl.createBuffer()
+      const indexBuffer = gl.createBuffer()
 
       return buffer => {
-        gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer())
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertsBuffer)
         gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW)
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer())
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, index, gl.STATIC_DRAW)
         gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0)
         gl.enableVertexAttribArray(0)
@@ -136,11 +79,7 @@ export default function usePingPong(size) {
       }
     })()
 
-    const timerLoop = timer(e => {
-      const elapsed = e * 0.001
-      const delta = elapsed - prevElapsed
-      prevElapsed = elapsed
-
+    function compute(elapsed, delta) {
       gl.viewport(0, 0, size, size)
       
       // **********************************************
@@ -198,17 +137,18 @@ export default function usePingPong(size) {
 
       renderToBuffer(velocityDFBO.write.fbo)
       velocityDFBO.swap()
-    })
 
-    return () => {
-      timerLoop.stop()
-      scene.releaseTextureUnit(texUnit1)
-      scene.releaseTextureUnit(texUnit2)
+      return [positionDFBO, velocityDFBO]
     }
+
+    compute(0, 0)
+
+    return compute
   }, [
     gl,
-    scene,
     size,
+    texUnit1,
+    texUnit2,
     positionDFBO,
     posInitial,
     posProgram,
@@ -219,5 +159,5 @@ export default function usePingPong(size) {
     velUniforms,
   ])
 
-  return [positionDFBO, velocityDFBO]
+  return memoized
 }
