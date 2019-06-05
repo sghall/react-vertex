@@ -14,7 +14,7 @@ import {
 
 const backColor = convertHex('#323334')
 
-function Scene() {
+function Simulation() {
   const { width, clientWidth, height, clientHeight } = useCanvasSize()
 
   const gl = useWebGLContext()
@@ -285,4 +285,4 @@ function Scene() {
   return null
 }
 
-export default Scene
+export default Simulation
