@@ -64,7 +64,7 @@ export default function usePointers() {
 
         let x = touches[i].pageX
         let y = touches[i].pageY
-  
+
         x -= canvas.offsetLeft
         y -= canvas.offsetTop
 
@@ -92,7 +92,7 @@ export default function usePointers() {
 
         let x = touches[i].pageX
         let y = touches[i].pageY
-  
+
         x -= canvas.offsetLeft
         y -= canvas.offsetTop
 
