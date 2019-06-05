@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button'
 import { Canvas } from '@react-vertex/core'
 import { useMeasure } from '@react-vertex/dom-hooks'
 import DemoWrapper from '../DemoWrapper'
-import Scene from './Scene'
+import Simulation from './Simulation'
 
 const attrs = {
   alpha: true,
@@ -39,7 +39,7 @@ function FluidSimulation() {
             canvasStyle={style}
             contextAttrs={attrs}
           >
-            <Scene />
+            <Simulation />
           </Canvas>
         ) : null}
       </div>
