@@ -12,7 +12,7 @@ import vert from './vert'
 import frag from './frag'
 import { useBirdGeometry } from './geometry'
 
-function Birds({ size, elapsed, posUnit, velUnit }) {
+function Birds({ size, elapsed, positionDFBO, velocityDFBO }) {
   const birds = useBirdGeometry(size)
 
   const gl = useWebGLContext()
@@ -23,8 +23,8 @@ function Birds({ size, elapsed, posUnit, velUnit }) {
   const posLocation = gl.getUniformLocation(program, 'texPosition')
   const velLocation = gl.getUniformLocation(program, 'texVelocity')
 
-  gl.uniform1i(posLocation, posUnit)
-  gl.uniform1i(velLocation, velUnit)
+  gl.uniform1i(posLocation, positionDFBO.read.attach(5))
+  gl.uniform1i(velLocation, velocityDFBO.read.attach(6))
 
   const positionBuffer = useStaticBuffer(gl, birds.vertices, false, 'F32')
   const position = useAttribute(gl, 4, positionBuffer)
@@ -63,10 +63,8 @@ function Birds({ size, elapsed, posUnit, velUnit }) {
 Birds.propTypes = {
   size: PropTypes.number.isRequired,
   elapsed: PropTypes.number.isRequired,
-  posUnit: PropTypes.number.isRequired,
-  texPosition: PropTypes.object.isRequired,
-  velUnit: PropTypes.number.isRequired,
-  texVelocity: PropTypes.object.isRequired,
+  positionDFBO: PropTypes.object.isRequired,
+  velocityDFBO: PropTypes.object.isRequired,
 }
 
 export default Birds
