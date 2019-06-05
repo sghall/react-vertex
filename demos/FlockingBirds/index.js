@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 import { Canvas } from '@react-vertex/core'
 import { useMeasure } from '@react-vertex/dom-hooks'
 import { convertHex } from '@react-vertex/color-hooks'
@@ -36,6 +37,7 @@ function FlockingBirds() {
         >
           <Scene />
         </Canvas>
+        <Typography>* Zooming is enabled on this demo.</Typography>
       </div>
     </DemoWrapper>
   )
