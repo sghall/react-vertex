@@ -4,11 +4,18 @@ import ReactVertexReconciler, { SceneNode } from './Reconciler'
 import ReactVertexContext from './Context'
 
 export default class Canvas extends Component {
+  state = {
+    error: false,
+    message: '',
+  }
+
   canvas = createRef()
 
   componentDidMount() {
     const { current } = this.canvas
     const {
+      webgl1,
+      webgl2,
       clearColor,
       children,
       antialias,
@@ -20,7 +27,27 @@ export default class Canvas extends Component {
 
     const attrs = { antialias, ...contextAttrs }
 
-    this.sceneNode = new SceneNode(current, extensions, attrs)
+    let gl, webglVersion
+
+    if (webgl2) {
+      gl = current.getContext('webgl2', attrs)
+      webglVersion = 2
+    }
+
+    if (!gl && webgl1) {
+      gl = current.getContext('webgl', attrs)
+      webglVersion = 1
+    }
+
+    if (!gl) {
+      this.setState({ error: true, message: 'Could not create WebGL context.' })
+      return
+    }
+
+    textureFlip && gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
+
+    this.sceneNode = new SceneNode(current, extensions, gl)
+    this.sceneNode.webglVersion = webglVersion
     this.sceneNode.clearColor = clearColor
     this.sceneNode.renderOnUpdate = renderOnUpdate
 
@@ -29,13 +56,9 @@ export default class Canvas extends Component {
     }
 
     const { width, height } = this.updateDimensions()
+    this.contextObject = { scene: this.sceneNode, width, height }
 
     this.container = ReactVertexReconciler.createContainer(this.sceneNode)
-
-    const gl = this.sceneNode.context
-    textureFlip && gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
-
-    this.contextObject = { scene: this.sceneNode, width, height }
 
     ReactVertexReconciler.updateContainer(
       <ReactVertexContext.Provider value={this.contextObject}>
@@ -110,6 +133,8 @@ Canvas.propTypes = {
   children: PropTypes.node.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  webgl1: PropTypes.bool,
+  webgl2: PropTypes.bool,
   antialias: PropTypes.bool,
   textureFlip: PropTypes.bool,
   clearColor: PropTypes.array.isRequired,
@@ -123,6 +148,8 @@ Canvas.propTypes = {
 
 Canvas.defaultProps = {
   clearColor: [0, 0, 0, 1],
+  webgl1: true,
+  webgl2: false,
   antialias: false,
   textureFlip: true,
   renderOnUpdate: false,
