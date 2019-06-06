@@ -34,6 +34,7 @@ function FluidSimulation() {
       <div ref={container}>
         {width ? (
           <Canvas
+            webgl2
             width={width}
             height={width}
             canvasStyle={style}
