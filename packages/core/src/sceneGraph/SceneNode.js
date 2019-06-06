@@ -38,10 +38,8 @@ function getMode(ctx, modeString) {
 }
 
 export class SceneNode extends Node {
-  constructor(canvas, extensions, attrs) {
+  constructor(canvas, extensions, gl) {
     super()
-
-    const gl = canvas.getContext('webgl', attrs)
 
     this.context = gl
     this.element = canvas
