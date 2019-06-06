@@ -31,6 +31,16 @@ export function useWebGLContext() {
   return context.scene.context
 }
 
+export function useWebGLVersion() {
+  const context = useContext(ReactVertexContext)
+
+  if (!context) {
+    throw new Error(`useWebGLVersion ${ctxErr}`)
+  }
+
+  return context.scene.webglVersion
+}
+
 export function useSceneNode() {
   const context = useContext(ReactVertexContext)
   return context.scene
