@@ -18,16 +18,15 @@ function Simulation() {
   const { width, clientWidth, height, clientHeight } = useCanvasSize()
 
   const gl = useWebGLContext()
-  const { floatType, hasLinear } = useFormats(gl)
-  const minMag = hasLinear ? gl.LINEAR : gl.NEAREST
+  const formats = useFormats(gl)
 
   const pointers = usePointers()
-  const programs = usePrograms(gl, hasLinear)
+  const programs = usePrograms(gl, formats.hasLinear)
 
   const simSize = useResolution(config.SIM_RESOLUTION, width, height)
   const dyeSize = useResolution(config.DYE_RESOLUTION, width, height)
 
-  const framebuffers = useFramebuffers(gl, dyeSize, simSize, floatType, minMag)
+  const framebuffers = useFramebuffers(gl, dyeSize, simSize, formats)
 
   useEffect(() => {
     const {
@@ -154,7 +153,7 @@ function Simulation() {
         1.0 / simSize[1],
       )
 
-      if (!hasLinear) {
+      if (!formats.shasLinear) {
         gl.uniform2f(
           advection.uniforms.dyeTexelSize,
           1.0 / simSize[0],
@@ -172,7 +171,7 @@ function Simulation() {
 
       gl.viewport(0, 0, dyeSize[0], dyeSize[1])
 
-      if (!hasLinear) {
+      if (!formats.hasLinear) {
         gl.uniform2f(
           advection.uniforms.dyeTexelSize,
           1.0 / dyeSize[0],
@@ -270,7 +269,7 @@ function Simulation() {
     return () => timerLoop.stop()
   }, [
     gl,
-    hasLinear,
+    formats,
     pointers,
     simSize,
     dyeSize,

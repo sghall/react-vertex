@@ -72,9 +72,9 @@ export default function useFormats(gl) {
     }
   
     return {
+      RGBA, RG, R,
       halfFloat,
       hasLinear,
-      formats: { RGBA, RG, R },
     }
   }, [gl, version])
 
