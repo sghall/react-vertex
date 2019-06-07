@@ -251,7 +251,7 @@ export class SceneNode extends Node {
       if (node.attributes !== this.activeAttributes) {
         for (const attr in activeMaterial.attributes) {
           const location = activeMaterial.attributes[attr]
-          node.attributes[attr](location, ext)
+          node.attributes[attr](location, ext, this.webglVersion)
         }
 
         this.activeAttributes = node.attributes
@@ -261,13 +261,26 @@ export class SceneNode extends Node {
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
-      ext.drawElementsInstancedANGLE(
-        getMode(gl, node.drawElements.mode),
-        node.drawElements.count,
-        node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
-        node.drawElements.offset || 0,
-        node.drawElements.primcount,
-      )
+
+      if (this.webglVersion === 2) {
+        gl.drawElementsInstanced(
+          getMode(gl, node.drawElements.mode),
+          node.drawElements.count,
+          node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
+          node.drawElements.offset || 0,
+          node.drawElements.primcount,
+        )
+      } else {
+        ext.drawElementsInstancedANGLE(
+          getMode(gl, node.drawElements.mode),
+          node.drawElements.count,
+          node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
+          node.drawElements.offset || 0,
+          node.drawElements.primcount,
+        )
+      }
+
+
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
       gl.bindBuffer(gl.ARRAY_BUFFER, null)
