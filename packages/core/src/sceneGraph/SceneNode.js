@@ -261,12 +261,13 @@ export class SceneNode extends Node {
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
-
       if (this.webglVersion === 2) {
         gl.drawElementsInstanced(
           getMode(gl, node.drawElements.mode),
           node.drawElements.count,
-          node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
+          node.drawElements.type
+            ? gl[node.drawElements.type]
+            : gl.UNSIGNED_SHORT,
           node.drawElements.offset || 0,
           node.drawElements.primcount,
         )
@@ -274,13 +275,13 @@ export class SceneNode extends Node {
         ext.drawElementsInstancedANGLE(
           getMode(gl, node.drawElements.mode),
           node.drawElements.count,
-          node.drawElements.type ? gl[node.drawElements.type] : gl.UNSIGNED_SHORT,
+          node.drawElements.type
+            ? gl[node.drawElements.type]
+            : gl.UNSIGNED_SHORT,
           node.drawElements.offset || 0,
           node.drawElements.primcount,
         )
       }
-
-
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null)
       gl.bindBuffer(gl.ARRAY_BUFFER, null)
