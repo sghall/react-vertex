@@ -25,7 +25,7 @@ export function useAttribute(gl, size, buffer, getOptions) {
 
 export function useInstancedAttribute(gl, size, buffer, getOptions) {
   const memoized = useMemo(() => {
-    return function(location, ext) {
+    return function(location, ext, version) {
       if (location >= 0) {
         const options = getOptions ? getOptions(gl) : {}
         const target = options.target || gl.ARRAY_BUFFER
@@ -39,7 +39,12 @@ export function useInstancedAttribute(gl, size, buffer, getOptions) {
         const offset = options.offset || 0
 
         gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
-        ext.vertexAttribDivisorANGLE(location, 1)
+
+        if (version === 2) {
+          gl.vertexAttribDivisor(location, 1)
+        } else {
+          ext.vertexAttribDivisorANGLE(location, 1)
+        }
       }
     }
   }, [gl, size, buffer, getOptions])
