@@ -29,6 +29,7 @@ function FlockingBirds() {
       </a>
       <div ref={container}>
         <Canvas
+          webgl2
           width={width}
           height={width}
           clearColor={clearColor}

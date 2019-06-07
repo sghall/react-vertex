@@ -73,9 +73,10 @@ export function useDataTexture(gl, data, width, height, getOptions) {
 
     gl.bindTexture(gl.TEXTURE_2D, texture)
 
-    const frmt = options.format || gl.RGBA
     const type = options.type || gl.FLOAT
-    gl.texImage2D(gl.TEXTURE_2D, 0, frmt, width, height, 0, frmt, type, data)
+    const format = options.format || gl.RGBA
+    const internalFormat = options.internalFormat || options.format || gl.RGBA
+    gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data)
 
     const minFilter = options.minMag || options.minFilter || gl.NEAREST
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, minFilter)
