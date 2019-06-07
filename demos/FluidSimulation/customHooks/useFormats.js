@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useWebGLVersion } from '@react-vertex/core'
 
-function supportRenderTextureFormat (gl, internalFormat, format, type) {
+function supportRenderTextureFormat(gl, internalFormat, format, type) {
   let texture = gl.createTexture()
   gl.bindTexture(gl.TEXTURE_2D, texture)
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
@@ -12,14 +12,20 @@ function supportRenderTextureFormat (gl, internalFormat, format, type) {
 
   let fbo = gl.createFramebuffer()
   gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
-  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0)
+  gl.framebufferTexture2D(
+    gl.FRAMEBUFFER,
+    gl.COLOR_ATTACHMENT0,
+    gl.TEXTURE_2D,
+    texture,
+    0,
+  )
 
   const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER)
-  
+
   if (status != gl.FRAMEBUFFER_COMPLETE) {
     return false
   }
-      
+
   return true
 }
 
@@ -45,23 +51,24 @@ export default function useFormats(gl) {
   const version = useWebGLVersion()
 
   const memoized = useMemo(() => {
-
-    let halfFloatExt
+    let texHalfFLoat
     let hasLinear
-  
-    if (version === 2) {
+
+    const webgl2 = version === 2
+
+    if (webgl2) {
       gl.getExtension('EXT_color_buffer_float')
       hasLinear = !!gl.getExtension('OES_texture_float_linear')
     } else {
-      halfFloatExt = gl.getExtension('OES_texture_half_float')
+      texHalfFLoat = gl.getExtension('OES_texture_half_float')
       hasLinear = !!gl.getExtension('OES_texture_half_float_linear')
     }
-  
-    const halfFloat = version === 2 ? gl.HALF_FLOAT : halfFloatExt.HALF_FLOAT_OES
-    
+
+    const halfFloat = webgl2 ? gl.HALF_FLOAT : texHalfFLoat.HALF_FLOAT_OES
+
     let RGBA, RG, R
-  
-    if (version === 2) {
+
+    if (webgl2) {
       RGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloat)
       RG = getSupportedFormat(gl, gl.RG16F, gl.RG, halfFloat)
       R = getSupportedFormat(gl, gl.R16F, gl.RED, halfFloat)
@@ -70,9 +77,11 @@ export default function useFormats(gl) {
       RG = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloat)
       R = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloat)
     }
-  
+
     return {
-      RGBA, RG, R,
+      RGBA,
+      RG,
+      R,
       halfFloat,
       hasLinear,
     }

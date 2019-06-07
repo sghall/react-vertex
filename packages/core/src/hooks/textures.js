@@ -76,6 +76,8 @@ export function useDataTexture(gl, data, width, height, getOptions) {
     const type = options.type || gl.FLOAT
     const format = options.format || gl.RGBA
     const internalFormat = options.internalFormat || options.format || gl.RGBA
+
+    // prettier-ignore
     gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data)
 
     const minFilter = options.minMag || options.minFilter || gl.NEAREST
