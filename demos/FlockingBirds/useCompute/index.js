@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import {
   useWebGLContext,
   useProgram,
+  useWebGLVersion,
   useTextureUnit,
   useProgramUniforms,
   useDataTexture,
@@ -12,20 +13,86 @@ import positionFrag from './position.frag'
 import velocityFrag from './velocity.frag'
 import { useRandomPositionData, useRandomVelocityData } from './dataHooks'
 
-function useFloatType(gl) {
-  const memoized = useMemo(() => {
-    const halfFloat = gl.getExtension('OES_texture_half_float')
-    const floatType = halfFloat ? halfFloat.HALF_FLOAT_OES : gl.FLOAT
+function supportRenderTextureFormat (gl, internalFormat, format, type) {
+  let texture = gl.createTexture()
+  gl.bindTexture(gl.TEXTURE_2D, texture)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+  gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, 4, 4, 0, format, type, null)
 
-    return { floatType }
-  }, [gl])
+  let fbo = gl.createFramebuffer()
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fbo)
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0)
+
+  const status = gl.checkFramebufferStatus(gl.FRAMEBUFFER)
+  
+  if (status != gl.FRAMEBUFFER_COMPLETE) {
+    return false
+  }
+      
+  return true
+}
+
+function getSupportedFormat(gl, internalFormat, format, type) {
+  if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
+    switch (internalFormat) {
+      case gl.R16F:
+        return getSupportedFormat(gl, gl.RG16F, gl.RG, type)
+      case gl.RG16F:
+        return getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, type)
+      default:
+        return null
+    }
+  }
+
+  return {
+    internalFormat,
+    format,
+  }
+}
+
+function useFormats(gl) {
+  const version = useWebGLVersion()
+
+  const memoized = useMemo(() => {
+
+    let halfFloatExt
+    let hasLinear
+  
+    if (version === 2) {
+      gl.getExtension('EXT_color_buffer_float')
+      hasLinear = !!gl.getExtension('OES_texture_float_linear')
+    } else {
+      halfFloatExt = gl.getExtension('OES_texture_half_float')
+      hasLinear = !!gl.getExtension('OES_texture_half_float_linear')
+    }
+  
+    const halfFloat = version === 2 ? gl.HALF_FLOAT : halfFloatExt.HALF_FLOAT_OES
+    
+    let RGBA
+  
+    if (version === 2) {
+      RGBA = getSupportedFormat(gl, gl.RGBA16F, gl.RGBA, halfFloat)
+    } else {
+      RGBA = getSupportedFormat(gl, gl.RGBA, gl.RGBA, halfFloat)
+    }
+  
+    return {
+      RGBA,
+      halfFloat,
+      hasLinear,
+    }
+  }, [gl, version])
 
   return memoized
 }
 
+
 export default function useCompute(size) {
   const gl = useWebGLContext()
-  const { floatType } = useFloatType(gl)
+  const { halfFloat, RGBA } = useFormats(gl)
 
   const texUnit1 = useTextureUnit()
   const texUnit2 = useTextureUnit()
@@ -39,14 +106,18 @@ export default function useCompute(size) {
   const randomVelocityData = useRandomVelocityData(size)
   const randomPositionData = useRandomPositionData(size)
 
-  const posInitial = useDataTexture(gl, randomPositionData, size, size)
-  const velInitial = useDataTexture(gl, randomVelocityData, size, size)
+  const posInitial = useDataTexture(gl, randomPositionData, size, size, () => {
+    return { minMag: gl.NEAREST, ...RGBA }
+  })
+  const velInitial = useDataTexture(gl, randomVelocityData, size, size, () => {
+    return { minMag: gl.NEAREST, ...RGBA }
+  })
 
   const velocityDFBO = useDoubleFBO(gl, size, size, () => {
-    return { type: floatType, minMag: gl.NEAREST }
+    return { type: halfFloat, minMag: gl.NEAREST, ...RGBA }
   })
   const positionDFBO = useDoubleFBO(gl, size, size, () => {
-    return { type: floatType, minMag: gl.NEAREST }
+    return { type: halfFloat, minMag: gl.NEAREST, ...RGBA }
   })
 
   const memoized = useMemo(() => {
