@@ -197,7 +197,12 @@ export function useSelectControl(label, options) {
           return { ...provided, zIndex: 50010 }
         },
         container: provided => {
-          return { ...provided, ...textStyles }
+          return {
+            ...provided,
+            ...textStyles,
+            fontSize: '16px',
+            fontWeight: 300,
+          }
         },
       }
 
