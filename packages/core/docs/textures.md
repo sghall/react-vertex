@@ -28,7 +28,8 @@ React hook for creating a 2d WebGL texture from an image. It returns a texture i
 `getOptions (optional)`: A function that will be called with the context (gl) that returns an object with the options you wish to override. The hook does not update when this param changes so you can use an inline function.
 
 ###### Valid keys in object returned by getOptions:
-  - `format` defualts to gl.RGBA
+  - `format` defaults to gl.RGBA
+  - `internalFormat` defaults to the provided `format` value else gl.RGBA
   - `crossOrigin` defaults to `anonymous` (this is for the image request)
   - `mipMaps`Boolean defaults to true. More on [mipmaps](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/generateMipmap).
   - `type` defaults to gl.UNSIGNED_BYTE
@@ -81,7 +82,8 @@ React hook for 2d data texture.
 `getOptions (optional)`: A function that will be called with the context (gl) that returns the options to be applied to the texture.  The hook does not update when this param changes so you can use an inline function.
 
 ###### Valid keys in object returned by getOptions:
-  - `format` defualts to gl.RGBA
+  - `format` defaults to gl.RGBA
+  - `internalFormat` defaults to the provided `format` value else gl.RGBA
   - `type` defaults to gl.FLOAT
   - `wrap` defaults to null (sets both wrapS and wrapT)
   - `wrapS` defaults to gl.CLAMP_TO_EDGE (will be overridden by `wrap` if used)
