@@ -36,9 +36,15 @@ module.exports = {
       ],
     },
     docs: {
-      presets: ['@babel/preset-react', ['@babel/preset-env', {
-        targets: '> 0.25%, not dead'
-      }]],
+      presets: [
+        '@babel/preset-react',
+        [
+          '@babel/preset-env',
+          {
+            targets: '> 0.25%, not dead',
+          },
+        ],
+      ],
       plugins: [
         'glsl',
         ['@babel/plugin-proposal-class-properties', { loose: true }],
