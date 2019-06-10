@@ -113,7 +113,7 @@ React hook for creating a WebGL shader. This is used internally by `useProgram` 
 
 `source`: A string containing the shader source.
 
-`isVertShader (optional)`: Boolean value that defualts to false.
+`isVertShader (optional)`: Boolean value that defaults to false.
 
 ###### Returns:
 

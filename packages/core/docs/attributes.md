@@ -31,10 +31,10 @@ React hook for WebGL attributes.
 `getOptions`: A function that will be called with the context (gl) that returns an object with the options you wish to override.
 
 ###### Valid keys in object returned by getOptions:
-  - `target` defualts to gl.ARRAY_BUFFER
+  - `target` defaults to gl.ARRAY_BUFFER
   - `type` defaults to gl.FLOAT
   - `normalized` defaults to false
-  - `stride` defualts to 0
+  - `stride` defaults to 0
   - `offset` defaults to 0
 
 ###### Returns:
@@ -79,10 +79,10 @@ React hook for instanced attributes.
 `getOptions`: A function that will be called with the context (gl) that returns an object with the options you wish to override.
 
 ###### Valid keys in object returned by getOptions:
-  - `target` defualts to gl.ARRAY_BUFFER
+  - `target` defaults to gl.ARRAY_BUFFER
   - `type` defaults to gl.FLOAT
   - `normalized` defaults to false
-  - `stride` defualts to 0
+  - `stride` defaults to 0
   - `offset` defaults to 0
 
 ###### Returns:
