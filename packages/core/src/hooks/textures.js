@@ -4,9 +4,10 @@ import { useSceneNode, useWebGLContext } from '..'
 function applyTextureOptions(gl, texture, data, opts) {
   gl.bindTexture(gl.TEXTURE_2D, texture)
 
-  const frmt = opts.format || gl.RGBA
   const type = opts.type || gl.UNSIGNED_BYTE
-  gl.texImage2D(gl.TEXTURE_2D, 0, frmt, frmt, type, data)
+  const format = opts.format || gl.RGBA
+  const internalFormat = opts.internalFormat || opts.format || gl.RGBA
+  gl.texImage2D(gl.TEXTURE_2D, 0, internalFormat, format, type, data)
 
   const wrapS = opts.wrap || opts.wrapS || gl.REPEAT
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrapS)
