@@ -22,6 +22,7 @@ import {
   useCanvas,
   useCanvasSize,
   useWebGLContext,
+  useWebGLVersion,
 } from '@react-vertex/core'
 ```
 
@@ -34,6 +35,10 @@ React component for creating a React Vertex component tree.  Renders a canvas el
 `width`: Number for the canvas width.
 
 `height`: Number for the canvas height.
+
+`webgl1`: Boolean for WebGL1 context (defaults to true).  The `webgl2` prop will take precedence (if set to true). If WebGL2 is not available on the device and the `webgl1` prop is set to true (the default) the canvas will fallback to WebGL1.  You can get the resulting version by calling `useWebGLVersion`.
+
+`webgl2`: Boolean for WebGL2 context (defaults to false). If WebGL2 is not available on the device and the `webgl1` prop is set to true (the default) the canvas will fallback to WebGL1.  You can get the resulting version by calling `useWebGLVersion`.
 
 `antialias (optional)`: Boolean for using antialiasing (defaults to false).
 
@@ -365,4 +370,31 @@ function Scene() {
   const gl = useWebGLContext()
   const positionBuffer = useStaticBuffer(gl, positions, false, 'F32')
   ...
+```
+
+#### `useWebGLVersion()` => `number`
+
+React hook for the WebGL version. You can use this hook from anywhere inside a React Vertex component tree.
+
+###### Arguments:
+ - None.
+
+###### Returns:
+
+`number`: The WebGL version either 1 or 2.
+
+###### Example Usage:
+
+```js
+import { useWebGLVersion, useStaticBuffer } from '@react-vertex/core'
+
+function Scene() {
+  const version= useWebGLVersion()
+
+  if (version === 2) {
+    ...stuff
+  } else {
+    ...stuff
+  }
+...
 ```
