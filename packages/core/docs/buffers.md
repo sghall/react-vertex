@@ -123,7 +123,7 @@ import {
 
 [Typed Arrays on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays#Typed_array_views)
 
-| Format | Type         | Range                            |
+| Format | Type         | Value Range                            |
 | -------|--------------|----------------------------------|
 | 'U8'   | Uint8Array   | 0 to 255                         |
 | 'U16'  | Uint16Array  | 0 to 65,535                      |
