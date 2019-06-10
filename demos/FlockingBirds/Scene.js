@@ -59,7 +59,7 @@ function Scene() {
   return (
     <camera view={camera.view} projection={camera.projection}>
       <material program={birdsMaterial.program}>
-        <instancedgeometry {...birdsElements} />
+        <geometry {...birdsElements} />
       </material>
     </camera>
   )
