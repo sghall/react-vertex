@@ -20,15 +20,12 @@ export default function useBirdsElements(size) {
   const colorsBuffer = useStaticBuffer(gl, birds.colors, false, 'F32')
   const color = useAttribute(gl, 3, colorsBuffer)
 
-  const indexBuffer = useStaticBuffer(gl, birds.indices, true, 'U16')
-
   const memoized = useMemo(
     () => ({
-      index: indexBuffer,
       attributes: { position, color, uv },
-      drawElements: { count: birds.indices.length },
+      drawArrays: { count: birds.vertices.length / 4 },
     }),
-    [birds, indexBuffer, position, color, uv],
+    [birds, position, color, uv],
   )
 
   return memoized

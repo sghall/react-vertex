@@ -4,7 +4,7 @@ export function useBirdGeometry(size) {
   const memoized = useMemo(() => {
     const instanceCount = size * size
 
-    const scale = 0.15
+    const scale = 0.12
 
     const w = 30 * scale
     const d = 12 * scale
@@ -31,11 +31,8 @@ export function useBirdGeometry(size) {
     ]
 
     const vertices = []
-    const indices = []
     const colors = []
     const uvs = []
-
-    let currentIndex = 0
 
     for (let i = 0; i < instanceCount; i++) {
       const x = (i % size) / size
@@ -52,13 +49,12 @@ export function useBirdGeometry(size) {
           bird[j * 4 + 3],
         )
 
-        indices.push(currentIndex++)
         colors.push(...color)
         uvs.push(...uv)
       }
     }
 
-    return { instanceCount, indices, vertices, colors, uvs }
+    return { instanceCount, vertices, colors, uvs }
   }, [size])
 
   return memoized
