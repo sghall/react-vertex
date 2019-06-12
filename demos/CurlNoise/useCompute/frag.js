@@ -127,7 +127,7 @@ export default `
   float factor = 0.05;
   float evolution = 4.5;
   
-  float innerRadius = 4.5;
+  float innerRadius = 2.5;
   float outerRadius = 7.0;
 
   void main() {

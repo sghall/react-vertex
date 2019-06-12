@@ -17,13 +17,14 @@ function Scene() {
   const renderScene = useRender()
 
   const camera = useOrbitCamera(55, width / height, 1, 500, c => {
-    c.setPosition([0, 0, 20])
+    c.setPosition([0, 0, 15])
   })
   useOrbitControls(camera)
 
+  // const size = 4
   const size = useSelectControl('Flock Size: ', [
-    { value: 128, label: `${128 * 128} (128 x 128)` },
     { value: 256, label: `${256 * 256} (256 x 256)` },
+    { value: 512, label: `${512 * 512} (512 x 512)` },
   ])
 
   const compute = useCompute(size)

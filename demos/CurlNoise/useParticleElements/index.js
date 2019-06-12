@@ -11,8 +11,11 @@ export default function useParticleElements(size) {
 
   const gl = useWebGLContext()
 
-  const positionBuffer = useStaticBuffer(gl, birds.vertices, false, 'F32')
-  const position = useAttribute(gl, 4, positionBuffer)
+  const position0Buffer = useStaticBuffer(gl, birds.vertices0, false, 'F32')
+  const position0 = useAttribute(gl, 3, position0Buffer)
+
+  const position1Buffer = useStaticBuffer(gl, birds.vertices0, false, 'F32')
+  const position1 = useAttribute(gl, 3, position1Buffer)
 
   const uvsBuffer = useStaticBuffer(gl, birds.uvs, false, 'F32')
   const uv = useAttribute(gl, 2, uvsBuffer)
@@ -22,10 +25,10 @@ export default function useParticleElements(size) {
 
   const memoized = useMemo(
     () => ({
-      attributes: { position, color, uv },
-      drawArrays: { count: birds.vertices.length / 4 },
+      attributes: { position0, position1, color, uv },
+      drawArrays: { count: birds.vertices0.length / 4 },
     }),
-    [birds, position, color, uv],
+    [birds, position0, position1, color, uv],
   )
 
   return memoized

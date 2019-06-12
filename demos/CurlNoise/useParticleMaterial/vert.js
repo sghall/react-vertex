@@ -3,7 +3,8 @@ export default `
 
   attribute vec2 uv;
   attribute vec3 color;
-  attribute vec4 position;
+  attribute vec3 position0;
+  attribute vec3 position1;
 
   uniform sampler2D texPosition;
 
@@ -11,7 +12,7 @@ export default `
   uniform mat4 modelMatrix;
   uniform mat4 projectionMatrix;
 
-  varying vec4 vColor;
+  varying vec3 vColor;
   varying vec3 vNormal;
   varying float vPhase;
 
@@ -40,14 +41,14 @@ export default `
 
   void main() {
     vec4 center = texture2D(texPosition, uv);
-    vec3 mvPosition = center.xyz + position.xyz;
+    vec3 mvPosition = center.xyz + position0.xyz;
 
-    float angle = getAngle(center.xyz, position.xyz);
+    float angle = getAngle(center.xyz, position0.xyz);
     mvPosition = rotate(mvPosition, center.xyz, angle);
 
     vPhase = center.w;
     vNormal = vec3(0.0, 1.0, 0.0);
-    vColor = vec4(color, 1.0);
+    vColor = color;
 
     mat4 modelViewMatrix = viewMatrix * modelMatrix;
     vec4 viewModelPosition = modelViewMatrix * vec4(mvPosition, 1.0);

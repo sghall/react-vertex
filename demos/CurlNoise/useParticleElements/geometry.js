@@ -1,36 +1,28 @@
 import { useMemo } from 'react'
 
+const { PI, sin, cos } = Math
+
+const angle = PI * 2 / 3
+const scale = 0.02
+
+const particle0 = [
+  sin(angle * 2), cos(angle * 2), 0,
+  sin(angle), cos(angle), 0,
+  sin(angle * 3), cos(angle * 3), 0,
+].map(d => d * scale)
+
+const particle1 = [
+  sin(angle * 2 + PI), cos(angle * 2 + PI), 0,
+  sin(angle + PI), cos(angle + PI), 0,
+  sin(angle * 3 + PI), cos(angle * 3 + PI), 0,
+].map(d => d * scale)
+
 export function useBirdGeometry(size) {
   const memoized = useMemo(() => {
     const instanceCount = size * size
 
-    const scale = 0.0012
-
-    const w = 30 * scale
-    const d = 12 * scale
-    const k = 20 * scale
-
-    const vertType1 = 1
-    const vertType2 = 2
-    const vertType3 = 3
-
-    // prettier-ignore
-    const bird = [
-      // BODY
-      -k, 0, 0, vertType1, -k, -6 * scale, 0, vertType1, 25 * scale, 0, 0, vertType1,
-      
-      // LEFT WING
-      -d, 0, 0, vertType1, +d, 0, 0, vertType1, +d, 0, +w, vertType2,
-      -d, 0, +w, vertType2, -d, 0, 0, vertType1, +d, 0, +w, vertType2,
-      +d, 0, +w, vertType2, -d, 0, +w * 1.5, vertType3, -d, 0, +w, vertType2,
-      
-      // RIGHT WING
-      +d, 0, 0, vertType1, -d, 0, 0, vertType1, -d, 0, -w, vertType2, 
-      +d, 0, -w, vertType2, +d, 0, 0, vertType1, -d, 0, -w, vertType2,
-      -d, 0, -w, vertType2, -d, 0, -w * 1.5, vertType3, +d, 0, -w, vertType2,
-    ]
-
-    const vertices = []
+    const vertices0 = []
+    const vertices1 = []
     const colors = []
     const uvs = []
 
@@ -38,23 +30,44 @@ export function useBirdGeometry(size) {
       const x = (i % size) / size
       const y = Math.floor(i / size) / size
 
-      const color = [Math.max(x, 1 - x), Math.random(), 1]
+      const color = [
+        x,
+        1,
+        y,
+      ]
       const uv = [x, y]
 
-      for (let j = 0; j < bird.length / 4; j++) {
-        vertices.push(
-          bird[j * 4 + 0],
-          bird[j * 4 + 1],
-          bird[j * 4 + 2],
-          bird[j * 4 + 3],
-        )
+      for (let j = 0; j < 3; j++) {
+        if (i % 2 === 0) {
+          vertices0.push(
+            particle0[j * 3 + 0],
+            particle0[j * 3 + 1],
+            particle0[j * 3 + 2],
+          )
+          vertices1.push(
+            particle1[j * 3 + 0],
+            particle1[j * 3 + 1],
+            particle1[j * 3 + 2],
+          )
+        } else {
+          vertices1.push(
+            particle0[j * 3 + 0],
+            particle0[j * 3 + 1],
+            particle0[j * 3 + 2],
+          )
+          vertices0.push(
+            particle1[j * 3 + 0],
+            particle1[j * 3 + 1],
+            particle1[j * 3 + 2],
+          )         
+        }
 
         colors.push(...color)
         uvs.push(...uv)
       }
     }
 
-    return { instanceCount, vertices, colors, uvs }
+    return { instanceCount, vertices0, vertices1, colors, uvs }
   }, [size])
 
   return memoized
