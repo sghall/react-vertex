@@ -14,7 +14,7 @@ const style = {
   WebkitTapHighlightColor: 'transparent',
 }
 
-function FlockingBirds() {
+function CurlNoiseParticles() {
   const container = useRef()
   const { width } = useMeasure(container)
 
@@ -36,4 +36,4 @@ function FlockingBirds() {
   )
 }
 
-export default FlockingBirds
+export default CurlNoiseParticles
