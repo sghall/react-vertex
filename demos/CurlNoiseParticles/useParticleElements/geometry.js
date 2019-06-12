@@ -1,5 +1,8 @@
 import { useMemo } from 'react'
 
+// Particle flipping concept from:
+// http://www.simppa.fi/blog/the-new-particle/
+
 const { PI, sin, cos } = Math
 
 const angle = (PI * 2) / 3
