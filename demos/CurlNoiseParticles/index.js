@@ -19,7 +19,7 @@ function FlockingBirds() {
   const { width } = useMeasure(container)
 
   return (
-    <DemoWrapper src="demos/FlockingBirds">
+    <DemoWrapper src="demos/CurlNoiseParticles">
       <div ref={container}>
         <Canvas
           webgl2
