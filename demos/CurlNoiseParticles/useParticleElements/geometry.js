@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 const { PI, sin, cos } = Math
 
 const angle = (PI * 2) / 3
-const scale = 0.015
+const scale = 0.01
 
 // prettier-ignore
 const particle0 = [
