@@ -32,19 +32,18 @@ function Scene() {
     let prevElapsed = 0
     let flipped = 0
 
+    const { program, uniforms } = particleMaterial
+
     const timerLoop = timer(e => {
       const elapsed = e * 0.005
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
-      gl.useProgram(particleMaterial.program)
-      gl.uniform1f(particleMaterial.uniforms.flipped, flipped)
-
       const pos = compute(elapsed, delta * 10)
-      gl.uniform1i(
-        particleMaterial.uniforms.texPosition,
-        pos.read.attach(texUnit),
-      )
+
+      gl.useProgram(program)
+      gl.uniform1f(uniforms.flipped, flipped)
+      gl.uniform1i(uniforms.texPosition, pos.read.attach(texUnit))
 
       renderScene()
 
