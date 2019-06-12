@@ -1,5 +1,10 @@
 export const demosList = [
   {
+    href: '/demo-curl-noise',
+    name: 'Curl Noise',
+    tag: '',
+  },
+  {
     href: '/demo-axes-helper',
     name: 'Axes Helper',
     tag: '',
