@@ -8,8 +8,8 @@ import {
   useDataTexture,
   useDoubleFBO,
 } from '@react-vertex/core'
-import vert from './vert'
-import frag from './frag'
+import vert from './vert.glsl'
+import frag from './frag.glsl'
 import { useRandomPositionData } from './dataHooks'
 
 function supportRenderTextureFormat(gl, internalFormat, format, type) {

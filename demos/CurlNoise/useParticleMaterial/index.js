@@ -4,8 +4,8 @@ import {
   useProgram,
   useProgramUniforms,
 } from '@react-vertex/core'
-import vert from './vert'
-import frag from './frag'
+import vert from './vert.glsl'
+import frag from './frag.glsl'
 
 export default function useParticleMaterial() {
   const gl = useWebGLContext()
