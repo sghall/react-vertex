@@ -6,6 +6,7 @@ export default `
   attribute vec3 position0;
   attribute vec3 position1;
 
+  uniform float flipped;
   uniform sampler2D texPosition;
 
   uniform mat4 viewMatrix;
@@ -41,9 +42,10 @@ export default `
 
   void main() {
     vec4 center = texture2D(texPosition, uv);
-    vec3 mvPosition = center.xyz + position0.xyz;
+    vec3 position = flipped == 0.0 ? position0 : position1;
+    vec3 mvPosition = center.xyz + position.xyz;
 
-    float angle = getAngle(center.xyz, position0.xyz);
+    float angle = getAngle(center.xyz, position.xyz);
     mvPosition = rotate(mvPosition, center.xyz, angle);
 
     vPhase = center.w;

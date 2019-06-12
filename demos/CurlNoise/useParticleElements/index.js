@@ -14,7 +14,7 @@ export default function useParticleElements(size) {
   const position0Buffer = useStaticBuffer(gl, birds.vertices0, false, 'F32')
   const position0 = useAttribute(gl, 3, position0Buffer)
 
-  const position1Buffer = useStaticBuffer(gl, birds.vertices0, false, 'F32')
+  const position1Buffer = useStaticBuffer(gl, birds.vertices1, false, 'F32')
   const position1 = useAttribute(gl, 3, position1Buffer)
 
   const uvsBuffer = useStaticBuffer(gl, birds.uvs, false, 'F32')

@@ -125,7 +125,7 @@ export default `
 
   float speed = 0.5;
   float factor = 0.05;
-  float evolution = 4.5;
+  float evolution = 10.5;
   
   float innerRadius = 2.5;
   float outerRadius = 7.0;

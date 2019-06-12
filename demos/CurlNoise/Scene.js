@@ -28,8 +28,8 @@ function Scene() {
   ])
 
   const compute = useCompute(size)
-  const birdsMaterial = useParticleMaterial(size)
-  const birdsElements = useParticleElements(size)
+  const particleMaterial = useParticleMaterial(size)
+  const particleElements = useParticleElements(size)
 
   const gl = useWebGLContext()
   const t1 = useTextureUnit()
@@ -37,6 +37,7 @@ function Scene() {
 
   useEffect(() => {
     let prevElapsed = 0
+    let flipped = 0
 
     const timerLoop = timer(e => {
       const elapsed = e * 0.005
@@ -45,19 +46,22 @@ function Scene() {
 
       const pos = compute(elapsed, delta * 10)
 
-      gl.useProgram(birdsMaterial.program)
-      gl.uniform1i(birdsMaterial.uniforms.texPosition, pos.read.attach(t2))
+      gl.useProgram(particleMaterial.program)
+      gl.uniform1f(particleMaterial.uniforms.flipped, flipped)
+      gl.uniform1i(particleMaterial.uniforms.texPosition, pos.read.attach(t2))
 
       renderScene()
+
+      flipped = flipped === 0 ? 1 : 0
     })
 
     return () => timerLoop.stop()
-  }, [gl, t1, t2, birdsMaterial, compute, renderScene])
+  }, [gl, t1, t2, particleMaterial, compute, renderScene])
 
   return (
     <camera view={camera.view} projection={camera.projection}>
-      <material program={birdsMaterial.program}>
-        <geometry {...birdsElements} />
+      <material program={particleMaterial.program}>
+        <geometry {...particleElements} />
       </material>
     </camera>
   )
