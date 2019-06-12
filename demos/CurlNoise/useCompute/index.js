@@ -9,9 +9,8 @@ import {
   useDoubleFBO,
 } from '@react-vertex/core'
 import vert from './vert'
-import positionFrag from './position.frag'
-import velocityFrag from './velocity.frag'
-import { useRandomPositionData, useRandomVelocityData } from './dataHooks'
+import frag from './frag'
+import { useRandomPositionData } from './dataHooks'
 
 function supportRenderTextureFormat(gl, internalFormat, format, type) {
   const texture = gl.createTexture()
@@ -96,25 +95,15 @@ export default function useCompute(size) {
   const texUnit1 = useTextureUnit()
   const texUnit2 = useTextureUnit()
 
-  const posProgram = useProgram(gl, vert, positionFrag)
+  const posProgram = useProgram(gl, vert, frag)
   const posUniforms = useProgramUniforms(gl, posProgram)
 
-  const velProgram = useProgram(gl, vert, velocityFrag)
-  const velUniforms = useProgramUniforms(gl, velProgram)
-
-  const randomVelocityData = useRandomVelocityData(size)
   const randomPositionData = useRandomPositionData(size)
 
   const posInitial = useDataTexture(gl, randomPositionData, size, size, () => {
     return { minMag: gl.NEAREST, ...RGBA }
   })
-  const velInitial = useDataTexture(gl, randomVelocityData, size, size, () => {
-    return { minMag: gl.NEAREST, ...RGBA }
-  })
 
-  const velocityDFBO = useDoubleFBO(gl, size, size, () => {
-    return { type: halfFloat, minMag: gl.NEAREST, ...RGBA }
-  })
   const positionDFBO = useDoubleFBO(gl, size, size, () => {
     return { type: halfFloat, minMag: gl.NEAREST, ...RGBA }
   })
@@ -162,7 +151,6 @@ export default function useCompute(size) {
 
       if (isInitialRender) {
         gl.activeTexture(gl.TEXTURE0 + texUnit2)
-        gl.bindTexture(gl.TEXTURE_2D, velInitial)
         gl.uniform1i(posUniforms.texVelocity, texUnit2)
 
         gl.activeTexture(gl.TEXTURE0 + texUnit1)
@@ -170,7 +158,6 @@ export default function useCompute(size) {
         gl.uniform1i(posUniforms.texPosition, texUnit1)
       } else {
         positionDFBO.read.attach(texUnit1)
-        velocityDFBO.read.attach(texUnit2)
         gl.uniform1i(posUniforms.texPosition, texUnit1)
         gl.uniform1i(posUniforms.texVelocity, texUnit2)
       }
@@ -178,36 +165,7 @@ export default function useCompute(size) {
       renderToBuffer(positionDFBO.write.fbo)
       positionDFBO.swap()
 
-      // **********************************************
-      // VELOCITY
-      // **********************************************
-      gl.useProgram(velProgram)
-
-      gl.uniform2f(velUniforms.resolution, size, size)
-      gl.uniform1f(velUniforms.delta, delta)
-      gl.uniform1f(velUniforms.elapsed, elapsed)
-
-      if (isInitialRender) {
-        gl.activeTexture(gl.TEXTURE0 + texUnit2)
-        gl.bindTexture(gl.TEXTURE_2D, posInitial)
-        gl.uniform1i(velUniforms.texPosition, texUnit2)
-
-        gl.activeTexture(gl.TEXTURE0 + texUnit1)
-        gl.bindTexture(gl.TEXTURE_2D, velInitial)
-        gl.uniform1i(velUniforms.texVelocity, texUnit1)
-
-        isInitialRender = false
-      } else {
-        velocityDFBO.read.attach(texUnit1)
-        positionDFBO.read.attach(texUnit2)
-        gl.uniform1i(velUniforms.texVelocity, texUnit1)
-        gl.uniform1i(velUniforms.texPosition, texUnit2)
-      }
-
-      renderToBuffer(velocityDFBO.write.fbo)
-      velocityDFBO.swap()
-
-      return [positionDFBO, velocityDFBO]
+      return positionDFBO
     }
 
     compute(0, 0)
@@ -222,10 +180,6 @@ export default function useCompute(size) {
     posInitial,
     posProgram,
     posUniforms,
-    velocityDFBO,
-    velInitial,
-    velProgram,
-    velUniforms,
   ])
 
   return memoized

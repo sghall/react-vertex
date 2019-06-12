@@ -44,11 +44,11 @@ function Scene() {
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
-      const [pos, vel] = compute(elapsed, delta)
+      const pos = compute(elapsed, delta)
 
       gl.useProgram(birdsMaterial.program)
       gl.uniform1i(birdsMaterial.uniforms.texPosition, pos.read.attach(t2))
-      gl.uniform1i(birdsMaterial.uniforms.texVelocity, vel.read.attach(t1))
+      gl.uniform1i(birdsMaterial.uniforms.texVelocity, pos.read.attach(t1))
 
       renderScene()
     })
