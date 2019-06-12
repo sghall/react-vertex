@@ -123,12 +123,12 @@ export default `
     return normalize( vec3( x , y , z ) * divisor );
   }
 
-  float speed = 0.5;
-  float factor = 0.05;
+  float speed = 0.03;
+  float factor = 0.03;
   float evolution = 10.5;
   
   float innerRadius = 1.5;
-  float outerRadius = 5.0;
+  float outerRadius = 3.0;
 
   void main() {
     vec2 uv = gl_FragCoord.xy / resolution.xy;    
@@ -136,16 +136,8 @@ export default `
   
     vec3 pos = c.xyz;
     float life = c.a;
-
-    float s = uv.x * life / 2000.0;
-    float speedInc = 1.0;
  
-    if (s > 0.95) speedInc = 0.75;
-    else if (s > 0.9) speedInc = 0.85;
-    else speedInc = 1.0;
- 
-    vec3 v = factor * speedInc * delta * speed * (curlNoise(0.7 * pos + factor * evolution * 0.1 * elapsed));
-    
+    vec3 v = delta * speed * (curlNoise(0.8 * pos + factor * evolution * 0.1 * elapsed));
     pos += v;
 
     life -= factor;
