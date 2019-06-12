@@ -10,11 +10,11 @@ export function useRandomPositionData(size) {
       const v = Math.random()
       const t = 2 * Math.PI * u
       const p = Math.acos(2 * v - 1)
-  
+
       arr[k + 0] = r * Math.sin(p) * Math.cos(t)
       arr[k + 1] = r * Math.sin(p) * Math.sin(t)
       arr[k + 2] = r * Math.cos(p)
-      arr[k + 3] = Math.random() * 99
+      arr[k + 3] = Math.random() * 2000
     }
 
     return arr

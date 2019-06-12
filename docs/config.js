@@ -1,10 +1,5 @@
 export const demosList = [
   {
-    href: '/demo-curl-noise',
-    name: 'Curl Noise',
-    tag: '',
-  },
-  {
     href: '/demo-axes-helper',
     name: 'Axes Helper',
     tag: '',
@@ -17,6 +12,11 @@ export const demosList = [
   {
     href: '/demo-shark-week',
     name: 'Shark Week',
+    tag: '',
+  },
+  {
+    href: '/demo-curl-noise-particles',
+    name: 'Curl Noise Particles',
     tag: '',
   },
   {

@@ -34,20 +34,19 @@ void main() {
   vec3 v = delta * speed * (curlNoise(0.8 * pos + factor * evolution * 0.1 * elapsed));
   pos += v;
 
-  life -= factor;
+  life -= factor * 100.0;
   
   if (length(pos) < innerRadius) {
     pos = normalize(pos) * innerRadius;
   }
 
   if (length(pos) > outerRadius) {
-    life = 2000.0;     
     pos = normalize(pos) * outerRadius;
   }
   
   if (life <= 0.0) {
     pos = snoiseVec3(vec3(uv.xxy));
-    life = 100.0;
+    life = 2000.0;
   }
 
   gl_FragColor = vec4(pos, life);

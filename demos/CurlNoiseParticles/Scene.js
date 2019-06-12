@@ -7,7 +7,6 @@ import {
   useCanvasSize,
   useRender,
 } from '@react-vertex/core'
-import { useSelectControl } from '@react-vertex/scene-helpers'
 import useCompute from './useCompute'
 import useParticleElements from './useParticleElements'
 import useParticleMaterial from './useParticleMaterial'
@@ -21,19 +20,13 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  // const size = 4
-  const size = useSelectControl('Flock Size: ', [
-    { value: 256, label: `${256 * 256} (256 x 256)` },
-    { value: 512, label: `${512 * 512} (512 x 512)` },
-  ])
-
+  const size = 256
   const compute = useCompute(size)
   const particleMaterial = useParticleMaterial(size)
   const particleElements = useParticleElements(size)
 
   const gl = useWebGLContext()
-  const t1 = useTextureUnit()
-  const t2 = useTextureUnit()
+  const texUnit = useTextureUnit()
 
   useEffect(() => {
     let prevElapsed = 0
@@ -44,11 +37,14 @@ function Scene() {
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
-      const pos = compute(elapsed, delta * 10)
-
       gl.useProgram(particleMaterial.program)
       gl.uniform1f(particleMaterial.uniforms.flipped, flipped)
-      gl.uniform1i(particleMaterial.uniforms.texPosition, pos.read.attach(t2))
+
+      const pos = compute(elapsed, delta * 10)
+      gl.uniform1i(
+        particleMaterial.uniforms.texPosition,
+        pos.read.attach(texUnit),
+      )
 
       renderScene()
 
@@ -56,7 +52,7 @@ function Scene() {
     })
 
     return () => timerLoop.stop()
-  }, [gl, t1, t2, particleMaterial, compute, renderScene])
+  }, [gl, texUnit, particleMaterial, compute, renderScene])
 
   return (
     <camera view={camera.view} projection={camera.projection}>
