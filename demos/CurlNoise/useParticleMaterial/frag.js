@@ -31,4 +31,3 @@ export default `
     gl_FragColor = col;
   }
 `
-

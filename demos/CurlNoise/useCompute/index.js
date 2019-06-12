@@ -92,8 +92,7 @@ export default function useCompute(size) {
   const gl = useWebGLContext()
   const { halfFloat, RGBA } = useFormats(gl)
 
-  const texUnit1 = useTextureUnit()
-  const texUnit2 = useTextureUnit()
+  const texUnit = useTextureUnit()
 
   const posProgram = useProgram(gl, vert, frag)
   const posUniforms = useProgramUniforms(gl, posProgram)
@@ -150,14 +149,14 @@ export default function useCompute(size) {
       gl.uniform1f(posUniforms.elapsed, elapsed)
 
       if (isInitialRender) {
-        gl.activeTexture(gl.TEXTURE0 + texUnit1)
+        gl.activeTexture(gl.TEXTURE0 + texUnit)
         gl.bindTexture(gl.TEXTURE_2D, posInitial)
-        gl.uniform1i(posUniforms.texPosition, texUnit1)
+        gl.uniform1i(posUniforms.texPosition, texUnit)
 
         isInitialRender = false
       } else {
-        positionDFBO.read.attach(texUnit1)
-        gl.uniform1i(posUniforms.texPosition, texUnit1)
+        positionDFBO.read.attach(texUnit)
+        gl.uniform1i(posUniforms.texPosition, texUnit)
       }
 
       renderToBuffer(positionDFBO.write.fbo)
@@ -169,16 +168,7 @@ export default function useCompute(size) {
     compute(0, 0)
 
     return compute
-  }, [
-    gl,
-    size,
-    texUnit1,
-    texUnit2,
-    positionDFBO,
-    posInitial,
-    posProgram,
-    posUniforms,
-  ])
+  }, [gl, size, texUnit, positionDFBO, posInitial, posProgram, posUniforms])
 
   return memoized
 }
