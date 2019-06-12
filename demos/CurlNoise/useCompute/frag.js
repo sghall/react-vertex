@@ -127,8 +127,8 @@ export default `
   float factor = 0.05;
   float evolution = 10.5;
   
-  float innerRadius = 2.5;
-  float outerRadius = 7.0;
+  float innerRadius = 1.5;
+  float outerRadius = 5.0;
 
   void main() {
     vec2 uv = gl_FragCoord.xy / resolution.xy;    
@@ -137,7 +137,7 @@ export default `
     vec3 pos = c.xyz;
     float life = c.a;
 
-    float s = uv.x * life / 100.0;
+    float s = uv.x * life / 2000.0;
     float speedInc = 1.0;
  
     if (s > 0.95) speedInc = 0.75;

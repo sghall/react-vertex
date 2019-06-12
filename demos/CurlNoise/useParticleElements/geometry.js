@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 const { PI, sin, cos } = Math
 
 const angle = PI * 2 / 3
-const scale = 0.02
+const scale = 0.015
 
 const particle0 = [
   sin(angle * 2), cos(angle * 2), 0,
@@ -31,8 +31,8 @@ export function useBirdGeometry(size) {
       const y = Math.floor(i / size) / size
 
       const color = [
-        x,
         1,
+        x,
         y,
       ]
       const uv = [x, y]

@@ -22,11 +22,11 @@ export default `
 
     // d1 *= d2;
 
-    vec4 col = vec4((vColor.rgb * 1.0) * depthcolor, min(vPhase / 500.0, 0.6));
+    vec4 col = vec4((vColor.rgb * 1.0) * depthcolor, min(vPhase / 1000.0, 0.6));
 
-    // if (vPhase > 500.0) {
-    //   col = vec4(1.0 - col.rgb, 0.5);
-    // }
+    if (vPhase > 1000.0) {
+      col = vec4(1.0 - col.rgb, 0.5);
+    }
 
     gl_FragColor = vec4(vColor.rgb, 1.0);
   }
