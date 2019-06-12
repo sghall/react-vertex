@@ -9,28 +9,26 @@ import {
 } from '@react-vertex/core'
 import { useSelectControl } from '@react-vertex/scene-helpers'
 import useCompute from './useCompute'
-import useBirdsElements from './useBirdsElements'
-import useBirdsMaterial from './useBirdsMaterial'
+import useParticleElements from './useParticleElements'
+import useParticleMaterial from './useParticleMaterial'
 
 function Scene() {
   const { width, height } = useCanvasSize()
   const renderScene = useRender()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
-    c.setPosition([0, 0, 500])
-    c.userRotate = false
+    c.setPosition([0, 0, 50])
   })
   useOrbitControls(camera)
 
   const size = useSelectControl('Flock Size: ', [
-    { value: 32, label: `${32 * 32} (32 x 32)` },
-    { value: 64, label: `${64 * 64} (64 x 64)` },
     { value: 128, label: `${128 * 128} (128 x 128)` },
+    { value: 256, label: `${256 * 256} (256 x 256)` },
   ])
 
   const compute = useCompute(size)
-  const birdsMaterial = useBirdsMaterial(size)
-  const birdsElements = useBirdsElements(size)
+  const birdsMaterial = useParticleMaterial(size)
+  const birdsElements = useParticleElements(size)
 
   const gl = useWebGLContext()
   const t1 = useTextureUnit()
@@ -40,15 +38,14 @@ function Scene() {
     let prevElapsed = 0
 
     const timerLoop = timer(e => {
-      const elapsed = e * 0.0005
+      const elapsed = e * 0.005
       const delta = elapsed - prevElapsed
       prevElapsed = elapsed
 
-      const pos = compute(elapsed, delta)
+      const pos = compute(elapsed, delta * 10)
 
       gl.useProgram(birdsMaterial.program)
       gl.uniform1i(birdsMaterial.uniforms.texPosition, pos.read.attach(t2))
-      gl.uniform1i(birdsMaterial.uniforms.texVelocity, pos.read.attach(t1))
 
       renderScene()
     })

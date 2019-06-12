@@ -4,7 +4,7 @@ export function useBirdGeometry(size) {
   const memoized = useMemo(() => {
     const instanceCount = size * size
 
-    const scale = 0.12
+    const scale = 0.0012
 
     const w = 30 * scale
     const d = 12 * scale

@@ -150,16 +150,14 @@ export default function useCompute(size) {
       gl.uniform1f(posUniforms.elapsed, elapsed)
 
       if (isInitialRender) {
-        gl.activeTexture(gl.TEXTURE0 + texUnit2)
-        gl.uniform1i(posUniforms.texVelocity, texUnit2)
-
         gl.activeTexture(gl.TEXTURE0 + texUnit1)
         gl.bindTexture(gl.TEXTURE_2D, posInitial)
         gl.uniform1i(posUniforms.texPosition, texUnit1)
+
+        isInitialRender = false
       } else {
         positionDFBO.read.attach(texUnit1)
         gl.uniform1i(posUniforms.texPosition, texUnit1)
-        gl.uniform1i(posUniforms.texVelocity, texUnit2)
       }
 
       renderToBuffer(positionDFBO.write.fbo)

@@ -7,7 +7,7 @@ import {
 import vert from './vert'
 import frag from './frag'
 
-export default function useBirdsMaterial() {
+export default function useParticleMaterial() {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
   const uniforms = useProgramUniforms(gl, program)
