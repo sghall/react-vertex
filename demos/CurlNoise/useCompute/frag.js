@@ -124,30 +124,13 @@ export default `
   }
 
   float speed = 0.5;
-  float factor = 0.5;
-  float radius = 3.0;
+  float factor = 0.05;
   float evolution = 4.5;
-
-  mat4 rotationMatrix(vec3 axis, float angle) {
-      axis = normalize(axis);
-      float s = sin(angle);
-      float c = cos(angle);
-      float oc = 1.0 - c;
-
-      return mat4(
-        oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s, 0.0,
-        oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s, 0.0,
-        oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c, 0.0,
-        0.0, 0.0, 0.0, 1.0
-      );
-  }
-
-  float rand(vec2 co){
-    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-  }
+  
+  float innerRadius = 4.5;
+  float outerRadius = 7.0;
 
   void main() {
-    vec3 vOffset = vec3(0.0);
     vec2 uv = gl_FragCoord.xy / resolution.xy;    
     vec4 c = texture2D(texPosition, uv);
   
@@ -157,28 +140,28 @@ export default `
     float s = uv.x * life / 100.0;
     float speedInc = 1.0;
  
-    if( s > 0.95 ) speedInc = 0.75;
-    else if( s > .9 ) speedInc = 0.85;
+    if (s > 0.95) speedInc = 0.75;
+    else if (s > 0.9) speedInc = 0.85;
     else speedInc = 1.0;
  
     vec3 v = factor * speedInc * delta * speed * (curlNoise(0.7 * pos + factor * evolution * 0.1 * elapsed));
     
     pos += v;
 
-    life -= factor * 1.0;
+    life -= factor;
     
-    if (length(pos) < radius) {
-      pos = normalize(pos) * radius;
+    if (length(pos) < innerRadius) {
+      pos = normalize(pos) * innerRadius;
     }
 
-    if (length(pos) > radius * 3.0) {
-      life = 1000.0;     
-      pos = normalize(pos) * radius * 3.0;
+    if (length(pos) > outerRadius) {
+      life = 2000.0;     
+      pos = normalize(pos) * outerRadius;
     }
     
     if (life <= 0.0) {
       pos = snoiseVec3(vec3(uv.xxy));
-      life = 400.0;
+      life = 100.0;
     }
 
     gl_FragColor = vec4(pos, life);

@@ -9,7 +9,7 @@ export default `
   void main() {    
     float depth = gl_FragCoord.z / gl_FragCoord.w;
     float near = 0.0;
-    float far = 2500.0;
+    float far = 20.0;
     float depthcolor = 1.0 - smoothstep(near, far, depth);
 
     vec3 light1 = vec3(1.0, 1.0, 1.0);
