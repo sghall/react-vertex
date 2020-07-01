@@ -97,7 +97,7 @@ Inside of a `<Canvas />` component you are no longer building an HTML document. 
 
 At its most simple, a scene would look like:
 
-```html
+```jsx
 <camera>
   <material>
     <geometry />
@@ -107,7 +107,7 @@ At its most simple, a scene would look like:
 
 Or something like:
 
-```html
+```jsx
 <camera>
   <group>
     <material>
@@ -132,19 +132,19 @@ Or something like:
 
 Of course, you can create your own custom components to build up that document however you like:
 
-```html
+```jsx
 <camera>
   <group>
     <Asteroids />
     <Robots />
     {showSharks ? (
-    <group>
-      <Shark weapon="{laserBeam}" />
-      <Shark weapon="{laserBeam}" />
-    </group>
+      <group>
+        <Shark weapon={laserBeam} />
+        <Shark weapon={laserBeam} />
+      </group>
     ) : null}
   </group>
-  <SeaBass illTempered="{true}" />
+  <SeaBass illTempered={true} />
 </camera>
 ```
 
@@ -152,8 +152,8 @@ Of course, you can create your own custom components to build up that document h
 
 The camera takes just two props that define the `view` (matrix) and the `projection` (matrix):
 
-```html
-<camera view="{view}" projection="{projection}">
+```jsx
+<camera view={view} projection={projection}>
   <material>
     <geometry />
     <geometry />
