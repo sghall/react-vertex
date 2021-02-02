@@ -6,7 +6,7 @@
   "main": "index.js",
   "engines": {
     "node": ">=10",
-    "pnpm": ">=3"
+    "pnpm": ">=5"
   },
   "scripts": {
     "check": "manypkg check",
