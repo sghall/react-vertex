@@ -22,6 +22,10 @@
     "gl-matrix": "^3.3.0",
     "lodash.throttle": "^4.1.1"
   },
+  "devDependencies": {
+    "@react-vertex/core": "*",
+    "react": "^16.14.0"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -39,9 +43,5 @@
   "bugs": {
     "url": "https://github.com/sghall/react-vertex/issues"
   },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc",
-  "devDependencies": {
-    "@react-vertex/core": "*",
-    "react": "^16.14.0"
-  }
+  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
 }
