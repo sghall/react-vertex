@@ -9,12 +9,12 @@
     "pnpm": ">=5"
   },
   "scripts": {
-    "check": "manypkg check",
-    "fix": "manypkg fix",
-    "dev": "rimraf node_modules/.cache/babel-loader && cross-env BABEL_ENV=docs next dev",
-    "prd": "npm run build && cd out && serve",
-    "build": "cross-env BABEL_ENV=docs next build && next export",
-    "release": "lerna run build && lerna publish --contents dist",
+    "deps:check": "manypkg check",
+    "deps:fix": "manypkg fix",
+    "docs:dev": "rimraf node_modules/.cache/babel-loader && cross-env BABEL_ENV=docs next dev",
+    "docs:prd": "npm run build && cd out && serve",
+    "docs:build": "cross-env BABEL_ENV=docs next build && next export",
+    "pkgs:release": "lerna run build && lerna publish --contents dist",
     "pretty": "prettier '**/*.js' --tab-width 2 --write --no-semi --single-quote --trailing-comma=all --print-width 80"
   },
   "dependencies": {
