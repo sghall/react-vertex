@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "gl-matrix": "^3.0.0"
+    "gl-matrix": "^3.3.0"
   },
   "publishConfig": {
     "access": "public"
@@ -39,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/sghall/react-vertex/issues"
   },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc",
+  "devDependencies": {
+    "react": "^16.14.0"
+  }
 }

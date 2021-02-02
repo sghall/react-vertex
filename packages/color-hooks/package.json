@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "hex-rgb": "^4.0.0",
+    "hex-rgb": "^4.2.0",
     "rgb-hex": "^2.1.0"
   },
   "publishConfig": {
@@ -40,5 +40,8 @@
   "bugs": {
     "url": "https://github.com/sghall/react-vertex/issues"
   },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc",
+  "devDependencies": {
+    "react": "^16.14.0"
+  }
 }

@@ -22,9 +22,9 @@
     "@babel/runtime": "^7.4.3",
     "@react-vertex/color-hooks": "^1.8.0",
     "prop-types": "^15.7.2",
-    "react-color": "^2.17.3",
-    "react-compound-slider": "^2.0.0",
-    "react-select": "^2.4.3"
+    "react-color": "^2.19.3",
+    "react-compound-slider": "^2.5.0",
+    "react-select": "^2.4.4"
   },
   "publishConfig": {
     "access": "public"
@@ -43,5 +43,10 @@
   "bugs": {
     "url": "https://github.com/sghall/react-vertex/issues"
   },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc",
+  "devDependencies": {
+    "@react-vertex/core": "*",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  }
 }

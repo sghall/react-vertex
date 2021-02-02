@@ -21,12 +21,14 @@
     "@babel/runtime": "^7.4.3"
   },
   "devDependencies": {
+    "@react-vertex/core": "*",
     "glsl-diffuse-oren-nayar": "^1.0.2",
     "glsl-gamma": "^2.0.0",
     "glsl-inverse": "^1.0.0",
     "glsl-perturb-normal": "^1.0.3",
     "glsl-specular-phong": "^1.0.0",
-    "glsl-transpose": "^1.0.0"
+    "glsl-transpose": "^1.0.0",
+    "react": "^16.14.0"
   },
   "publishConfig": {
     "access": "public"
