@@ -18,12 +18,15 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "gl-matrix": "^3.0.0",
+    "gl-matrix": "^3.3.0",
     "lodash.throttle": "^4.1.1",
     "prop-types": "^15.7.2",
     "react-reconciler": "0.20.4",
     "scheduler": "0.13.2",
     "warning": "^4.0.3"
+  },
+  "devDependencies": {
+    "react": "^16.14.0"
   },
   "publishConfig": {
     "access": "public"

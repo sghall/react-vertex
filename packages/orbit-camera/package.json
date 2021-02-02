@@ -19,8 +19,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "gl-matrix": "^3.0.0",
+    "gl-matrix": "^3.3.0",
     "lodash.throttle": "^4.1.1"
+  },
+  "devDependencies": {
+    "@react-vertex/core": "*",
+    "react": "^16.14.0"
   },
   "publishConfig": {
     "access": "public"
