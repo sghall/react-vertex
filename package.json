@@ -4,6 +4,10 @@
   "version": "1.0.0",
   "description": "Monorepo for React Vertex",
   "main": "index.js",
+  "engines": {
+    "node": ">=10",
+    "pnpm": ">=3"
+  },
   "scripts": {
     "dev": "rimraf node_modules/.cache/babel-loader && cross-env BABEL_ENV=docs next dev",
     "prd": "npm run build && cd out && serve",
@@ -68,7 +72,6 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "glslify": "^7.0.0",
     "glslify-loader": "^2.0.0",
-    "lerna": "^3.22.1",
     "next": "^8.1.0",
     "next-images": "^1.4.0",
     "prettier": "^1.19.1",
