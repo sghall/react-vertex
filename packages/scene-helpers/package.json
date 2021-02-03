@@ -24,7 +24,7 @@
     "prop-types": "^15.7.2",
     "react-color": "^2.19.3",
     "react-compound-slider": "^2.5.0",
-    "react-select": "^2.4.4"
+    "react-select": "^4.0.2"
   },
   "devDependencies": {
     "@react-vertex/core": "*",
