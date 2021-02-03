@@ -12,9 +12,8 @@ importers:
       '@babel/preset-react': 7.12.10_@babel+core@7.12.10
       '@babel/register': 7.12.10_@babel+core@7.12.10
       '@manypkg/cli': 0.17.0
-      '@material-ui/core': 3.9.4_react-dom@16.14.0+react@16.14.0
-      '@material-ui/icons': 3.0.2_e0656ee22e5ecc8ba15dd17703ee2dbc
-      '@material-ui/styles': 3.0.0-alpha.10_react-dom@16.14.0+react@16.14.0
+      '@material-ui/core': 4.11.3_react-dom@16.14.0+react@16.14.0
+      '@material-ui/icons': 4.11.2_1043e52c07cf51f037ca56ce3cba9c7d
       babel-plugin-glsl: 1.0.0
       babel-plugin-module-resolver: 3.2.0
       classnames: 2.2.6
@@ -74,9 +73,8 @@ importers:
       '@babel/preset-react': ^7.12.10
       '@babel/register': ^7.12.10
       '@manypkg/cli': ^0.17.0
-      '@material-ui/core': ^3.9.4
-      '@material-ui/icons': ^3.0.2
-      '@material-ui/styles': ^3.0.0-alpha.10
+      '@material-ui/core': ^4.11.3
+      '@material-ui/icons': ^4.11.2
       babel-plugin-glsl: ^1.0.0
       babel-plugin-module-resolver: ^3.2.0
       classnames: ^2.2.6
@@ -1324,6 +1322,12 @@ packages:
       '@babel/core': ^7.0.0-0
     resolution:
       integrity: sha512-EvX/BvMMJRAA3jZgILWgbsrHwBQvllC5T8B29McyME8DvkdOxk4ujESfrMvME8IHSDvWXrmMXxPvA/lx2gqPLQ==
+  /@babel/runtime/7.12.13:
+    dependencies:
+      regenerator-runtime: 0.13.7
+    dev: false
+    resolution:
+      integrity: sha512-8+3UMPBrjFa/6TtKi/7sehPKqfAm4g6K+YQjyyFOLUTxzOngcRZTlAVY8sc2CORJYqdHQY8gRPHmn+qo15rCBw==
   /@babel/runtime/7.12.5:
     dependencies:
       regenerator-runtime: 0.13.7
@@ -1394,10 +1398,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ojhgxzUHZ7am3D2jHkMzPpsBAiB005GF5YU4ea+8DNPybMk01JJUM9V9YRlF/GE95tcOm8DxQvWA2jq19bGalQ==
-  /@emotion/hash/0.7.4:
+  /@emotion/hash/0.8.0:
     dev: false
     resolution:
-      integrity: sha512-fxfMSBMX3tlIbKUdtGKxqB1fyrH6gVrX39Gsv3y8lRYKUqlgDt3UMqQyGnR1bQMa2B8aGnhLZokZgg8vT0Le+A==
+      integrity: sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
   /@emotion/memoize/0.6.6:
     dev: false
     resolution:
@@ -1489,68 +1493,61 @@ packages:
     dev: false
     resolution:
       integrity: sha512-J6VClfQSVgR6958eIDTGjfdCrELy1eT+SHeoSMomnvRQVktZMnEA5edIr5ovRFNw5y+Bk/jyoevPzGYod96mhw==
-  /@material-ui/core/3.9.4_react-dom@16.14.0+react@16.14.0:
+  /@material-ui/core/4.11.3_react-dom@16.14.0+react@16.14.0:
     dependencies:
-      '@babel/runtime': 7.12.5
-      '@material-ui/system': 3.0.0-alpha.2_react-dom@16.14.0+react@16.14.0
-      '@material-ui/utils': 3.0.0-alpha.3_react-dom@16.14.0+react@16.14.0
-      '@types/jss': 9.5.8
-      '@types/react-transition-group': 2.9.2
-      brcast: 3.0.2
-      classnames: 2.2.6
-      csstype: 2.6.14
-      debounce: 1.2.0
-      deepmerge: 3.3.0
-      dom-helpers: 3.4.0
+      '@babel/runtime': 7.12.13
+      '@material-ui/styles': 4.11.3_react-dom@16.14.0+react@16.14.0
+      '@material-ui/system': 4.11.3_react-dom@16.14.0+react@16.14.0
+      '@material-ui/types': 5.1.0
+      '@material-ui/utils': 4.11.2_react-dom@16.14.0+react@16.14.0
+      '@types/react-transition-group': 4.4.0
+      clsx: 1.1.1
       hoist-non-react-statics: 3.3.2
-      is-plain-object: 2.0.4
-      jss: 9.8.7
-      jss-camel-case: 6.1.0_jss@9.8.7
-      jss-default-unit: 8.0.2_jss@9.8.7
-      jss-global: 3.0.0_jss@9.8.7
-      jss-nested: 6.0.1_jss@9.8.7
-      jss-props-sort: 6.0.0_jss@9.8.7
-      jss-vendor-prefixer: 7.0.0_jss@9.8.7
-      normalize-scroll-left: 0.1.2
-      popper.js: 1.16.1
+      popper.js: 1.16.1-lts
       prop-types: 15.7.2
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-event-listener: 0.6.6_react@16.14.0
-      react-transition-group: 2.9.0_react-dom@16.14.0+react@16.14.0
-      recompose: 0.30.0_react@16.14.0
-      warning: 4.0.3
+      react-is: 17.0.1
+      react-transition-group: 4.4.1_react-dom@16.14.0+react@16.14.0
     dev: false
     engines:
-      node: '>=6.0.0'
+      node: '>=8.0.0'
     peerDependencies:
-      react: ^16.3.0
-      react-dom: ^16.3.0
+      '@types/react': ^16.8.6 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+      react-dom: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
     resolution:
-      integrity: sha512-r8QFLSexcYZbnqy/Hn4v8xzmAJV41yaodUVjmbGLi1iGDLG3+W941hEtEiBmxTRRqv2BdK3r4ijILcqKmDv/Sw==
-  /@material-ui/icons/3.0.2_e0656ee22e5ecc8ba15dd17703ee2dbc:
+      integrity: sha512-Adt40rGW6Uds+cAyk3pVgcErpzU/qxc7KBR94jFHBYretU4AtWZltYcNsbeMn9tXL86jjVL1kuGcIHsgLgFGRw==
+  /@material-ui/icons/4.11.2_1043e52c07cf51f037ca56ce3cba9c7d:
     dependencies:
-      '@babel/runtime': 7.12.5
-      '@material-ui/core': 3.9.4_react-dom@16.14.0+react@16.14.0
+      '@babel/runtime': 7.12.13
+      '@material-ui/core': 4.11.3_react-dom@16.14.0+react@16.14.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      recompose: 0.30.0_react@16.14.0
     dev: false
     engines:
-      node: '>=6.0.0'
+      node: '>=8.0.0'
     peerDependencies:
-      '@material-ui/core': ^3.0.0
-      react: ^16.3.0
-      react-dom: ^16.3.0
+      '@material-ui/core': ^4.0.0
+      '@types/react': ^16.8.6 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+      react-dom: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
     resolution:
-      integrity: sha512-QY/3gJnObZQ3O/e6WjH+0ah2M3MOgLOzCy8HTUoUx9B6dDrS18vP7Ycw3qrDEKlB6q1KNxy6CZHm5FCauWGy2g==
-  /@material-ui/styles/3.0.0-alpha.10_react-dom@16.14.0+react@16.14.0:
+      integrity: sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
+  /@material-ui/styles/4.11.3_react-dom@16.14.0+react@16.14.0:
     dependencies:
-      '@babel/runtime': 7.12.5
-      '@emotion/hash': 0.7.4
-      '@material-ui/utils': 3.0.0-alpha.3_react-dom@16.14.0+react@16.14.0
-      classnames: 2.2.6
-      deepmerge: 3.3.0
+      '@babel/runtime': 7.12.13
+      '@emotion/hash': 0.8.0
+      '@material-ui/types': 5.1.0
+      '@material-ui/utils': 4.11.2_react-dom@16.14.0+react@16.14.0
+      clsx: 1.1.1
+      csstype: 2.6.14
       hoist-non-react-statics: 3.3.2
       jss: 10.5.1
       jss-plugin-camel-case: 10.5.1
@@ -1563,46 +1560,62 @@ packages:
       prop-types: 15.7.2
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      warning: 4.0.3
     dev: false
     engines:
-      node: '>=6.0.0'
+      node: '>=8.0.0'
     peerDependencies:
-      react: ^16.7.0-alpha.2
-      react-dom: ^16.7.0-alpha.2
+      '@types/react': ^16.8.6 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+      react-dom: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
     resolution:
-      integrity: sha512-qJ5eiupBPRCNlMCDZ2G5h8auBtBtm8uT/oCUAJ/FqhO5oC7POLmmvDN1Cq1cgAmqQnaL6uN5mAM1Gc90GpKr9A==
-  /@material-ui/system/3.0.0-alpha.2_react-dom@16.14.0+react@16.14.0:
+      integrity: sha512-HzVzCG+PpgUGMUYEJ2rTEmQYeonGh41BYfILNFb/1ueqma+p1meSdu4RX6NjxYBMhf7k+jgfHFTTz+L1SXL/Zg==
+  /@material-ui/system/4.11.3_react-dom@16.14.0+react@16.14.0:
     dependencies:
-      '@babel/runtime': 7.12.5
-      deepmerge: 3.3.0
+      '@babel/runtime': 7.12.13
+      '@material-ui/utils': 4.11.2_react-dom@16.14.0+react@16.14.0
+      csstype: 2.6.14
       prop-types: 15.7.2
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      warning: 4.0.3
     dev: false
     engines:
-      node: '>=6.0.0'
+      node: '>=8.0.0'
     peerDependencies:
-      react: ^16.3.0
-      react-dom: ^16.3.0
+      '@types/react': ^16.8.6 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0
+      react-dom: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
     resolution:
-      integrity: sha512-odmxQ0peKpP7RQBQ8koly06YhsPzcoVib1vByVPBH4QhwqBXuYoqlCjt02846fYspAqkrWzjxnWUD311EBbxOA==
-  /@material-ui/utils/3.0.0-alpha.3_react-dom@16.14.0+react@16.14.0:
+      integrity: sha512-SY7otguNGol41Mu2Sg6KbBP1ZRFIbFLHGK81y4KYbsV2yIcaEPOmsCK6zwWlp+2yTV3J/VwT6oSBARtGIVdXPw==
+  /@material-ui/types/5.1.0:
+    dev: false
+    peerDependencies:
+      '@types/react': '*'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    resolution:
+      integrity: sha512-7cqRjrY50b8QzRSYyhSpx4WRw2YuO0KKIGQEVk5J8uoz2BanawykgZGoWEqKm7pVIbzFDN0SpPcVV4IhOFkl8A==
+  /@material-ui/utils/4.11.2_react-dom@16.14.0+react@16.14.0:
     dependencies:
-      '@babel/runtime': 7.12.5
+      '@babel/runtime': 7.12.13
       prop-types: 15.7.2
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
-      react-is: 16.13.1
+      react-is: 17.0.1
     dev: false
     engines:
-      node: '>=6.0.0'
+      node: '>=8.0.0'
     peerDependencies:
-      react: ^16.3.0
-      react-dom: ^16.3.0
+      react: ^16.8.0 || ^17.0.0
+      react-dom: ^16.8.0 || ^17.0.0
     resolution:
-      integrity: sha512-rwMdMZptX0DivkqBuC+Jdq7BYTXwqKai5G5ejPpuEDKpWzi1Oxp+LygGw329FrKpuKeiqpcymlqJTjmy+quWng==
+      integrity: sha512-Uul8w38u+PICe2Fg2pDKCaIG7kOyhowZ9vjiC1FsVwPABTW8vPPKfF6OvxRq3IiBaI1faOJmgdvMG7rMJARBhA==
   /@mrmlnc/readdir-enhanced/2.2.1:
     dependencies:
       call-me-maybe: 1.0.1
@@ -1739,13 +1752,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
-  /@types/jss/9.5.8:
-    dependencies:
-      csstype: 2.6.14
-      indefinite-observable: 1.0.2
-    dev: false
-    resolution:
-      integrity: sha512-bBbHvjhm42UKki+wZpR89j73ykSXg99/bhuKuYYePtpma3ZAnmeGnl0WxXiZhPGsIfzKwCUkpPC0jlrVMBfRxA==
   /@types/minimatch/3.0.3:
     dev: false
     resolution:
@@ -1774,19 +1780,19 @@ packages:
     dev: false
     resolution:
       integrity: sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
-  /@types/react-transition-group/2.9.2:
+  /@types/react-transition-group/4.4.0:
     dependencies:
-      '@types/react': 17.0.0
+      '@types/react': 17.0.1
     dev: false
     resolution:
-      integrity: sha512-5Fv2DQNO+GpdPZcxp2x/OQG/H19A01WlmpjVD9cKvVFmoVLOZ9LvBgSWG6pSXIU4og5fgbvGPaCV5+VGkWAEHA==
-  /@types/react/17.0.0:
+      integrity: sha512-/QfLHGpu+2fQOqQaXh8MG9q03bFENooTb/it4jr5kKaZlDQfWvjqWZg48AwzPVMBHlRuTRAY7hRHCEOXz5kV6w==
+  /@types/react/17.0.1:
     dependencies:
       '@types/prop-types': 15.7.3
       csstype: 3.0.6
     dev: false
     resolution:
-      integrity: sha512-aj/L7RIMsRlWML3YB6KZiXB3fV2t41+5RBGYF8z+tAKU43Px8C3cYUZsDvf1/+Bm4FK21QWBrDutu8ZJ/70qOw==
+      integrity: sha512-w8t9f53B2ei4jeOqf/gxtc2Sswnc3LBK5s0DyJcg5xd10tMHXts2N31cKjWfH9IC/JvEPa/YF1U4YeP1t4R6HQ==
   /@types/semver/6.2.2:
     dev: false
     resolution:
@@ -2073,10 +2079,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=
-  /asap/2.0.6:
-    dev: false
-    resolution:
-      integrity: sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
   /asn1.js/5.4.1:
     dependencies:
       bn.js: 4.11.9
@@ -2544,10 +2546,6 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-N9oWFcegS0sFr9oh1oz2d7Npos6vNoWW9HvtCg5N1KRFpUhaAhvTv5Y58g880fZaEYSNm3qDz8SU1UrGvp+n7A==
-  /change-emitter/0.1.6:
-    dev: false
-    resolution:
-      integrity: sha1-6LL+PX8at9aaMhma/5HqaTFAlRU=
   /character-entities-legacy/1.1.4:
     dev: false
     resolution:
@@ -2833,11 +2831,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1sCb0wBXnBIL16pfFG1Gkvei6UzvKyTNYpiC41yrdjEv0UoJoq9E/abTMzyYJ6JpTkAj15dLjbqifIzEBDVvog==
-  /core-js/1.2.7:
-    deprecated: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
-    dev: false
-    resolution:
-      integrity: sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
   /core-js/3.8.3:
     dev: false
     requiresBuild: true
@@ -3040,10 +3033,6 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==
-  /debounce/1.2.0:
-    dev: false
-    resolution:
-      integrity: sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
   /debug/2.6.9:
     dependencies:
       ms: 2.0.0
@@ -3120,12 +3109,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
-  /deepmerge/3.3.0:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA==
   /defer-to-connect/1.1.3:
     dev: false
     resolution:
@@ -3241,6 +3224,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==
+  /dom-helpers/5.2.0:
+    dependencies:
+      '@babel/runtime': 7.12.13
+      csstype: 3.0.6
+    dev: false
+    resolution:
+      integrity: sha512-Ru5o9+V8CpunKnz5LGgWXkmrH/20cGKwcHwS4m73zIvs54CN9epEmT/HLqFJW3kXpakAFkEdzgy1hzlJe3E4OQ==
   /dom-serializer/1.1.0:
     dependencies:
       domelementtype: 2.1.0
@@ -3328,12 +3318,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-hcx7jppaI8VoXxIWEhxpDW7I+B4kq9RNzQLmsrF6LY8BGKqe2N+gFAQr0EfuFucFlPs2A9HM4+xNj4NeqEWIOQ==
-  /encoding/0.1.13:
-    dependencies:
-      iconv-lite: 0.6.2
-    dev: false
-    resolution:
-      integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==
   /end-of-stream/1.4.4:
     dependencies:
       once: 1.4.0
@@ -3775,18 +3759,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-AWuv6Ery3pM+dY7LYS8YIaCiQvUaos9OB1RyNgaOWnaX+Tik7Onvcsf8x8c+YtDeT0maYLniBip2hox5KtEXXA==
-  /fbjs/0.8.17:
-    dependencies:
-      core-js: 1.2.7
-      isomorphic-fetch: 2.2.1
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      promise: 7.3.1
-      setimmediate: 1.0.5
-      ua-parser-js: 0.7.23
-    dev: false
-    resolution:
-      integrity: sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
   /figures/2.0.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -4586,14 +4558,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
-  /iconv-lite/0.6.2:
-    dependencies:
-      safer-buffer: 2.1.2
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ==
   /ieee754/1.2.1:
     dev: false
     resolution:
@@ -4625,12 +4589,6 @@ packages:
       node: '>=0.8.19'
     resolution:
       integrity: sha1-khi5srkoojixPcT7a21XbyMUU+o=
-  /indefinite-observable/1.0.2:
-    dependencies:
-      symbol-observable: 1.2.0
-    dev: false
-    resolution:
-      integrity: sha512-Mps0898zEduHyPhb7UCgNmfzlqNZknVmaFz5qzr0mm04YQ5FGLhAyK/dJ+NaRxGyR6juQXIxh5Ev0xx+qq0nYA==
   /indefinite-observable/2.0.1:
     dependencies:
       symbol-observable: 1.2.0
@@ -5040,13 +4998,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
-  /isomorphic-fetch/2.2.1:
-    dependencies:
-      node-fetch: 1.7.3
-      whatwg-fetch: 3.5.0
-    dev: false
-    resolution:
-      integrity: sha1-YRrhrPFPXoH3KVB0coGf6XM1WKk=
   /jest-worker/24.9.0:
     dependencies:
       merge-stream: 2.0.0
@@ -5916,13 +5867,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-5Evy2epuL+6TM0lCQGpFIj6KwiEsGh1SrHUhTbNX+sLbBtjidPZFAnVK9y5yU1+h//RitLbRHTIMyxQPtxMdHw==
-  /node-fetch/1.7.3:
-    dependencies:
-      encoding: 0.1.13
-      is-stream: 1.1.0
-    dev: false
-    resolution:
-      integrity: sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==
   /node-fetch/2.6.1:
     dev: false
     engines:
@@ -6015,10 +5959,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
-  /normalize-scroll-left/0.1.2:
-    dev: false
-    resolution:
-      integrity: sha512-F9YMRls0zCF6BFIE2YnXDRpHPpfd91nOIaNdDgrx5YMoPLo8Wqj+6jNXHQsYBavJeXP4ww8HCt0xQAKc5qk2Fg==
   /normalize-url/4.5.0:
     dev: false
     engines:
@@ -6486,11 +6426,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==
-  /popper.js/1.16.1:
-    deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
+  /popper.js/1.16.1-lts:
     dev: false
     resolution:
-      integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
+      integrity: sha512-Kjw8nKRl1m+VrSFCoVGPph93W/qrSO7ZkqPpTf7F4bk/sqcfWK019dWBUpE/fBOsOQY1dks/Bmcbfn1heM/IsA==
   /posix-character-classes/0.1.1:
     dev: false
     engines:
@@ -6595,12 +6534,6 @@ packages:
       node: '>=0.4.0'
     resolution:
       integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
-  /promise/7.3.1:
-    dependencies:
-      asap: 2.0.6
-    dev: false
-    resolution:
-      integrity: sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==
   /prop-types/15.7.2:
     dependencies:
       loose-envify: 1.4.0
@@ -6772,17 +6705,6 @@ packages:
       react: ^16.14.0
     resolution:
       integrity: sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
-  /react-event-listener/0.6.6_react@16.14.0:
-    dependencies:
-      '@babel/runtime': 7.12.5
-      prop-types: 15.7.2
-      react: 16.14.0
-      warning: 4.0.3
-    dev: false
-    peerDependencies:
-      react: ^16.3.0
-    resolution:
-      integrity: sha512-+hCNqfy7o9wvO6UgjqFmBzARJS7qrNoda0VqzvOuioEpoEXKutiKuv92dSz6kP7rYLmyHPyYNLesi5t/aH1gfw==
   /react-input-autosize/2.2.2_react@16.14.0:
     dependencies:
       prop-types: 15.7.2
@@ -6795,6 +6717,10 @@ packages:
   /react-is/16.13.1:
     resolution:
       integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+  /react-is/17.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
   /react-jss/8.6.1_react@16.14.0:
     dependencies:
       hoist-non-react-statics: 2.5.5
@@ -6881,6 +6807,20 @@ packages:
       react-dom: '>=15.0.0'
     resolution:
       integrity: sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg==
+  /react-transition-group/4.4.1_react-dom@16.14.0+react@16.14.0:
+    dependencies:
+      '@babel/runtime': 7.12.13
+      dom-helpers: 5.2.0
+      loose-envify: 1.4.0
+      prop-types: 15.7.2
+      react: 16.14.0
+      react-dom: 16.14.0_react@16.14.0
+    dev: false
+    peerDependencies:
+      react: '>=16.6.0'
+      react-dom: '>=16.6.0'
+    resolution:
+      integrity: sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw==
   /react/16.14.0:
     dependencies:
       loose-envify: 1.4.0
@@ -6978,20 +6918,6 @@ packages:
       node: '>=8.10.0'
     resolution:
       integrity: sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==
-  /recompose/0.30.0_react@16.14.0:
-    dependencies:
-      '@babel/runtime': 7.12.5
-      change-emitter: 0.1.6
-      fbjs: 0.8.17
-      hoist-non-react-statics: 2.5.5
-      react: 16.14.0
-      react-lifecycles-compat: 3.0.4
-      symbol-observable: 1.2.0
-    dev: false
-    peerDependencies:
-      react: ^0.14.0 || ^15.0.0 || ^16.0.0
-    resolution:
-      integrity: sha512-ZTrzzUDa9AqUIhRk4KmVFihH0rapdCSMFXjhHbNrjAWxBuUD/guYlyysMnuHjlZC/KRiOKRtB4jf96yYSkKE8w==
   /redent/3.0.0:
     dependencies:
       indent-string: 4.0.0
@@ -8209,10 +8135,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-  /ua-parser-js/0.7.23:
-    dev: false
-    resolution:
-      integrity: sha512-m4hvMLxgGHXG3O3fQVAyyAQpZzDOvwnhOTjYz5Xmr7r/+LpkNy3vJXdVRWgd1TkAb7NGROZuSy96CrlNVjA7KA==
   /unc-path-regex/0.1.2:
     dev: false
     engines:
@@ -8499,10 +8421,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==
-  /whatwg-fetch/3.5.0:
-    dev: false
-    resolution:
-      integrity: sha512-jXkLtsR42xhXg7akoDKvKWE40eJeI+2KZqcp2h3NsOrRnDvtWX36KcKl30dy+hxECivdk2BVUHVNrPtoMBUx6A==
   /whatwg-url/7.1.0:
     dependencies:
       lodash.sortby: 4.7.0

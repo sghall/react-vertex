@@ -1,34 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import flush from "styled-jsx/server";
+import { ServerStyleSheets } from "@material-ui/core/styles";
+import theme from "../docs/theme";
 
-class ReactVertexDoc extends Document {
+export default class MyDocument extends Document {
   render() {
-    const { pageContext } = this.props;
-
     return (
-      <Html lang="en" dir="ltr">
+      <Html lang="en">
         <Head>
-          <meta
-            name="theme-color"
-            content={pageContext.theme.palette.primary.main}
-          />
+          {/* PWA primary color */}
+          <meta name="theme-color" content={theme.palette.primary.main} />
           <link
             rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
-          <link
-            rel="icon"
-            type="image/x-icon"
-            href="/static/favicon/favicon.ico"
-          />
-          <link rel="stylesheet" href="/static/css/markdown.css" />
-          <style jsx="true" global="true">{`
-            body {
-              overscroll-behavior: none;
-            }
-          `}</style>
         </Head>
         <body>
           <Main />
@@ -39,37 +24,48 @@ class ReactVertexDoc extends Document {
   }
 }
 
-ReactVertexDoc.getInitialProps = (ctx) => {
-  let pageContext;
+// `getInitialProps` belongs to `_document` (instead of `_app`),
+// it's compatible with server-side generation (SSG).
+MyDocument.getInitialProps = async (ctx) => {
+  // Resolution order
+  //
+  // On the server:
+  // 1. app.getInitialProps
+  // 2. page.getInitialProps
+  // 3. document.getInitialProps
+  // 4. app.render
+  // 5. page.render
+  // 6. document.render
+  //
+  // On the server with error:
+  // 1. document.getInitialProps
+  // 2. app.render
+  // 3. page.render
+  // 4. document.render
+  //
+  // On the client
+  // 1. app.getInitialProps
+  // 2. page.getInitialProps
+  // 3. app.render
+  // 4. page.render
 
-  const page = ctx.renderPage((Component) => {
-    const PageComponent = (props) => {
-      pageContext = props.pageContext;
-      return <Component {...props} />;
-    };
+  // Render app and page and get the context of the page with collected side effects.
+  const sheets = new ServerStyleSheets();
+  const originalRenderPage = ctx.renderPage;
 
-    PageComponent.propTypes = {
-      pageContext: PropTypes.object.isRequired,
-    };
+  ctx.renderPage = () =>
+    originalRenderPage({
+      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+    });
 
-    return PageComponent;
-  });
+  const initialProps = await Document.getInitialProps(ctx);
 
   return {
-    ...page,
-    pageContext,
-    styles: (
-      <React.Fragment>
-        <style
-          id="jss-server-side"
-          dangerouslySetInnerHTML={{
-            __html: pageContext.sheetsRegistry.toString(),
-          }}
-        />
-        {flush() || null}
-      </React.Fragment>
-    ),
+    ...initialProps,
+    // Styles fragment is rendered after the app and page rendering finish.
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      sheets.getStyleElement(),
+    ],
   };
 };
-
-export default ReactVertexDoc;
