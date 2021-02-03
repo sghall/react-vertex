@@ -1,4 +1,5 @@
-npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install
+npm install -g pnpm
+pnpm install -r --store=node_modules/.pnpm-store
 cd packages/website
-npm run docs:build
+pnpm run docs:build
 
