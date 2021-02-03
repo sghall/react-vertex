@@ -11,7 +11,8 @@
   "scripts": {
     "deps:check": "manypkg check",
     "deps:fix": "manypkg fix",
-    "pkgs:release": "lerna run build && lerna publish --contents dist",
+    "pkgs:clean": "pnpm run -r clean",
+    "pkgs:build": "pnpm run -r build",
     "pretty": "prettier --write '**/*.js'"
   },
   "dependencies": {
