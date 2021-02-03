@@ -1,20 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Document, { Head, Main, NextScript } from 'next/document'
-import flush from 'styled-jsx/server'
+import React from "react";
+import PropTypes from "prop-types";
+import Document, { Html, Head, Main, NextScript } from "next/document";
+import flush from "styled-jsx/server";
 
 class ReactVertexDoc extends Document {
   render() {
-    const { pageContext } = this.props
+    const { pageContext } = this.props;
 
     return (
-      <html lang="en" dir="ltr">
+      <Html lang="en" dir="ltr">
         <Head>
-          <meta charSet="utf-8" />
-          <meta
-            name="viewport"
-            content="minimum-scale=1, user-scalable=no, initial-scale=1, width=device-width, shrink-to-fit=no"
-          />
           <meta
             name="theme-color"
             content={pageContext.theme.palette.primary.main}
@@ -39,26 +34,26 @@ class ReactVertexDoc extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
-    )
+      </Html>
+    );
   }
 }
 
-ReactVertexDoc.getInitialProps = ctx => {
-  let pageContext
+ReactVertexDoc.getInitialProps = (ctx) => {
+  let pageContext;
 
-  const page = ctx.renderPage(Component => {
-    const PageComponent = props => {
-      pageContext = props.pageContext
-      return <Component {...props} />
-    }
+  const page = ctx.renderPage((Component) => {
+    const PageComponent = (props) => {
+      pageContext = props.pageContext;
+      return <Component {...props} />;
+    };
 
     PageComponent.propTypes = {
       pageContext: PropTypes.object.isRequired,
-    }
+    };
 
-    return PageComponent
-  })
+    return PageComponent;
+  });
 
   return {
     ...page,
@@ -74,7 +69,7 @@ ReactVertexDoc.getInitialProps = ctx => {
         {flush() || null}
       </React.Fragment>
     ),
-  }
-}
+  };
+};
 
-export default ReactVertexDoc
+export default ReactVertexDoc;
