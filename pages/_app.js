@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Head from "next/head";
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
+
+import AppFrame from "docs/AppFrame";
 import theme from "../docs/theme";
 
 export default function MyApp(props) {
@@ -28,7 +30,9 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <AppFrame>
+          <Component {...pageProps} />
+        </AppFrame>
       </ThemeProvider>
     </React.Fragment>
   );
