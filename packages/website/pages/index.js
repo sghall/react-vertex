@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import Markdown from 'react-markdown'
-import docs from '../README.md'
+import docs from '../../../README.md'
 
 function IndexPage() {
   return (

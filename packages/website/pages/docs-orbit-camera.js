@@ -1,6 +1,6 @@
 import React from 'react'
-import MarkdownElement from 'docs/MarkdownElement'
-import docs from 'packages/orbit-camera/README.md'
+import MarkdownElement from '../components/MarkdownElement'
+import docs from '../../orbit-camera/README.md'
 
 function OrbitCamera() {
   return <MarkdownElement docs={docs} />

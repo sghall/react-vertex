@@ -1,6 +1,6 @@
 import React from 'react'
-import MarkdownElement from 'docs/MarkdownElement'
-import docs from 'packages/core/docs/attributes.md'
+import MarkdownElement from '../components/MarkdownElement'
+import docs from '../../core/docs/attributes.md'
 
 function AttributeHooks() {
   return <MarkdownElement docs={docs} />

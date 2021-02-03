@@ -1,6 +1,6 @@
 import React from 'react'
-import MarkdownElement from 'docs/MarkdownElement'
-import docs from 'packages/geometry-hooks/README.md'
+import MarkdownElement from '../components/MarkdownElement'
+import docs from '../../geometry-hooks/README.md'
 
 function GeometryHooks() {
   return <MarkdownElement docs={docs} />

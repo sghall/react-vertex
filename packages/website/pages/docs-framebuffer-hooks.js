@@ -1,6 +1,6 @@
 import React from 'react'
-import MarkdownElement from 'docs/MarkdownElement'
-import docs from 'packages/core/docs/framebuffers.md'
+import MarkdownElement from '../components/MarkdownElement'
+import docs from '../../core/docs/framebuffers.md'
 
 function FramebufferHooks() {
   return <MarkdownElement docs={docs} />

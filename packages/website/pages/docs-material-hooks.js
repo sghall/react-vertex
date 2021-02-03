@@ -1,6 +1,6 @@
 import React from 'react'
-import MarkdownElement from 'docs/MarkdownElement'
-import docs from 'packages/material-hooks/README.md'
+import MarkdownElement from '../components/MarkdownElement'
+import docs from '../../material-hooks/README.md'
 
 function MaterialHooks() {
   return <MarkdownElement docs={docs} />

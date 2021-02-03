@@ -1,5 +1,5 @@
 import React from 'react'
-import MarkdownElement from '../docs/MarkdownElement'
+import MarkdownElement from '../components/MarkdownElement'
 import docs from '../../core/README.md'
 
 function CoreHooks() {
