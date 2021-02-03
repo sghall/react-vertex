@@ -211,29 +211,29 @@ function Scene() {
 Right now, the material nodes just take a single `program` prop. The `program` is a WebGL program returned from a hook. The nearest `<camera>` ancestor will define the view and projection. The renderer will set `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms in the program shaders. You can use `@react-vertex/material-hooks` for some common programs or look at the source to compose your own custom program hooks. The Phong and Lambert programs in `@react-vertex/material-hooks` make use of lights in the scene.
 
 ```js
-import React from "react";
-import PropTypes from "prop-types";
-import { useHex } from "@react-vertex/color-hooks";
-import { useSphereElements } from "@react-vertex/geometry-hooks";
-import { useBasicSolid } from "@react-vertex/material-hooks";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { useHex } from '@react-vertex/color-hooks'
+import { useSphereElements } from '@react-vertex/geometry-hooks'
+import { useBasicSolid } from '@react-vertex/material-hooks'
 
 function Example({ position }) {
-  const sphere = useSphereElements(0.75, 10, 10);
-  const diffuse = useHex("#ffa500", true);
-  const program = useBasicSolid(diffuse);
+  const sphere = useSphereElements(0.75, 10, 10)
+  const diffuse = useHex('#ffa500', true)
+  const program = useBasicSolid(diffuse)
 
   return (
     <material program={program}>
       <geometry position={position} {...sphere} />
     </material>
-  );
+  )
 }
 
 Example.propTypes = {
   position: PropTypes.array.isRequired,
-};
+}
 
-export default Example;
+export default Example
 ```
 
 ### `<geometry>`
@@ -241,21 +241,21 @@ export default Example;
 The `<geometry>` element defines the attributes and several other parameters for drawing. You can also set the `position`, `rotation` and `scale`. The nearest `<material>` ancestor will define what program is applied to the geometries. Probably, the easiest way to get started is to use the hooks from `@react-vertex/geometry-hooks`.
 
 ```js
-import React from "react";
-import { useVector3 } from "@react-vertex/math-hooks";
-import { useBoxElements } from "@react-vertex/geometry-hooks";
+import React from 'react'
+import { useVector3 } from '@react-vertex/math-hooks'
+import { useBoxElements } from '@react-vertex/geometry-hooks'
 
-const PI = Math.PI;
+const PI = Math.PI
 
 function Boxes() {
-  const boxElements = useBoxElements(10, 10, 10);
+  const boxElements = useBoxElements(10, 10, 10)
 
-  const r1 = useVector3(PI / 4, PI, 0);
+  const r1 = useVector3(PI / 4, PI, 0)
 
-  const p1 = useVector3(10, 0, 0);
-  const p2 = useVector3(20, 0, 0);
-  const p3 = useVector3(30, 0, 0);
-  const p4 = useVector3(40, 0, 0);
+  const p1 = useVector3(10, 0, 0)
+  const p2 = useVector3(20, 0, 0)
+  const p3 = useVector3(30, 0, 0)
+  const p4 = useVector3(40, 0, 0)
 
   return (
     <group rotation={r1}>
@@ -264,54 +264,54 @@ function Boxes() {
       <geometry position={p3} {...boxElements} />
       <geometry position={p4} {...boxElements} />
     </group>
-  );
+  )
 }
 ```
 
 To get more control over the geometry buffers and attributes you can use some of the more low-level hooks from the `@react-vertex/core`:
 
 ```js
-import React, { Fragment, useMemo } from "react";
-import { useVector3 } from "@react-vertex/math-hooks";
-import { useBoxGeometry } from "@react-vertex/geometry-hooks";
+import React, { Fragment, useMemo } from 'react'
+import { useVector3 } from '@react-vertex/math-hooks'
+import { useBoxGeometry } from '@react-vertex/geometry-hooks'
 import {
   useWebGLContext,
   useStaticBuffer,
   useAttribute,
-} from "@react-vertex/core";
+} from '@react-vertex/core'
 
 function Boxes() {
-  const geometry = useBoxGeometry(10, 10, 10);
+  const geometry = useBoxGeometry(10, 10, 10)
 
   // this is what "useBoxElements" does internally...
-  const gl = useWebGLContext();
+  const gl = useWebGLContext()
 
-  const positionBuffer = useStaticBuffer(gl, geometry.vertices, false, "F32");
-  const position = useAttribute(gl, 3, positionBuffer);
+  const positionBuffer = useStaticBuffer(gl, geometry.vertices, false, 'F32')
+  const position = useAttribute(gl, 3, positionBuffer)
 
-  const normalBuffer = useStaticBuffer(gl, geometry.normals, false, "F32");
-  const normal = useAttribute(gl, 3, normalBuffer);
+  const normalBuffer = useStaticBuffer(gl, geometry.normals, false, 'F32')
+  const normal = useAttribute(gl, 3, normalBuffer)
 
-  const uvBuffer = useStaticBuffer(gl, geometry.uvs, false, "F32");
-  const uv = useAttribute(gl, 2, uvBuffer);
+  const uvBuffer = useStaticBuffer(gl, geometry.uvs, false, 'F32')
+  const uv = useAttribute(gl, 2, uvBuffer)
 
-  const indexBuffer = useStaticBuffer(gl, geometry.indices, true, "U16");
+  const indexBuffer = useStaticBuffer(gl, geometry.indices, true, 'U16')
 
   const boxElements = useMemo(
     () => ({
       index: indexBuffer,
       attributes: { position, normal, uv },
-      drawElements: { mode: "TRIANGLES", count: geometry.indices.length },
+      drawElements: { mode: 'TRIANGLES', count: geometry.indices.length },
     }),
-    [indexBuffer, geometry.indices.length, position, normal, uv]
-  );
+    [indexBuffer, geometry.indices.length, position, normal, uv],
+  )
 
-  const r1 = useVector3(PI / 4, PI, 0);
+  const r1 = useVector3(PI / 4, PI, 0)
 
-  const p1 = useVector3(10, 0, 0);
-  const p2 = useVector3(20, 0, 0);
-  const p3 = useVector3(30, 0, 0);
-  const p4 = useVector3(40, 0, 0);
+  const p1 = useVector3(10, 0, 0)
+  const p2 = useVector3(20, 0, 0)
+  const p3 = useVector3(30, 0, 0)
+  const p4 = useVector3(40, 0, 0)
 
   return (
     <group rotation={r1}>
@@ -320,7 +320,7 @@ function Boxes() {
       <geometry position={p3} {...boxElements} />
       <geometry position={p4} {...boxElements} />
     </group>
-  );
+  )
 }
 ```
 
@@ -387,7 +387,10 @@ Clone and Install
 ```
 git clone git@github.com:sghall/react-vertex.git
 cd react-vertex
-pnpm install && pnpm run docs:dev
+pnpm install -r
+pnpm pkgs:build
+cd packages/website
+pnpm docs:dev
 ```
 
 ## Adding a demo
