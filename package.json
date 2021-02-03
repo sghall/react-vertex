@@ -12,7 +12,7 @@
     "deps:check": "manypkg check",
     "deps:fix": "manypkg fix",
     "docs:dev": "rimraf node_modules/.cache/babel-loader && cross-env BABEL_ENV=docs next dev",
-    "docs:prd": "npm run build && cd out && serve",
+    "docs:prd": "npm run docs:build && cd out && serve",
     "docs:build": "cross-env BABEL_ENV=docs next build && next export",
     "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
     "pkgs:release": "lerna run build && lerna publish --contents dist",
