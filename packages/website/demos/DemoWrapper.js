@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 
-const basePath = 'https://github.com/sghall/react-vertex/tree/master'
+import { docsPath } from '../config'
 
 const DemoWrapper = ({ children, src }) => (
   <div style={{ padding: 16 }}>
     <Grid container justify="center" spacing={8}>
       <Grid item xs={12} md={8}>
-        <a href={`${basePath}/${src}`}>
+        <a href={`${docsPath}/${src}`}>
           <Button size="small">Demo Source</Button>
         </a>
         {children}

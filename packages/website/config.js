@@ -1,5 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 
+export const repoPath = 'https://github.com/sghall/react-vertex'
+export const docsPath = `${repoPath}/tree/master/packages/website`
+
 export const theme = createMuiTheme({
   palette: {
     type: 'light',
