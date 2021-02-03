@@ -1,3 +1,3 @@
-import SharkWeek from 'demos/SharkWeek'
+import SharkWeek from '../demos/SharkWeek'
 
 export default SharkWeek

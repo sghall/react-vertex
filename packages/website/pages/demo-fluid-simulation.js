@@ -1,3 +1,3 @@
-import FluidSimulation from 'demos/FluidSimulation'
+import FluidSimulation from '../demos/FluidSimulation'
 
 export default FluidSimulation

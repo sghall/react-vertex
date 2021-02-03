@@ -134,41 +134,9 @@ importers:
       hex-rgb: ^4.2.0
       react: ^16.14.0
       rgb-hex: ^2.1.0
-  packages/color-hooks/dist:
-    dependencies:
-      '@babel/runtime': 7.12.13
-      hex-rgb: 4.2.0
-      rgb-hex: 2.1.0
-    devDependencies:
-      react: 16.14.0
-    specifiers:
-      '@babel/runtime': ^7.4.3
-      hex-rgb: ^4.2.0
-      react: ^16.14.0
-      rgb-hex: ^2.1.0
   packages/core:
     dependencies:
       '@babel/runtime': 7.12.5
-      gl-matrix: 3.3.0
-      lodash.throttle: 4.1.1
-      prop-types: 15.7.2
-      react-reconciler: 0.20.4_react@16.14.0
-      scheduler: 0.13.2
-      warning: 4.0.3
-    devDependencies:
-      react: 16.14.0
-    specifiers:
-      '@babel/runtime': ^7.4.3
-      gl-matrix: ^3.3.0
-      lodash.throttle: ^4.1.1
-      prop-types: ^15.7.2
-      react: ^16.14.0
-      react-reconciler: 0.20.4
-      scheduler: 0.13.2
-      warning: ^4.0.3
-  packages/core/dist:
-    dependencies:
-      '@babel/runtime': 7.12.13
       gl-matrix: 3.3.0
       lodash.throttle: 4.1.1
       prop-types: 15.7.2
@@ -200,7 +168,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.12.5
     devDependencies:
-      '@react-vertex/core': link:../core/dist
+      '@react-vertex/core': link:../core
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
@@ -210,7 +178,7 @@ importers:
     dependencies:
       '@babel/runtime': 7.12.5
     devDependencies:
-      '@react-vertex/core': link:../core/dist
+      '@react-vertex/core': link:../core
       glsl-diffuse-oren-nayar: 1.0.2
       glsl-gamma: 2.0.0
       glsl-inverse: 1.0.0
@@ -244,7 +212,7 @@ importers:
       gl-matrix: 3.3.0
       lodash.throttle: 4.1.1
     devDependencies:
-      '@react-vertex/core': link:../core/dist
+      '@react-vertex/core': link:../core
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
@@ -255,13 +223,13 @@ importers:
   packages/scene-helpers:
     dependencies:
       '@babel/runtime': 7.12.5
-      '@react-vertex/color-hooks': link:../color-hooks/dist
+      '@react-vertex/color-hooks': link:../color-hooks
       prop-types: 15.7.2
       react-color: 2.19.3_react@16.14.0
       react-compound-slider: 2.5.0_react@16.14.0
       react-select: 4.0.2_react-dom@16.14.0+react@16.14.0
     devDependencies:
-      '@react-vertex/core': link:../core/dist
+      '@react-vertex/core': link:../core
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
     specifiers:
@@ -278,9 +246,14 @@ importers:
     dependencies:
       '@material-ui/core': 4.11.3_react-dom@16.14.0+react@16.14.0
       '@material-ui/icons': 4.11.2_1043e52c07cf51f037ca56ce3cba9c7d
-      '@react-vertex/color-hooks': link:../color-hooks/dist
-      '@react-vertex/core': link:../core/dist
+      '@react-vertex/color-hooks': link:../color-hooks
+      '@react-vertex/core': link:../core
       '@react-vertex/dom-hooks': link:../dom-hooks
+      '@react-vertex/geometry-hooks': link:../geometry-hooks
+      '@react-vertex/material-hooks': link:../material-hooks
+      '@react-vertex/math-hooks': link:../math-hooks
+      '@react-vertex/orbit-camera': link:../orbit-camera
+      '@react-vertex/scene-helpers': link:../scene-helpers
       classnames: 2.2.6
       clsx: 1.1.1
       d3-scale-chromatic: 2.0.0
@@ -309,6 +282,11 @@ importers:
       '@react-vertex/color-hooks': workspace:^1.8.0
       '@react-vertex/core': workspace:^2.9.0
       '@react-vertex/dom-hooks': workspace:^1.11.0
+      '@react-vertex/geometry-hooks': workspace:^2.3.0
+      '@react-vertex/material-hooks': workspace:^2.5.0
+      '@react-vertex/math-hooks': workspace:^1.9.0
+      '@react-vertex/orbit-camera': workspace:^2.15.0
+      '@react-vertex/scene-helpers': workspace:^1.11.0
       classnames: ^2.2.6
       clsx: ^1.1.1
       d3-scale-chromatic: ^2.0.0

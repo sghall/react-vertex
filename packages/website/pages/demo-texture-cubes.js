@@ -1,3 +1,3 @@
-import TextureCubes from 'demos/TextureCubes'
+import TextureCubes from '../demos/TextureCubes'
 
 export default TextureCubes

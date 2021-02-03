@@ -1,3 +1,3 @@
-import CurlNoiseParticles from 'demos/CurlNoiseParticles'
+import CurlNoiseParticles from '../demos/CurlNoiseParticles'
 
 export default CurlNoiseParticles

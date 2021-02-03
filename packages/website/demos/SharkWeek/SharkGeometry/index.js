@@ -6,7 +6,7 @@ import {
   useInstancedAttribute,
 } from '@react-vertex/core'
 import { offsets, colors, instanceCount } from './utils'
-import { positions, normals } from 'demos/models/shark/shark.json'
+import { positions, normals } from '../../models/shark/shark.json'
 
 const indices = []
 

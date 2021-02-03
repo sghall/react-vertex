@@ -5,7 +5,7 @@ import {
   useAttribute,
 } from '@react-vertex/core'
 import { useValueSlider } from '@react-vertex/scene-helpers'
-import { positions } from 'demos/models/tuna/tuna.json'
+import { positions } from '../models/tuna/tuna.json'
 
 const indices = []
 

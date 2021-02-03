@@ -12,10 +12,10 @@ import {
   BasicSolid,
   BasicTextured,
 } from './materials'
-import tilesBlue from 'static/textures/tiles_blue_diff.png'
-import tilesPink from 'static/textures/tiles_pink_diff.png'
-import hexagons from 'static/textures/hexagons.jpg'
-import fancyTile from 'static/textures/fancy_tile.jpg'
+import tilesBlue from '../../public/static/textures/tiles_blue_diff.png'
+import tilesPink from '../../public/static/textures/tiles_pink_diff.png'
+import hexagons from '../../public/static/textures/hexagons.jpg'
+import fancyTile from '../../public/static/textures/fancy_tile.jpg'
 import Light from './Light'
 import {
   AxesHelper,

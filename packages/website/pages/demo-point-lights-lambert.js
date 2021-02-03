@@ -1,3 +1,3 @@
-import PointLightsLambert from 'demos/PointLightsLambert'
+import PointLightsLambert from '../demos/PointLightsLambert'
 
 export default PointLightsLambert

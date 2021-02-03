@@ -1,3 +1,3 @@
-import AttenuatedLight from 'demos/AttenuatedLight'
+import AttenuatedLight from '../demos/AttenuatedLight'
 
 export default AttenuatedLight

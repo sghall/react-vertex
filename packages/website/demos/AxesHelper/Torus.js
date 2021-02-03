@@ -6,7 +6,7 @@ import {
 } from '@react-vertex/core'
 import { usePhongTextured } from '@react-vertex/material-hooks'
 import { useTorusElements } from '@react-vertex/geometry-hooks'
-import tilesDiffUrl from 'static/textures/tiles_pink_diff.png'
+import tilesDiffUrl from '../../public/static/textures/tiles_pink_diff.png'
 
 const uVScale = [6.0, 1.0]
 
