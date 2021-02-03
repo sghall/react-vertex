@@ -49,7 +49,7 @@ DemosList.propTypes = {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(),
     backgroundColor: theme.palette.background.paper,
   },
 })

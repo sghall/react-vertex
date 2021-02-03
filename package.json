@@ -16,7 +16,7 @@
     "docs:build": "cross-env BABEL_ENV=docs next build && next export",
     "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
     "pkgs:release": "lerna run build && lerna publish --contents dist",
-    "pretty": "prettier '**/*.js' --tab-width 2 --write --no-semi --single-quote --trailing-comma=all --print-width 80"
+    "pretty": "prettier --write '**/*.js'"
   },
   "dependencies": {
     "@babel/cli": "^7.12.10",
