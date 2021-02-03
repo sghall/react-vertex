@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useTexture2d } from '@react-vertex/core'
 import { usePhongAttenuated } from '@react-vertex/material-hooks'
 import { useTorusElements } from '@react-vertex/geometry-hooks'
-import tiles from 'static/textures/tiles_blue_diff.png'
+import tiles from '../../public/static/textures/tiles_blue_diff.png'
 
 function Torus({ lightPosition }) {
   const torus = useTorusElements(10, 3, 16, 100)

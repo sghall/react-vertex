@@ -7,8 +7,8 @@ import {
 } from '@react-vertex/math-hooks'
 import useCubeProgram from './useCubeProgram'
 import CubeGeometry from './CubeGeometry'
-import tex1Url from 'static/textures/react-vertex-white.png'
-import tex2Url from 'static/textures/grey-noise.png'
+import tex1Url from '../../public/static/textures/react-vertex-white.png'
+import tex2Url from '../../public/static/textures/grey-noise.png'
 
 function Scene() {
   const view = useInvertedMatrix(0, 0, 50)
