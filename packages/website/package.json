@@ -18,6 +18,9 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@react-vertex/color-hooks": "workspace:^1.8.0",
+    "@react-vertex/core": "workspace:^2.9.0",
+    "@react-vertex/dom-hooks": "workspace:^1.11.0",
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "d3-scale-chromatic": "^2.0.0",
@@ -49,7 +52,7 @@
     "url": "git+https://github.com/sghall/react-vertex.git"
   },
   "scripts": {
-    "docs:dev": "rimraf node_modules/.cache/babel-loader && cross-env BABEL_ENV=docs next dev",
+    "docs:dev": "next dev",
     "docs:prd": "npm run docs:build && cd out && serve",
     "docs:build": "cross-env BABEL_ENV=docs next build && next export"
   },
