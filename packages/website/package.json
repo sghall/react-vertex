@@ -1,0 +1,69 @@
+{
+  "name": "@react-vertex/website",
+  "version": "1.8.0",
+  "description": "React hooks for WebGL friendly colors",
+  "keywords": [
+    "react",
+    "colors",
+    "hex",
+    "rgb",
+    "webgl"
+  ],
+  "license": "MIT",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "jsnext:main": "esm/index.js",
+  "author": "Steven Hall <hall.steven.g@gmail.com>",
+  "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/color-hooks#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@react-vertex/color-hooks": "workspace:^1.8.0",
+    "@react-vertex/core": "workspace:^2.9.0",
+    "@react-vertex/dom-hooks": "workspace:^1.11.0",
+    "@react-vertex/geometry-hooks": "workspace:^2.3.0",
+    "@react-vertex/material-hooks": "workspace:^2.5.0",
+    "@react-vertex/math-hooks": "workspace:^1.9.0",
+    "@react-vertex/orbit-camera": "workspace:^2.15.0",
+    "@react-vertex/scene-helpers": "workspace:^1.11.0",
+    "classnames": "^2.2.6",
+    "clsx": "^1.1.1",
+    "d3-scale-chromatic": "^2.0.0",
+    "d3-timer": "^2.0.0",
+    "gl-matrix": "^3.3.0",
+    "glsl-curl-noise": "0.0.4",
+    "glsl-diffuse-oren-nayar": "^1.0.2",
+    "glsl-face-normal": "^1.0.2",
+    "glsl-gamma": "^2.0.0",
+    "glsl-inverse": "^1.0.0",
+    "glsl-noise": "0.0.0",
+    "glsl-perturb-normal": "^1.0.3",
+    "glsl-specular-phong": "^1.0.0",
+    "glsl-transpose": "^1.0.0",
+    "lodash.throttle": "^4.1.1",
+    "next": "^10.0.6",
+    "next-images": "^1.7.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.14.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^16.14.0",
+    "react-markdown": "^4.3.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/react-vertex.git"
+  },
+  "scripts": {
+    "docs:dev": "next dev",
+    "docs:prd": "npm run docs:build && cd out && serve",
+    "docs:build": "cross-env BABEL_ENV=docs next build && next export",
+    "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install"
+  },
+  "bugs": {
+    "url": "https://github.com/sghall/react-vertex/issues"
+  },
+  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+}
