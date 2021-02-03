@@ -242,6 +242,57 @@ importers:
       react-compound-slider: ^2.5.0
       react-dom: ^16.14.0
       react-select: ^4.0.2
+  packages/website:
+    dependencies:
+      '@material-ui/core': 4.11.3_react-dom@16.14.0+react@16.14.0
+      '@material-ui/icons': 4.11.2_1043e52c07cf51f037ca56ce3cba9c7d
+      classnames: 2.2.6
+      clsx: 1.1.1
+      d3-scale-chromatic: 2.0.0
+      d3-timer: 2.0.0
+      gl-matrix: 3.3.0
+      glsl-curl-noise: 0.0.4
+      glsl-diffuse-oren-nayar: 1.0.2
+      glsl-face-normal: 1.0.2
+      glsl-gamma: 2.0.0
+      glsl-inverse: 1.0.0
+      glsl-noise: 0.0.0
+      glsl-perturb-normal: 1.0.3
+      glsl-specular-phong: 1.0.0
+      glsl-transpose: 1.0.0
+      lodash.throttle: 4.1.1
+      next: 10.0.6_react-dom@16.14.0+react@16.14.0
+      next-images: 1.7.0
+      prop-types: 15.7.2
+      react: 16.14.0
+      react-color: 2.19.3_react@16.14.0
+      react-dom: 16.14.0_react@16.14.0
+      react-markdown: 4.3.1_react@16.14.0
+    specifiers:
+      '@material-ui/core': ^4.11.3
+      '@material-ui/icons': ^4.11.2
+      classnames: ^2.2.6
+      clsx: ^1.1.1
+      d3-scale-chromatic: ^2.0.0
+      d3-timer: ^2.0.0
+      gl-matrix: ^3.3.0
+      glsl-curl-noise: 0.0.4
+      glsl-diffuse-oren-nayar: ^1.0.2
+      glsl-face-normal: ^1.0.2
+      glsl-gamma: ^2.0.0
+      glsl-inverse: ^1.0.0
+      glsl-noise: 0.0.0
+      glsl-perturb-normal: ^1.0.3
+      glsl-specular-phong: ^1.0.0
+      glsl-transpose: ^1.0.0
+      lodash.throttle: ^4.1.1
+      next: ^10.0.6
+      next-images: ^1.7.0
+      prop-types: ^15.7.2
+      react: ^16.14.0
+      react-color: ^2.19.3
+      react-dom: ^16.14.0
+      react-markdown: ^4.3.1
 lockfileVersion: 5.2
 packages:
   /@ampproject/toolbox-core/2.7.4:

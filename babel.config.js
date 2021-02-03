@@ -1,13 +1,13 @@
-const packageAliases = {
-  '@react-vertex/core': './packages/core/src',
-  '@react-vertex/geometry-hooks': './packages/geometry-hooks/src',
-  '@react-vertex/material-hooks': './packages/material-hooks/src',
-  '@react-vertex/orbit-camera': './packages/orbit-camera/src',
-  '@react-vertex/scene-helpers': './packages/scene-helpers/src',
-  '@react-vertex/color-hooks': './packages/color-hooks/src',
-  '@react-vertex/math-hooks': './packages/math-hooks/src',
-  '@react-vertex/dom-hooks': './packages/dom-hooks/src',
-}
+// const packageAliases = {
+//   '@react-vertex/core': './packages/core/src',
+//   '@react-vertex/geometry-hooks': './packages/geometry-hooks/src',
+//   '@react-vertex/material-hooks': './packages/material-hooks/src',
+//   '@react-vertex/orbit-camera': './packages/orbit-camera/src',
+//   '@react-vertex/scene-helpers': './packages/scene-helpers/src',
+//   '@react-vertex/color-hooks': './packages/color-hooks/src',
+//   '@react-vertex/math-hooks': './packages/math-hooks/src',
+//   '@react-vertex/dom-hooks': './packages/dom-hooks/src',
+// }
 
 module.exports = {
   env: {
@@ -50,19 +50,6 @@ module.exports = {
         ['@babel/plugin-proposal-class-properties', { loose: true }],
         '@babel/plugin-transform-object-assign',
         '@babel/plugin-transform-runtime',
-        [
-          'babel-plugin-module-resolver',
-          {
-            alias: {
-              ...packageAliases,
-              docs: './docs',
-              pages: './pages',
-              static: './public/static',
-              packages: './packages',
-              demos: './demos',
-            },
-          },
-        ],
       ],
     },
   },
