@@ -1,5 +1,5 @@
 npm install -g pnpm
-pnpm install
+pnpm install -r
 cd packages/website
 pnpm docs:build
 
