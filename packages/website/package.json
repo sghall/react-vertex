@@ -59,7 +59,8 @@
   "scripts": {
     "docs:dev": "next dev",
     "docs:prd": "npm run docs:build && cd out && serve",
-    "docs:build": "cross-env BABEL_ENV=docs next build && next export"
+    "docs:build": "cross-env BABEL_ENV=docs next build && next export",
+    "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install"
   },
   "bugs": {
     "url": "https://github.com/sghall/react-vertex/issues"
