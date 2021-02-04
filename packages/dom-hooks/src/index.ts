@@ -1,9 +1,9 @@
-import { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 
 const isBrowser = typeof window !== 'undefined'
 
-export function useMeasure(ref) {
+export function useMeasure(ref: React.RefObject<HTMLElement>) {
   const [bounds, set] = useState({ left: 0, top: 0, width: 0, height: 0 })
 
   const resizeObserver = useRef(
