@@ -1,5 +1,7 @@
 import GraphNode from './GraphNode'
 
+import { MaterialNodeProps } from '../types'
+
 export const isMaterialNode = Symbol('isMaterialNode')
 
 export class MaterialNode extends GraphNode {
@@ -8,10 +10,13 @@ export class MaterialNode extends GraphNode {
   }
 
   [isMaterialNode] = true
-  program = null
+  program: WebGLProgram | null = null
 
-  applyProps(nextprops, prevProps = {}) {
+  applyProps(nextprops: MaterialNodeProps, prevProps: MaterialNodeProps = {}) {
     this.applyMatrixProps(nextprops, prevProps)
-    this.program = nextprops.program
+
+    if (nextprops.program) {
+      this.program = nextprops.program
+    }
   }
 }

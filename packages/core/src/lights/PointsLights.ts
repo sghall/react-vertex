@@ -1,8 +1,10 @@
-export default class PointLights {
-  instances = []
+type PointLightInstance = { index: number }
 
-  diffuse = []
-  position = []
+export default class PointLights {
+  instances: PointLightInstance[] = []
+
+  diffuse: number[] = []
+  position: number[] = []
 
   add(diffuse = [0, 0, 0], position = [0, 0, 0]) {
     const index = this.instances.length
@@ -16,7 +18,7 @@ export default class PointLights {
     return light
   }
 
-  updateDiffuse({ index }, diffuse) {
+  updateDiffuse({ index }: PointLightInstance, diffuse: number[]) {
     const nextDiffuse = [...this.diffuse]
     nextDiffuse[index * 3 + 0] = diffuse[0]
     nextDiffuse[index * 3 + 1] = diffuse[1]
@@ -25,7 +27,7 @@ export default class PointLights {
     this.diffuse = nextDiffuse
   }
 
-  updatePosition({ index }, position) {
+  updatePosition({ index }: PointLightInstance, position: number[]) {
     const nextPosition = [...this.position]
     nextPosition[index * 3 + 0] = position[0]
     nextPosition[index * 3 + 1] = position[1]
@@ -34,7 +36,7 @@ export default class PointLights {
     this.position = nextPosition
   }
 
-  remove({ index }) {
+  remove({ index }: PointLightInstance) {
     const len = this.instances.length * 3
 
     const diffuse = []

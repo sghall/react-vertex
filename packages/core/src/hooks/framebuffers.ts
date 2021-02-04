@@ -1,10 +1,12 @@
 import { useEffect, useMemo } from 'react'
-import { useDataTexture } from '..'
+import { useDataTexture } from './textures'
 import warn from 'warning'
+
+import { GLContext, GetTextureOptions } from '../types'
 
 const prefix = 'react-vertex:'
 
-export function useFramebuffer(gl) {
+export function useFramebuffer(gl: GLContext) {
   const memoized = useMemo(() => {
     const buffer = gl.createFramebuffer()
 
@@ -20,7 +22,12 @@ export function useFramebuffer(gl) {
   return memoized
 }
 
-export function useFBO(gl, width, height, getTexOpts) {
+export function useFBO(
+  gl: GLContext,
+  width: number,
+  height: number,
+  getTexOpts: GetTextureOptions,
+) {
   const tex = useDataTexture(gl, null, width, height, getTexOpts)
   const fbo = useFramebuffer(gl)
 
@@ -32,7 +39,7 @@ export function useFBO(gl, width, height, getTexOpts) {
     return {
       tex,
       fbo,
-      attach(unit) {
+      attach(unit: number) {
         gl.activeTexture(gl.TEXTURE0 + unit)
         gl.bindTexture(gl.TEXTURE_2D, tex)
         return unit
@@ -43,7 +50,12 @@ export function useFBO(gl, width, height, getTexOpts) {
   return memoized
 }
 
-export function useDoubleFBO(gl, width, height, getTexOpts) {
+export function useDoubleFBO(
+  gl: GLContext,
+  width: number,
+  height: number,
+  getTexOpts: GetTextureOptions,
+) {
   const frameBuffer1 = useFBO(gl, width, height, getTexOpts)
   const frameBuffer2 = useFBO(gl, width, height, getTexOpts)
 

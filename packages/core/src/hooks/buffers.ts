@@ -1,11 +1,13 @@
 import { useEffect, useMemo } from 'react'
 import warn from 'warning'
 
+import { GLContext, DataFormat, DataArray } from '../types'
+
 const prefix = 'react-vertex:'
 
-export function useTypedArray(data, format) {
+export function useTypedArray(data: DataArray, format: DataFormat | null) {
   const memoized = useMemo(() => {
-    let contents = data
+    let contents
 
     if (format && typeof format === 'string') {
       switch (format.toUpperCase()) {
@@ -33,13 +35,35 @@ export function useTypedArray(data, format) {
       }
     }
 
+    if (!contents) {
+      if (
+        data instanceof Uint8Array ||
+        data instanceof Uint16Array ||
+        data instanceof Uint32Array ||
+        data instanceof Int8Array ||
+        data instanceof Int16Array ||
+        data instanceof Int32Array ||
+        data instanceof Float32Array
+      ) {
+        return data
+      } else {
+        throw Error('Undable to return typed array instance.')
+      }
+    }
+
     return contents
   }, [data, format])
 
   return memoized
 }
 
-export function useBuffer(gl, data, isIndex = false, format, usage) {
+export function useBuffer(
+  gl: GLContext,
+  data: DataArray,
+  isIndex: boolean = false,
+  format: DataFormat | null,
+  usage: number,
+) {
   const contents = useTypedArray(data, format)
 
   const memoized = useMemo(() => {
@@ -63,20 +87,37 @@ export function useBuffer(gl, data, isIndex = false, format, usage) {
   }, [gl, isIndex, usage, contents, memoized])
 
   useEffect(() => {
-    return () => gl.isBuffer(memoized) && gl.deleteBuffer(memoized)
+    return () => {
+      gl.isBuffer(memoized) && gl.deleteBuffer(memoized)
+    }
   }, [gl, memoized])
 
   return memoized
 }
 
-export function useStaticBuffer(gl, data, isIndex = false, format = null) {
+export function useStaticBuffer(
+  gl: GLContext,
+  data: DataArray,
+  isIndex: boolean = false,
+  format = null,
+) {
   return useBuffer(gl, data, isIndex, format, gl.STATIC_DRAW)
 }
 
-export function useStreamBuffer(gl, data, isIndex = false, format = null) {
+export function useStreamBuffer(
+  gl: GLContext,
+  data: DataArray,
+  isIndex: boolean = false,
+  format: DataFormat | null = null,
+) {
   return useBuffer(gl, data, isIndex, format, gl.STREAM_DRAW)
 }
 
-export function useDyanmicBuffer(gl, data, isIndex = false, format = null) {
+export function useDyanmicBuffer(
+  gl: GLContext,
+  data: DataArray,
+  isIndex: boolean = false,
+  format: DataFormat | null = null,
+) {
   return useBuffer(gl, data, isIndex, format, gl.DYNAMIC_DRAW)
 }

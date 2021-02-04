@@ -1,9 +1,24 @@
-import { mat4 } from 'gl-matrix'
-import { isSceneNode } from './SceneNode'
+import { mat4, vec3 } from 'gl-matrix'
+import { SceneNode } from './SceneNode'
+
+import { MatrixProps } from '../types'
 
 export const isGraphNode = Symbol('isGraphNode')
 
 export default class GraphNode {
+  parent?: GraphNode
+  children: GraphNode[]
+  matrix: mat4
+  worldMatrix: mat4
+  needsMatrixUpdate: boolean
+  userManagedMatrix: boolean
+
+  position?: vec3
+  rotation?: vec3
+  scale?: vec3
+
+  root?: SceneNode
+
   constructor() {
     this.children = []
     this.matrix = mat4.create()
@@ -14,13 +29,13 @@ export default class GraphNode {
 
   [isGraphNode] = true
 
-  add(child) {
+  add(child: GraphNode) {
     child.parent = this
     child.updateWorldMatrix()
     this.children.push(child)
   }
 
-  remove(child) {
+  remove(child: GraphNode) {
     const index = this.children.findIndex(d => d === child)
 
     if (index >= 0) {
@@ -30,7 +45,7 @@ export default class GraphNode {
   }
 
   updateWorldMatrix() {
-    if (this[isSceneNode]) {
+    if (this instanceof SceneNode) {
       mat4.copy(this.worldMatrix, this.matrix)
     } else if (this.parent) {
       mat4.multiply(this.worldMatrix, this.parent.worldMatrix, this.matrix)
@@ -60,7 +75,7 @@ export default class GraphNode {
     }
   }
 
-  applyMatrixProps(nextprops, prevProps) {
+  applyMatrixProps(nextprops: MatrixProps, prevProps: MatrixProps) {
     if (nextprops.matrix) {
       this.matrix = nextprops.matrix
       this.userManagedMatrix = true
@@ -79,7 +94,7 @@ export default class GraphNode {
       this.needsMatrixUpdate = true
     }
 
-    if (this.root.renderOnUpdate) {
+    if (this.root && this.root.renderOnUpdate) {
       this.root.requestRender()
     }
   }

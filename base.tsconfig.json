@@ -1,6 +1,13 @@
 {
   "compilerOptions": {
+    "target": "es2017",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "esnext",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "jsx": "react"
   }
 }

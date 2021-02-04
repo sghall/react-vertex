@@ -31,6 +31,8 @@
     "warning": "^4.0.3"
   },
   "devDependencies": {
+    "@types/lodash.throttle": "^4.1.6",
+    "@types/warning": "^3.0.0",
     "react": "^16.14.0"
   },
   "publishConfig": {

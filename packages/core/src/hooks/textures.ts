@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSceneNode, useWebGLContext } from '..'
 
-function applyTextureOptions(gl, texture, data, opts) {
+import { GLContext, TextureOptions, GetTextureOptions } from '../types'
+
+function applyTextureOptions(
+  gl: GLContext,
+  texture: WebGLTexture,
+  data: TexImageSource,
+  opts: TextureOptions,
+) {
   gl.bindTexture(gl.TEXTURE_2D, texture)
 
   const type = opts.type || gl.UNSIGNED_BYTE
@@ -28,10 +35,10 @@ function applyTextureOptions(gl, texture, data, opts) {
 
 const defaultPlaceholder = new Uint8Array([0, 0, 0, 1])
 
-export function useTexture2d(url, getOptions) {
+export function useTexture2d(url: string, getOptions: GetTextureOptions) {
   const gl = useWebGLContext()
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState<TexImageSource | null>(null)
 
   const memoized = useMemo(() => {
     const texture = gl.createTexture()
@@ -56,7 +63,7 @@ export function useTexture2d(url, getOptions) {
   }, [gl, memoized, data])
 
   useEffect(() => {
-    const { crossOrigin } = getOptions ? getOptions(gl) : {}
+    const { crossOrigin = null } = getOptions ? getOptions(gl) : {}
 
     const img = new Image()
     img.crossOrigin = crossOrigin || ''
@@ -67,7 +74,13 @@ export function useTexture2d(url, getOptions) {
   return [memoized, !!data]
 }
 
-export function useDataTexture(gl, data, width, height, getOptions) {
+export function useDataTexture(
+  gl: GLContext,
+  data: ArrayBufferView | null,
+  width: number,
+  height: number,
+  getOptions: GetTextureOptions,
+) {
   const memoized = useMemo(() => {
     const texture = gl.createTexture()
     const options = getOptions ? getOptions(gl) : {}

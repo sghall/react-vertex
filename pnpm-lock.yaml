@@ -76,9 +76,13 @@ importers:
       scheduler: 0.13.2
       warning: 4.0.3
     devDependencies:
+      '@types/lodash.throttle': 4.1.6
+      '@types/warning': 3.0.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
+      '@types/lodash.throttle': ^4.1.6
+      '@types/warning': ^3.0.0
       gl-matrix: ^3.3.0
       lodash.throttle: ^4.1.1
       prop-types: ^15.7.2
@@ -1968,6 +1972,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-cxWFQVseBm6O9Gbw1IWb8r6OS4OhSt3hPZLkFApLjM8TEXROBuQGLAH2i2gZpcXdLBIrpXuTDhH7Vbm1iXmNGA==
+  /@types/lodash.throttle/4.1.6:
+    dependencies:
+      '@types/lodash': 4.14.168
+    dev: true
+    resolution:
+      integrity: sha512-/UIH96i/sIRYGC60NoY72jGkCJtFN5KVPhEMMMTjol65effe1gPn0tycJqV5tlSwMTzX8FqzB5yAj0rfGHTPNg==
+  /@types/lodash/4.14.168:
+    dev: true
+    resolution:
+      integrity: sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
   /@types/minimatch/3.0.3:
     dev: false
     resolution:
@@ -2013,6 +2027,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RxAwYt4rGwK5GyoRwuP0jT6ZHAVTdz2EqgsHmX0PYNjGsko+OeT4WFXXTs/lM3teJUJodM+SNtAL5/pXIJ61IQ==
+  /@types/warning/3.0.0:
+    dev: true
+    resolution:
+      integrity: sha1-DSUBJorY+ZYrdA04fEZU9fjiPlI=
   /@zeit/schemas/2.6.0:
     dev: false
     resolution:

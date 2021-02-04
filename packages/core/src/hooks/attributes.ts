@@ -1,8 +1,15 @@
 import { useMemo } from 'react'
 
-export function useAttribute(gl, size, buffer, getOptions) {
+import { GLContext, GetAttributeOptions } from '../types'
+
+export function useAttribute(
+  gl: GLContext,
+  size: number,
+  buffer: WebGLBuffer,
+  getOptions: GetAttributeOptions,
+) {
   const memoized = useMemo(() => {
-    return function(location) {
+    return function(location: number) {
       if (location >= 0) {
         const options = getOptions ? getOptions(gl) : {}
         const target = options.target || gl.ARRAY_BUFFER
@@ -23,9 +30,14 @@ export function useAttribute(gl, size, buffer, getOptions) {
   return memoized
 }
 
-export function useInstancedAttribute(gl, size, buffer, getOptions) {
+export function useInstancedAttribute(
+  gl: GLContext,
+  size: number,
+  buffer: WebGLBuffer,
+  getOptions: GetAttributeOptions,
+) {
   const memoized = useMemo(() => {
-    return function(location, ext, version) {
+    return function(location: number, ext?: ANGLE_instanced_arrays) {
       if (location >= 0) {
         const options = getOptions ? getOptions(gl) : {}
         const target = options.target || gl.ARRAY_BUFFER
@@ -40,10 +52,12 @@ export function useInstancedAttribute(gl, size, buffer, getOptions) {
 
         gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
 
-        if (version === 2) {
+        if (gl instanceof WebGL2RenderingContext) {
           gl.vertexAttribDivisor(location, 1)
-        } else {
+        } else if (ext) {
           ext.vertexAttribDivisorANGLE(location, 1)
+        } else {
+          console.log('Instanced attributes require WebGL 2 or ANGLE extension')
         }
       }
     }
