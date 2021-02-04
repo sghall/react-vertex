@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import hexRgb from 'hex-rgb'
 import rgbHex from 'rgb-hex'
 
-export function convertHex(hex, noAlpha = false) {
+export function convertHex(hex: string, noAlpha: boolean = false) {
   const { red, green, blue, alpha } = hexRgb(hex)
 
   return noAlpha
@@ -10,7 +10,7 @@ export function convertHex(hex, noAlpha = false) {
     : [red / 255, green / 255, blue / 255, alpha]
 }
 
-export function convertRgb(rgb: string, noAlpha = false) {
+export function convertRgb(rgb: string, noAlpha: boolean = false) {
   const { red, green, blue, alpha } = hexRgb(rgbHex(rgb))
 
   return noAlpha
@@ -26,7 +26,7 @@ export function useHex(hex: string, noAlpha: boolean) {
   return color
 }
 
-export function useRgb(rgb, noAlpha) {
+export function useRgb(rgb: string, noAlpha: boolean) {
   const color = useMemo(() => {
     return convertRgb(rgb, noAlpha)
   }, [rgb, noAlpha])

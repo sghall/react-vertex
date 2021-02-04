@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
+    "strict": true,
     "esModuleInterop": true
   },
-  "include": ["./packages/color-hooks/src/**/*"]
+  "include": ["./src/**/*"]
 }
