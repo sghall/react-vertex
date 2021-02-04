@@ -10,7 +10,7 @@ export function convertHex(hex, noAlpha = false) {
     : [red / 255, green / 255, blue / 255, alpha]
 }
 
-export function convertRgb(rgb, noAlpha = false) {
+export function convertRgb(rgb: string, noAlpha = false) {
   const { red, green, blue, alpha } = hexRgb(rgbHex(rgb))
 
   return noAlpha
@@ -18,7 +18,7 @@ export function convertRgb(rgb, noAlpha = false) {
     : [red / 255, green / 255, blue / 255, alpha]
 }
 
-export function useHex(hex, noAlpha) {
+export function useHex(hex: string, noAlpha: boolean) {
   const color = useMemo(() => {
     return convertHex(hex, noAlpha)
   }, [hex, noAlpha])
