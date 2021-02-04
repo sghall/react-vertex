@@ -1,5 +1,7 @@
 import GraphNode from './GraphNode'
 
+import { MatrixProps } from '../types'
+
 export const isGroupNode = Symbol('isGroupNode')
 
 export class GroupNode extends GraphNode {
@@ -9,7 +11,7 @@ export class GroupNode extends GraphNode {
 
   [isGroupNode] = true
 
-  applyProps(nextprops, prevProps = {}) {
+  applyProps(nextprops: MatrixProps, prevProps: MatrixProps = {}) {
     this.applyMatrixProps(nextprops, prevProps)
   }
 }

@@ -77,11 +77,15 @@ importers:
       warning: 4.0.3
     devDependencies:
       '@types/lodash.throttle': 4.1.6
+      '@types/react-reconciler': 0.18.0
+      '@types/scheduler': 0.16.1
       '@types/warning': 3.0.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
       '@types/lodash.throttle': ^4.1.6
+      '@types/react-reconciler': ^0.18.0
+      '@types/scheduler': ^0.16.1
       '@types/warning': ^3.0.0
       gl-matrix: ^3.3.0
       lodash.throttle: ^4.1.1
@@ -2007,9 +2011,14 @@ packages:
     resolution:
       integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
   /@types/prop-types/15.7.3:
-    dev: false
     resolution:
       integrity: sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+  /@types/react-reconciler/0.18.0:
+    dependencies:
+      '@types/react': 17.0.1
+    dev: true
+    resolution:
+      integrity: sha512-hLVaxzL7cGgk/2C/sc8yyyvi+aeeimv7SKOFgyuPFYqNb2rnnQApHabcxo5Xp+GloUAfMe3tyQm2nkrmbLXq4w==
   /@types/react-transition-group/4.4.0:
     dependencies:
       '@types/react': 17.0.1
@@ -2020,9 +2029,12 @@ packages:
     dependencies:
       '@types/prop-types': 15.7.3
       csstype: 3.0.6
-    dev: false
     resolution:
       integrity: sha512-w8t9f53B2ei4jeOqf/gxtc2Sswnc3LBK5s0DyJcg5xd10tMHXts2N31cKjWfH9IC/JvEPa/YF1U4YeP1t4R6HQ==
+  /@types/scheduler/0.16.1:
+    dev: true
+    resolution:
+      integrity: sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
   /@types/semver/6.2.2:
     dev: false
     resolution:
@@ -3135,7 +3147,6 @@ packages:
     resolution:
       integrity: sha512-2mSc+VEpGPblzAxyeR+vZhJKgYg0Og0nnRi7pmRXFYYxSfnOnW8A5wwQb4n4cE2nIOzqKOAzLCaEX6aBmNEv8A==
   /csstype/3.0.6:
-    dev: false
     resolution:
       integrity: sha512-+ZAmfyWMT7TiIlzdqJgjMb7S4f1beorDbWbsocyK4RaiqA5RTX3K14bnBWmmA9QEM0gRdsjyyrEmcyga8Zsxmw==
   /d3-array/1.2.4:

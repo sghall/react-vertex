@@ -1,31 +1,45 @@
+import ReactReconciler from 'react-reconciler'
 import React, { Component, createRef } from 'react'
-import PropTypes from 'prop-types'
 import ReactVertexReconciler, { SceneNode } from './Reconciler'
 import ReactVertexContext from './Context'
 
-export default class Canvas extends Component {
+import { CanvasProps } from './types'
+
+export default class Canvas extends Component<CanvasProps> {
+  sceneNode?: SceneNode
+
   state = {
     error: false,
     message: '',
   }
 
-  canvas = createRef()
+  canvas = createRef<HTMLCanvasElement>()
+  container?: ReactReconciler.FiberRoot
+  contextObject?: {
+    scene: SceneNode
+    width: number
+    height: number
+  }
 
   componentDidMount() {
     const { current } = this.canvas
     const {
-      webgl1,
-      webgl2,
-      clearColor,
+      webgl1 = true,
+      webgl2 = false,
+      clearColor = [0, 0, 0, 1],
       children,
-      antialias,
-      textureFlip,
+      antialias = false,
+      textureFlip = true,
       contextAttrs = {},
       extensions = [],
-      renderOnUpdate,
+      renderOnUpdate = false,
     } = this.props
 
     const attrs = { antialias, ...contextAttrs }
+
+    if (!current) {
+      return
+    }
 
     let gl, webglVersion
 
@@ -47,48 +61,79 @@ export default class Canvas extends Component {
     textureFlip && gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
 
     this.sceneNode = new SceneNode(current, extensions, gl)
-    this.sceneNode.webglVersion = webglVersion
+
+    if (typeof webglVersion === 'number') {
+      this.sceneNode.webglVersion = webglVersion
+    }
+
     this.sceneNode.clearColor = clearColor
     this.sceneNode.renderOnUpdate = renderOnUpdate
 
     if (typeof window === 'object') {
+      // @ts-ignore
       window.sceneNode = this.sceneNode
     }
 
-    const { width, height } = this.updateDimensions()
-    this.contextObject = { scene: this.sceneNode, width, height }
+    const update = this.updateDimensions()
 
-    this.container = ReactVertexReconciler.createContainer(this.sceneNode)
+    if (update) {
+      this.contextObject = {
+        scene: this.sceneNode,
+        width: update.width,
+        height: update.height,
+      }
+    }
 
-    ReactVertexReconciler.updateContainer(
-      <ReactVertexContext.Provider value={this.contextObject}>
-        {children}
-      </ReactVertexContext.Provider>,
-      this.container,
-      this,
+    this.container = ReactVertexReconciler.createContainer(
+      this.sceneNode,
+      false,
+      false,
     )
+
+    if (this.contextObject) {
+      ReactVertexReconciler.updateContainer(
+        <ReactVertexContext.Provider value={this.contextObject}>
+          {children}
+        </ReactVertexContext.Provider>,
+        this.container,
+        this,
+        () => {},
+      )
+    }
   }
 
   componentDidUpdate() {
     const { children } = this.props
 
-    const { width, height, update } = this.updateDimensions()
+    const dims = this.updateDimensions()
 
-    if (update) {
-      this.contextObject = { ...this.contextObject, width, height }
+    if (dims && dims.update && this.contextObject) {
+      this.contextObject = {
+        ...this.contextObject,
+        width: dims.width,
+        height: dims.height,
+      }
     }
 
-    ReactVertexReconciler.updateContainer(
-      <ReactVertexContext.Provider value={this.contextObject}>
-        {children}
-      </ReactVertexContext.Provider>,
-      this.container,
-      this,
-    )
+    if (this.container && this.contextObject) {
+      ReactVertexReconciler.updateContainer(
+        <ReactVertexContext.Provider value={this.contextObject}>
+          {children}
+        </ReactVertexContext.Provider>,
+        this.container,
+        this,
+        () => {},
+      )
+    }
   }
 
   updateDimensions() {
     const { current } = this.canvas
+
+    if (!current) {
+      return
+    }
+
     const { width, height, renderOnResize } = this.props
 
     const devicePixelRatio = window.devicePixelRatio || 1
@@ -104,7 +149,7 @@ export default class Canvas extends Component {
       current.width = nextWidth
       current.height = nextHeight
 
-      renderOnResize && this.sceneNode.requestRender()
+      renderOnResize && this.sceneNode && this.sceneNode.requestRender()
     }
 
     return { width: nextWidth, height: nextHeight, update }
@@ -117,7 +162,14 @@ export default class Canvas extends Component {
   }
 
   componentWillUnmount() {
-    ReactVertexReconciler.updateContainer(null, this.container, this)
+    if (this.container) {
+      ReactVertexReconciler.updateContainer(
+        null,
+        this.container,
+        this,
+        () => {},
+      )
+    }
   }
 
   render() {
@@ -127,31 +179,4 @@ export default class Canvas extends Component {
       <canvas ref={this.canvas} className={canvasClass} style={canvasStyle} />
     )
   }
-}
-
-Canvas.propTypes = {
-  children: PropTypes.node.isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  webgl1: PropTypes.bool,
-  webgl2: PropTypes.bool,
-  antialias: PropTypes.bool,
-  textureFlip: PropTypes.bool,
-  clearColor: PropTypes.array.isRequired,
-  canvasClass: PropTypes.string,
-  canvasStyle: PropTypes.object,
-  extensions: PropTypes.arrayOf(PropTypes.string),
-  contextAttrs: PropTypes.object,
-  renderOnUpdate: PropTypes.bool,
-  renderOnResize: PropTypes.bool,
-}
-
-Canvas.defaultProps = {
-  clearColor: [0, 0, 0, 1],
-  webgl1: true,
-  webgl2: false,
-  antialias: false,
-  textureFlip: true,
-  renderOnUpdate: false,
-  renderOnResize: true,
 }

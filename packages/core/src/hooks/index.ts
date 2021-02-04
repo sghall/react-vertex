@@ -15,7 +15,11 @@ export function useRender() {
   const context = useContext(ReactVertexContext)
 
   if (!context) {
-    throw new Error(`useRender ${ctxErr}`)
+    throw Error(`useRender ${ctxErr}`)
+  }
+
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
   }
 
   return context.scene.render
@@ -28,6 +32,10 @@ export function useWebGLContext() {
     throw new Error(`useWebGLContext ${ctxErr}`)
   }
 
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
+  }
+
   return context.scene.context
 }
 
@@ -38,11 +46,20 @@ export function useWebGLVersion() {
     throw new Error(`useWebGLVersion ${ctxErr}`)
   }
 
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
+  }
+
   return context.scene.webglVersion
 }
 
 export function useSceneNode() {
   const context = useContext(ReactVertexContext)
+
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
+  }
+
   return context.scene
 }
 
@@ -51,6 +68,10 @@ export function useCanvas() {
 
   if (!context) {
     throw new Error(`useCanvas ${ctxErr}`)
+  }
+
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
   }
 
   return context.scene.element
@@ -63,12 +84,16 @@ export function useCanvasSize() {
     throw new Error(`useCanvasSize ${ctxErr}`)
   }
 
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
+  }
+
   const memoized = useMemo(() => {
     return {
       width: context.width,
-      clientWidth: context.scene.element.clientWidth,
+      clientWidth: context.scene?.element.clientWidth || context.width,
       height: context.height,
-      clientHeight: context.scene.element.clientHeight,
+      clientHeight: context.scene?.element.clientHeight || context.height,
     }
   }, [context.width, context.height, context.scene.element])
 

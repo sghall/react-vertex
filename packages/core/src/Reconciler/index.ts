@@ -1,5 +1,6 @@
+// @ts-nocheck
 import Reconciler from 'react-reconciler'
-import hostConfig from './hostConfig'
+import { hostConfig } from './hostConfig'
 
 export * from '../sceneGraph'
 

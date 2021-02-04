@@ -1,5 +1,6 @@
 {
   "name": "@react-vertex/core",
+  "author": "Steven Hall <hall.steven.g@gmail.com>",
   "version": "2.9.0",
   "description": "React Vertex core",
   "keywords": [
@@ -15,8 +16,7 @@
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "jsnext:main": "dist/esm/index.js",
-  "author": "Steven Hall <hall.steven.g@gmail.com>",
+  "typings": "dist/types/index.d.ts",
   "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/core#readme",
   "peerDependencies": {
     "react": "^16.8.6"
@@ -32,6 +32,8 @@
   },
   "devDependencies": {
     "@types/lodash.throttle": "^4.1.6",
+    "@types/react-reconciler": "^0.18.0",
+    "@types/scheduler": "^0.16.1",
     "@types/warning": "^3.0.0",
     "react": "^16.14.0"
   },
@@ -44,9 +46,10 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
-    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
+    "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=ts_cjs babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=ts_esm babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
   },
   "bugs": {
     "url": "https://github.com/sghall/react-vertex/issues"

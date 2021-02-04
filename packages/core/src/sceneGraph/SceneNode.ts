@@ -1,7 +1,7 @@
 import throttle from 'lodash.throttle'
 import warn from 'warning'
 import Node from './GraphNode'
-import { isInstancedNode, instancedExt, MaterialNode } from '.'
+import { instancedExt, MaterialNode } from '.'
 import { PointLights } from '../lights'
 import {
   GLContext,
@@ -159,7 +159,7 @@ export class SceneNode extends Node {
     }
   }
 
-  requestRender = throttle(this.render, 17)
+  requestRender: () => void = throttle(this.render, 17)
 
   renderNode(
     node: GraphNode,
@@ -253,7 +253,7 @@ export class SceneNode extends Node {
             getMode(gl, node.drawElements.mode),
             node.drawElements.count,
             node.drawElements.type
-              ? /* @ts-ignore */
+              ? // @ts-ignore
                 gl[node.drawElements.type]
               : gl.UNSIGNED_SHORT,
             node.drawElements.offset || 0,
@@ -289,7 +289,6 @@ export class SceneNode extends Node {
         }
 
         gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
-
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
         if (gl instanceof WebGL2RenderingContext && node.drawElements) {
@@ -297,7 +296,7 @@ export class SceneNode extends Node {
             getMode(gl, node.drawElements.mode),
             node.drawElements.count,
             node.drawElements.type
-              ? /* @ts-ignore */
+              ? // @ts-ignore
                 gl[node.drawElements.type]
               : gl.UNSIGNED_SHORT,
             node.drawElements.offset || 0,
@@ -308,7 +307,7 @@ export class SceneNode extends Node {
             getMode(gl, node.drawElements.mode),
             node.drawElements.count,
             node.drawElements.type
-              ? /* @ts-ignore */
+              ? // @ts-ignore
                 gl[node.drawElements.type]
               : gl.UNSIGNED_SHORT,
             node.drawElements.offset || 0,

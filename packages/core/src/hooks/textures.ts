@@ -57,7 +57,7 @@ export function useTexture2d(url: string, getOptions: GetTextureOptions) {
   useEffect(() => {
     const options = getOptions ? getOptions(gl) : {}
 
-    if (data) {
+    if (data && memoized) {
       applyTextureOptions(gl, memoized, data, options)
     }
   }, [gl, memoized, data])

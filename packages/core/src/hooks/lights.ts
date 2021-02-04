@@ -2,6 +2,8 @@ import { useContext, useMemo, useEffect } from 'react'
 import ReactVertexContext from '../Context'
 import { ctxErr, useUniform3fv } from '..'
 
+import { GLContext } from '../types'
+
 const white = [1, 1, 1]
 const origin = [0, 0, 0]
 
@@ -13,6 +15,10 @@ export function usePointLight(color = white, position = origin) {
   }
 
   const pointLights = useMemo(() => {
+    if (!context.scene) {
+      throw Error('The scene is not on the context.')
+    }
+
     return context.scene.pointLights
   }, [context])
 
@@ -33,32 +39,48 @@ export function usePointLight(color = white, position = origin) {
   }, [pointLights, light])
 }
 
-export function usePointLightUniforms(gl, program) {
+export function usePointLightUniforms(gl: GLContext, program: WebGLProgram) {
   const context = useContext(ReactVertexContext)
 
   if (!context) {
     throw new Error(`usePointLightUniforms ${ctxErr}`)
   }
 
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
+  }
+
   useUniform3fv(gl, program, 'pointLd', context.scene.pointLights.diffuse)
   useUniform3fv(gl, program, 'pointLp', context.scene.pointLights.position)
 }
 
-export function usePointLightCount(vertSource, fragSource) {
+export function usePointLightCount(vertSource: string, fragSource: string) {
   const context = useContext(ReactVertexContext)
 
   if (!context) {
     throw new Error(`usePointLightCount ${ctxErr}`)
   }
 
+  if (!context.scene) {
+    throw Error('The scene is not on the context.')
+  }
+
   const memoizedVert = useMemo(() => {
+    if (!context.scene) {
+      throw Error('The scene is not on the context.')
+    }
+
     const count = context.scene.pointLights.instances.length
-    return vertSource.replace('<<NUM_POINT_LIGHTS>>', count)
+    return vertSource.replace('<<NUM_POINT_LIGHTS>>', `${count}`)
   }, [vertSource, context.scene.pointLights.instances.length])
 
   const memoizedFrag = useMemo(() => {
+    if (!context.scene) {
+      throw Error('The scene is not on the context.')
+    }
+
     const count = context.scene.pointLights.instances.length
-    return fragSource.replace('<<NUM_POINT_LIGHTS>>', count)
+    return fragSource.replace('<<NUM_POINT_LIGHTS>>', `${count}`)
   }, [fragSource, context.scene.pointLights.instances.length])
 
   return [memoizedVert, memoizedFrag]

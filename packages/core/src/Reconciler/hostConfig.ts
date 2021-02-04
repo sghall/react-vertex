@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   unstable_scheduleCallback as schedulePassiveEffects,
   unstable_cancelCallback as cancelPassiveEffects,
@@ -23,7 +24,7 @@ const addChild = (parentInstance, child) => {
   parentInstance.add(child)
 }
 
-export default {
+export const hostConfig = {
   schedulePassiveEffects,
   cancelPassiveEffects,
   now: Date.now,

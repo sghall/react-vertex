@@ -1,3 +1,4 @@
+import React from 'react'
 import { mat4, vec3 } from 'gl-matrix'
 
 export type GLContext = WebGLRenderingContext | WebGL2RenderingContext
@@ -116,4 +117,21 @@ export interface InstancedNodeProps extends MatrixProps {
   index?: number
   attributes?: GeometryAttributes
   drawElements?: InstancedDrawElements
+}
+
+export interface CanvasProps {
+  children: React.ReactNode
+  width: number
+  height: number
+  webgl1?: boolean
+  webgl2?: boolean
+  antialias?: boolean
+  textureFlip?: boolean
+  clearColor?: [number, number, number, number]
+  canvasClass?: string
+  canvasStyle?: React.CSSProperties
+  extensions?: string[]
+  contextAttrs?: Partial<WebGLContextAttributes>
+  renderOnUpdate?: boolean
+  renderOnResize?: boolean
 }
