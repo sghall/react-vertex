@@ -1,8 +1,24 @@
 import { vec3, vec4, mat4 } from 'gl-matrix'
 import throttle from 'lodash.throttle'
 
-class OrbitCamera {
-  constructor(fov, aspect, near = 1, far = 1000) {
+type CameraListener = (c: OrbitCamera) => void
+
+type ListenerItem = {
+  listener: CameraListener
+  id: CameraListener
+}
+
+export class OrbitCamera {
+  projection: mat4
+  view: mat4
+  matrix: mat4
+
+  constructor(
+    fov: number,
+    aspect: number,
+    near: number = 1,
+    far: number = 1000,
+  ) {
     this.matrix = mat4.create()
 
     this.view = mat4.create()
@@ -16,9 +32,9 @@ class OrbitCamera {
 
   position = vec3.create()
 
-  up = vec4.create()
-  right = vec4.create()
-  normal = vec4.create()
+  up = vec3.create()
+  right = vec3.create()
+  normal = vec3.create()
 
   userRotate = true
   userRotateX = true
@@ -31,14 +47,19 @@ class OrbitCamera {
 
   steps = 0
 
-  listeners = []
+  listeners: ListenerItem[] = []
 
-  setProjection(fov, aspect, near = 1, far = 1000) {
+  setProjection(
+    fov: number,
+    aspect: number,
+    near: number = 1,
+    far: number = 1000,
+  ) {
     const radians = (fov * Math.PI) / 180.0
     mat4.perspective(this.projection, radians, aspect, near, far)
   }
 
-  dolly(delta) {
+  dolly(delta: number) {
     if (this.userDolly) {
       const next = vec3.create()
       const step = delta - this.steps
@@ -52,7 +73,7 @@ class OrbitCamera {
     }
   }
 
-  setPosition(position) {
+  setPosition(position: vec3) {
     this.position[0] = position[0] || 0
     this.position[1] = position[1] || 0
     this.position[2] = position[2] || 0
@@ -64,20 +85,20 @@ class OrbitCamera {
     const up = vec4.create()
     vec4.set(up, 0, 1, 0, 0)
     vec4.transformMat4(up, up, this.matrix)
-    vec3.copy(this.up, up)
+    vec3.copy(this.up, up as vec3)
 
     const right = vec4.create()
     vec4.set(right, 1, 0, 0, 0)
     vec4.transformMat4(right, right, this.matrix)
-    vec3.copy(this.right, right)
+    vec3.copy(this.right, right as vec3)
 
     const normal = vec4.create()
     vec4.set(normal, 0, 0, 1, 0)
     vec4.transformMat4(normal, normal, this.matrix)
-    vec3.copy(this.normal, normal)
+    vec3.copy(this.normal, normal as vec3)
   }
 
-  setRotationX(rotX) {
+  setRotationX(rotX: number) {
     this.rotX = rotX
 
     if (this.rotX > 360 || this.rotX < -360) {
@@ -87,7 +108,7 @@ class OrbitCamera {
     this.update()
   }
 
-  incRotationX(rotX) {
+  incRotationX(rotX: number) {
     if (this.userRotate && this.userRotateX) {
       this.rotX += rotX
 
@@ -99,7 +120,7 @@ class OrbitCamera {
     }
   }
 
-  setRotationY(rotY) {
+  setRotationY(rotY: number) {
     this.rotY = rotY
 
     if (this.rotY > 360 || this.rotY < -360) {
@@ -109,7 +130,7 @@ class OrbitCamera {
     this.update()
   }
 
-  incRotationY(rotY) {
+  incRotationY(rotY: number) {
     if (this.userRotate && this.userRotateY) {
       this.rotY += rotY
 
@@ -121,14 +142,12 @@ class OrbitCamera {
     }
   }
 
-  addListener(func, wait = 16) {
+  addListener(func: CameraListener, wait = 16) {
     const listener = throttle(func, wait)
-    listener.id = func
-
-    this.listeners.push(listener)
+    this.listeners.push({ listener, id: func })
   }
 
-  removeListener(func) {
+  removeListener(func: CameraListener) {
     const index = this.listeners.findIndex(d => {
       return d.id === func
     })
@@ -153,10 +172,8 @@ class OrbitCamera {
 
     this.upRightNormal()
 
-    this.listeners.forEach(listener => {
-      listener(this)
+    this.listeners.forEach(item => {
+      item.listener(this)
     })
   }
 }
-
-export default OrbitCamera

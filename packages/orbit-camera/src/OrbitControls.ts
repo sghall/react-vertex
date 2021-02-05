@@ -1,5 +1,13 @@
-class OrbitControls {
-  constructor(camera, element) {
+import { OrbitCamera } from './OrbitCamera'
+
+export class OrbitControls {
+  camera: OrbitCamera
+  element: HTMLCanvasElement
+
+  dollyStep: number
+  dollyCurr: number
+
+  constructor(camera: OrbitCamera, element: HTMLCanvasElement) {
     this.camera = camera
     this.element = element
 
@@ -14,7 +22,7 @@ class OrbitControls {
   }
 
   dragging = false
-  distance = null
+  distance: number | null = null
 
   x = 0
   y = 0
@@ -24,7 +32,7 @@ class OrbitControls {
 
   rotationSpeed = 1000
 
-  onMouseUp = e => {
+  onMouseUp = (e: MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
 
@@ -32,7 +40,7 @@ class OrbitControls {
     this.distance = null
   }
 
-  onTouchEnd = e => {
+  onTouchEnd = (e: TouchEvent) => {
     e.stopPropagation()
     e.preventDefault()
 
@@ -40,7 +48,7 @@ class OrbitControls {
     this.distance = null
   }
 
-  onMouseDown = e => {
+  onMouseDown = (e: MouseEvent) => {
     this.dragging = true
 
     e.stopPropagation()
@@ -50,7 +58,7 @@ class OrbitControls {
     this.y = e.pageY
   }
 
-  onTouchStart = e => {
+  onTouchStart = (e: TouchEvent) => {
     const [t1, t2] = e.touches
 
     e.stopPropagation()
@@ -67,7 +75,7 @@ class OrbitControls {
     }
   }
 
-  onMouseMove = e => {
+  onMouseMove = (e: MouseEvent) => {
     this.lastX = this.x
     this.lastY = this.y
 
@@ -85,7 +93,7 @@ class OrbitControls {
     this.rotate(dx, dy)
   }
 
-  onTouchMove = e => {
+  onTouchMove = (e: TouchEvent) => {
     const [t1, t2] = e.touches
 
     e.stopPropagation()
@@ -122,14 +130,14 @@ class OrbitControls {
     }
   }
 
-  onMouseWheel = e => {
+  onMouseWheel = (e: WheelEvent) => {
     e.stopPropagation()
     e.preventDefault()
 
     this.dolly(e.deltaY)
   }
 
-  dolly(value) {
+  dolly(value: number) {
     if (value < 0) {
       this.dollyCurr += this.dollyStep
     } else {
@@ -139,7 +147,7 @@ class OrbitControls {
     this.camera.dolly(this.dollyCurr)
   }
 
-  rotate(dx, dy) {
+  rotate(dx: number, dy: number) {
     const { width, height } = this.element
 
     const incX = (dx / width) * this.rotationSpeed
@@ -149,5 +157,3 @@ class OrbitControls {
     dy && this.camera.incRotationX(incY)
   }
 }
-
-export default OrbitControls

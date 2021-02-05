@@ -1,12 +1,18 @@
 import { useMemo, useEffect } from 'react'
 import { useCanvas } from '@react-vertex/core'
-import OrbitCamera from './OrbitCamera'
-import OrbitControls from './OrbitControls'
+import { OrbitCamera } from './OrbitCamera'
+import { OrbitControls } from './OrbitControls'
 
-export { default as OrbitCamera } from './OrbitCamera'
-export { default as OrbitControls } from './OrbitControls'
+export { OrbitCamera } from './OrbitCamera'
+export { OrbitControls } from './OrbitControls'
 
-export function useOrbitCamera(fov, aspect, near = 1, far = 1000, configure) {
+export function useOrbitCamera(
+  fov: number,
+  aspect: number,
+  near: number = 1,
+  far: number = 1000,
+  configure: (c: OrbitCamera) => void,
+) {
   const memoized = useMemo(() => {
     const camera = new OrbitCamera(fov, aspect, near, far)
 
@@ -22,7 +28,10 @@ export function useOrbitCamera(fov, aspect, near = 1, far = 1000, configure) {
   return memoized
 }
 
-export function useOrbitControls(camera, configure) {
+export function useOrbitControls(
+  camera: OrbitCamera,
+  configure: (c: OrbitControls) => void,
+) {
   const canvas = useCanvas()
 
   const memoized = useMemo(() => {
