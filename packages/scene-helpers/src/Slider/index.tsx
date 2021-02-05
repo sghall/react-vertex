@@ -1,23 +1,23 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider'
-import { SliderRail, Handle, Track, Tick } from './components'
+import React, { Component } from 'react';
+import { Slider, Rail, Handles, Tracks, Ticks } from 'react-compound-slider';
+import { SliderRail, Handle, Track, Tick } from './components';
 
 const theme = {
   text: '#333',
+  color: '#222',
   background: '#fff',
   border: '1px solid #eee',
-}
+};
 
-var getPrecsion = function(value) {
+var getPrecsion = function(value: number) {
   if (Math.floor(value) !== value) {
-    return value.toString().split('.')[1].length || 0
+    return value.toString().split('.')[1].length || 0;
   }
 
-  return 0
-}
+  return 0;
+};
 
-const styles = {
+const styles: { [key: string]: React.CSSProperties } = {
   container: {
     padding: '4px 20px',
     border: theme.border,
@@ -39,36 +39,49 @@ const styles = {
     height: 30,
     width: '100%',
   },
+};
+
+interface ValueSliderProps {
+  step: number;
+  label: string;
+  domain: number[];
+  onUpdate: (vals: readonly number[]) => void;
+  defaultValues: number[];
 }
 
-class ValueSlider extends Component {
-  constructor(props) {
-    super(props)
+interface ValueSliderState {
+  update: readonly number[];
+  format: (d: number) => string;
+}
 
-    const [min, max] = props.domain
-    const [value] = props.defaultValues
-    const step = props.step
+export class ValueSlider extends Component<ValueSliderProps, ValueSliderState> {
+  constructor(props: ValueSliderProps) {
+    super(props);
+
+    const [min, max] = props.domain;
+    const [value] = props.defaultValues;
+    const step = props.step;
 
     const precision = Math.max(
       getPrecsion(min),
       getPrecsion(max),
       getPrecsion(step),
-      getPrecsion(value),
-    )
+      getPrecsion(value)
+    );
 
     this.state = {
       update: this.props.defaultValues,
-      format: d => (+d).toFixed(precision),
-    }
+      format: (d: number) => (+d).toFixed(precision),
+    };
   }
 
-  onUpdate = update => {
-    this.setState({ update }, () => this.props.onUpdate(update))
-  }
+  onUpdate = (update: readonly number[]) => {
+    this.setState({ update }, () => this.props.onUpdate(update));
+  };
 
   render() {
-    const { update, format } = this.state
-    const { step, label, domain, defaultValues } = this.props
+    const { update, format } = this.state;
+    const { step, label, domain, defaultValues } = this.props;
 
     return (
       <div style={styles.container}>
@@ -82,7 +95,6 @@ class ValueSlider extends Component {
             domain={domain}
             rootStyle={styles.slider}
             onUpdate={this.onUpdate}
-            onChange={this.onChange}
             values={defaultValues}
           >
             <Rail>
@@ -134,16 +146,6 @@ class ValueSlider extends Component {
           </Slider>
         </div>
       </div>
-    )
+    );
   }
 }
-
-ValueSlider.propTypes = {
-  step: PropTypes.number.isRequired,
-  label: PropTypes.string.isRequired,
-  domain: PropTypes.array.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  defaultValues: PropTypes.array.isRequired,
-}
-
-export default ValueSlider

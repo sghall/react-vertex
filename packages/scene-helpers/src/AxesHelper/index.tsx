@@ -23,7 +23,7 @@ const colors = [
   0.0, 0.0, 1.0, 0.0, 0.5, 1.0,
 ]
 
-export function useAxesHelperGeometry(size) {
+export function useAxesHelperGeometry(size: number) {
   const geometry = useMemo(() => {
     // prettier-ignore
     const positions = [
@@ -40,7 +40,7 @@ export function useAxesHelperGeometry(size) {
 
 const indices = [0, 1, 2, 3, 4, 5]
 
-export function useAxesHelperElements(size) {
+export function useAxesHelperElements(size: number) {
   const gl = useWebGLContext()
   const { positions, colors } = useAxesHelperGeometry(size)
 
@@ -65,7 +65,7 @@ export function useAxesHelperElements(size) {
   return elements
 }
 
-export function AxesHelper({ size }) {
+export function AxesHelper({ size }: { size: number }) {
   const axesProgram = useAxesHelperProgram()
   const axesElements = useAxesHelperElements(size)
 

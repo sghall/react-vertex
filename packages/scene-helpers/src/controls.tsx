@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { render } from 'react-dom'
 import { CompactPicker } from 'react-color'
-import Select from 'react-select'
+import Select, { OptionsType, ValueType, Styles } from 'react-select'
 import { useHex, convertHex } from '@react-vertex/color-hooks'
-import Slider from './Slider'
+import { ValueSlider } from './Slider'
 
 const theme = {
   text: '#333',
@@ -47,7 +47,7 @@ function useControlsRoot() {
     button.style.outline = 'none'
     button.style.cursor = 'pointer'
     button.style.userSelect = 'none'
-    button.style.WebkitTapHighlightColor = 'transparent'
+    button.style.webkitTapHighlightColor = 'transparent'
     button.style.zIndex = '10005'
     button.innerHTML = 'Show/Hide Dev Controls'
     controlsRoot.appendChild(button)
@@ -77,13 +77,19 @@ function useControlsRoot() {
   return memoized
 }
 
-export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
+export function useValueSlider(
+  label: string,
+  value: number,
+  min: number = 1,
+  max: number = 100,
+  step: number = 1,
+) {
   const [float, setFloat] = useState(value)
   const controlsRoot = useControlsRoot()
 
   useEffect(() => {
     if (!controlsRoot) {
-      return null
+      return
     }
 
     const [container] = controlsRoot.getElementsByClassName('container')
@@ -93,12 +99,12 @@ export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
 
     function ValueSliderApp() {
       return (
-        <Slider
+        <ValueSlider
           defaultValues={[value]}
           step={step}
           label={label}
           domain={[min, max]}
-          onUpdate={setFloat}
+          onUpdate={d => setFloat(d[0])}
         />
       )
     }
@@ -112,7 +118,7 @@ export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
 
       if (sliders.length === 0) {
         const root = document.getElementById(controlsId)
-        document.body.removeChild(root)
+        root && document.body.removeChild(root)
       }
     }
   }, [controlsRoot, label, value, min, max, step])
@@ -120,7 +126,7 @@ export function useValueSlider(label, value, min = 1, max = 100, step = 1) {
   return Array.isArray(float) ? float[0] : float
 }
 
-export function useColorPicker(label, hex, noAlpha = false) {
+export function useColorPicker(label: string, hex: string, noAlpha = false) {
   const inputColor = useHex(hex, noAlpha)
 
   const [color, setColor] = useState(inputColor)
@@ -128,7 +134,7 @@ export function useColorPicker(label, hex, noAlpha = false) {
 
   useEffect(() => {
     if (!controlsRoot) {
-      return null
+      return
     }
 
     const [container] = controlsRoot.getElementsByClassName('container')
@@ -136,7 +142,7 @@ export function useColorPicker(label, hex, noAlpha = false) {
     controlContainer.classList.add(controlsClass)
     container.appendChild(controlContainer)
 
-    function updateColor(color) {
+    function updateColor(color: any) {
       setColor(convertHex(color.hex, noAlpha))
     }
 
@@ -165,7 +171,7 @@ export function useColorPicker(label, hex, noAlpha = false) {
 
       if (controls.length === 0) {
         const root = document.getElementById(controlsId)
-        document.body.removeChild(root)
+        root && document.body.removeChild(root)
       }
     }
   }, [controlsRoot, label, hex, noAlpha])
@@ -173,41 +179,71 @@ export function useColorPicker(label, hex, noAlpha = false) {
   return color
 }
 
-export function useSelectControl(label, options) {
-  const [option, setOption] = useState(options[0])
+export function useSelectControl<T>(label: string, options: OptionsType<T>) {
+  const [option, setOption] = useState<ValueType<T, false>>(options[0])
   const controlsRoot = useControlsRoot()
 
   useEffect(() => {
     if (!controlsRoot) {
-      return null
+      return
     }
 
-    const [container] = controlsRoot.getElementsByClassName('container')
+    const container = controlsRoot.getElementsByClassName('container')
     const selectContainer = document.createElement('div')
     selectContainer.classList.add(controlsClass)
-    container.appendChild(selectContainer)
+    container[0].appendChild(selectContainer)
 
-    function updateOption(value) {
+    function updateOption(value: ValueType<T, false>) {
       setOption(value)
     }
 
     function SelectControlApp() {
-      const customStyles = {
-        menu: provided => {
-          return { ...provided, zIndex: 50010 }
+      const customStyles: any = {
+        control: (provided: React.CSSProperties) => {
+          return {
+            ...provided,
+            boxShadow: 'none',
+            borderColor: '#ccc',
+            cursor: 'pointer',
+            '&:hover': {
+              borderColor: '#ccc',
+            },
+            '&:focus': {
+              outline: 'none',
+            },
+            outline: 'none',
+          }
         },
-        container: provided => {
+        menu: (provided: React.CSSProperties) => {
+          return { ...provided, marginTop: 2, zIndex: 50010 }
+        },
+        option: () => {
+          return {
+            cursor: 'pointer',
+            label: 'option',
+            backgroundColor: 'transparent',
+            color: 'inherit',
+            display: 'block',
+            fontSize: 'inherit',
+            padding: '8px 12px',
+            width: 225,
+            userSelect: 'none',
+            '&:hover': {
+              backgroundColor: '#ccc',
+              color: '#fff',
+            },
+          }
+        },
+        container: (provided: React.CSSProperties) => {
           return {
             ...provided,
             ...textStyles,
-            fontSize: '16px',
-            fontWeight: 300,
           }
         },
       }
 
       return (
-        <div style={{ padding: 2 }}>
+        <div style={{ padding: '10px 2px 2px' }}>
           <div
             style={{
               paddingLeft: 15,
@@ -222,14 +258,6 @@ export function useSelectControl(label, options) {
             defaultValue={option}
             onChange={updateOption}
             options={options}
-            theme={theme => ({
-              ...theme,
-              colors: {
-                ...theme.colors,
-                primary25: '#eee',
-                primary: 'rgb(155,155,155)',
-              },
-            })}
           />
         </div>
       )
@@ -238,16 +266,16 @@ export function useSelectControl(label, options) {
     render(<SelectControlApp />, selectContainer)
 
     return () => {
-      container.removeChild(selectContainer)
+      container[0].removeChild(selectContainer)
 
-      const controls = container.getElementsByClassName(controlsClass)
+      const controls = container[0].getElementsByClassName(controlsClass)
 
       if (controls.length === 0) {
         const root = document.getElementById(controlsId)
-        document.body.removeChild(root)
+        root && document.body.removeChild(root)
       }
     }
   }, [controlsRoot, label])
 
-  return option.value
+  return option as T
 }

@@ -1,10 +1,18 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment } from 'react';
+import {
+  GetRailProps,
+  GetHandleProps,
+  GetTrackProps,
+  SliderItem,
+} from 'react-compound-slider';
 
 // *******************************************************
 // RAIL COMPONENT
 // *******************************************************
-const railStyle = {
+const railStyle: {
+  outer: React.CSSProperties;
+  inner: React.CSSProperties;
+} = {
   outer: {
     position: 'absolute',
     width: '100%',
@@ -14,35 +22,32 @@ const railStyle = {
     cursor: 'pointer',
   },
   inner: {
-    position: 'absolute',
+    position: 'absolute' as 'absolute',
     width: '100%',
     transform: 'translate(0%, -50%)',
     height: 4,
     borderRadius: 2,
-    pointerEvents: 'none',
+    pointerEvents: 'none' as 'none',
     backgroundColor: 'rgb(155,155,155)',
   },
-}
+};
 
-function RailComponent({ getRailProps }) {
+export function SliderRail({ getRailProps }: { getRailProps: GetRailProps }) {
   return (
     <Fragment>
       <div style={railStyle.outer} {...getRailProps()} />
       <div style={railStyle.inner} />
     </Fragment>
-  )
+  );
 }
-
-RailComponent.propTypes = {
-  getRailProps: PropTypes.func.isRequired,
-}
-
-export const SliderRail = RailComponent
 
 // *******************************************************
 // HANDLE COMPONENT
 // *******************************************************
-const handleStyle = {
+const handleStyle: {
+  outer: React.CSSProperties;
+  inner: React.CSSProperties;
+} = {
   outer: {
     zIndex: 5,
     width: 20,
@@ -59,21 +64,32 @@ const handleStyle = {
     height: 12,
     transform: 'translate(-50%, -50%)',
     borderRadius: '50%',
-    backgroundColor: '#009a9a',
+    backgroundColor: '#ccc',
     position: 'absolute',
     WebkitTapHighlightColor: 'rgba(0,0,0,0)',
   },
+};
+
+interface HandleComponentProps {
+  activeHandleID: string;
+  domain: number[];
+  handle: {
+    id: string;
+    value: number;
+    percent: number;
+  };
+  getHandleProps: GetHandleProps;
 }
 
-function HandleComponent({
+export function Handle({
   activeHandleID,
   handle: { id, percent },
   getHandleProps,
-}) {
-  let boxShadow = 'none'
+}: HandleComponentProps) {
+  let boxShadow = 'none';
 
   if (activeHandleID === id) {
-    boxShadow = '0px 0px 0px 16px rgba(0, 205, 205, 0.2)'
+    boxShadow = '0px 0px 0px 16px rgba(205, 205, 205, 0.3)';
   }
 
   return (
@@ -87,26 +103,13 @@ function HandleComponent({
         style={{ ...handleStyle.inner, left: `${percent}%`, boxShadow }}
       />
     </Fragment>
-  )
+  );
 }
-
-HandleComponent.propTypes = {
-  activeHandleID: PropTypes.string,
-  domain: PropTypes.array.isRequired,
-  handle: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
-  }).isRequired,
-  getHandleProps: PropTypes.func.isRequired,
-}
-
-export const Handle = HandleComponent
 
 // *******************************************************
 // TRACK COMPONENT
 // *******************************************************
-const trackStyle = {
+const trackStyle: React.CSSProperties = {
   position: 'absolute',
   transform: 'translate(0%, -50%)',
   height: 4,
@@ -114,9 +117,15 @@ const trackStyle = {
   borderRadius: 2,
   cursor: 'pointer',
   backgroundColor: '#009a9a',
+};
+
+interface TrackProps {
+  source: SliderItem;
+  target: SliderItem;
+  getTrackProps: GetTrackProps;
 }
 
-function TrackComponent({ source, target, getTrackProps }) {
+export function Track({ source, target, getTrackProps }: TrackProps) {
   return (
     <div
       style={{
@@ -126,29 +135,16 @@ function TrackComponent({ source, target, getTrackProps }) {
       }}
       {...getTrackProps()}
     />
-  )
+  );
 }
-
-TrackComponent.propTypes = {
-  source: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
-  }).isRequired,
-  target: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
-  }).isRequired,
-  getTrackProps: PropTypes.func.isRequired,
-}
-
-export const Track = TrackComponent
 
 // *******************************************************
 // TICK COMPONENT
 // *******************************************************
-const tickStyle = {
+const tickStyle: {
+  tick: React.CSSProperties;
+  label: React.CSSProperties;
+} = {
   tick: {
     position: 'absolute',
     marginTop: 10,
@@ -162,9 +158,15 @@ const tickStyle = {
     marginTop: 16,
     textAlign: 'center',
   },
+};
+
+interface TickProps {
+  tick: SliderItem;
+  count: number;
+  format: (d: number) => string;
 }
 
-export function TickComponent({ tick, count, format }) {
+export function Tick({ tick, count, format }: TickProps) {
   return (
     <div>
       <div style={{ ...tickStyle.tick, left: `${tick.percent}%` }} />
@@ -180,21 +182,5 @@ export function TickComponent({ tick, count, format }) {
         {format(tick.value)}
       </div>
     </div>
-  )
+  );
 }
-
-TickComponent.propTypes = {
-  tick: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    percent: PropTypes.number.isRequired,
-  }).isRequired,
-  count: PropTypes.number.isRequired,
-  format: PropTypes.func.isRequired,
-}
-
-TickComponent.defaultProps = {
-  format: d => d,
-}
-
-export const Tick = TickComponent

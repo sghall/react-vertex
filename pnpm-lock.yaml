@@ -168,20 +168,26 @@ importers:
       '@react-vertex/color-hooks': link:../color-hooks
       prop-types: 15.7.2
       react-color: 2.19.3_react@16.14.0
-      react-compound-slider: 2.5.0_react@16.14.0
+      react-compound-slider: 3.3.1_react@16.14.0
       react-select: 4.0.2_react-dom@16.14.0+react@16.14.0
     devDependencies:
       '@react-vertex/core': link:../core
+      '@types/react-color': 3.0.4
+      '@types/react-dom': 17.0.0
+      '@types/react-select': 4.0.12
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
       '@react-vertex/color-hooks': ^1.8.0
       '@react-vertex/core': '*'
+      '@types/react-color': ^3.0.4
+      '@types/react-dom': ^17.0.0
+      '@types/react-select': ^4.0.12
       prop-types: ^15.7.2
       react: ^16.14.0
       react-color: ^2.19.3
-      react-compound-slider: ^2.5.0
+      react-compound-slider: ^3.3.1
       react-dom: ^16.14.0
       react-select: ^4.0.2
   packages/website:
@@ -1598,11 +1604,9 @@ packages:
     resolution:
       integrity: sha512-RSQP59qtCNTf5NWD6xM08xsQdCZmVYnX/panPYvB6LQAPKQB6GL49Njf0EMbS3CyDtrlWsBcmqBtysFvfWT3rA==
   /@emotion/hash/0.8.0:
-    dev: false
     resolution:
       integrity: sha512-kBJtf7PH6aWwZ6fka3zQ0p6SBYzx4fl1LoZXE2RrnYST9Xljm7WfKJrU4g/Xr3Beg72MLrp1AWNUmuYJTL7Cow==
   /@emotion/memoize/0.7.5:
-    dev: false
     resolution:
       integrity: sha512-igX9a37DR2ZPGYtV6suZ6whr8pTFtyHL3K/oLUotxpSVO2ASaprmAe2Dkq7tBo7CRY7MMDrAa9nuQP9/YG8FxQ==
   /@emotion/react/11.1.4_react@16.14.0:
@@ -1634,7 +1638,6 @@ packages:
       '@emotion/unitless': 0.7.5
       '@emotion/utils': 1.0.0
       csstype: 3.0.6
-    dev: false
     resolution:
       integrity: sha512-zt1gm4rhdo5Sry8QpCOpopIUIKU+mUSpV9WNmFILUraatm5dttNEaYzUWWSboSMUE6PtN2j1cAsuvcugfdI3mw==
   /@emotion/sheet/1.0.1:
@@ -1642,11 +1645,9 @@ packages:
     resolution:
       integrity: sha512-GbIvVMe4U+Zc+929N1V7nW6YYJtidj31lidSmdYcWozwoBIObXBnaJkKNDjZrLm9Nc0BR+ZyHNaRZxqNZbof5g==
   /@emotion/unitless/0.7.5:
-    dev: false
     resolution:
       integrity: sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
   /@emotion/utils/1.0.0:
-    dev: false
     resolution:
       integrity: sha512-mQC2b3XLDs6QCW+pDQDiyO/EdGZYOygE8s5N5rrzjSI4M3IejPE/JPndCBwRT9z982aqQNi6beWs1UeayrQxxA==
   /@emotion/weak-memoize/0.2.5:
@@ -2015,16 +2016,37 @@ packages:
   /@types/prop-types/15.7.3:
     resolution:
       integrity: sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+  /@types/react-color/3.0.4:
+    dependencies:
+      '@types/react': 17.0.1
+      '@types/reactcss': 1.2.3
+    dev: true
+    resolution:
+      integrity: sha512-EswbYJDF1kkrx93/YU+BbBtb46CCtDMvTiGmcOa/c5PETnwTiSWoseJ1oSWeRl/4rUXkhME9bVURvvPg0W5YQw==
+  /@types/react-dom/17.0.0:
+    dependencies:
+      '@types/react': 17.0.1
+    dev: true
+    resolution:
+      integrity: sha512-lUqY7OlkF/RbNtD5nIq7ot8NquXrdFrjSOR6+w9a9RFQevGi1oZO1dcJbXMeONAPKtZ2UrZOEJ5UOCVsxbLk/g==
   /@types/react-reconciler/0.18.0:
     dependencies:
       '@types/react': 17.0.1
     dev: true
     resolution:
       integrity: sha512-hLVaxzL7cGgk/2C/sc8yyyvi+aeeimv7SKOFgyuPFYqNb2rnnQApHabcxo5Xp+GloUAfMe3tyQm2nkrmbLXq4w==
+  /@types/react-select/4.0.12:
+    dependencies:
+      '@emotion/serialize': 1.0.0
+      '@types/react': 17.0.1
+      '@types/react-dom': 17.0.0
+      '@types/react-transition-group': 4.4.0
+    dev: true
+    resolution:
+      integrity: sha512-7AACEwGNafPDZ+l8oOp83Y6KAgBPKk8KlEZAvPYmfgvsm85g2wKZ6NAcBNXmFcHFG+tc1q7cDoNWayvEhbM+cA==
   /@types/react-transition-group/4.4.0:
     dependencies:
       '@types/react': 17.0.1
-    dev: false
     resolution:
       integrity: sha512-/QfLHGpu+2fQOqQaXh8MG9q03bFENooTb/it4jr5kKaZlDQfWvjqWZg48AwzPVMBHlRuTRAY7hRHCEOXz5kV6w==
   /@types/react/17.0.1:
@@ -2033,6 +2055,12 @@ packages:
       csstype: 3.0.6
     resolution:
       integrity: sha512-w8t9f53B2ei4jeOqf/gxtc2Sswnc3LBK5s0DyJcg5xd10tMHXts2N31cKjWfH9IC/JvEPa/YF1U4YeP1t4R6HQ==
+  /@types/reactcss/1.2.3:
+    dependencies:
+      '@types/react': 17.0.1
+    dev: true
+    resolution:
+      integrity: sha512-d2gQQ0IL6hXLnoRfVYZukQNWHuVsE75DzFTLPUuyyEhJS8G2VvlE+qfQQ91SJjaMqlURRCNIsX7Jcsw6cEuJlA==
   /@types/scheduler/0.16.1:
     dev: true
     resolution:
@@ -3169,10 +3197,12 @@ packages:
   /csstype/3.0.6:
     resolution:
       integrity: sha512-+ZAmfyWMT7TiIlzdqJgjMb7S4f1beorDbWbsocyK4RaiqA5RTX3K14bnBWmmA9QEM0gRdsjyyrEmcyga8Zsxmw==
-  /d3-array/1.2.4:
+  /d3-array/2.11.0:
+    dependencies:
+      internmap: 1.0.0
     dev: false
     resolution:
-      integrity: sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
+      integrity: sha512-26clcwmHQEdsLv34oNKq5Ia9tQ26Y/4HqS3dQzF42QBUqymZJ+9PORcN1G52bt37NsL2ABoX4lvyYZc+A9Y0zw==
   /d3-color/2.0.0:
     dev: false
     resolution:
@@ -4650,6 +4680,10 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-O0DB1JC/sPyZl7cIo78n5dR7eUSwwpYPiXRhTzNxZVAMUuB8vlnRFyLxdrVToks6XPLVnFfbzaVd5WLjhgg+vA==
+  /internmap/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-SdoDWwNOTE2n4JWUsLn4KXZGuZPjPF9yyOGc8bnfWnBQh7BD/l80rzSznKc/r4Y0aQ7z3RTk9X+tV4tHBpu+dA==
   /is-absolute/0.2.6:
     dependencies:
       is-relative: 0.2.1
@@ -6480,18 +6514,17 @@ packages:
       react: '*'
     resolution:
       integrity: sha512-LEeGE/ZzNLIsFWa1TMe8y5VYqr7bibneWmvJwm1pCn/eNmrabWDh659JSPn9BuaMpEfU83WTOJfnCcjDZwNQTA==
-  /react-compound-slider/2.5.0_react@16.14.0:
+  /react-compound-slider/3.3.1_react@16.14.0:
     dependencies:
-      '@babel/runtime': 7.12.5
-      d3-array: 1.2.4
-      prop-types: 15.7.2
+      '@babel/runtime': 7.12.13
+      d3-array: 2.11.0
       react: 16.14.0
-      warning: 3.0.0
+      warning: 4.0.3
     dev: false
     peerDependencies:
-      react: ^16.3.0
+      react: '>=16.9'
     resolution:
-      integrity: sha512-T84FtSI0bkQPmH5GaaHbL+2McOyIR6M5sqS80dqw/bHc5r2UKLYY64BWTbsL+XO0jlx7REuJJnZUBqo4eSRl7g==
+      integrity: sha512-1t0nCA0FXfe2hbuJG8VODTrN29FVTp1e2AuR8fRtF/J08/1q1F6OzDhHQqXqYl7O58i8Hei6oCAh4NQ6Kg90Rw==
   /react-dom/16.14.0_react@16.14.0:
     dependencies:
       loose-envify: 1.4.0
@@ -8077,12 +8110,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
-  /warning/3.0.0:
-    dependencies:
-      loose-envify: 1.4.0
-    dev: false
-    resolution:
-      integrity: sha1-MuU3fLVy3kqwR1O9+IIcAe1gW3w=
   /warning/4.0.3:
     dependencies:
       loose-envify: 1.4.0
