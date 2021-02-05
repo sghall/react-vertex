@@ -28,9 +28,10 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
+    "build:watch": "chokidar \"src/**/*.(ts|tsx)\" -c \"npm run build:esm && npm run build:tsc\"",
     "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
-    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=ts_cjs babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
-    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=ts_esm babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --source-maps --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --source-maps --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
   },
   "peerDependencies": {
     "react": "^16.8.6"
@@ -40,6 +41,7 @@
     "resize-observer-polyfill": "^1.5.1"
   },
   "devDependencies": {
+    "chokidar-cli": "^2.1.0",
     "react": "^16.14.0"
   }
 }

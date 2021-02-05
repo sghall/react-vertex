@@ -60,9 +60,11 @@ importers:
       hex-rgb: 4.2.0
       rgb-hex: 3.0.0
     devDependencies:
+      chokidar-cli: 2.1.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
+      chokidar-cli: ^2.1.0
       hex-rgb: ^4.2.0
       react: ^16.14.0
       rgb-hex: ^3.0.0
@@ -101,9 +103,11 @@ importers:
       '@babel/runtime': 7.12.5
       resize-observer-polyfill: 1.5.1
     devDependencies:
+      chokidar-cli: 2.1.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
+      chokidar-cli: ^2.1.0
       react: ^16.14.0
       resize-observer-polyfill: ^1.5.1
   packages/geometry-hooks:
@@ -111,16 +115,19 @@ importers:
       '@babel/runtime': 7.12.5
     devDependencies:
       '@react-vertex/core': link:../core
+      chokidar-cli: 2.1.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
       '@react-vertex/core': '*'
+      chokidar-cli: ^2.1.0
       react: ^16.14.0
   packages/material-hooks:
     dependencies:
       '@babel/runtime': 7.12.5
     devDependencies:
       '@react-vertex/core': link:../core
+      chokidar-cli: 2.1.0
       glsl-diffuse-oren-nayar: 1.0.2
       glsl-gamma: 2.0.0
       glsl-inverse: 1.0.0
@@ -131,6 +138,7 @@ importers:
     specifiers:
       '@babel/runtime': ^7.4.3
       '@react-vertex/core': '*'
+      chokidar-cli: ^2.1.0
       glsl-diffuse-oren-nayar: ^1.0.2
       glsl-gamma: ^2.0.0
       glsl-inverse: ^1.0.0
@@ -143,9 +151,11 @@ importers:
       '@babel/runtime': 7.12.5
       gl-matrix: 3.3.0
     devDependencies:
+      chokidar-cli: 2.1.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
+      chokidar-cli: ^2.1.0
       gl-matrix: ^3.3.0
       react: ^16.14.0
   packages/orbit-camera:
@@ -155,10 +165,12 @@ importers:
       lodash.throttle: 4.1.1
     devDependencies:
       '@react-vertex/core': link:../core
+      chokidar-cli: 2.1.0
       react: 16.14.0
     specifiers:
       '@babel/runtime': ^7.4.3
       '@react-vertex/core': '*'
+      chokidar-cli: ^2.1.0
       gl-matrix: ^3.3.0
       lodash.throttle: ^4.1.1
       react: ^16.14.0
@@ -175,6 +187,7 @@ importers:
       '@types/react-color': 3.0.4
       '@types/react-dom': 17.0.0
       '@types/react-select': 4.0.12
+      chokidar-cli: 2.1.0
       react: 16.14.0
       react-dom: 16.14.0_react@16.14.0
     specifiers:
@@ -184,6 +197,7 @@ importers:
       '@types/react-color': ^3.0.4
       '@types/react-dom': ^17.0.0
       '@types/react-select': ^4.0.12
+      chokidar-cli: ^2.1.0
       prop-types: ^15.7.2
       react: ^16.14.0
       react-color: ^2.19.3
