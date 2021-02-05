@@ -67,12 +67,12 @@ export class SceneNode extends Node {
   pointLights = new PointLights()
   clearColor: [number, number, number, number] = [0, 0, 0, 0]
 
-  textureUnits: { [unit: string]: WebGLTexture } = {}
+  textureUnits: { [unit: string]: WebGLTexture | false } = {}
 
-  getTextureUnit(texture: WebGLTexture) {
+  getTextureUnit(texture?: WebGLTexture) {
     for (let unit = 0; unit < this.maxTextures; unit++) {
       if (this.textureUnits[unit] === undefined) {
-        this.textureUnits[unit] = texture
+        this.textureUnits[unit] = texture || false
         return unit
       }
     }

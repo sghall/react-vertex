@@ -29,7 +29,7 @@ function FluidSimulation() {
   return (
     <DemoWrapper src="demos/FluidSimulation">
       <a href={link}>
-        <Button size="small">Original</Button>
+        <Button size="small">Awesome Original</Button>
       </a>
       <div ref={container}>
         {width ? (
