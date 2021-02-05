@@ -30,7 +30,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "xbuild": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
     "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
     "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=ts_cjs babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
     "build:esm": "cross-env NODE_ENV=production BABEL_ENV=ts_esm babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""

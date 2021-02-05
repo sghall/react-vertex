@@ -69,7 +69,7 @@ export class SceneNode extends Node {
 
   textureUnits: { [unit: string]: WebGLTexture } = {}
 
-  getTextureUnit(texture = false) {
+  getTextureUnit(texture: WebGLTexture) {
     for (let unit = 0; unit < this.maxTextures; unit++) {
       if (this.textureUnits[unit] === undefined) {
         this.textureUnits[unit] = texture

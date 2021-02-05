@@ -24,7 +24,7 @@ export function useBasicSolid(kd = defaultKd) {
 
 const uVScale = [1.0, 1.0]
 
-export function useBasicTextured(mapKd) {
+export function useBasicTextured(mapKd: WebGLTexture) {
   const gl = useWebGLContext()
   const program = useProgram(gl, texturedVert, texturedFrag)
 

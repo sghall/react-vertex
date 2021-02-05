@@ -79,7 +79,7 @@ export function useProgram(
         `${prefix} Error creating program`,
       )
     } else {
-      warn(false, `${prefix} Error creating program`)
+      throw Error('Program could not be created.')
     }
 
     return program

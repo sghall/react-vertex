@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useSceneNode, useWebGLContext } from '..'
+import { useWebGLContext } from '..'
 
 import { GLContext, TextureOptions, GetTextureOptions } from '../types'
 
@@ -112,16 +112,16 @@ export function useDataTexture(
   return memoized
 }
 
-export function useTextureUnit() {
-  const scene = useSceneNode()
+// export function useTextureUnit() {
+//   const scene = useSceneNode()
 
-  const memoized = useMemo(() => {
-    return scene.getTextureUnit()
-  }, [scene])
+//   const memoized = useMemo(() => {
+//     return scene.getTextureUnit()
+//   }, [scene])
 
-  useEffect(() => {
-    return () => scene.releaseTextureUnit(memoized)
-  }, [scene, memoized])
+//   useEffect(() => {
+//     return () => scene.releaseTextureUnit(memoized)
+//   }, [scene, memoized])
 
-  return memoized
-}
+//   return memoized
+// }

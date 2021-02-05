@@ -1,3 +1,4 @@
+// @ts-ignore
 import glsl from 'glslify'
 
 export default glsl`
@@ -12,10 +13,8 @@ export default glsl`
   
   attribute vec3 position;
   attribute vec3 normal;
-  attribute vec2 uv;
 
   varying vec3 vNormal;
-  varying vec2 vUv;
   varying vec3 vEye;
   varying vec3 vRay[NUM_POINT_LIGHTS];
 
@@ -34,9 +33,7 @@ export default glsl`
       vRay[i] = viewModelPosition.xyz - lightPosition.xyz;
     }
 
-    vUv = uv;
     vEye = -vec3(viewModelPosition.xyz);
-
 
     gl_Position = projectionMatrix * viewModelPosition;
   }
