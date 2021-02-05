@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Link from 'next/link'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, Theme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
@@ -10,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import { docsList, demosList } from '../../config'
 
-function DocsList({ onClick }) {
+function DocsList({ onClick }: { onClick: () => void }) {
   return (
     <List onClick={onClick}>
       {docsList.map(d => (
@@ -24,11 +23,7 @@ function DocsList({ onClick }) {
   )
 }
 
-DocsList.propTypes = {
-  onClick: PropTypes.func.isRequired,
-}
-
-function DemosList({ onClick }) {
+function DemosList({ onClick }: { onClick: () => void }) {
   return (
     <List onClick={onClick}>
       {demosList.map(d => (
@@ -42,11 +37,7 @@ function DemosList({ onClick }) {
   )
 }
 
-DemosList.propTypes = {
-  onClick: PropTypes.func.isRequired,
-}
-
-const styles = theme => ({
+const styles = (theme: Theme) => ({
   root: {
     flexGrow: 1,
     padding: theme.spacing(),
@@ -54,12 +45,17 @@ const styles = theme => ({
   },
 })
 
-class MainMenu extends Component {
+interface MainMenuProps {
+  classes: { [key: string]: string }
+  onClick: () => void
+}
+
+class MainMenu extends Component<MainMenuProps> {
   state = {
     value: 1,
   }
 
-  handleChange = (event, value) => {
+  handleChange = (event: Event, value: number) => {
     this.setState({ value })
   }
 
@@ -92,15 +88,6 @@ class MainMenu extends Component {
       </div>
     )
   }
-}
-
-MainMenu.propTypes = {
-  classes: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-}
-
-MainMenu.defaultProps = {
-  onClick: () => {},
 }
 
 export default withStyles(styles)(MainMenu)
