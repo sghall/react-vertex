@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-export function useRandomPositionData(size) {
+export function useRandomPositionData(size: number) {
   const data = useMemo(() => {
     const arr = new Float32Array(size * size * 4)
 

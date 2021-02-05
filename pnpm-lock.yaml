@@ -239,6 +239,7 @@ importers:
       react-dom: 16.14.0_react@16.14.0
       react-markdown: 4.3.1_react@16.14.0
     devDependencies:
+      '@types/d3-timer': 2.0.0
       '@types/node': 14.14.25
       '@types/react': 17.0.1
       '@types/react-dom': 17.0.0
@@ -253,6 +254,7 @@ importers:
       '@react-vertex/math-hooks': 1.9.0
       '@react-vertex/orbit-camera': 2.15.0
       '@react-vertex/scene-helpers': 1.11.0
+      '@types/d3-timer': ^2.0.0
       '@types/node': ^14.14.25
       '@types/react': ^17.0.1
       '@types/react-dom': ^17.0.0
@@ -1995,6 +1997,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==
+  /@types/d3-timer/2.0.0:
+    dev: true
+    resolution:
+      integrity: sha512-l6stHr1VD1BWlW6u3pxrjLtJfpPZq9I3XmKIQtq7zHM/s6fwEtI1Yn6Sr5/jQTrUDCC5jkS6gWqlFGCDArDqNg==
   /@types/glob/7.1.3:
     dependencies:
       '@types/minimatch': 3.0.3

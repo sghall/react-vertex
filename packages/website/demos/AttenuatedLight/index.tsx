@@ -8,7 +8,7 @@ import Scene from './Scene'
 const clearColor = convertHex('#323334')
 
 function AttenuatedLight() {
-  const container = useRef()
+  const container = useRef<HTMLDivElement>()
   const { width } = useMeasure(container)
 
   return (
