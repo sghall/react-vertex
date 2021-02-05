@@ -1,18 +1,31 @@
 {
   "name": "react-vertex-monorepo",
-  "private": true,
   "version": "1.0.0",
+  "author": "Steven Hall <hall.steven.g@gmail.com>",
+  "private": true,
   "description": "Monorepo for React Vertex",
   "main": "index.js",
   "engines": {
     "node": ">=10",
     "pnpm": ">=5"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/react-vertex.git"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "webgl"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sghall/react-vertex/issues"
+  },
+  "homepage": "https://github.com/sghall/react-vertex#readme",
   "scripts": {
     "deps:check": "manypkg check",
     "deps:fix": "manypkg fix",
-    "pkgs:clean": "pnpm run -r clean",
-    "pkgs:build": "pnpm run -r build",
     "pretty": "prettier --write '**/*.js'"
   },
   "dependencies": {
@@ -42,20 +55,5 @@
     "rimraf": "^2.7.1",
     "serve": "^11.3.2",
     "typescript": "^4.1.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sghall/react-vertex.git"
-  },
-  "keywords": [
-    "react",
-    "hooks",
-    "webgl"
-  ],
-  "author": "Steven Hall <hall.steven.g@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sghall/react-vertex/issues"
-  },
-  "homepage": "https://github.com/sghall/react-vertex#readme"
+  }
 }
