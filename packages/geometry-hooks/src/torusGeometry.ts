@@ -27,7 +27,7 @@
 // THE SOFTWARE.
 
 // prettier-ignore
-export default function torusGeometry(radius, tube, radialSegments, tubularSegments, arc) {
+export default function torusGeometry(radius: number, tube: number, radialSegments:number, tubularSegments: number, arc: number) {
   radius = radius || 1
   tube = tube || 0.4
   radialSegments = Math.floor(radialSegments) || 8

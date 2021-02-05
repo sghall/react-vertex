@@ -26,26 +26,26 @@
 // THE SOFTWARE.
 
 // prettier-ignore
-export default function boxGeometry(width = 1, height = 1, depth = 1, wCount, hCount, dCount) {
+export default function boxGeometry(width = 1, height = 1, depth = 1, wCount: number, hCount: number, dCount: number) {
   wCount = Math.floor(wCount) || 1
   hCount = Math.floor(hCount) || 1
   dCount = Math.floor(dCount) || 1
 
-  const indices = []
-  const vertices = []
-  const normals = []
-  const uvs = []
+  const indices: number[] = []
+  const vertices: number[] = []
+  const normals: number[] = []
+  const uvs: number[] = []
 
   let numberOfVertices = 0
 
-  buildPlane(2, 1, 0, -1, -1, depth, height, +width, dCount, hCount, 0)
-  buildPlane(2, 1, 0, +1, -1, depth, height, -width, dCount, hCount, 1)
-  buildPlane(0, 2, 1, +1, +1, width, depth, +height, wCount, dCount, 2)
-  buildPlane(0, 2, 1, +1, -1, width, depth, -height, wCount, dCount, 3)
-  buildPlane(0, 1, 2, +1, -1, width, height, +depth, wCount, hCount, 4)
-  buildPlane(0, 1, 2, -1, -1, width, height, -depth, wCount, hCount, 5)
+  buildPlane(2, 1, 0, -1, -1, depth, height, +width, dCount, hCount)
+  buildPlane(2, 1, 0, +1, -1, depth, height, -width, dCount, hCount)
+  buildPlane(0, 2, 1, +1, +1, width, depth, +height, wCount, dCount)
+  buildPlane(0, 2, 1, +1, -1, width, depth, -height, wCount, dCount)
+  buildPlane(0, 1, 2, +1, -1, width, height, +depth, wCount, hCount)
+  buildPlane(0, 1, 2, -1, -1, width, height, -depth, wCount, hCount)
 
-  function buildPlane(u, v, w, udir, vdir, width, height, depth, gridX, gridY) {
+  function buildPlane(u:number, v:number, w:number, udir: number, vdir: number, width: number, height: number, depth: number, gridX: number, gridY:number) {
     const segmentWidth = width / gridX
     const segmentHeight = height / gridY
 

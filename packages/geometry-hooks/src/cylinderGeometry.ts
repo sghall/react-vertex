@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 
 // prettier-ignore
-export default function cylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength) {
+export default function cylinderGeometry(radiusTop: number, radiusBottom: number, height:number, radialSegments:number, heightSegments: number, openEnded: boolean, thetaStart: number, thetaLength: number) {
   radiusTop = radiusTop !== undefined ? radiusTop : 1
   radiusBottom = radiusBottom !== undefined ? radiusBottom : 1
   height = height || 1
@@ -38,13 +38,13 @@ export default function cylinderGeometry(radiusTop, radiusBottom, height, radial
   thetaStart = thetaStart !== undefined ? thetaStart : 0.0
   thetaLength = thetaLength !== undefined ? thetaLength : Math.PI * 2
 
-  const indices = []
-  const vertices = []
-  const normals = []
-  const uvs = []
+  const indices: number[] = []
+  const vertices: number[] = []
+  const normals: number[] = []
+  const uvs: number[] = []
 
   let index = 0
-  const indexArray = []
+  const indexArray: number[][] = []
   const halfHeight = height / 2
 
   generateTorso()
@@ -116,7 +116,7 @@ export default function cylinderGeometry(radiusTop, radiusBottom, height, radial
     }
   }
 
-  function generateCap(top) {
+  function generateCap(top: boolean) {
     let x, centerIndexStart, centerIndexEnd
 
     const uv = new Array(2)

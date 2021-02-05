@@ -99,7 +99,7 @@ export function useStaticBuffer(
   gl: GLContext,
   data: DataArray,
   isIndex: boolean = false,
-  format = null,
+  format: DataFormat | null = null,
 ) {
   return useBuffer(gl, data, isIndex, format, gl.STATIC_DRAW)
 }

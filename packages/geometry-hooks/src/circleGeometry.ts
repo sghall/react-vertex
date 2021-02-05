@@ -27,7 +27,7 @@
 // THE SOFTWARE.
 
 // prettier-ignore
-export default function circleGeometry(radius, segments, thetaStart, thetaLength) {
+export default function circleGeometry(radius: number, segments: number, thetaStart: number, thetaLength: number) {
   radius = radius || 1
   segments = segments !== undefined ? Math.max(3, segments) : 8
 

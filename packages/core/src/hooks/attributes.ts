@@ -5,8 +5,8 @@ import { GLContext, GetAttributeOptions } from '../types'
 export function useAttribute(
   gl: GLContext,
   size: number,
-  buffer: WebGLBuffer,
-  getOptions: GetAttributeOptions,
+  buffer: WebGLBuffer | null,
+  getOptions?: GetAttributeOptions,
 ) {
   const memoized = useMemo(() => {
     return function(location: number) {
@@ -34,7 +34,7 @@ export function useInstancedAttribute(
   gl: GLContext,
   size: number,
   buffer: WebGLBuffer,
-  getOptions: GetAttributeOptions,
+  getOptions?: GetAttributeOptions,
 ) {
   const memoized = useMemo(() => {
     return function(location: number, ext?: ANGLE_instanced_arrays) {

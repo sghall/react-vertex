@@ -26,7 +26,7 @@
 // THE SOFTWARE.
 
 // prettier-ignore
-export default function PlaneBufferGeometry(width, height, widthSegments, heightSegments) {
+export default function PlaneBufferGeometry(width: number, height: number, widthSegments: number, heightSegments: number) {
   width = width || 1
   height = height || 1
 

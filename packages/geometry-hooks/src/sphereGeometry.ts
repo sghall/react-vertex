@@ -27,7 +27,7 @@
 // THE SOFTWARE.
 
 // prettier-ignore
-export default function SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength) {
+export default function SphereGeometry(radius: number, widthSegments: number, heightSegments: number, phiStart: number, phiLength: number, thetaStart: number, thetaLength: number) {
 
   radius = radius || 1
 

@@ -18,6 +18,24 @@
   "module": "dist/esm/index.js",
   "typings": "dist/types/index.d.ts",
   "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/core#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/react-vertex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sghall/react-vertex/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
+    "build:watch": "chokidar \"src/**/*.(ts|tsx)\" -c \"npm run build:cjs && npm run build:esm && npm run build:tsc\"",
+    "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=ts_cjs babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=ts_esm babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
+  },
   "peerDependencies": {
     "react": "^16.8.6"
   },
@@ -35,24 +53,7 @@
     "@types/react-reconciler": "^0.18.0",
     "@types/scheduler": "^0.16.1",
     "@types/warning": "^3.0.0",
+    "chokidar-cli": "^2.1.0",
     "react": "^16.14.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sghall/react-vertex.git"
-  },
-  "scripts": {
-    "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
-    "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
-    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=ts_cjs babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
-    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=ts_esm babel --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
-  },
-  "bugs": {
-    "url": "https://github.com/sghall/react-vertex/issues"
-  },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+  }
 }
