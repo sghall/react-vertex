@@ -15,6 +15,19 @@
   "jsnext:main": "esm/index.js",
   "author": "Steven Hall <hall.steven.g@gmail.com>",
   "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/color-hooks#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/react-vertex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sghall/react-vertex/issues"
+  },
+  "scripts": {
+    "docs:dev": "next dev",
+    "docs:prd": "npm run docs:build && cd out && serve",
+    "docs:build": "cross-env BABEL_ENV=docs next build && next export",
+    "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
@@ -49,21 +62,9 @@
     "react-dom": "^16.14.0",
     "react-markdown": "^4.3.1"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sghall/react-vertex.git"
-  },
-  "scripts": {
-    "docs:dev": "next dev",
-    "docs:prd": "npm run docs:build && cd out && serve",
-    "docs:build": "cross-env BABEL_ENV=docs next build && next export",
-    "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install"
-  },
-  "bugs": {
-    "url": "https://github.com/sghall/react-vertex/issues"
-  },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+  "devDependencies": {
+    "@types/node": "^14.14.25",
+    "@types/react": "^17.0.1",
+    "@types/react-dom": "^17.0.0"
+  }
 }
