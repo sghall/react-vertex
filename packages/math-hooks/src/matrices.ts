@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { mat4 } from 'gl-matrix'
 
 export function usePerspectiveMatrix(
-  fov,
-  aspect,
-  near = 1,
-  far = 1000,
-  configure,
+  fov: number,
+  aspect: number,
+  near: number = 1,
+  far: number = 1000,
+  configure: (m: mat4) => void,
 ) {
   const memoized = useMemo(() => {
     const matrix = mat4.create()
@@ -22,7 +22,12 @@ export function usePerspectiveMatrix(
   return memoized
 }
 
-export function useIdentityMatrix(px = 0, py = 0, pz = 0, configure) {
+export function useIdentityMatrix(
+  px: number = 0,
+  py: number = 0,
+  pz: number = 0,
+  configure: (m: mat4) => void,
+) {
   const memoized = useMemo(() => {
     const matrix = mat4.create()
     mat4.translate(matrix, matrix, [px, py, pz])
@@ -35,7 +40,12 @@ export function useIdentityMatrix(px = 0, py = 0, pz = 0, configure) {
   return memoized
 }
 
-export function useInvertedMatrix(px = 0, py = 0, pz = 0, configure) {
+export function useInvertedMatrix(
+  px: number = 0,
+  py: number = 0,
+  pz: number = 0,
+  configure: (m: mat4) => void,
+) {
   const memoized = useMemo(() => {
     const matrix = mat4.create()
     mat4.translate(matrix, matrix, [px, py, pz])
