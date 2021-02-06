@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import {
+  GLContext,
   useWebGLContext,
   useProgram,
   useWebGLVersion,
@@ -13,7 +14,12 @@ import positionFrag from './position.frag'
 import velocityFrag from './velocity.frag'
 import { useRandomPositionData, useRandomVelocityData } from './dataHooks'
 
-function supportRenderTextureFormat(gl, internalFormat, format, type) {
+function supportRenderTextureFormat(
+  gl: GLContext,
+  internalFormat: number,
+  format: number,
+  type: number,
+) {
   const texture = gl.createTexture()
   gl.bindTexture(gl.TEXTURE_2D, texture)
 
@@ -38,7 +44,13 @@ function supportRenderTextureFormat(gl, internalFormat, format, type) {
   return true
 }
 
-function getSupportedFormat(gl, internalFormat, format, type) {
+// @ts-ignore
+function getSupportedFormat(
+  gl: any,
+  internalFormat: number,
+  format: number,
+  type: number,
+) {
   if (!supportRenderTextureFormat(gl, internalFormat, format, type)) {
     switch (internalFormat) {
       case gl.R16F:
@@ -53,7 +65,7 @@ function getSupportedFormat(gl, internalFormat, format, type) {
   return { internalFormat, format }
 }
 
-function useFormats(gl) {
+function useFormats(gl: any) {
   const version = useWebGLVersion()
 
   const memoized = useMemo(() => {
@@ -89,7 +101,7 @@ function useFormats(gl) {
   return memoized
 }
 
-export default function useCompute(size) {
+export default function useCompute(size: number) {
   const gl = useWebGLContext()
   const { halfFloat, RGBA } = useFormats(gl)
 
@@ -134,7 +146,7 @@ export default function useCompute(size) {
       const vertsBuffer = gl.createBuffer()
       const indexBuffer = gl.createBuffer()
 
-      return buffer => {
+      return (buffer: WebGLFramebuffer | null) => {
         gl.bindBuffer(gl.ARRAY_BUFFER, vertsBuffer)
         gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW)
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
@@ -148,7 +160,7 @@ export default function useCompute(size) {
       }
     })()
 
-    function compute(elapsed, delta) {
+    function compute(elapsed: number, delta: number) {
       gl.viewport(0, 0, size, size)
 
       // **********************************************

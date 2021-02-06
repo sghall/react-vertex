@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import {
@@ -12,7 +12,7 @@ import useCompute from './useCompute'
 import { useBirdsElements } from './useBirdsElements'
 import { useBirdsMaterial } from './useBirdsMaterial'
 
-function Scene() {
+export const Scene = React.memo(() => {
   const { width = 1, height = 1 } = useCanvasSize()
   const renderScene = useRender()
 
@@ -28,7 +28,7 @@ function Scene() {
     { value: 128, label: `${128 * 128} (128 x 128)` },
   ])
 
-  const compute = useCompute(size)
+  const compute = useCompute(size.value)
   const birdsMaterial = useBirdsMaterial()
   const birdsElements = useBirdsElements(size.value)
 
@@ -36,7 +36,7 @@ function Scene() {
   const t1 = useTextureUnit()
   const t2 = useTextureUnit()
 
-  useEffect(() => {
+  React.useEffect(() => {
     let prevElapsed = 0
 
     const timerLoop = timer(e => {
@@ -63,8 +63,4 @@ function Scene() {
       </material>
     </camera>
   )
-}
-
-Scene.propTypes = {}
-
-export default memo(Scene)
+})
