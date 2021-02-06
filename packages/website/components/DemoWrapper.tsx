@@ -10,8 +10,8 @@ interface DemoWrapperProps {
 
 export const DemoWrapper: React.FC<DemoWrapperProps> = ({ children, src }) => (
   <div style={{ padding: 16 }}>
-    <Grid container justify="center" spacing={8}>
-      <Grid item xs={12} md={8}>
+    <Grid container justify="center">
+      <Grid item xs={12} md={10}>
         <a href={`${docsPath}/${src}`}>
           <Button size="small">Demo Source</Button>
         </a>

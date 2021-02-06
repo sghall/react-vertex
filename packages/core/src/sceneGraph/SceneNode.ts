@@ -291,7 +291,8 @@ export class SceneNode extends Node {
         gl.uniformMatrix4fv(activeMaterial.uniforms.m, false, node.worldMatrix)
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, node.index)
 
-        if (gl instanceof WebGL2RenderingContext && node.drawElements) {
+        if (this.webglVersion === 2 && node.drawElements) {
+          // @ts-ignore
           gl.drawElementsInstanced(
             getMode(gl, node.drawElements.mode),
             node.drawElements.count,

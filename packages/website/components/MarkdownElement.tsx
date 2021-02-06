@@ -1,10 +1,10 @@
 import React from 'react'
-import cn from 'classnames'
+import cn from 'clsx'
 import PropTypes from 'prop-types'
 import Markdown from 'react-markdown'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, Theme } from '@material-ui/core/styles'
 
-const styles = theme => ({
+const styles = (theme: Theme) => ({
   root: {
     boxSizing: 'border-box',
     minWidth: 200,

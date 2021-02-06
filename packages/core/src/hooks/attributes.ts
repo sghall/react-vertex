@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { useWebGLVersion } from '../hooks'
 import { GLContext, GetAttributeOptions } from '../types'
 
 export function useAttribute(
@@ -36,6 +37,8 @@ export function useInstancedAttribute(
   buffer: WebGLBuffer | null,
   getOptions?: GetAttributeOptions,
 ) {
+  const version = useWebGLVersion()
+
   const memoized = useMemo(() => {
     return function(location: number, ext?: ANGLE_instanced_arrays) {
       if (location >= 0) {
@@ -52,7 +55,8 @@ export function useInstancedAttribute(
 
         gl.vertexAttribPointer(location, size, type, normalized, stride, offset)
 
-        if (gl instanceof WebGL2RenderingContext) {
+        if (version === 2) {
+          // @ts-ignore
           gl.vertexAttribDivisor(location, 1)
         } else if (ext) {
           ext.vertexAttribDivisorANGLE(location, 1)
@@ -61,7 +65,7 @@ export function useInstancedAttribute(
         }
       }
     }
-  }, [gl, size, buffer, getOptions])
+  }, [gl, size, buffer, version, getOptions])
 
   return memoized
 }
