@@ -1,11 +1,14 @@
-import React, { memo } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { useTexture2d } from '@react-vertex/core'
 import { usePhongAttenuated } from '@react-vertex/material-hooks'
 import { useTorusElements } from '@react-vertex/geometry-hooks'
 import tiles from '../../public/static/textures/tiles_blue_diff.png'
 
-function Torus({ lightPosition }) {
+interface TorusProps {
+  lightPosition: number[]
+}
+
+export const Torus: React.FC<TorusProps> = React.memo(({ lightPosition }) => {
   const torus = useTorusElements(10, 3, 16, 100)
 
   const [texture] = useTexture2d(tiles)
@@ -16,10 +19,4 @@ function Torus({ lightPosition }) {
       <geometry {...torus} />
     </material>
   )
-}
-
-Torus.propTypes = {
-  lightPosition: PropTypes.array.isRequired,
-}
-
-export default memo(Torus)
+})

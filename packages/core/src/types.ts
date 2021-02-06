@@ -127,7 +127,7 @@ export interface CanvasProps {
   webgl2?: boolean
   antialias?: boolean
   textureFlip?: boolean
-  clearColor?: [number, number, number, number]
+  clearColor?: number[]
   canvasClass?: string
   canvasStyle?: React.CSSProperties
   extensions?: string[]

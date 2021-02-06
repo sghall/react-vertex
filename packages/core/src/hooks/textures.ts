@@ -35,7 +35,7 @@ function applyTextureOptions(
 
 const defaultPlaceholder = new Uint8Array([0, 0, 0, 1])
 
-export function useTexture2d(url: string, getOptions: GetTextureOptions) {
+export function useTexture2d(url: string, getOptions?: GetTextureOptions) {
   const gl = useWebGLContext()
 
   const [data, setData] = useState<TexImageSource | null>(null)

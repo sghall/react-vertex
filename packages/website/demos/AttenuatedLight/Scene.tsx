@@ -2,12 +2,12 @@ import React, { memo, useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender } from '@react-vertex/core'
-import Torus from './Torus'
-import Light from './Light'
+import { Torus } from './Torus'
+import { Light } from './Light'
 import { AxesHelper } from '@react-vertex/scene-helpers'
 
 function PointLightScene() {
-  const { width, height } = useCanvasSize()
+  const { width = 1, height = 1 } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 40])

@@ -74,7 +74,7 @@ export function usePhongTextured(
 
 export function usePhongAttenuated(
   lightPosition: number[],
-  mapKd: WebGLTexture,
+  mapKd: WebGLTexture | null,
 ) {
   const gl = useWebGLContext()
   const program = useProgram(gl, attenuatedVert, attenuatedFrag)

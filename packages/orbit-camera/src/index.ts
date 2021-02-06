@@ -7,11 +7,11 @@ export { OrbitCamera } from './OrbitCamera'
 export { OrbitControls } from './OrbitControls'
 
 export function useOrbitCamera(
-  fov: number,
-  aspect: number,
+  fov: number = 100,
+  aspect: number = 1,
   near: number = 1,
   far: number = 1000,
-  configure: (c: OrbitCamera) => void,
+  configure?: (c: OrbitCamera) => void,
 ) {
   const memoized = useMemo(() => {
     const camera = new OrbitCamera(fov, aspect, near, far)
@@ -30,7 +30,7 @@ export function useOrbitCamera(
 
 export function useOrbitControls(
   camera: OrbitCamera,
-  configure: (c: OrbitControls) => void,
+  configure?: (c: OrbitControls) => void,
 ) {
   const canvas = useCanvas()
 

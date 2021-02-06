@@ -65,11 +65,11 @@ export class SceneNode extends Node {
   webglVersion = 1
 
   pointLights = new PointLights()
-  clearColor: [number, number, number, number] = [0, 0, 0, 0]
+  clearColor: number[] = [0, 0, 0, 0]
 
   textureUnits: { [unit: string]: WebGLTexture | false } = {}
 
-  getTextureUnit(texture?: WebGLTexture) {
+  getTextureUnit(texture?: WebGLTexture | null) {
     for (let unit = 0; unit < this.maxTextures; unit++) {
       if (this.textureUnits[unit] === undefined) {
         this.textureUnits[unit] = texture || false
@@ -133,7 +133,7 @@ export class SceneNode extends Node {
     const gl = this.context
 
     gl.enable(gl.DEPTH_TEST)
-    gl.clearColor(...this.clearColor)
+    gl.clearColor(...(this.clearColor as [number, number, number, number]))
 
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)

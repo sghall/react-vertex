@@ -8,7 +8,7 @@ export function useUniformSampler2d(
   gl: GLContext,
   program: WebGLProgram,
   name: string,
-  texture: WebGLTexture,
+  texture: WebGLTexture | null,
 ) {
   const scene = useSceneNode()
 
