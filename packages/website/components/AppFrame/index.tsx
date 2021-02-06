@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Drawer from '@material-ui/core/Drawer'
@@ -8,13 +7,13 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, Theme } from '@material-ui/core/styles'
 import MainMenu from './MainMenu'
 import GitHubIcon from './GitHubIcon'
 
 const drawerWidth = 240
 
-const styles = theme => ({
+const styles = (theme: Theme) => ({
   root: {
     display: 'flex',
   },
@@ -46,7 +45,17 @@ const styles = theme => ({
   },
 })
 
-class ResponsiveDrawer extends React.Component {
+interface ResponsiveDrawerProps {
+  classes: { [key: string]: string }
+}
+interface ResponsiveDrawerState {
+  open: boolean
+}
+
+class ResponsiveDrawer extends React.Component<
+  ResponsiveDrawerProps,
+  ResponsiveDrawerState
+> {
   state = {
     open: false,
   }
@@ -119,11 +128,6 @@ class ResponsiveDrawer extends React.Component {
       </div>
     )
   }
-}
-
-ResponsiveDrawer.propTypes = {
-  classes: PropTypes.object.isRequired,
-  children: PropTypes.object,
 }
 
 export default withStyles(styles)(ResponsiveDrawer)

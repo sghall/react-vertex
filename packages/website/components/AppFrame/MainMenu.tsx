@@ -45,9 +45,11 @@ const styles = (theme: Theme) => ({
   },
 })
 
+const NOOP = () => {}
+
 interface MainMenuProps {
-  classes: { [key: string]: string }
-  onClick: () => void
+  classes?: { [key: string]: string }
+  onClick?: () => void
 }
 
 class MainMenu extends Component<MainMenuProps> {
@@ -55,16 +57,16 @@ class MainMenu extends Component<MainMenuProps> {
     value: 1,
   }
 
-  handleChange = (event: Event, value: number) => {
+  handleChange = (_: Event, value: number) => {
     this.setState({ value })
   }
 
   render() {
-    const { classes, onClick } = this.props
+    const { classes, onClick = NOOP } = this.props
     const { value } = this.state
 
     return (
-      <div className={classes.root}>
+      <div className={classes?.root}>
         <Button
           style={{ width: '50%' }}
           size="small"
