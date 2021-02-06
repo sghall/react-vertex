@@ -18,7 +18,7 @@ export function convertRgb(rgb: string, noAlpha: boolean = false) {
     : [red / 255, green / 255, blue / 255, alpha]
 }
 
-export function useHex(hex: string, noAlpha: boolean) {
+export function useHex(hex: string, noAlpha: boolean = false) {
   const color = useMemo(() => {
     return convertHex(hex, noAlpha)
   }, [hex, noAlpha])
@@ -26,7 +26,7 @@ export function useHex(hex: string, noAlpha: boolean) {
   return color
 }
 
-export function useRgb(rgb: string, noAlpha: boolean) {
+export function useRgb(rgb: string, noAlpha: boolean = false) {
   const color = useMemo(() => {
     return convertRgb(rgb, noAlpha)
   }, [rgb, noAlpha])

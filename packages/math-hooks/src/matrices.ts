@@ -6,7 +6,7 @@ export function usePerspectiveMatrix(
   aspect: number,
   near: number = 1,
   far: number = 1000,
-  configure: (m: mat4) => void,
+  configure?: (m: mat4) => void,
 ) {
   const memoized = useMemo(() => {
     const matrix = mat4.create()
@@ -26,7 +26,7 @@ export function useIdentityMatrix(
   px: number = 0,
   py: number = 0,
   pz: number = 0,
-  configure: (m: mat4) => void,
+  configure?: (m: mat4) => void,
 ) {
   const memoized = useMemo(() => {
     const matrix = mat4.create()
@@ -44,7 +44,7 @@ export function useInvertedMatrix(
   px: number = 0,
   py: number = 0,
   pz: number = 0,
-  configure: (m: mat4) => void,
+  configure?: (m: mat4) => void,
 ) {
   const memoized = useMemo(() => {
     const matrix = mat4.create()

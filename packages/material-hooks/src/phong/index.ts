@@ -22,11 +22,11 @@ const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
 export function usePhongSolid(
-  kd: number[],
-  na: number,
-  ns: number,
-  ka: number[],
-  ks: number[],
+  kd?: number[],
+  na?: number,
+  ns?: number,
+  ka?: number[],
+  ks?: number[],
 ) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(solidVert, solidFrag)
@@ -47,11 +47,11 @@ export function usePhongSolid(
 const uVScale = [1.0, 1.0]
 
 export function usePhongTextured(
-  mapKd: WebGLTexture,
-  na: number,
-  ns: number,
-  ka: number[],
-  ks: number[],
+  mapKd: WebGLTexture | null,
+  na?: number,
+  ns?: number,
+  ka?: number[],
+  ks?: number[],
 ) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(texturedVert, texturedFrag)

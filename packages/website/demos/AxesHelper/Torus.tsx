@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import {
   useWebGLContext,
   useTexture2d,
@@ -10,7 +10,7 @@ import tilesDiffUrl from '../../public/static/textures/tiles_pink_diff.png'
 
 const uVScale = [6.0, 1.0]
 
-function Torus() {
+export const Torus: React.FC<{}> = React.memo(() => {
   const [texture] = useTexture2d(tilesDiffUrl)
   const program = usePhongTextured(texture, 0.15, 500)
 
@@ -24,8 +24,4 @@ function Torus() {
       <geometry {...torusElements} />
     </material>
   )
-}
-
-Torus.propTypes = {}
-
-export default memo(Torus)
+})

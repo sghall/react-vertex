@@ -9,11 +9,11 @@ import {
 } from '@react-vertex/core'
 import { useSelectControl } from '@react-vertex/scene-helpers'
 import useCompute from './useCompute'
-import useBirdsElements from './useBirdsElements'
-import useBirdsMaterial from './useBirdsMaterial'
+import { useBirdsElements } from './useBirdsElements'
+import { useBirdsMaterial } from './useBirdsMaterial'
 
 function Scene() {
-  const { width, height } = useCanvasSize()
+  const { width = 1, height = 1 } = useCanvasSize()
   const renderScene = useRender()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
@@ -29,8 +29,8 @@ function Scene() {
   ])
 
   const compute = useCompute(size)
-  const birdsMaterial = useBirdsMaterial(size)
-  const birdsElements = useBirdsElements(size)
+  const birdsMaterial = useBirdsMaterial()
+  const birdsElements = useBirdsElements(size.value)
 
   const gl = useWebGLContext()
   const t1 = useTextureUnit()

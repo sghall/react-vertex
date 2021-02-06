@@ -1,28 +1,30 @@
-import React, { memo, useState, useEffect } from 'react'
+import React from 'react'
 import { timer } from 'd3-timer'
-import PropTypes from 'prop-types'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender, usePointLight } from '@react-vertex/core'
 import { useHex } from '@react-vertex/color-hooks'
-import Torus from './Torus'
-import Spheres from './Spheres'
+import { Torus } from './Torus'
+import { Spheres } from './Spheres'
 import { AxesHelper } from '@react-vertex/scene-helpers'
+interface SceneProps {
+  showAxes: boolean
+}
 
-function Scene({ showAxes }) {
-  const { width, height } = useCanvasSize()
+export const Scene: React.FC<SceneProps> = React.memo(({ showAxes }) => {
+  const { width = 1, height = 1 } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 30])
   })
   useOrbitControls(camera)
 
-  const [elapsed, setElapsed] = useState(0)
+  const [elapsed, setElapsed] = React.useState(0)
   const renderScene = useRender()
 
   const lightColor = useHex('#fff')
   usePointLight(lightColor, [0, 0, 0])
 
-  useEffect(() => {
+  React.useEffect(() => {
     const timerLoop = timer(e => {
       renderScene()
       setElapsed(e)
@@ -38,10 +40,4 @@ function Scene({ showAxes }) {
       <Spheres elapsed={elapsed} showAxes={showAxes} />
     </camera>
   )
-}
-
-Scene.propTypes = {
-  showAxes: PropTypes.bool.isRequired,
-}
-
-export default memo(Scene)
+})

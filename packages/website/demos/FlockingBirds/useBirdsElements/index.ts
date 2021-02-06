@@ -6,7 +6,7 @@ import {
 } from '@react-vertex/core'
 import { useBirdGeometry } from './geometry'
 
-export default function useBirdsElements(size) {
+export function useBirdsElements(size: number) {
   const birds = useBirdGeometry(size)
 
   const gl = useWebGLContext()

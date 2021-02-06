@@ -1,7 +1,11 @@
 import { useMemo } from 'react'
 import { vec2, vec3, vec4 } from 'gl-matrix'
 
-export function useVector2(x: number, y: number, configure: (v: vec2) => void) {
+export function useVector2(
+  x: number,
+  y: number,
+  configure?: (v: vec2) => void,
+) {
   const memoized = useMemo(() => {
     const vector = vec2.create()
     vec2.set(vector, x, y)
@@ -18,7 +22,7 @@ export function useVector3(
   x: number,
   y: number,
   z: number,
-  configure: (v: vec3) => void,
+  configure?: (v: vec3) => void,
 ) {
   const memoized = useMemo(() => {
     const vector = vec3.create()
@@ -37,7 +41,7 @@ export function useVector4(
   y: number,
   z: number,
   w: number,
-  configure: (v: vec4) => void,
+  configure?: (v: vec4) => void,
 ) {
   const memoized = useMemo(() => {
     const vector = vec4.create()

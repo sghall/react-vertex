@@ -1,18 +1,16 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import Button from '@material-ui/core/Button'
 import { Canvas } from '@react-vertex/core'
-import { useMeasure } from '@react-vertex/dom-hooks'
+import { useMeasure } from 'react-use'
 import { convertHex } from '@react-vertex/color-hooks'
 import DemoWrapper from '../DemoWrapper'
-import Scene from './Scene'
+import { Scene } from './Scene'
 
 const clearColor = convertHex('#323334')
 
-function AxesHelper() {
-  const container = useRef()
-  const { width } = useMeasure(container)
-
-  const [showAxes, setShowAxes] = useState(false)
+export const AxesHelper = () => {
+  const [ref, dims] = useMeasure<HTMLDivElement>()
+  const [showAxes, setShowAxes] = React.useState(false)
 
   return (
     <DemoWrapper src="demos/AxesHelper">
@@ -25,13 +23,22 @@ function AxesHelper() {
       >
         {showAxes ? 'Hide' : 'Show'} Axes
       </Button>
-      <div ref={container}>
-        <Canvas antialias width={width} height={width} clearColor={clearColor}>
+      <div ref={ref}>
+        <Canvas
+          antialias
+          width={dims.width}
+          height={dims.width}
+          clearColor={clearColor}
+          canvasStyle={{
+            borderRadius: 4,
+            cursor: 'pointer',
+            userSelect: 'none',
+            WebkitTapHighlightColor: 'transparent',
+          }}
+        >
           <Scene showAxes={showAxes} />
         </Canvas>
       </div>
     </DemoWrapper>
   )
 }
-
-export default AxesHelper

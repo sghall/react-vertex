@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-export function useBirdGeometry(size) {
+export function useBirdGeometry(size: number) {
   const memoized = useMemo(() => {
     const instanceCount = size * size
 

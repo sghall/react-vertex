@@ -7,6 +7,7 @@ declare global {
       geometry: any
       material: any
       camera: any
+      group: any
     }
   }
 }

@@ -7,7 +7,7 @@ import Scene from './Scene'
 
 const clearColor = convertHex('#323334')
 
-function AttenuatedLight() {
+export const AttenuatedLight = () => {
   const [ref, dims] = useMeasure<HTMLDivElement>()
 
   return (
@@ -31,5 +31,3 @@ function AttenuatedLight() {
     </DemoWrapper>
   )
 }
-
-export default AttenuatedLight
