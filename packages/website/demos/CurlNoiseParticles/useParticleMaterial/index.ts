@@ -7,7 +7,7 @@ import {
 import vert from './vert.glsl'
 import frag from './frag.glsl'
 
-export default function useParticleMaterial() {
+export function useParticleMaterial() {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
   const uniforms = useProgramUniforms(gl, program)

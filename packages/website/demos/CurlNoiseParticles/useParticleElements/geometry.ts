@@ -22,7 +22,7 @@ const particle1 = [
   sin(angle * 3 + PI), cos(angle * 3 + PI), 0,
 ].map(d => d * scale)
 
-export function useParticleGeometry(size) {
+export function useParticleGeometry(size: number) {
   const memoized = useMemo(() => {
     const instanceCount = size * size
 
@@ -35,7 +35,7 @@ export function useParticleGeometry(size) {
       const x = (i % size) / size
       const y = Math.floor(i / size) / size
 
-      const color = [1, x, y]
+      const color = [0, 0, 1]
       const uv = [x, y]
 
       for (let j = 0; j < 3; j++) {

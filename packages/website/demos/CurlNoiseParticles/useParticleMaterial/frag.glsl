@@ -11,9 +11,7 @@ void main() {
 
   vec4 col = vec4(vColor.rgb * depthcolor, min(vPhase / 2000.0, 0.5));
 
-  if (vPhase > 1000.0) {
-    col = vec4(1.0 - col.rgb, 0.5);
-  }
+
 
   gl_FragColor = col;
 }

@@ -8,11 +8,11 @@ import {
   useRender,
 } from '@react-vertex/core'
 import useCompute from './useCompute'
-import useParticleElements from './useParticleElements'
-import useParticleMaterial from './useParticleMaterial'
+import { useParticleElements } from './useParticleElements'
+import { useParticleMaterial } from './useParticleMaterial'
 
-function Scene() {
-  const { width, height } = useCanvasSize()
+export const Scene = React.memo(() => {
+  const { width = 1, height = 1 } = useCanvasSize()
   const renderScene = useRender()
 
   const camera = useOrbitCamera(65, width / height, 1, 500, c => {
@@ -22,7 +22,7 @@ function Scene() {
 
   const size = 256
   const compute = useCompute(size)
-  const particleMaterial = useParticleMaterial(size)
+  const particleMaterial = useParticleMaterial()
   const particleElements = useParticleElements(size)
 
   const gl = useWebGLContext()
@@ -60,8 +60,4 @@ function Scene() {
       </material>
     </camera>
   )
-}
-
-Scene.propTypes = {}
-
-export default memo(Scene)
+})

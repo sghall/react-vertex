@@ -6,7 +6,7 @@ import {
 } from '@react-vertex/core'
 import { useParticleGeometry } from './geometry'
 
-export default function useParticleElements(size) {
+export function useParticleElements(size: number) {
   const particles = useParticleGeometry(size)
 
   const gl = useWebGLContext()
