@@ -1,11 +1,7 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
 
-function Sphere() {
+export const Sphere = React.memo(() => {
   const elements = useSphereElements(11, 35, 35)
   return <geometry {...elements} />
-}
-
-Sphere.propTypes = {}
-
-export default memo(Sphere)
+})

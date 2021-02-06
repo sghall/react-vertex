@@ -1,11 +1,7 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { useCircleElements } from '@react-vertex/geometry-hooks'
 
-function Circle() {
+export const Circle = React.memo(() => {
   const elements = useCircleElements(10, 50)
   return <geometry {...elements} />
-}
-
-Circle.propTypes = {}
-
-export default memo(Circle)
+})

@@ -16,7 +16,7 @@ import tilesBlue from '../../public/static/textures/tiles_blue_diff.png'
 import tilesPink from '../../public/static/textures/tiles_pink_diff.png'
 import hexagons from '../../public/static/textures/hexagons.jpg'
 import fancyTile from '../../public/static/textures/fancy_tile.jpg'
-import Light from './Light'
+import { Light } from './Light'
 import {
   AxesHelper,
   useSelectControl,
@@ -24,9 +24,8 @@ import {
   useColorPicker,
 } from '@react-vertex/scene-helpers'
 
-// prettier-ignore
-function Scene() {
-  const { width, height } = useCanvasSize()
+export function Scene() {
+  const { width = 1, height = 1 } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 60])
@@ -34,7 +33,11 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const solidColor = useColorPicker('Solid Color (solid materials only): ', '#D33115', true)
+  const solidColor = useColorPicker(
+    'Solid Color (solid materials only): ',
+    '#D33115',
+    true,
+  )
 
   const textureUrl = useSelectControl('Texture (textured materials only): ', [
     { value: tilesBlue, label: 'Blue Tiles' },
@@ -89,18 +92,14 @@ function Scene() {
   return (
     <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={30} />
-      <Material
+      <Material.value
         solidColor={solidColor}
-        textureUrl={textureUrl}
+        textureUrl={textureUrl.value}
         ambientLevel={ambientLevel}
       >
-        <Geometry />
-      </Material>
+        <Geometry.value />
+      </Material.value>
       <Light color={lightColor} position={lightPosition} />
     </camera>
   )
 }
-
-Scene.propTypes = {}
-
-export default Scene

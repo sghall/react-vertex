@@ -1,6 +1,12 @@
-export { default as PhongSolid } from './PhongSolid'
-export { default as PhongTextured } from './PhongTextured'
-export { default as LambertSolid } from './LambertSolid'
-export { default as LambertTextured } from './LambertTextured'
-export { default as BasicSolid } from './BasicSolid'
-export { default as BasicTextured } from './BasicTextured'
+export { PhongSolid } from './PhongSolid'
+export { PhongTextured } from './PhongTextured'
+export { LambertSolid } from './LambertSolid'
+export { LambertTextured } from './LambertTextured'
+export { BasicSolid } from './BasicSolid'
+export { BasicTextured } from './BasicTextured'
+
+export interface DemoMaterialProps {
+  textureUrl: string
+  ambientLevel: number
+  solidColor: number[]
+}

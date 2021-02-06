@@ -1,3 +1,2 @@
-import MaterialsExplorer from '../demos/MaterialsExplorer'
-
+import { MaterialsExplorer } from '../demos/MaterialsExplorer'
 export default MaterialsExplorer

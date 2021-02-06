@@ -17,7 +17,7 @@ const defaultKd = [1.0, 1.0, 1.0]
 const defaultKa = [1.0, 1.0, 1.0]
 const defaultNa = 0
 
-export function useLambertSolid(kd: number[], na: number, ka: number[]) {
+export function useLambertSolid(kd?: number[], na?: number, ka?: number[]) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(solidVert, solidFrag)
   const program = useProgram(gl, vert, frag)
@@ -35,9 +35,9 @@ export function useLambertSolid(kd: number[], na: number, ka: number[]) {
 const uVScale = [1.0, 1.0]
 
 export function useLambertTextured(
-  mapKd: WebGLTexture,
-  na: number,
-  ka: number[],
+  mapKd: WebGLTexture | null,
+  na?: number,
+  ka?: number[],
 ) {
   const gl = useWebGLContext()
   const [vert, frag] = usePointLightCount(texturedVert, texturedFrag)
