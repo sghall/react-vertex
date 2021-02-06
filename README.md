@@ -387,10 +387,9 @@ Clone and Install
 ```
 git clone git@github.com:sghall/react-vertex.git
 cd react-vertex
-pnpm install -r
-pnpm pkgs:build
-cd packages/website
-pnpm docs:dev
+pnpm -r install
+pnpm -r build
+pnpm -r docs:dev
 ```
 
 ## Adding a demo

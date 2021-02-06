@@ -1,0 +1,6 @@
+export { Sphere } from './Sphere'
+export { Torus } from './Torus'
+export { Cylinder } from './Cylinder'
+export { Box } from './Box'
+export { Plane } from './Plane'
+export { Circle } from './Circle'

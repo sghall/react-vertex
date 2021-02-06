@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["dom", "dom.iterable", "es2017"],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "esnext",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "forceConsistentCasingInFileNames": true
+  }
+}

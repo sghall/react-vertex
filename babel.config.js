@@ -2,6 +2,7 @@ module.exports = {
   env: {
     cjs: {
       presets: [
+        '@babel/preset-typescript',
         '@babel/preset-react',
         ['@babel/preset-env', { modules: 'commonjs' }],
       ],
@@ -14,6 +15,7 @@ module.exports = {
     },
     esm: {
       presets: [
+        '@babel/preset-typescript',
         '@babel/preset-react',
         ['@babel/preset-env', { modules: false }],
       ],

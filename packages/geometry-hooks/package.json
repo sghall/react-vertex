@@ -1,5 +1,6 @@
 {
   "name": "@react-vertex/geometry-hooks",
+  "author": "Steven Hall <hall.steven.g@gmail.com>",
   "version": "2.3.0",
   "description": "React hooks for geometries in React Vertex",
   "keywords": [
@@ -15,9 +16,27 @@
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "jsnext:main": "dist/esm/index.js",
-  "author": "Steven Hall <hall.steven.g@gmail.com>",
+  "typings": "dist/types/index.d.ts",
   "homepage": "https://github.com/sghall/react-vertex/tree/master/packages/geometry-hooks#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sghall/react-vertex.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sghall/react-vertex/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
+    "build:watch": "chokidar --initial  \"src/**/*.(ts|tsx)\" -c \"npm run build:esm && npm run build:tsc\"",
+    "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
+    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --source-maps --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
+    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --source-maps --extensions \".ts,.tsx\" --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\"",
+    "typecheck": "tsc --noEmit"
+  },
   "peerDependencies": {
     "@react-vertex/core": "^2.0.0",
     "react": "^16.8.6"
@@ -27,23 +46,7 @@
   },
   "devDependencies": {
     "@react-vertex/core": "*",
+    "chokidar-cli": "^2.1.0",
     "react": "^16.14.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sghall/react-vertex.git"
-  },
-  "scripts": {
-    "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "build:cjs": "cross-env NODE_ENV=production BABEL_ENV=cjs babel --config-file ../../babel.config.js ./src --out-dir ./dist/cjs --ignore \"**/*.test.js\"",
-    "build:esm": "cross-env NODE_ENV=production BABEL_ENV=esm babel --config-file ../../babel.config.js ./src --out-dir ./dist/esm --ignore \"**/*.test.js\""
-  },
-  "bugs": {
-    "url": "https://github.com/sghall/react-vertex/issues"
-  },
-  "gitHead": "81e524013310b8cc02a9569df9f696afb3a92abc"
+  }
 }
