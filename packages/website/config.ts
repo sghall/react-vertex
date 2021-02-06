@@ -43,11 +43,6 @@ export const demosList = [
     tag: '',
   },
   {
-    href: '/demo-fluid-simulation',
-    name: 'Fluid Simulation',
-    tag: '',
-  },
-  {
     href: '/demo-flocking-birds',
     name: 'Flocking Birds',
     tag: '',

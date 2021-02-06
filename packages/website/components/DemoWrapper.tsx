@@ -1,11 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 
 import { docsPath } from '../config'
 
-const DemoWrapper = ({ children, src }) => (
+interface DemoWrapperProps {
+  src: string
+}
+
+export const DemoWrapper: React.FC<DemoWrapperProps> = ({ children, src }) => (
   <div style={{ padding: 16 }}>
     <Grid container justify="center" spacing={8}>
       <Grid item xs={12} md={8}>
@@ -17,14 +20,3 @@ const DemoWrapper = ({ children, src }) => (
     </Grid>
   </div>
 )
-
-DemoWrapper.propTypes = {
-  src: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-}
-
-DemoWrapper.defaultProps = {
-  src: '',
-}
-
-export default DemoWrapper

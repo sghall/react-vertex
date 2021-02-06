@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Canvas } from '@react-vertex/core'
 import { useMeasure } from '@react-vertex/dom-hooks'
 import { convertHex } from '@react-vertex/color-hooks'
-import DemoWrapper from '../DemoWrapper'
+import { DemoWrapper } from '../../components/DemoWrapper'
 import Scene from './Scene'
 
 const clearColor = convertHex('#323334')
