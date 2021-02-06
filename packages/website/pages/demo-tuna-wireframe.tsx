@@ -1,3 +1,2 @@
-import TunaWireframe from '../demos/TunaWireframe'
-
+import { TunaWireframe } from '../demos/TunaWireframe'
 export default TunaWireframe

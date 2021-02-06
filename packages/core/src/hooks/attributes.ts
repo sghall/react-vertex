@@ -33,7 +33,7 @@ export function useAttribute(
 export function useInstancedAttribute(
   gl: GLContext,
   size: number,
-  buffer: WebGLBuffer,
+  buffer: WebGLBuffer | null,
   getOptions?: GetAttributeOptions,
 ) {
   const memoized = useMemo(() => {

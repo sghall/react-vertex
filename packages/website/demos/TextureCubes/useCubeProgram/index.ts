@@ -7,12 +7,12 @@ import {
 import vert from './vert.glsl'
 import frag from './frag.glsl'
 
-export default function CubeMaterial(textureUnit, textureUrl) {
+export function useCubeProgram(textureUrl: string) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 
   const [texture] = useTexture2d(textureUrl)
-  useUniformSampler2d(gl, program, 'texture', texture, textureUnit)
+  useUniformSampler2d(gl, program, 'texture', texture)
 
   return program
 }

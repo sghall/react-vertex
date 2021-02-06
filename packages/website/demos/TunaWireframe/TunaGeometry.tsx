@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React from 'react'
 import {
   useWebGLContext,
   useStaticBuffer,
@@ -7,20 +7,20 @@ import {
 import { useValueSlider } from '@react-vertex/scene-helpers'
 import { positions } from '../models/tuna/tuna.json'
 
-const indices = []
+const indices: number[] = []
 
 for (let i = 0; i < positions.length / 3; i++) {
   indices.push(i)
 }
 
-function TunaGeometry() {
+export const TunaGeometry = React.memo(() => {
   const gl = useWebGLContext()
   const positionBuffer = useStaticBuffer(gl, positions, false, 'F32')
   const position = useAttribute(gl, 3, positionBuffer)
 
   const indexBuffer = useStaticBuffer(gl, indices, true, 'U16')
 
-  const attributes = useMemo(() => {
+  const attributes = React.useMemo(() => {
     return { position }
   }, [position])
 
@@ -39,8 +39,4 @@ function TunaGeometry() {
       attributes={attributes}
     />
   )
-}
-
-TunaGeometry.propTypes = {}
-
-export default memo(TunaGeometry)
+})

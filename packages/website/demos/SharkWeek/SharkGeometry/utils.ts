@@ -14,9 +14,15 @@ const maxPerturbX = cellX * 0.08
 const maxPerturbY = cellY * 0.08
 const maxPerturbZ = cellZ * 0.5
 
-const perturbX = d => d + Math.random() * maxPerturbX - maxPerturbX / 2
-const perturbY = d => d + Math.random() * maxPerturbY - maxPerturbY / 2
-const perturbZ = d => d + Math.random() * maxPerturbZ - maxPerturbZ / 2
+const perturbX = (d: number) => {
+  return d + Math.random() * maxPerturbX - maxPerturbX / 2
+}
+const perturbY = (d: number) => {
+  return d + Math.random() * maxPerturbY - maxPerturbY / 2
+}
+const perturbZ = (d: number) => {
+  return d + Math.random() * maxPerturbZ - maxPerturbZ / 2
+}
 
 function createOffets() {
   const result = []

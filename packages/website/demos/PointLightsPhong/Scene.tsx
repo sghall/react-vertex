@@ -1,13 +1,13 @@
-import React, { memo, useState, useEffect } from 'react'
+import React from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender, usePointLight } from '@react-vertex/core'
 import { useHex } from '@react-vertex/color-hooks'
-import Sphere from './Sphere'
-import Light from './Light'
+import { Sphere } from './Sphere'
+import { Light } from './Light'
 import { AxesHelper } from '@react-vertex/scene-helpers'
 
-function Scene() {
+export const Scene = React.memo(() => {
   const { width = 1, height = 1 } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
@@ -15,9 +15,9 @@ function Scene() {
   })
   useOrbitControls(camera)
 
-  const [rLightPosition, setRLightPostion] = useState([0, 0, 0])
-  const [gLightPosition, setGLightPostion] = useState([0, 0, 0])
-  const [bLightPosition, setBLightPostion] = useState([0, 0, 0])
+  const [rLightPosition, setRLightPostion] = React.useState([0, 0, 0])
+  const [gLightPosition, setGLightPostion] = React.useState([0, 0, 0])
+  const [bLightPosition, setBLightPostion] = React.useState([0, 0, 0])
 
   const r = useHex('#ff0000', true)
   const g = useHex('#00ff00', true)
@@ -29,7 +29,7 @@ function Scene() {
 
   const renderScene = useRender()
 
-  useEffect(() => {
+  React.useEffect(() => {
     const timerLoop = timer(elapsed => {
       renderScene()
 
@@ -49,14 +49,10 @@ function Scene() {
   return (
     <camera view={camera.view} projection={camera.projection}>
       <AxesHelper size={30} />
-      <Sphere lightPosition={rLightPosition} />
+      <Sphere />
       <Light color={r} position={rLightPosition} />
       <Light color={g} position={gLightPosition} />
       <Light color={b} position={bLightPosition} />
     </camera>
   )
-}
-
-Scene.propTypes = {}
-
-export default memo(Scene)
+})

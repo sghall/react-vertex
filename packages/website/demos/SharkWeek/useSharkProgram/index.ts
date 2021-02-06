@@ -2,7 +2,7 @@ import { useWebGLContext, useProgram, useUniform1f } from '@react-vertex/core'
 import vert from './vert.glsl'
 import frag from './frag.glsl'
 
-export default function useSharkProgram(elapsed) {
+export function useSharkProgram(elapsed: number) {
   const gl = useWebGLContext()
   const program = useProgram(gl, vert, frag)
 

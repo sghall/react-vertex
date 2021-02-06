@@ -3,10 +3,10 @@ import { useRender, useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useBasicSolid } from '@react-vertex/material-hooks'
 import { AxesHelper, useColorPicker } from '@react-vertex/scene-helpers'
-import TunaGeometry from './TunaGeometry'
+import { TunaGeometry } from './TunaGeometry'
 
-function Scene() {
-  const { width, height } = useCanvasSize()
+export const Scene = () => {
+  const { width = 1, height = 1 } = useCanvasSize()
 
   const renderScene = useRender()
 
@@ -34,7 +34,3 @@ function Scene() {
     </camera>
   )
 }
-
-Scene.propTypes = {}
-
-export default Scene

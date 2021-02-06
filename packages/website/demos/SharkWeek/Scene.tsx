@@ -2,11 +2,11 @@ import React, { memo, useState, useEffect } from 'react'
 import { timer } from 'd3-timer'
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize, useRender } from '@react-vertex/core'
-import SharkGeometry from './SharkGeometry'
-import useSharkProgram from './useSharkProgram'
+import { SharkGeometry } from './SharkGeometry'
+import { useSharkProgram } from './useSharkProgram'
 
 function Scene() {
-  const { width, height } = useCanvasSize()
+  const { width = 1, height = 1 } = useCanvasSize()
   const renderScene = useRender()
 
   const [elapsed, setElapsed] = useState(0)

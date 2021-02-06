@@ -1,3 +1,2 @@
-import PointLightsPhong from '../demos/PointLightsPhong'
-
+import { PointLightsPhong } from '../demos/PointLightsPhong'
 export default PointLightsPhong

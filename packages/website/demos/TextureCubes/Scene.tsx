@@ -5,17 +5,17 @@ import {
   useInvertedMatrix,
   usePerspectiveMatrix,
 } from '@react-vertex/math-hooks'
-import useCubeProgram from './useCubeProgram'
-import CubeGeometry from './CubeGeometry'
+import { useCubeProgram } from './useCubeProgram'
+import { CubeGeometry } from './CubeGeometry'
 import tex1Url from '../../public/static/textures/react-vertex-white.png'
 import tex2Url from '../../public/static/textures/grey-noise.png'
 
-function Scene() {
+export const Scene = () => {
   const view = useInvertedMatrix(0, 0, 50)
   const projection = usePerspectiveMatrix(35, 1.0, 0.1, 1000)
 
-  const cubeProgram1 = useCubeProgram(0, tex1Url)
-  const cubeProgram2 = useCubeProgram(1, tex2Url)
+  const cubeProgram1 = useCubeProgram(tex1Url)
+  const cubeProgram2 = useCubeProgram(tex2Url)
 
   const [groupRotation, setGroupRotation] = useState([0, 0, 0])
 
@@ -43,5 +43,3 @@ function Scene() {
     </camera>
   )
 }
-
-export default Scene

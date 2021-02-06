@@ -3,7 +3,7 @@ export {}
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      instanced: any
+      instancedgeometry: any
       geometry: any
       material: any
       camera: any

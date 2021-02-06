@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React from 'react'
 import {
   useStaticBuffer,
   useAttribute,
@@ -8,13 +8,13 @@ import {
 import { offsets, colors, instanceCount } from './utils'
 import { positions, normals } from '../../models/shark/shark.json'
 
-const indices = []
+const indices: number[] = []
 
 for (let i = 0; i < positions.length / 3; i++) {
   indices.push(i)
 }
 
-function SharkGeometry() {
+export const SharkGeometry = React.memo(() => {
   const gl = useWebGLContext()
   const positionBuffer = useStaticBuffer(gl, positions, false, 'F32')
   const position = useAttribute(gl, 3, positionBuffer)
@@ -30,7 +30,7 @@ function SharkGeometry() {
 
   const indexBuffer = useStaticBuffer(gl, indices, true, 'U16')
 
-  const attributes = useMemo(() => {
+  const attributes = React.useMemo(() => {
     return { position, normal, offset, color }
   }, [position, normal, offset, color])
 
@@ -45,8 +45,4 @@ function SharkGeometry() {
       attributes={attributes}
     />
   )
-}
-
-SharkGeometry.propTypes = {}
-
-export default memo(SharkGeometry)
+})

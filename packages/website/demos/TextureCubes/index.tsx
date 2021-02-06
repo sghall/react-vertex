@@ -1,25 +1,27 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Canvas } from '@react-vertex/core'
-import { useMeasure } from '@react-vertex/dom-hooks'
+import { useMeasure } from 'react-use'
 import { convertHex } from '@react-vertex/color-hooks'
 import { DemoWrapper } from '../../components/DemoWrapper'
-import Scene from './Scene'
+import { Scene } from './Scene'
 
 const clearColor = convertHex('#323334')
 
-function TextureCubes() {
-  const container = useRef()
-  const { width } = useMeasure(container)
+export function TextureCubes() {
+  const [ref, dims] = useMeasure<HTMLDivElement>()
 
   return (
     <DemoWrapper src="demos/TextureCubes">
-      <div ref={container}>
-        <Canvas antialias width={width} height={width} clearColor={clearColor}>
+      <div ref={ref}>
+        <Canvas
+          antialias
+          width={dims.width}
+          height={dims.width}
+          clearColor={clearColor}
+        >
           <Scene />
         </Canvas>
       </div>
     </DemoWrapper>
   )
 }
-
-export default TextureCubes

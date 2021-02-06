@@ -240,6 +240,7 @@ importers:
       react-markdown: 4.3.1_react@16.14.0
       react-use: 17.1.0_react-dom@16.14.0+react@16.14.0
     devDependencies:
+      '@types/d3-scale-chromatic': 2.0.0
       '@types/d3-timer': 2.0.0
       '@types/node': 14.14.25
       '@types/react': 17.0.1
@@ -255,6 +256,7 @@ importers:
       '@react-vertex/math-hooks': 1.9.0
       '@react-vertex/orbit-camera': 2.15.0
       '@react-vertex/scene-helpers': 1.11.0
+      '@types/d3-scale-chromatic': ^2.0.0
       '@types/d3-timer': ^2.0.0
       '@types/node': ^14.14.25
       '@types/react': ^17.0.1
@@ -1999,6 +2001,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-XIB2XbzHTN6ieIjfIMV9hlVcfPU26s2vafYWQcZHWXHOxiaRZYEDKEwdl129Zyg50+foYV2jCgtrqSA6qNuNSA==
+  /@types/d3-scale-chromatic/2.0.0:
+    dev: true
+    resolution:
+      integrity: sha512-Y62+2clOwZoKua84Ha0xU77w7lePiaBoTjXugT4l8Rd5LAk+Mn/ZDtrgs087a+B5uJ3jYUHHtKw5nuEzp0WBHw==
   /@types/d3-timer/2.0.0:
     dev: true
     resolution:

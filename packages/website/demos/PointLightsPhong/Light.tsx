@@ -1,9 +1,13 @@
-import React, { memo } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { useSphereElements } from '@react-vertex/geometry-hooks'
 import { useBasicSolid } from '@react-vertex/material-hooks'
 
-function Light({ color, position }) {
+interface LightProps {
+  color: number[]
+  position: number[]
+}
+
+export const Light: React.FC<LightProps> = React.memo(({ color, position }) => {
   const sphere = useSphereElements(0.5, 10, 10)
   const program = useBasicSolid(color)
 
@@ -12,11 +16,4 @@ function Light({ color, position }) {
       <geometry position={position} {...sphere} />
     </material>
   )
-}
-
-Light.propTypes = {
-  color: PropTypes.array.isRequired,
-  position: PropTypes.array.isRequired,
-}
-
-export default memo(Light)
+})
