@@ -8,7 +8,7 @@ import Light from './Light'
 import { AxesHelper } from '@react-vertex/scene-helpers'
 
 function Scene() {
-  const { width, height } = useCanvasSize()
+  const { width = 1, height = 1 } = useCanvasSize()
 
   const camera = useOrbitCamera(55, width / height, 1, 5000, c => {
     c.setPosition([0, 0, 60])
