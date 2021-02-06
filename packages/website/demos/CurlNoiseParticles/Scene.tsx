@@ -20,7 +20,7 @@ export const Scene = React.memo(() => {
   })
   useOrbitControls(camera)
 
-  const size = 256
+  const size = 512
   const compute = useCompute(size)
   const particleMaterial = useParticleMaterial()
   const particleElements = useParticleElements(size)

@@ -5,7 +5,7 @@ export const docsPath = `${repoPath}/tree/master/packages/website`
 
 export const theme = createMuiTheme({
   palette: {
-    type: 'light',
+    type: 'dark',
     primary: {
       light: '#5b5c5e',
       main: '#323334',

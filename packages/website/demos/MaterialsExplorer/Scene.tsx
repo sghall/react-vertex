@@ -41,8 +41,8 @@ export function Scene() {
 
   const textureUrl = useSelectControl('Texture (textured materials only): ', [
     { value: tilesBlue, label: 'Blue Tiles' },
-    { value: tilesPink, label: 'Pink Tiles' },
     { value: hexagons, label: 'Abstract' },
+    { value: tilesPink, label: 'Pink Tiles' },
     { value: fancyTile, label: 'Fancy Tile' },
   ])
 

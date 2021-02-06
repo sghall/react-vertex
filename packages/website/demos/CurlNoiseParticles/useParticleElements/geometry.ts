@@ -35,7 +35,7 @@ export function useParticleGeometry(size: number) {
       const x = (i % size) / size
       const y = Math.floor(i / size) / size
 
-      const color = [0, 0, 1]
+      const color = [0, 1, 1]
       const uv = [x, y]
 
       for (let j = 0; j < 3; j++) {

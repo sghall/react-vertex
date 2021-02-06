@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { render } from 'react-dom'
-import { CompactPicker } from 'react-color'
-import Select, { OptionsType, ValueType, Styles } from 'react-select'
+import { CompactPicker, ColorChangeHandler, ColorResult } from 'react-color'
+import Select, { OptionsType, ValueType } from 'react-select'
 import { useHex, convertHex } from '@react-vertex/color-hooks'
 import { ValueSlider } from './Slider'
 
@@ -15,6 +15,7 @@ const controlsId = 'react-vertex-controls-root'
 const controlsClass = 'react-vertex-control'
 
 const textStyles = {
+  color: '#333',
   fontSize: '0.7rem',
   fontFamily: 'Roboto, Arial, Helvetica, Sans-Serif',
 }
@@ -126,10 +127,15 @@ export function useValueSlider(
   return Array.isArray(float) ? float[0] : float
 }
 
+type ColorObject = {
+  hex: string
+  webgl: number[]
+}
+
 export function useColorPicker(label: string, hex: string, noAlpha = false) {
   const inputColor = useHex(hex, noAlpha)
 
-  const [color, setColor] = useState(inputColor)
+  const [color, setColor] = useState<ColorObject>({ webgl: inputColor, hex })
   const controlsRoot = useControlsRoot()
 
   useEffect(() => {
@@ -142,11 +148,7 @@ export function useColorPicker(label: string, hex: string, noAlpha = false) {
     controlContainer.classList.add(controlsClass)
     container.appendChild(controlContainer)
 
-    function updateColor(color: any) {
-      setColor(convertHex(color.hex, noAlpha))
-    }
-
-    function ColorPickerApp() {
+    function ColorPickerApp({ activeColor }: { activeColor: string }) {
       return (
         <div style={{ padding: 5 }}>
           <div
@@ -157,12 +159,24 @@ export function useColorPicker(label: string, hex: string, noAlpha = false) {
           >
             {label}
           </div>
-          <CompactPicker color={hex} onChangeComplete={updateColor} />
+          <CompactPicker
+            color={activeColor}
+            onChange={updateColor}
+            onChangeComplete={updateColor}
+          />
         </div>
       )
     }
 
-    render(<ColorPickerApp />, controlContainer)
+    function updateColor(c: ColorResult) {
+      setColor({
+        hex: c.hex,
+        webgl: convertHex(c.hex, noAlpha),
+      })
+      render(<ColorPickerApp activeColor={c.hex} />, controlContainer)
+    }
+
+    render(<ColorPickerApp activeColor={color.hex} />, controlContainer)
 
     return () => {
       container.removeChild(controlContainer)
@@ -176,7 +190,7 @@ export function useColorPicker(label: string, hex: string, noAlpha = false) {
     }
   }, [controlsRoot, label, hex, noAlpha])
 
-  return color
+  return color.webgl
 }
 
 export function useSelectControl<T>(label: string, options: OptionsType<T>) {
@@ -222,7 +236,7 @@ export function useSelectControl<T>(label: string, options: OptionsType<T>) {
             cursor: 'pointer',
             label: 'option',
             backgroundColor: 'transparent',
-            color: 'inherit',
+            color: '#333',
             display: 'block',
             fontSize: 'inherit',
             padding: '8px 12px',
