@@ -25,11 +25,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// prettier-ignore
-export default function boxGeometry(width = 1, height = 1, depth = 1, wCount: number, hCount: number, dCount: number) {
-  wCount = Math.floor(wCount) || 1
-  hCount = Math.floor(hCount) || 1
-  dCount = Math.floor(dCount) || 1
+export default function boxGeometry(
+  width = 1,
+  height = 1,
+  depth = 1,
+  wCount: number = 1,
+  hCount: number = 1,
+  dCount: number = 1,
+) {
+  wCount = Math.floor(wCount)
+  hCount = Math.floor(hCount)
+  dCount = Math.floor(dCount)
 
   const indices: number[] = []
   const vertices: number[] = []
@@ -45,7 +51,18 @@ export default function boxGeometry(width = 1, height = 1, depth = 1, wCount: nu
   buildPlane(0, 1, 2, +1, -1, width, height, +depth, wCount, hCount)
   buildPlane(0, 1, 2, -1, -1, width, height, -depth, wCount, hCount)
 
-  function buildPlane(u:number, v:number, w:number, udir: number, vdir: number, width: number, height: number, depth: number, gridX: number, gridY:number) {
+  function buildPlane(
+    u: number,
+    v: number,
+    w: number,
+    udir: number,
+    vdir: number,
+    width: number,
+    height: number,
+    depth: number,
+    gridX: number,
+    gridY: number,
+  ) {
     const segmentWidth = width / gridX
     const segmentHeight = height / gridY
 

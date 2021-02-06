@@ -25,16 +25,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// prettier-ignore
-export default function PlaneBufferGeometry(width: number, height: number, widthSegments: number, heightSegments: number) {
-  width = width || 1
-  height = height || 1
-
+export default function PlaneBufferGeometry(
+  width: number = 1,
+  height: number = 1,
+  widthSegments: number = 1,
+  heightSegments: number = 1,
+) {
   const width_half = width / 2
   const height_half = height / 2
 
-  const gridX = Math.floor(widthSegments) || 1
-  const gridY = Math.floor(heightSegments) || 1
+  const gridX = Math.floor(widthSegments)
+  const gridY = Math.floor(heightSegments)
 
   const gridX1 = gridX + 1
   const gridY1 = gridY + 1

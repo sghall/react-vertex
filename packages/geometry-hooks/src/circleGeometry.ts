@@ -26,13 +26,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// prettier-ignore
-export default function circleGeometry(radius: number, segments: number, thetaStart: number, thetaLength: number) {
-  radius = radius || 1
-  segments = segments !== undefined ? Math.max(3, segments) : 8
-
-  thetaStart = thetaStart !== undefined ? thetaStart : 0
-  thetaLength = thetaLength !== undefined ? thetaLength : Math.PI * 2
+export default function circleGeometry(
+  radius: number = 1,
+  segments: number = 8,
+  thetaStart: number = 0,
+  thetaLength: number = Math.PI * 2,
+) {
+  segments = Math.max(3, segments)
 
   const indices = []
   const vertices = []

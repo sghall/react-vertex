@@ -26,14 +26,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// prettier-ignore
-export default function torusGeometry(radius: number, tube: number, radialSegments:number, tubularSegments: number, arc: number) {
-  radius = radius || 1
-  tube = tube || 0.4
-  radialSegments = Math.floor(radialSegments) || 8
-  tubularSegments = Math.floor(tubularSegments) || 6
-  arc = arc || Math.PI * 2
-
+export default function torusGeometry(
+  radius: number = 1,
+  tube: number = 0.4,
+  radialSegments: number = 8,
+  tubularSegments: number = 6,
+  arc: number = Math.PI * 2,
+) {
   const indices = []
   const vertices = []
   const normals = []
@@ -65,14 +64,12 @@ export default function torusGeometry(radius: number, tube: number, radialSegmen
       normal[2] = vertex[2] - center[2]
 
       const len = Math.sqrt(
-        normal[0] * normal[0] +
-        normal[1] * normal[1] + 
-        normal[2] * normal[2]
+        normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2],
       )
-    
+
       normal[0] *= 1 / (len || 1)
       normal[1] *= 1 / (len || 1)
-      normal[2] *= 1 / (len || 1) 
+      normal[2] *= 1 / (len || 1)
 
       normals.push(...normal)
 

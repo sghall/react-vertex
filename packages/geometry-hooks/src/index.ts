@@ -52,8 +52,14 @@ export function useGeometryElements(geometry: {
   return elements
 }
 
-// prettier-ignore
-export function useBoxGeometry(width: number, height: number, depth: number, wCount:number, hCount: number, dCount: number) {
+export function useBoxGeometry(
+  width?: number,
+  height?: number,
+  depth?: number,
+  wCount?: number,
+  hCount?: number,
+  dCount?: number,
+) {
   const memoized = useMemo(() => {
     return boxGeometry(width, height, depth, wCount, hCount, dCount)
   }, [width, height, depth, wCount, hCount, dCount])
@@ -61,16 +67,26 @@ export function useBoxGeometry(width: number, height: number, depth: number, wCo
   return memoized
 }
 
-// prettier-ignore
-export function useBoxElements(width: number, height: number, depth: number, wCount: number, hCount: number, dCount: number) {
+export function useBoxElements(
+  width?: number,
+  height?: number,
+  depth?: number,
+  wCount?: number,
+  hCount?: number,
+  dCount?: number,
+) {
   const geom = useBoxGeometry(width, height, depth, wCount, hCount, dCount)
   const elements = useGeometryElements(geom)
 
   return elements
 }
 
-// prettier-ignore
-export function useCircleGeometry(radius: number, segments: number, thetaStart: number, thetaLength: number) {
+export function useCircleGeometry(
+  radius?: number,
+  segments?: number,
+  thetaStart?: number,
+  thetaLength?: number,
+) {
   const memoized = useMemo(() => {
     return circleGeometry(radius, segments, thetaStart, thetaLength)
   }, [radius, segments, thetaStart, thetaLength])
@@ -78,33 +94,84 @@ export function useCircleGeometry(radius: number, segments: number, thetaStart: 
   return memoized
 }
 
-// prettier-ignore
-export function useCircleElements(radius: number, segments: number, thetaStart: number, thetaLength: number) {
+export function useCircleElements(
+  radius?: number,
+  segments?: number,
+  thetaStart?: number,
+  thetaLength?: number,
+) {
   const geom = useCircleGeometry(radius, segments, thetaStart, thetaLength)
   const elements = useGeometryElements(geom)
 
   return elements
 }
 
-// prettier-ignore
-export function useCylinderGeometry(radiusTop: number, radiusBottom: number, height: number, radialSegments: number, heightSegments: number, openEnded: boolean, thetaStart: number, thetaLength: number) {
+export function useCylinderGeometry(
+  radiusTop?: number,
+  radiusBottom?: number,
+  height?: number,
+  radialSegments?: number,
+  heightSegments?: number,
+  openEnded?: boolean,
+  thetaStart?: number,
+  thetaLength?: number,
+) {
   const memoized = useMemo(() => {
-    return cylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength)
-  }, [radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength])
+    return cylinderGeometry(
+      radiusTop,
+      radiusBottom,
+      height,
+      radialSegments,
+      heightSegments,
+      openEnded,
+      thetaStart,
+      thetaLength,
+    )
+  }, [
+    radiusTop,
+    radiusBottom,
+    height,
+    radialSegments,
+    heightSegments,
+    openEnded,
+    thetaStart,
+    thetaLength,
+  ])
 
   return memoized
 }
 
-// prettier-ignore
-export function useCylinderElements(radiusTop: number, radiusBottom: number, height: number, radialSegments: number, heightSegments: number, openEnded: boolean, thetaStart: number, thetaLength: number) {
-  const geom = useCylinderGeometry(radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength)
+export function useCylinderElements(
+  radiusTop?: number,
+  radiusBottom?: number,
+  height?: number,
+  radialSegments?: number,
+  heightSegments?: number,
+  openEnded?: boolean,
+  thetaStart?: number,
+  thetaLength?: number,
+) {
+  const geom = useCylinderGeometry(
+    radiusTop,
+    radiusBottom,
+    height,
+    radialSegments,
+    heightSegments,
+    openEnded,
+    thetaStart,
+    thetaLength,
+  )
   const elements = useGeometryElements(geom)
 
   return elements
 }
 
-// prettier-ignore
-export function usePlaneGeometry(width: number, height: number, widthSegments: number, heightSegments: number) {
+export function usePlaneGeometry(
+  width?: number,
+  height?: number,
+  widthSegments?: number,
+  heightSegments?: number,
+) {
   const memoized = useMemo(() => {
     return planeGeometry(width, height, widthSegments, heightSegments)
   }, [width, height, widthSegments, heightSegments])
@@ -112,16 +179,25 @@ export function usePlaneGeometry(width: number, height: number, widthSegments: n
   return memoized
 }
 
-// prettier-ignore
-export function usePlaneElements(width: number, height: number, widthSegments: number, heightSegments: number) {
+export function usePlaneElements(
+  width?: number,
+  height?: number,
+  widthSegments?: number,
+  heightSegments?: number,
+) {
   const geom = usePlaneGeometry(width, height, widthSegments, heightSegments)
   const elements = useGeometryElements(geom)
 
   return elements
 }
 
-// prettier-ignore
-export function useTorusGeometry(radius: number, tube: number, radialSegments: number, tubularSegments: number, arc: number) {
+export function useTorusGeometry(
+  radius?: number,
+  tube?: number,
+  radialSegments?: number,
+  tubularSegments?: number,
+  arc?: number,
+) {
   const memoized = useMemo(() => {
     return torusGeometry(radius, tube, radialSegments, tubularSegments, arc)
   }, [radius, tube, radialSegments, tubularSegments, arc])
@@ -129,26 +205,75 @@ export function useTorusGeometry(radius: number, tube: number, radialSegments: n
   return memoized
 }
 
-// prettier-ignore
-export function useTorusElements(radius: number, tube: number, radialSegments: number, tubularSegments: number, arc: number) {
-  const geom = useTorusGeometry(radius, tube, radialSegments, tubularSegments, arc)
+export function useTorusElements(
+  radius?: number,
+  tube?: number,
+  radialSegments?: number,
+  tubularSegments?: number,
+  arc?: number,
+) {
+  const geom = useTorusGeometry(
+    radius,
+    tube,
+    radialSegments,
+    tubularSegments,
+    arc,
+  )
   const elements = useGeometryElements(geom)
 
   return elements
 }
 
-// prettier-ignore
-export function useSphereGeometry(radius: number, widthSegments: number, heightSegments: number, phiStart: number, phiLength: number, thetaStart: number, thetaLength: number) {
+export function useSphereGeometry(
+  radius?: number,
+  widthSegments?: number,
+  heightSegments?: number,
+  phiStart?: number,
+  phiLength?: number,
+  thetaStart?: number,
+  thetaLength?: number,
+) {
   const memoized = useMemo(() => {
-    return sphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
-  }, [radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength])
+    return sphereGeometry(
+      radius,
+      widthSegments,
+      heightSegments,
+      phiStart,
+      phiLength,
+      thetaStart,
+      thetaLength,
+    )
+  }, [
+    radius,
+    widthSegments,
+    heightSegments,
+    phiStart,
+    phiLength,
+    thetaStart,
+    thetaLength,
+  ])
 
   return memoized
 }
 
-// prettier-ignore
-export function useSphereElements(radius: number, widthSegments: number, heightSegments: number, phiStart: number, phiLength: number, thetaStart: number, thetaLength: number) {
-  const geom = useSphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
+export function useSphereElements(
+  radius?: number,
+  widthSegments?: number,
+  heightSegments?: number,
+  phiStart?: number,
+  phiLength?: number,
+  thetaStart?: number,
+  thetaLength?: number,
+) {
+  const geom = useSphereGeometry(
+    radius,
+    widthSegments,
+    heightSegments,
+    phiStart,
+    phiLength,
+    thetaStart,
+    thetaLength,
+  )
   const elements = useGeometryElements(geom)
 
   return elements

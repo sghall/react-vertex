@@ -26,23 +26,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-// prettier-ignore
-export default function SphereGeometry(radius: number, widthSegments: number, heightSegments: number, phiStart: number, phiLength: number, thetaStart: number, thetaLength: number) {
-
-  radius = radius || 1
-
-  widthSegments = Math.max(3, Math.floor(widthSegments) || 8)
-  heightSegments = Math.max(2, Math.floor(heightSegments) || 6)
-
-  phiStart = phiStart !== undefined ? phiStart : 0
-  phiLength = phiLength !== undefined ? phiLength : Math.PI * 2
-
-  thetaStart = thetaStart !== undefined ? thetaStart : 0
-  thetaLength = thetaLength !== undefined ? thetaLength : Math.PI
+export default function SphereGeometry(
+  radius: number = 1,
+  widthSegments: number = 8,
+  heightSegments: number = 6,
+  phiStart: number = 0,
+  phiLength: number = Math.PI * 2,
+  thetaStart: number = 0,
+  thetaLength: number = Math.PI,
+) {
+  widthSegments = Math.max(3, Math.floor(widthSegments))
+  heightSegments = Math.max(2, Math.floor(heightSegments))
 
   const thetaEnd = thetaStart + thetaLength
 
-  let ix, iy, index = 0
+  let ix,
+    iy,
+    index = 0
 
   const grid = []
 
@@ -54,21 +54,30 @@ export default function SphereGeometry(radius: number, widthSegments: number, he
   const normals = []
   const uvs = []
 
-  for (iy = 0; iy <= heightSegments; iy ++) {
-
+  for (iy = 0; iy <= heightSegments; iy++) {
     const verticesRow = []
 
     const v = iy / heightSegments
 
-    const uOffset = (iy == 0) ? 0.5 / widthSegments : ((iy == heightSegments) ? - 0.5 / widthSegments : 0)
+    const uOffset =
+      iy == 0
+        ? 0.5 / widthSegments
+        : iy == heightSegments
+        ? -0.5 / widthSegments
+        : 0
 
-    for (ix = 0; ix <= widthSegments; ix ++) {
-
+    for (ix = 0; ix <= widthSegments; ix++) {
       const u = ix / widthSegments
 
-      vertex[0] = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength)
+      vertex[0] =
+        -radius *
+        Math.cos(phiStart + u * phiLength) *
+        Math.sin(thetaStart + v * thetaLength)
       vertex[1] = radius * Math.cos(thetaStart + v * thetaLength)
-      vertex[2] = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength)
+      vertex[2] =
+        radius *
+        Math.sin(phiStart + u * phiLength) *
+        Math.sin(thetaStart + v * thetaLength)
 
       vertices.push(...vertex)
 
@@ -77,28 +86,24 @@ export default function SphereGeometry(radius: number, widthSegments: number, he
       normal[2] = vertex[2]
 
       const len = Math.sqrt(
-        normal[0] * normal[0] +
-        normal[1] * normal[1] + 
-        normal[2] * normal[2]
+        normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2],
       )
-    
+
       normal[0] *= 1 / (len || 1)
       normal[1] *= 1 / (len || 1)
-      normal[2] *= 1 / (len || 1) 
+      normal[2] *= 1 / (len || 1)
 
       normals.push(...normal)
 
       uvs.push(u + uOffset, 1 - v)
-      verticesRow.push(index ++)
+      verticesRow.push(index++)
     }
 
     grid.push(verticesRow)
-
   }
 
-  for (iy = 0; iy < heightSegments; iy ++) {
-    for (ix = 0; ix < widthSegments; ix ++) {
-
+  for (iy = 0; iy < heightSegments; iy++) {
+    for (ix = 0; ix < widthSegments; ix++) {
       const a = grid[iy][ix + 1]
       const b = grid[iy][ix]
       const c = grid[iy + 1][ix]
@@ -106,9 +111,7 @@ export default function SphereGeometry(radius: number, widthSegments: number, he
 
       if (iy !== 0 || thetaStart > 0) indices.push(a, b, d)
       if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d)
-
     }
-
   }
 
   return { indices, vertices, normals, uvs }

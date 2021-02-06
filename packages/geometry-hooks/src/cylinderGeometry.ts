@@ -24,19 +24,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+// radialSegments = 8, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2
 
-// prettier-ignore
-export default function cylinderGeometry(radiusTop: number, radiusBottom: number, height:number, radialSegments:number, heightSegments: number, openEnded: boolean, thetaStart: number, thetaLength: number) {
-  radiusTop = radiusTop !== undefined ? radiusTop : 1
-  radiusBottom = radiusBottom !== undefined ? radiusBottom : 1
-  height = height || 1
-
-  radialSegments = Math.floor(radialSegments) || 8
-  heightSegments = Math.floor(heightSegments) || 1
-
-  openEnded = openEnded !== undefined ? openEnded : false
-  thetaStart = thetaStart !== undefined ? thetaStart : 0.0
-  thetaLength = thetaLength !== undefined ? thetaLength : Math.PI * 2
+export default function cylinderGeometry(
+  radiusTop: number = 1,
+  radiusBottom: number = 1,
+  height: number = 1,
+  radialSegments: number = 8,
+  heightSegments: number = 1,
+  openEnded: boolean = false,
+  thetaStart: number = 0,
+  thetaLength: number = Math.PI * 2,
+) {
+  const rSegments = Math.floor(radialSegments || 8)
+  const hSegments = Math.floor(heightSegments || 1)
 
   const indices: number[] = []
   const vertices: number[] = []
@@ -62,14 +63,14 @@ export default function cylinderGeometry(radiusTop: number, radiusBottom: number
 
     const slope = (radiusBottom - radiusTop) / height
 
-    for (y = 0; y <= heightSegments; y++) {
+    for (y = 0; y <= hSegments; y++) {
       const indexRow = []
 
-      const v = y / heightSegments
+      const v = y / hSegments
       const radius = v * (radiusBottom - radiusTop) + radiusTop
 
-      for (x = 0; x <= radialSegments; x++) {
-        const u = x / radialSegments
+      for (x = 0; x <= rSegments; x++) {
+        const u = x / rSegments
 
         const theta = u * thetaLength + thetaStart
 
@@ -103,8 +104,8 @@ export default function cylinderGeometry(radiusTop: number, radiusBottom: number
       indexArray.push(indexRow)
     }
 
-    for (x = 0; x < radialSegments; x++) {
-      for (y = 0; y < heightSegments; y++) {
+    for (x = 0; x < rSegments; x++) {
+      for (y = 0; y < hSegments; y++) {
         const a = indexArray[y][x]
         const b = indexArray[y + 1][x]
         const c = indexArray[y + 1][x + 1]
@@ -127,7 +128,7 @@ export default function cylinderGeometry(radiusTop: number, radiusBottom: number
 
     centerIndexStart = index
 
-    for (x = 1; x <= radialSegments; x++) {
+    for (x = 1; x <= rSegments; x++) {
       vertices.push(0, halfHeight * sign, 0)
       normals.push(0, sign, 0)
       uvs.push(0.5, 0.5)
@@ -137,8 +138,8 @@ export default function cylinderGeometry(radiusTop: number, radiusBottom: number
 
     centerIndexEnd = index
 
-    for (x = 0; x <= radialSegments; x++) {
-      const u = x / radialSegments
+    for (x = 0; x <= rSegments; x++) {
+      const u = x / rSegments
       const theta = u * thetaLength + thetaStart
 
       const cosTheta = Math.cos(theta)
@@ -158,7 +159,7 @@ export default function cylinderGeometry(radiusTop: number, radiusBottom: number
       index++
     }
 
-    for (x = 0; x < radialSegments; x++) {
+    for (x = 0; x < rSegments; x++) {
       const c = centerIndexStart + x
       const i = centerIndexEnd + x
 
