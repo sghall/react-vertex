@@ -391,17 +391,3 @@ pnpm -r install
 pnpm -r build
 pnpm -r docs:dev
 ```
-
-## Adding a demo
-
-First, note that the root of the repo is a nextjs app. There's a `pages` folder and a `static` folder and so on. There's a `babel.config.js` at the root of the repo that aliases the packages so you can use them directly from source in the demos.
-
-### Steps:
-
-1. Probably easiest to copy an existing demo in the `demos` folder and give it a new name (something short and sweet that is at least vaguely descriptive). **Pro-tip:** Get the existing demo running at the new location and THEN add your demo code.
-
-2. Add a page (copy an existing) to the `pages` folder using the convention `demo-my-demo.js` (this a static site with no dynamic pages that the reason for the "demo-" prefix). All of the code should be in the `demos` folder so someone can see the whole thing without hunting around and copy it to their environment etc. So just make a minimal page pointing to your demo. See the existing pages for an example.
-
-3. Add your demo to `demosList` in the `docs/config.js` so it will appear on the sidebar menu.
-
-4. Then (if you have already run `npm install`) type `npm run dev` to start developing.

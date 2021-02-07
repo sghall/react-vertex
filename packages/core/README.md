@@ -9,6 +9,7 @@
 React Vertex core.
 
 ##### Install via npm:
+
 ```js
 npm install @react-vertex/core
 ```
@@ -28,7 +29,7 @@ import {
 
 ### `Canvas`
 
-React component for creating a React Vertex component tree.  Renders a canvas element into the DOM.  The children of this component must be valid React Vertex components.
+React component for creating a React Vertex component tree. Renders a canvas element into the DOM. The children of this component must be valid React Vertex components.
 
 ###### Props:
 
@@ -36,9 +37,9 @@ React component for creating a React Vertex component tree.  Renders a canvas el
 
 `height`: Number for the canvas height.
 
-`webgl1`: Boolean for WebGL1 context (defaults to true).  The `webgl2` prop will take precedence (if set to true). If WebGL2 is not available on the device and the `webgl1` prop is set to true (the default) the canvas will fallback to WebGL1.  You can get the resulting version by calling `useWebGLVersion`.
+`webgl1`: Boolean for WebGL1 context (defaults to true). The `webgl2` prop will take precedence (if set to true). If WebGL2 is not available on the device and the `webgl1` prop is set to true (the default) the canvas will fallback to WebGL1. You can get the resulting version by calling `useWebGLVersion`.
 
-`webgl2`: Boolean for WebGL2 context (defaults to false). If WebGL2 is not available on the device and the `webgl1` prop is set to true (the default) the canvas will fallback to WebGL1.  You can get the resulting version by calling `useWebGLVersion`.
+`webgl2`: Boolean for WebGL2 context (defaults to false). If WebGL2 is not available on the device and the `webgl1` prop is set to true (the default) the canvas will fallback to WebGL1. You can get the resulting version by calling `useWebGLVersion`.
 
 `antialias (optional)`: Boolean for using antialiasing (defaults to false).
 
@@ -61,24 +62,18 @@ React component for creating a React Vertex component tree.  Renders a canvas el
 ```js
 import React, { useRef, useState } from 'react'
 import { Canvas } from '@react-vertex/core'
-import { useMeasure } from '@react-vertex/dom-hooks'
+import { useMeasure } from 'react-use'
 import { convertHex } from '@react-vertex/color-hooks'
 import Scene from './Scene'
 
 const clearColor = convertHex('#323334')
 
 function Example() {
-  const container = useRef()
-  const { width } = useMeasure(container)
+  const [ref, { width }] = useMeasure()
 
   return (
-    <div ref={container}>
-      <Canvas
-        antialias
-        width={width}
-        height={width}
-        clearColor={clearColor}
-      >
+    <div ref={ref}>
+      <Canvas antialias width={width} height={width} clearColor={clearColor}>
         <Scene />
       </Canvas>
     </div>
@@ -93,12 +88,13 @@ export default Example
 Inside of a `<Canvas />` component you are no longer building an HTML document. Instead, a React Vertex scene is built of four primary elements: `<camera>`, `<group>`, `<material>` and `<geometry>`. You use the elements to build up the WebGL state used by the renderer.
 
 At its most simple, a scene would look like:
+
 ```html
-  <camera>
-    <material>
-      <geometry />
-    </material>
-  </camera>
+<camera>
+  <material>
+    <geometry />
+  </material>
+</camera>
 ```
 
 ### <camera>
@@ -107,11 +103,12 @@ The `<camera>` elements defines the view and projection for downstream elements.
 
 ###### Props:
 
-`view`:  A matrix instance of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html). 
+`view`: A matrix instance of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html).
 
-`projection`:  A matrix instance of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html).
+`projection`: A matrix instance of [gl-matrix mat4](http://glmatrix.net/docs/module-mat4.html).
 
 ###### Example Usage:
+
 ```js
 import { useOrbitCamera, useOrbitControls } from '@react-vertex/orbit-camera'
 import { useCanvasSize } from '@react-vertex/core'
@@ -130,6 +127,7 @@ function Scene() {
     </camera>
   )
 ```
+
 ### <material>
 
 The `<material>` element defines the WebGL program used to render downstream geometries.
@@ -139,6 +137,7 @@ The `<material>` element defines the WebGL program used to render downstream geo
 `program`: A [WebGLProgram](https://developer.mozilla.org/en-US/docs/Web/API/WebGLProgram). The renderer will handle setting `viewMatrix`, `modelMatrix` and `projectionMatrix` uniforms and setting attributes provided by geometry nodes.
 
 ###### Example Usage:
+
 ```js
 import React from 'react'
 import { useHex } from '@react-vertex/color-hooks'
@@ -168,20 +167,20 @@ The `<geometry>` element defines the attributes and drawing parameters for a Web
 
 `index (optional)`: WebGL buffer with the indices for the geometry. You can create a buffer using `useStaticBuffer`. You only need to set this if you are using `drawElements` i.e. you are drawing an indexed geometry.
 
-`attributes`: Object of attribute functions returned from `useAttribute`.  The keys of the object should be the names of the attributes used in the shader program.
+`attributes`: Object of attribute functions returned from `useAttribute`. The keys of the object should be the names of the attributes used in the shader program.
 
-`position (optional)`: Array or Vector3 for the geometry position. You cannot mutate the position.  If you want to update the position you need to provide a new array or Vector3.
+`position (optional)`: Array or Vector3 for the geometry position. You cannot mutate the position. If you want to update the position you need to provide a new array or Vector3.
 
-`rotation (optional)`: Array or Vector3 for the geometry rotation. You cannot mutate the rotation.  If you want to update the rotation you need to provide a new array or Vector3.
+`rotation (optional)`: Array or Vector3 for the geometry rotation. You cannot mutate the rotation. If you want to update the rotation you need to provide a new array or Vector3.
 
-`scale (optional)`: Array or Vector3 for the geometry scale. You cannot mutate the scale.  If you want to update the scale you need to provide a new array or Vector3.
+`scale (optional)`: Array or Vector3 for the geometry scale. You cannot mutate the scale. If you want to update the scale you need to provide a new array or Vector3.
 
-`drawElements (optional)`: Object of options for drawing an indexed geometry. The command follows the signature of the [drawElements function in WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawElements).  The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default), `type` (defaults to 'UNSIGNED_SHORT') and `offset` (defaults to 0) e.g. `{ mode: 'LINES', count: 36 }`.  See the mode list below for all mode options.
+`drawElements (optional)`: Object of options for drawing an indexed geometry. The command follows the signature of the [drawElements function in WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawElements). The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default), `type` (defaults to 'UNSIGNED_SHORT') and `offset` (defaults to 0) e.g. `{ mode: 'LINES', count: 36 }`. See the mode list below for all mode options.
 
-`drawArrays (optional)`: Object of options for drawing an unindexed geometry. The command follows the signature of the [drawArrays function in WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawArrays).  The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default) and `first` (defaults to 0) e.g. `{ mode: 'LINES', count: 36 }`.  See the mode list below for all mode options.
+`drawArrays (optional)`: Object of options for drawing an unindexed geometry. The command follows the signature of the [drawArrays function in WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawArrays). The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default) and `first` (defaults to 0) e.g. `{ mode: 'LINES', count: 36 }`. See the mode list below for all mode options.
 
 | Mode             | Equivalent        |
-| -----------------|-------------------|
+| ---------------- | ----------------- |
 | 'TRIANGLES'      | gl.TRIANGLES      |
 | 'LINES'          | gl.LINES          |
 | 'POINTS'         | gl.POINTS         |
@@ -191,6 +190,7 @@ The `<geometry>` element defines the attributes and drawing parameters for a Web
 | 'TRIANGLE_FAN'   | gl.TRIANGLE_FAN   |
 
 ###### Example Usage:
+
 ```js
 import React from 'react'
 import { useVector3 } from '@react-vertex/math-hooks'
@@ -221,11 +221,16 @@ function Boxes() {
 ```
 
 To get more control over the geometry buffers and attributes you can use some of the more low-level hooks from the `@react-vertex/core`:
+
 ```js
 import React, { Fragment, useMemo } from 'react'
 import { useVector3 } from '@react-vertex/math-hooks'
 import { useBoxGeometry } from '@react-vertex/geometry-hooks'
-import { useWebGLContext, useStaticBuffer, useAttribute } from '@react-vertex/core'
+import {
+  useWebGLContext,
+  useStaticBuffer,
+  useAttribute,
+} from '@react-vertex/core'
 
 function Boxes() {
   const geometry = useBoxGeometry(10, 10, 10)
@@ -277,22 +282,23 @@ The `<instancedgeometry>` element defines the attributes and drawing parameters 
 
 `index`: WebGL Buffer with the indices for the geometry. You can create a buffer using `useStaticBuffer`.
 
-`attributes`: Object of attribute functions returned from `useAttribute` and `useInstancedAttribute`.  The keys of the object should be the names of the attributes used in the shader program.
+`attributes`: Object of attribute functions returned from `useAttribute` and `useInstancedAttribute`. The keys of the object should be the names of the attributes used in the shader program.
 
-`position (optional)`: Array or Vector3 for the geometry position. You cannot mutate the position.  If you want to update the position you need to provide a new array or Vector3.
+`position (optional)`: Array or Vector3 for the geometry position. You cannot mutate the position. If you want to update the position you need to provide a new array or Vector3.
 
-`rotation (optional)`: Array or Vector3 for the geometry rotation. You cannot mutate the rotation.  If you want to update the rotation you need to provide a new array or Vector3.
+`rotation (optional)`: Array or Vector3 for the geometry rotation. You cannot mutate the rotation. If you want to update the rotation you need to provide a new array or Vector3.
 
-`scale (optional)`: Array or Vector3 for the geometry scale. You cannot mutate the scale.  If you want to update the scale you need to provide a new array or Vector3.
+`scale (optional)`: Array or Vector3 for the geometry scale. You cannot mutate the scale. If you want to update the scale you need to provide a new array or Vector3.
 
-`drawElements`: Object of options for drawing the geometry. The command follows the signature of the [drawElements function](https://developer.mozilla.org/en-US/docs/Web/API/ANGLE_instanced_arrays/drawElementsInstancedANGLE).  The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default), `type` (defaults to 'UNSIGNED_SHORT'), `offset` (defaults to 0) and `primcount` (no defaults) e.g. `{ mode: 'LINES', count: 1024, primcount: 64 }`.  See the mode list above for all mode options.
+`drawElements`: Object of options for drawing the geometry. The command follows the signature of the [drawElements function](https://developer.mozilla.org/en-US/docs/Web/API/ANGLE_instanced_arrays/drawElementsInstancedANGLE). The object can specify the `mode` (defaults to 'TRIANGLES'), `count` (no default), `type` (defaults to 'UNSIGNED_SHORT'), `offset` (defaults to 0) and `primcount` (no defaults) e.g. `{ mode: 'LINES', count: 1024, primcount: 64 }`. See the mode list above for all mode options.
 
 #### `useRender()` => `function`
 
 React hook that returns a function to render the scene. You can use this hook from anywhere inside a React Vertex component tree.
 
 ###### Arguments:
- - None.
+
+- None.
 
 ###### Returns:
 
@@ -307,7 +313,7 @@ import { useRender } from '@react-vertex/core'
 
 function Scene() {
   const renderScene = useRender()
-  
+
   useEffect(() => {
     const timerLoop = timer(renderScene)
     return () => timerLoop.stop()
@@ -321,7 +327,8 @@ function Scene() {
 React hook that returns the canvas DOM element. You can use this hook from anywhere inside a React Vertex component tree. **Note: You shouldn't use this to get the canvas size. The dedicated useCanvasSize hook should be used for that.**
 
 ###### Arguments:
- - None.
+
+- None.
 
 ###### Returns:
 
@@ -329,16 +336,18 @@ React hook that returns the canvas DOM element. You can use this hook from anywh
 
 #### `useCanvasSize()` => `object`
 
-React hook for the current width, clientWidth, height and clientHeight of the canvas.  The clientWidth and clientHeight can differ from width and height becasue of the device pixel ratio.  The hook will update when the dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
+React hook for the current width, clientWidth, height and clientHeight of the canvas. The clientWidth and clientHeight can differ from width and height becasue of the device pixel ratio. The hook will update when the dimensions change. You can use this hook from anywhere inside a React Vertex component tree.
 
 ###### Arguments:
- - None.
+
+- None.
 
 ###### Returns:
 
 `object`: An object with the current size info e.g. `{ width: 200, clientWidth: 100, height: 200, clientHeight: 100 }`.
 
 ###### Example Usage:
+
 ```js
 import { useCanvasSize } from '@react-vertex/core'
 import { useOrbitCamera } from '@react-vertex/orbit-camera'
@@ -355,7 +364,8 @@ function Scene() {
 React hook for the current WebGL context. You can use this hook from anywhere inside a React Vertex component tree.
 
 ###### Arguments:
- - None.
+
+- None.
 
 ###### Returns:
 
@@ -377,7 +387,8 @@ function Scene() {
 React hook for the WebGL version. You can use this hook from anywhere inside a React Vertex component tree.
 
 ###### Arguments:
- - None.
+
+- None.
 
 ###### Returns:
 
