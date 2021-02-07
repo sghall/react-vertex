@@ -151,11 +151,6 @@ export const docsList = [
     tag: 'Standalone Package',
   },
   {
-    href: '/docs-dom-hooks',
-    name: 'DOM Hooks',
-    tag: 'Standalone Package',
-  },
-  {
     href: '/docs-orbit-camera',
     name: 'Orbit Camera',
     tag: 'Standalone Package',
