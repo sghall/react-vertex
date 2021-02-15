@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/geometry-hooks",
   "author": "Steven Hall <hall.steven.g@gmail.com>",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "React hooks for geometries in React Vertex",
   "keywords": [
     "react",
@@ -38,7 +38,7 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@react-vertex/core": "^2.0.0",
+    "@react-vertex/core": "^3.0.0",
     "react": "^16.8.6"
   },
   "dependencies": {
