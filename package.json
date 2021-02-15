@@ -26,7 +26,8 @@
   "scripts": {
     "deps:check": "manypkg check",
     "deps:fix": "manypkg fix",
-    "pretty": "prettier --write '**/*.js'"
+    "pretty": "prettier --write '**/*.js'",
+    "changeset": "pnpm changeset"
   },
   "dependencies": {
     "@babel/cli": "^7.12.10",
@@ -40,6 +41,7 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.13",
     "@babel/register": "^7.12.10",
+    "@changesets/cli": "^2.14.1",
     "@manypkg/cli": "^0.17.0",
     "babel-plugin-glsl": "^1.0.0",
     "babel-plugin-module-resolver": "^3.2.0",
