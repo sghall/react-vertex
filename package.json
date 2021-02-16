@@ -32,7 +32,6 @@
   "dependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
-    "@babel/eslint-parser": "^7.12.13",
     "@babel/node": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-transform-object-assign": "^7.12.1",
@@ -47,9 +46,6 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "copy": "^0.3.2",
     "cross-env": "^5.2.1",
-    "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-react-hooks": "^1.7.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
     "prettier": "^1.19.1",
