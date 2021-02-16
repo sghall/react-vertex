@@ -51,5 +51,8 @@
     "rimraf": "^2.7.1",
     "serve": "^11.3.2",
     "typescript": "^4.1.3"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
   }
 }
