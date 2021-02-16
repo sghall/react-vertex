@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@types/lodash.throttle": "^4.1.6",
+    "@types/react": "^17.0.2",
     "@types/react-reconciler": "^0.18.0",
     "@types/scheduler": "^0.16.1",
     "@types/warning": "^3.0.0",
