@@ -29,6 +29,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
+    "prepublish": "npm run build",
     "build": "npm run clean && npm run build:cjs && npm run build:esm && npm run build:tsc",
     "build:watch": "chokidar --initial  \"src/**/*.(ts|tsx)\" -c \"npm run build:esm && npm run build:tsc\"",
     "build:tsc": "tsc --declaration --outDir dist/types --emitDeclarationOnly",
