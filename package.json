@@ -40,6 +40,7 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.13",
     "@babel/register": "^7.12.10",
+    "@manypkg/cli": "^0.17.0",
     "babel-plugin-glsl": "^1.0.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "copy": "^0.3.2",
