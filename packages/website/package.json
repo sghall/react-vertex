@@ -1,5 +1,6 @@
 {
   "name": "@react-vertex/website",
+  "private": true,
   "version": "1.8.1",
   "description": "React hooks for WebGL friendly colors",
   "keywords": [
