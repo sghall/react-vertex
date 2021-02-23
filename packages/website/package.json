@@ -25,7 +25,7 @@
   },
   "scripts": {
     "docs:dev": "next dev",
-    "docs:prd": "npm run docs:build && cd out && serve",
+    "docs:prd": "yarn run docs:build && cd out && serve",
     "docs:build": "cross-env BABEL_ENV=docs next build && next export",
     "netlify:pnpm": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skiping pnpm install",
     "typecheck": "tsc --noEmit"
