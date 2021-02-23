@@ -36,22 +36,19 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "@react-vertex/core": "^3.0.0",
-    "react": "^16.8.6"
+    "react": "^16.8.6",
+    "@react-vertex/core": "^3.0.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3"
   },
   "devDependencies": {
     "@react-vertex/core": "*",
-    "@types/react": "^17.0.2",
-    "chokidar-cli": "^2.1.0",
     "glsl-diffuse-oren-nayar": "^1.0.2",
     "glsl-gamma": "^2.0.0",
     "glsl-inverse": "^1.0.0",
     "glsl-perturb-normal": "^1.0.3",
     "glsl-specular-phong": "^1.0.0",
-    "glsl-transpose": "^1.0.0",
-    "react": "^16.14.0"
+    "glsl-transpose": "^1.0.0"
   }
 }

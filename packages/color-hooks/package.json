@@ -45,9 +45,5 @@
     "hex-rgb": "^4.2.0",
     "rgb-hex": "^3.0.0"
   },
-  "devDependencies": {
-    "@types/react": "^17.0.2",
-    "chokidar-cli": "^2.1.0",
-    "react": "^16.14.0"
-  }
+  "devDependencies": {}
 }
