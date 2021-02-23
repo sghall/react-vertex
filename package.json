@@ -6,8 +6,7 @@
   "description": "Monorepo for React Vertex",
   "main": "index.js",
   "engines": {
-    "node": ">=10",
-    "pnpm": ">=5"
+    "node": ">=10"
   },
   "repository": {
     "type": "git",
