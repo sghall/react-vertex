@@ -376,18 +376,14 @@ function Scene() {
 
 ## Running the repo locally
 
-This repo uses [pnpm](https://pnpm.js.org/) to manage dependencies. You can install it globally like so:
-
-```
-npm install -g pnpm
-```
-
-Clone and Install
+You must have `Yarn` (currently version 1.22.4) installed to run the repo.
 
 ```
 git clone git@github.com:sghall/react-vertex.git
 cd react-vertex
-pnpm -r install
-pnpm -r build
-pnpm -r docs:dev
+yarn install
+npx lerna bootstrap
+npx lerna run docs:dev
 ```
+
+Go to http://localhost:3000/
