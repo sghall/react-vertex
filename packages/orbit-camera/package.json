@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/orbit-camera",
   "author": "Steven Hall <hall.steven.g@gmail.com>",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Orbit Camera and Controls for React Vertex",
   "keywords": [
     "react",
@@ -36,8 +36,8 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^16.8.6",
-    "@react-vertex/core": "^3.0.0"
+    "@react-vertex/core": "^3.0.0",
+    "react": "^16.8.6"
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
@@ -45,7 +45,7 @@
     "lodash.throttle": "^4.1.1"
   },
   "devDependencies": {
-    "@react-vertex/core": "*",
+    "@react-vertex/core": "^4.0.0",
     "@types/lodash.throttle": "^4.1.6"
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/color-hooks",
   "author": "Steven Hall <hall.steven.g@gmail.com>",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "React hooks for WebGL friendly colors",
   "keywords": [
     "react",
@@ -44,6 +44,5 @@
     "@babel/runtime": "^7.4.3",
     "hex-rgb": "^4.2.0",
     "rgb-hex": "^3.0.0"
-  },
-  "devDependencies": {}
+  }
 }

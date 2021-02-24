@@ -1,7 +1,7 @@
 {
   "name": "@react-vertex/math-hooks",
   "author": "Steven Hall <hall.steven.g@gmail.com>",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "React hooks for WebGL vectors and matrices",
   "keywords": [
     "react",
@@ -43,6 +43,5 @@
   "dependencies": {
     "@babel/runtime": "^7.4.3",
     "gl-matrix": "^3.3.0"
-  },
-  "devDependencies": {}
+  }
 }
