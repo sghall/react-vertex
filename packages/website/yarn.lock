@@ -251,19 +251,19 @@
   resolved "https://registry.yarnpkg.com/@opentelemetry/context-base/-/context-base-0.14.0.tgz#c67fc20a4d891447ca1a855d7d70fa79a3533001"
   integrity sha512-sDOAZcYwynHFTbLo6n8kIbLiVF3a3BLkrmehJUyEbT9F+Smbi47kLGS2gG2g0fjBLR/Lr1InPD7kXL7FaTqEkw==
 
-"@react-vertex/color-hooks@2.0.0", "@react-vertex/color-hooks@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/color-hooks/-/color-hooks-2.0.0.tgz#0f3157d5a660bedb49fb40b7b8c87086eecc1d58"
-  integrity sha512-T4RMsmUpYLpV4VhLhzJCbH59dcjmU5uAePqRK0mr3+aux9I2k/4BvOEtyemoTb/bh2i1SqrTFtez/KPSg3KhqA==
+"@react-vertex/color-hooks@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/color-hooks/-/color-hooks-3.0.0.tgz#54083a1ef49516cb99bb32d6ca057a195f140acc"
+  integrity sha512-LeE5Vm3Fh6ozq3KxNjjA08QK2I5CP7XdT3k3jHmE0y47DRdugIj2GDZ92HOyVydrQjtyIvrcZoJM/z6GZjkx8Q==
   dependencies:
     "@babel/runtime" "^7.4.3"
     hex-rgb "^4.2.0"
     rgb-hex "^3.0.0"
 
-"@react-vertex/core@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/core/-/core-3.0.0.tgz#d6dddd60318313ef55d4690369b930a1437f29c5"
-  integrity sha512-hg94ejB2ghlxj503vVHKk2oHrvaMXdvWfSWTu0N/xf5do5twCA6oB5pyCFLEUwMLnyVEIH8JwiGFouRekLTCEQ==
+"@react-vertex/core@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/core/-/core-4.0.0.tgz#36a6b1411c64a1556c6a13af460cfbd5523c2ab5"
+  integrity sha512-k4mP29Y8/5iJNSUNHgrYVQme9A9TJ4CS8B9QNwGx+CPVvQ1Rnkndbap9MmhZgb7NmAZ0I7OYPfJb7/Ds2vdh+w==
   dependencies:
     "@babel/runtime" "^7.4.3"
     gl-matrix "^3.3.0"
@@ -273,44 +273,44 @@
     scheduler "0.13.2"
     warning "^4.0.3"
 
-"@react-vertex/geometry-hooks@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/geometry-hooks/-/geometry-hooks-3.0.0.tgz#07f179cc611176bc38567a01d6dad922159cf4ef"
-  integrity sha512-CGVebflIPzug4vIslrCpV99juBjSXvVEhK+QwCjyRVBLq+JFti1Ty9RHrZnq+HIePeJR4xdPAIYT2fEeKzLMKQ==
+"@react-vertex/geometry-hooks@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/geometry-hooks/-/geometry-hooks-4.0.0.tgz#d9c79786a2334ce087bc8b382ba423decd329c78"
+  integrity sha512-lXxR3degQAoSgZtxMUNRgWxBPY1f9IW8PCwOmbjcu49SlCvKBiur8ZpQpGtTvzzb3zp2FZck5+/xlcrGNixzlw==
   dependencies:
     "@babel/runtime" "^7.4.3"
 
-"@react-vertex/material-hooks@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/material-hooks/-/material-hooks-3.0.0.tgz#56ab0d832251e282db01831950c1f43ee8d8ba64"
-  integrity sha512-L4p/io/6F45ZwHV+cLPcbu6578cUtP4B1kJVAImMu9PPN7szTrwvWW8l8XrZfL52DqbQGAHJEhE8SGgiLbTUNw==
+"@react-vertex/material-hooks@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/material-hooks/-/material-hooks-4.0.0.tgz#1e4dda25678f8ee0035eba39526132dd3801ed0f"
+  integrity sha512-eWCJMFmlEOBFmxWYI/2rMjbTwCIpsAheXek5sQm43D5F2BbLztjP6fmPJj/DtPfycRdk1l4zkyGs1n/WY94Png==
   dependencies:
     "@babel/runtime" "^7.4.3"
 
-"@react-vertex/math-hooks@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/math-hooks/-/math-hooks-2.0.0.tgz#3ffadb1689846214eb329f130afeaf13195c1a2c"
-  integrity sha512-wdKZbnD6LJLxmc+zC9ebQH47NmwEbXZuGaoeJ72LXSPBTgWnijOELkRU/gmVtTGCkt0EUWnzpXuJvUeGzPSbGA==
+"@react-vertex/math-hooks@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/math-hooks/-/math-hooks-3.0.0.tgz#ccc11b0902eb50f01bf851d386d5effd0f9338db"
+  integrity sha512-zMxLzfgBG8+AVSZ96nUH84fjAd6VtClBbujP1W5R09OwbIUmk3OJFJrEI5E1sNimrdTP9l2LhdeiHVirgQC6XQ==
   dependencies:
     "@babel/runtime" "^7.4.3"
     gl-matrix "^3.3.0"
 
-"@react-vertex/orbit-camera@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/orbit-camera/-/orbit-camera-3.0.0.tgz#7bee609075b385b7491d80786a01c4a337c6d104"
-  integrity sha512-R368f3VwpN6+2iIVrRUEun4A3sVISAfpToEX2IPcsqdjao/NLB5DwAbJdialUjAGFj7uasuJJi56sNXed2DIFQ==
+"@react-vertex/orbit-camera@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/orbit-camera/-/orbit-camera-4.0.0.tgz#29714dce9cb4188932cd2da05c788e832e2e78a4"
+  integrity sha512-YR0CGwuUqWOPllzIjc8DsfVgUmFnMGDhif95HXDm+sZbByVmN9KbUTP7g5MZ1ybBpgazqm2kpNjtjGPYMw1fIQ==
   dependencies:
     "@babel/runtime" "^7.4.3"
     gl-matrix "^3.3.0"
     lodash.throttle "^4.1.1"
 
-"@react-vertex/scene-helpers@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@react-vertex/scene-helpers/-/scene-helpers-2.0.0.tgz#879d051edbe1d771841cb0a22d82740a5c8fe79c"
-  integrity sha512-sVVsk0seHdcpNAJ+igIL1UYPmu92VyqhODea37F2LLlVkGPBagxk51T/RwscWGwQBnl8+904jSEz3UNaNkTwKg==
+"@react-vertex/scene-helpers@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@react-vertex/scene-helpers/-/scene-helpers-3.0.0.tgz#8b1f922a2bb3b641e641b3bbbb51b13de60d6a1f"
+  integrity sha512-lrb92h5IfiTaRr6ENOe/RC9MyK0DgYrSMVBKWOXuAbrZiNiPSbGt769DT1nez1N4A1mIIFODd/oKEnYZMF3FlA==
   dependencies:
     "@babel/runtime" "^7.4.3"
-    "@react-vertex/color-hooks" "^2.0.0"
+    "@react-vertex/color-hooks" "^3.0.0"
     prop-types "^15.7.2"
     react-color "^2.19.3"
     react-compound-slider "^3.3.1"
@@ -1557,9 +1557,9 @@ json-schema-traverse@^0.4.1:
   integrity sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==
 
 json5@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/json5/-/json5-1.0.1.tgz#779fb0018604fa854eacbf6252180d83543e3dbe"
-  integrity sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-1.0.2.tgz#63d98d60f21b313b77c4d6da18bfa69d80e1d593"
+  integrity sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==
   dependencies:
     minimist "^1.2.0"
 
@@ -1802,9 +1802,9 @@ minimalistic-crypto-utils@^1.0.1:
   integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
 
 minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
+  integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
 
 mkdirp-classic@^0.5.2, mkdirp-classic@^0.5.3:
   version "0.5.3"
